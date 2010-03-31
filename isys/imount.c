@@ -188,14 +188,14 @@ int mountCommandWrapper(int mode, char *dev, char *where, char *fs,
     rc = readFD(stdout_pipe[0], &buffer);
     if (rc > 0) {
         rstrip(buffer);
-        logProgramMessage(INFO, buffer);
+        logProgramMessage(INFO, "%s", buffer);
         free(buffer);
         buffer = NULL;
     }
     rc = readFD(stderr_pipe[0], &buffer);
     if (rc > 0) {
         rstrip(buffer);
-        logProgramMessage(ERROR, buffer);
+        logProgramMessage(ERROR, "%s", buffer);
         if (err != NULL)
             *err = buffer;
         else
