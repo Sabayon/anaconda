@@ -7,6 +7,7 @@ Package dependencies:
     app-cdr/isomd5sum
     sys-block/open-iscsi-2.0.870.3-r1 (from sabayon, w/libiscsi)
     >=app-archive/libarchive-2.8
+    app-admin/system-config-keyboard
 
     bzip2
     e2fsprogs
@@ -41,7 +42,6 @@ Package dependencies:
     zlib
     networkmanager
     dbus[python]
-    system-config-keyboard
     desktop-file-utils
     cracklib
     squashfs-tools
