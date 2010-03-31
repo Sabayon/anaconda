@@ -19,7 +19,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = isys po loader booty storage textw utils scripts bootdisk \
+SUBDIRS = isys po booty storage textw utils scripts bootdisk \
           installclasses iw command-stubs ui docs pixmaps tests fonts \
           gptsync liveinst
 
