@@ -44,7 +44,7 @@ liveinst.desktop: liveinst.desktop.in
 
 install-exec-local:
 	mkdir -p $(DESTDIR)$(bindir)
-	ln -s consolehelper $(DESTDIR)$(bindir)/liveinst
+	ln -sf consolehelper $(DESTDIR)$(bindir)/liveinst
 
 uninstall-local:
 	rm -f $(DESTDIR)$(bindir)/liveinst
