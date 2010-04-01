@@ -28,9 +28,6 @@ import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
 
 import installmethod
-import yuminstall
-
-import rpmUtils.arch
 
 class InstallClass(BaseInstallClass):
     # name has underscore used for mnemonics, strip if you dont need it
