@@ -39,8 +39,6 @@ from storage.formats import getFormat
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
 
-import rpm
-
 import logging
 log = logging.getLogger("anaconda")
 
