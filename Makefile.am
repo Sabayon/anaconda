@@ -21,7 +21,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = isys po booty storage textw utils scripts bootdisk \
           installclasses iw command-stubs ui docs pixmaps tests fonts \
-          gptsync liveinst
+          gptsync liveinst sabayon
 
 EXTRA_DIST = config.rpath COPYING pychecker-false-positives \
              pycheckrc-for-anaconda runpychecker.sh lang-table \
@@ -37,7 +37,7 @@ MOSTLYCLEANDIRS = m4
 
 dist_noinst_DATA      = $(PACKAGE_NAME).spec
 
-dist_sbin_SCRIPTS     = anaconda
+dist_sbin_SCRIPTS     = anaconda sabayon/installer
 
 udevdir               = /lib/udev/rules.d
 dist_udev_DATA        = 70-anaconda.rules
