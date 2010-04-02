@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export ANACONDA_PRODUCTNAME="Sabayon Linux Installer"
+export ANACONDA_PRODUCTNAME="Sabayon"
 export ANACONDA_PRODUCTVERSION="$(cat /etc/sabayon-release | cut -d' ' -f 4)"
 export ANACONDA_PRODUCTPATH="/mnt/livecd"
 export ANACONDA_CHROOTPATH="/mnt/sabayon"
