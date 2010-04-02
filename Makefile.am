@@ -21,7 +21,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = isys po booty storage textw utils scripts bootdisk \
           installclasses iw command-stubs ui docs pixmaps tests fonts \
-          gptsync liveinst sabayon
+          gptsync liveinst
 
 EXTRA_DIST = config.rpath COPYING pychecker-false-positives \
              pycheckrc-for-anaconda runpychecker.sh lang-table \
