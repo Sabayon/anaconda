@@ -68,6 +68,7 @@ productVersion = product.productVersion
 productArch = product.productArch
 productPath = product.productPath
 bugzillaUrl = product.bugUrl
+chrootPath = product.chrootPath
 
 lvmErrorOutput = "/tmp/lvmout"
 
