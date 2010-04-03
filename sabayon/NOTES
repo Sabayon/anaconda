@@ -1,0 +1,66 @@
+Welcome to the Sabayon Linux Anaconda porting project.
+
+Package dependencies:
+
+    DEPEND:
+        sys-process/audit (embed?)
+        sys-fs/lvm2
+        sys-libs/libselinux (otherwise drop from codebase)
+        app-cdr/isomd5sum
+        sys-block/open-iscsi-2.0.870.3-r1 (from sabayon, w/libiscsi)
+        >=app-archive/libarchive-2.8
+        app-admin/system-config-keyboard
+        dev-libs/newt
+
+    RDEPEND:
+        dev-util/pykickstart
+        dev-python/pyblock
+        app-admin/libuser
+        dev-python/python-nss
+        dev-python/python-cryptsetup
+        dev-python/urlgrabber
+        app-admin/system-config-date
+        dev-python/python-meh (gtk2)
+        >=app-misc/sabayon-version-5-r1
+        dev-python/python-report
+
+    bzip2
+    e2fsprogs
+    xfsprogs
+    reiserfsprogs
+    jfsutils
+    ntfsprogs
+    dosfstools
+    gzip
+    dmidecode
+    pyblock
+    cryptsetup-luks[python]
+    gettext
+    elfutils
+    X? (
+        gtk2
+        libXt
+        libX11
+        libXxf86misc
+        libblkid
+    )
+    libcurl
+    libnl
+    libxml2[python]
+    pango
+    python-urlgrabber
+    slang
+    xmlto
+    zlib
+    networkmanager
+    dbus[python]
+    desktop-file-utils
+    cracklib
+    squashfs-tools
+    makebootfat
+    zenity
+    mdadm
+    dhclient
+
+TODO:
+    - make bugzilla bug report option working

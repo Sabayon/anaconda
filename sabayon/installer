@@ -7,4 +7,6 @@ export ANACONDA_CHROOTPATH="/mnt/sabayon"
 export ANACONDA_PRODUCTARCH="$(cat /etc/sabayon-release | cut -d' ' -f 3)"
 export ANACONDA_BUGURL="http://bugs.sabayon.org"
 
+export PIXMAPPATH="/usr/share/anaconda/pixmaps"
+
 exec anaconda --liveinst --method=hd://://${ANACONDA_PRODUCTPATH}

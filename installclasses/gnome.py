@@ -1,7 +1,7 @@
 #
-# fedora.py
+# gnome.py
 #
-# Copyright (C) 2007  Red Hat, Inc.  All rights reserved.
+# Copyright (C) 2010 Fabio Erculiani
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,17 +29,23 @@ _ = lambda x: gettext.ldgettext("anaconda", x)
 
 import installmethod
 
+from sabayon import Entropy
+from sabayon.livecd import LiveCDCopyBackend
+
 class InstallClass(BaseInstallClass):
+
     # name has underscore used for mnemonics, strip if you dont need it
-    id = "fedora"
-    name = N_("_Fedora")
-    _description = N_("The default installation of %s includes a set of "
-                      "software applicable for general internet usage. "
-                      "You can optionally select a different set of software "
-                      "now.")
+    id = "sabayon_gnome"
+    name = N_("Sabayon _GNOME Desktop")
+    _description = N_("Select this installation type for a default installation "
+                     "with the GNOME desktop environment. "
+                     "After this installation process you will "
+                     "be able to install additional packages.")
     _descriptionFields = (productName,)
     sortPriority = 10000
-    if productName.startswith("Red Hat Enterprise"):
+
+    # check if GNOME is available on the system
+    if not Entropy().is_installed("gnome-base/gnome-session"):
         hidden = 1
 
     tasks = [(N_("Graphical Desktop"),
@@ -59,32 +65,16 @@ class InstallClass(BaseInstallClass):
                "java", "text-internet", "web-server"]),
              (N_("Minimal"), ["core"])]
 
-    def getPackagePaths(self, uri):
-        if not type(uri) == types.ListType:
-            uri = [uri,]
-
-        return {'Installation Repo': uri}
-
     def configure(self, anaconda):
-	BaseInstallClass.configure(self, anaconda)
+        BaseInstallClass.configure(self, anaconda)
         BaseInstallClass.setDefaultPartitioning(self,
-                                                anaconda.storage,
-                                                anaconda.platform)
-
-    def setGroupSelection(self, anaconda):
-        BaseInstallClass.setGroupSelection(self, anaconda)
-        map(lambda x: anaconda.backend.selectGroup(x), ["core"])
+            anaconda.storage, anaconda.platform)
 
     def setSteps(self, anaconda):
-	BaseInstallClass.setSteps(self, anaconda)
-	anaconda.dispatch.skipStep("partition")
+        BaseInstallClass.setSteps(self, anaconda)
 
     def getBackend(self):
-        if flags.livecdInstall:
-            import livecd
-            return livecd.LiveCDCopyBackend
-        else:
-            return yuminstall.YumBackend
+        return LiveCDCopyBackend
 
     def productMatches(self, oldprod):
         if oldprod is None:
@@ -92,20 +82,6 @@ class InstallClass(BaseInstallClass):
 
         if oldprod.startswith(productName):
             return True
-
-        productUpgrades = {
-                "Fedora Core": ("Red Hat Linux", ),
-                "Fedora": ("Fedora Core", )
-        }
-
-        if productUpgrades.has_key(productName):
-            acceptable = productUpgrades[productName]
-        else:
-            acceptable = ()
-
-        for p in acceptable:
-            if oldprod.startswith(p):
-                return True
 
         return False
 
@@ -121,4 +97,4 @@ class InstallClass(BaseInstallClass):
         return newVer > oldVer and newVer - oldVer <= 2
 
     def __init__(self):
-	BaseInstallClass.__init__(self)
+        BaseInstallClass.__init__(self)

@@ -266,6 +266,7 @@ AC_CONFIG_FILES([Makefile
                  loader/Makefile
                  pixmaps/Makefile
                  po/Makefile.in
+                 sabayon/Makefile
                  scripts/Makefile
                  storage/Makefile
                  storage/devicelibs/Makefile
