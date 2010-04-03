@@ -786,12 +786,13 @@ class Network:
                 return ""
 
             routeInfo = route.split()
-            if routeInfo[0] != host or len(routeInfo) < 5:
+            if routeInfo[0] != host or len(routeInfo) < 5 or \
+               "dev" not in routeInfo or routeInfo.index("dev") > 3:
                 log.error('Unexpected "ip route get to %s" reply: %s' %
                           (host, routeInfo))
                 return ""
 
-            nic = routeInfo[2]
+            nic = routeInfo[routeInfo.index("dev") + 1]
 
         if nic not in self.netdevices.keys():
             log.error('Unknown network interface: %s' % nic)
@@ -822,5 +823,18 @@ class Network:
                 netargs += " "
 
             netargs += "ifname=%s:%s" % (nic, hwaddr.lower())
+
+        nettype = dev.get("NETTYPE")
+        subchannels = dev.get("SUBCHANNELS")
+        if iutil.isS390() and nettype and subchannels:
+            if netargs != "":
+                netargs += " "
+
+            netargs += "rd_CCW=%s,%s" % (nettype, subchannels)
+
+            options = dev.get("OPTIONS")
+            if options:
+                options = filter(lambda x: x != '', options.split(' '))
+                netargs += ",%s" % (','.join(options))
 
         return netargs
