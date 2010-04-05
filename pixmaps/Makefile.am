@@ -17,6 +17,8 @@
 #
 # Author: David Cantrell <dcantrell@redhat.com>
 
+SUBDIRS = rnotes
+
 pixmapsdir        = $(datadir)/$(PACKAGE_NAME)/pixmaps
 dist_pixmaps_DATA = *.png
 
