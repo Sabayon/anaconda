@@ -31,8 +31,8 @@ class Entropy(Client):
         nocolor()
         self.indexing = False
 
-    def connect_progress_objects(self, progress_interface):
-        self._progress = progress_interface
+    def connect_progress(self, progress):
+        self._progress = progress
 
     def output(self, text, header = "", footer = "", back = False,
         importance = 0, type = "info", count = None, percent = False):
@@ -53,8 +53,10 @@ class Entropy(Client):
                 count_str = "(%s/%s) " % (str(count[0]),str(count[1]),)
                 progress_text = count_str+progress_text
 
-        self._progress.setPartialProgress(self.oldcount[0],
-            self.oldcount[1],progress_text)
+        percentage = float(self.oldcount[0])/self.oldcount[1] * 100
+        percentage = round(percentage, 2)
+        self._progress.set_fraction(percentage)
+        self._progress.set_text(progress_text)
 
     def is_installed(self, package_name):
         match = self.installed_repository().atomMatch(package_name)

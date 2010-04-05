@@ -17,14 +17,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# System imports
 import os
 import statvfs
 import subprocess
+import commands
 import stat
+import time
+import shutil
 
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
 
+# Anaconda imports
 import storage
 import flags
 from constants import productPath as PRODUCT_PATH, DISPATCH_BACK
@@ -32,8 +37,16 @@ import backend
 import isys
 import iutil
 import logging
-log = logging.getLogger("anaconda")
+import sabayon.utils
+from sabayon import Entropy
 
+# Entropy imports
+from entropy.const import etpConst, const_kill_threads
+from entropy.misc import TimeScheduled, ParallelTask
+from entropy.cache import EntropyCacher
+import entropy.tools
+
+log = logging.getLogger("anaconda")
 
 class LiveCDCopyBackend(backend.AnacondaBackend):
 
@@ -46,12 +59,12 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self.osimg = anaconda.methodstr[8:]
         if not os.path.ismount(self.osimg):
             anaconda.intf.messageWindow(_("Unable to find image"),
-                               _("The given location [%s] isn't a valid %s "
-                                 "live CD to use as an installation source.")
-                               %(self.osimg, productName), type = "custom",
-                               custom_icon="error",
-                               custom_buttons=[_("Exit installer")])
-            sys.exit(0)
+               _("The given location [%s] isn't a valid %s "
+                 "live CD to use as an installation source.")
+               %(self.osimg, productName), type = "custom",
+               custom_icon="error",
+               custom_buttons=[_("Exit installer")])
+            raise SystemExit(1)
 
     def _getLiveSize(self):
         st = os.statvfs(PRODUCT_PATH)
@@ -69,57 +82,27 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             log.error("Unable to unmount filesystems: %s" % e) 
 
     def doPreInstall(self, anaconda):
-        pass
+        self._progress = sabayon.utils.SabayonProgress(anaconda)
+        self._progress.start()
+        self._entropy = Entropy()
+        self._entropy.connect_progress(self._progress)
 
     def doInstall(self, anaconda):
-        log.info("Preparing to install packages")
+        log.info("Preparing to install Sabayon")
 
-        progress = anaconda.intf.instProgress
-        progress.set_label(_("Copying live image to hard drive."))
-        progress.processEvents()
+        self._progress.set_label(_("Copying live image to hard drive."))
+        self._progress.set_fraction(0.0)
 
-        osimg = self.osimg
-        osfd = os.open(osimg, os.O_RDONLY)
+        shot_adbox = TimeScheduled(60, self._progress.spawn_adimage)
+        shot_adbox.start()
 
+        #slTools = sabayon.utils.Tools(id, intf, instPath, progressTools)
 
-        rootDevice = anaconda.storage.rootDevice
-        rootDevice.setup()
-        rootfd = os.open(rootDevice.path, os.O_WRONLY)
+        time.sleep(120)
 
-        readamt = 1024 * 1024 * 8 # 8 megs at a time
-        size = self._getLiveSize()
-        copied = 0
-        while copied < size:
-            try:
-                buf = os.read(osfd, readamt)
-                written = os.write(rootfd, buf)
-            except:
-                rc = anaconda.intf.messageWindow(_("Error"),
-                        _("There was an error installing the live image to "
-                          "your hard drive.  This could be due to bad media.  "
-                          "Please verify your installation media.\n\nIf you "
-                          "exit, your system will be left in an inconsistent "
-                          "state that will require reinstallation."),
-                        type="custom", custom_icon="error",
-                        custom_buttons=[_("_Exit installer"), _("_Retry")])
-
-                if rc == 0:
-                    sys.exit(0)
-                else:
-                    os.lseek(osfd, 0, 0)
-                    os.lseek(rootfd, 0, 0)
-                    copied = 0
-                    continue
-
-            if (written < readamt) and (written < len(buf)):
-                raise RuntimeError, "error copying filesystem!"
-            copied += written
-            progress.set_fraction(pct = copied / float(size))
-            progress.processEvents()
-
-        os.close(osfd)
-        os.close(rootfd)
-
+        shot_adbox.kill()
+        shot_adbox.join()
+        const_kill_threads()
         anaconda.intf.setInstallProgressClass(None)
 
     def doPostInstall(self, anaconda):
@@ -133,6 +116,12 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         f.flush()
         f.close()
 
+        if hasattr(self._entropy, "shutdown"):
+            self._entropy.shutdown()
+        else:
+            self._entropy.destroy()
+            EntropyCacher().stop()
+
     def writeConfiguration(self):
         pass
 
@@ -141,20 +130,18 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         return [("name", "arch", "tag")]
 
     def doBackendSetup(self, anaconda):
-        # ensure there's enough space on the rootfs
-        # FIXME: really, this should be in the general sanity checking, but
-        # trying to weave that in is a little tricky at present.
+
         ossize = self._getLiveSizeMB()
         slash = anaconda.storage.rootDevice
         if slash.size < ossize:
             rc = anaconda.intf.messageWindow(_("Error"),
-                                        _("The root filesystem you created is "
-                                          "not large enough for this live "
-                                          "image (%.2f MB required).") % ossize,
-                                        type = "custom",
-                                        custom_icon = "error",
-                                        custom_buttons=[_("_Back"),
-                                                        _("_Exit installer")])
+                _("The root filesystem you created is "
+                  "not large enough for this live "
+                  "image (%.2f MB required).") % ossize,
+                type = "custom",
+                custom_icon = "error",
+                custom_buttons=[_("_Back"),
+                                _("_Exit installer")])
             if rc == 0:
                 return DISPATCH_BACK
             else:
