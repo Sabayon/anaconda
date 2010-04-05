@@ -47,7 +47,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
     def _getLiveSize(self):
         st = os.statvfs(PRODUCT_PATH)
-        compressed_byte_size = st.f_block * st.f_bsize
+        compressed_byte_size = st.f_blocks * st.f_bsize
         return compressed_byte_size * 3 # 3 times is enough
 
     def _getLiveSizeMB(self):
