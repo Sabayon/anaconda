@@ -22,10 +22,18 @@ import statvfs
 import subprocess
 import stat
 
+import gettext
+_ = lambda x: gettext.ldgettext("anaconda", x)
+
 import storage
-import backend
 import flags
 from constants import productPath as PRODUCT_PATH, DISPATCH_BACK
+import backend
+import isys
+import iutil
+import logging
+log = logging.getLogger("anaconda")
+
 
 class LiveCDCopyBackend(backend.AnacondaBackend):
 
@@ -135,25 +143,19 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         storage.writeEscrowPackets(anaconda)
 
-        packages.rpmSetupGraphicalSystem(anaconda)
-
         # now write out the "real" fstab and mtab
         anaconda.storage.write(anaconda.rootPath)
         f = open(anaconda.rootPath + "/etc/mtab", "w+")
         f.write(anaconda.storage.mtab)
+        f.flush()
         f.close()
-
-        # rebuild the initrd(s)
-        vers = self.kernelVersionList(anaconda.rootPath)
-        for (n, arch, tag) in vers:
-            packages.recreateInitrd(n, anaconda.rootPath)
 
     def writeConfiguration(self):
         pass
 
     def kernelVersionList(self, rootPath = "/"):
         # FIXME: implement
-        return ["--kernel-to-implement"]
+        return [("name", "arch", "tag")]
 
     def doBackendSetup(self, anaconda):
         # ensure there's enough space on the rootfs
