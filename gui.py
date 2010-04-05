@@ -1323,8 +1323,8 @@ class InstallControlWindow:
                                     custom_buttons=[_("_Exit"),
                                                     _("_Retry")])
                 if not win.getrc():
-                    msg =  _("The system will now reboot.")
-                    buttons = [_("_Reboot")]
+                    msg =  _("The installer will now quit.")
+                    buttons = [_("_Quit")]
 
                     MessageWindow(_("Exiting"),
                                   msg,
