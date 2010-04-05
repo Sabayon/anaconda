@@ -25,7 +25,7 @@ import stat
 import storage
 import backend
 import flags
-from constants import productPath as PRODUCT_PATH
+from constants import productPath as PRODUCT_PATH, DISPATCH_BACK
 
 class LiveCDCopyBackend(backend.AnacondaBackend):
 
