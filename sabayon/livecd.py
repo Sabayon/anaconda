@@ -124,8 +124,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
     def doPostInstall(self, anaconda):
 
-        self._doFilesystemMangling(anaconda)
-
         storage.writeEscrowPackets(anaconda)
 
         # now write out the "real" fstab and mtab
@@ -160,7 +158,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             if rc == 0:
                 return DISPATCH_BACK
             else:
-                sys.exit(1)
+                raise SystemExit(1)
 
     # package/group selection doesn't apply for this backend
     def groupExists(self, group):
