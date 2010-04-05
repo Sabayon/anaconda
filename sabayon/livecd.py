@@ -18,12 +18,14 @@
 #
 
 import os
+import statvfs
 import subprocess
 import stat
 
 import storage
 import backend
 import flags
+from constants import productPath as PRODUCT_PATH
 
 class LiveCDCopyBackend(backend.AnacondaBackend):
 
@@ -44,19 +46,9 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             sys.exit(0)
 
     def _getLiveSize(self):
-        def parseField(output, field):
-            for line in output.split("\n"):
-                if line.startswith(field + ":"):
-                    return line[len(field) + 1:].strip()
-            raise KeyError("Failed to find field '%s' in output" % field)
-
-        output = subprocess.Popen(['/sbin/dumpe2fs', '-h', self.osimg],
-                                  stdout=subprocess.PIPE,
-                                  stderr=open('/dev/null', 'w')
-                                  ).communicate()[0]
-        blkcnt = int(parseField(output, "Block count"))
-        blksize = int(parseField(output, "Block size"))
-        return blkcnt * blksize
+        st = os.statvfs(PRODUCT_PATH)
+        compressed_byte_size = st.f_block * st.f_bsize
+        return compressed_byte_size * 3 # 3 times is enough
 
     def _getLiveSizeMB(self):
         return self._getLiveSize() / 1048576
