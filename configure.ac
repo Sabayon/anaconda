@@ -265,6 +265,7 @@ AC_CONFIG_FILES([Makefile
                  liveinst/pam.d/Makefile
                  loader/Makefile
                  pixmaps/Makefile
+                 pixmaps/rnotes/Makefile
                  po/Makefile.in
                  sabayon/Makefile
                  scripts/Makefile
