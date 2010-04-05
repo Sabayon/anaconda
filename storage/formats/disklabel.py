@@ -273,7 +273,10 @@ class DiskLabel(DeviceFormat):
                                      constraint=constraint)
 
     def removePartition(self, partition):
-        self.partedDisk.removePartition(partition)
+        try:
+            self.partedDisk.removePartition(partition)
+        except parted.PartitionException as err:
+            log.error("unable to remove partition %s: %s" %(partition, err))
 
     @property
     def extendedPartition(self):
