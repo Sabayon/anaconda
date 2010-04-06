@@ -79,7 +79,7 @@ class Entropy(Client):
     @staticmethod
     def is_sabayon_mce():
         with open("/proc/cmdline", "r") as cmd_f:
-            args = in cmd_f.readline().strip().split()
+            args = cmd_f.readline().strip().split()
             for tstr in ("mceinstall", "sabayonmce"):
                 if tstr in args:
                     return True
