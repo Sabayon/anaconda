@@ -1,5 +1,5 @@
 #
-# gnome.py
+# kde.py
 #
 # Copyright (C) 2010 Fabio Erculiani
 #
@@ -34,20 +34,19 @@ from sabayon.livecd import LiveCDCopyBackend
 
 class InstallClass(BaseInstallClass):
 
-    id = "sabayon_gnome"
+    id = "sabayon_kde"
+    name = N_("Sabayon KDE")
     pixmap = os.path.join(os.getenv("PIXMAPPATH", "/usr/share/pixmaps"),
-        "gnome.png")
-    name = N_("Sabayon _GNOME Desktop")
-    dmrc = "gnome"
+        "kde.png")
+    dmrc = "KDE-4"
     _description = N_("Select this installation type for a default installation "
-                     "with the GNOME desktop environment. "
-                     "After this installation process you will "
-                     "be able to install additional packages.")
+         "with the KDE desktop environment. "
+         "After this installation process you will "
+         "be able to install additional packages.")
     _descriptionFields = (productName,)
-    sortPriority = 10001
+    sortPriority = 10000
 
-    # check if GNOME is available on the system
-    if not Entropy().is_installed("gnome-base/gnome-session"):
+    if not Entropy().is_installed("kde-base/kdebase-startkde"):
         hidden = 1
 
     def configure(self, anaconda):

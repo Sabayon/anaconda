@@ -1,5 +1,5 @@
 #
-# gnome.py
+# xfce.py
 #
 # Copyright (C) 2010 Fabio Erculiani
 #
@@ -34,20 +34,19 @@ from sabayon.livecd import LiveCDCopyBackend
 
 class InstallClass(BaseInstallClass):
 
-    id = "sabayon_gnome"
+    id = "sabayon_fluxbox"
+    name = N_("Sabayon Fluxbox")
     pixmap = os.path.join(os.getenv("PIXMAPPATH", "/usr/share/pixmaps"),
-        "gnome.png")
-    name = N_("Sabayon _GNOME Desktop")
-    dmrc = "gnome"
+        "fluxbox.png")
+    dmrc = "fluxbox"
     _description = N_("Select this installation type for a default installation "
-                     "with the GNOME desktop environment. "
-                     "After this installation process you will "
-                     "be able to install additional packages.")
+         "with the Fluxbox geeky minimal environment. "
+         "After this installation process you will "
+         "be able to install additional packages.")
     _descriptionFields = (productName,)
-    sortPriority = 10001
+    sortPriority = 10005
 
-    # check if GNOME is available on the system
-    if not Entropy().is_installed("gnome-base/gnome-session"):
+    if not Entropy().is_installed("x11-wm/fluxbox"):
         hidden = 1
 
     def configure(self, anaconda):

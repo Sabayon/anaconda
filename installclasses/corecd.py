@@ -1,5 +1,5 @@
 #
-# gnome.py
+# xfce.py
 #
 # Copyright (C) 2010 Fabio Erculiani
 #
@@ -34,20 +34,20 @@ from sabayon.livecd import LiveCDCopyBackend
 
 class InstallClass(BaseInstallClass):
 
-    id = "sabayon_gnome"
+    id = "sabayon_corecd"
+    name = N_("Sabayon Core CD")
     pixmap = os.path.join(os.getenv("PIXMAPPATH", "/usr/share/pixmaps"),
-        "gnome.png")
-    name = N_("Sabayon _GNOME Desktop")
-    dmrc = "gnome"
-    _description = N_("Select this installation type for a default installation "
-                     "with the GNOME desktop environment. "
-                     "After this installation process you will "
-                     "be able to install additional packages.")
-    _descriptionFields = (productName,)
-    sortPriority = 10001
+        "sabayon-core.png")
 
-    # check if GNOME is available on the system
-    if not Entropy().is_installed("gnome-base/gnome-session"):
+    dmrc = None
+    _description = N_("Select this installation type to just install "
+         "a Core System without graphical applications. "
+         "This is the best choice for Server-oriented "
+         "deployments.")
+    _descriptionFields = (productName,)
+    sortPriority = 9999
+
+    if not Entropy.is_corecd():
         hidden = 1
 
     def configure(self, anaconda):
