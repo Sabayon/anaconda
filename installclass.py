@@ -55,6 +55,9 @@ class BaseInstallClass(object):
     bootloaderTimeoutDefault = 0
     bootloaderExtraArgs = ""
 
+    # Default DESKTOP_SESSION value, if any
+    dmrc = None
+
     # list of of (txt, grplist) tuples for task selection screen
     tasks = []
 
