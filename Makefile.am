@@ -39,7 +39,7 @@ pkgpyexecdir          = $(pyexecdir)/py$(PACKAGE_NAME)
 
 dist_noinst_DATA      = $(PACKAGE_NAME).spec
 
-dist_sbin_SCRIPTS     = anaconda sabayon/installer
+dist_sbin_SCRIPTS     = anaconda
 
 udevdir               = /lib/udev/rules.d
 dist_udev_DATA        = 70-anaconda.rules
