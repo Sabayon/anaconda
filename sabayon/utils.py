@@ -657,7 +657,7 @@ class SabayonInstall:
                 # @deprecated
                 #if currentfile.startswith("/dev"):
                 #    continue
-                elif currentfile == "/boot/grub/grub.conf":
+                if currentfile == "/boot/grub/grub.conf":
                     continue
                 elif currentfile == "/boot/grub/grub.cfg":
                     continue
