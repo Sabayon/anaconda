@@ -42,14 +42,14 @@ class InstallClass(BaseInstallClass):
         if os.path.isfile(_pix_path):
             pixmap = _pix_path
 
-    name = N_("Sabayon _GNOME Desktop")
+    name = N_("Sabayon GNOME Desktop")
     dmrc = "gnome"
     _description = N_("Select this installation type for a default installation "
                      "with the GNOME desktop environment. "
                      "After this installation process you will "
                      "be able to install additional packages.")
     _descriptionFields = (productName,)
-    sortPriority = 10001
+    sortPriority = 10000
 
     # check if GNOME is available on the system
     if not Entropy().is_installed("gnome-base/gnome-session"):

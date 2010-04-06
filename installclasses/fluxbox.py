@@ -49,7 +49,7 @@ class InstallClass(BaseInstallClass):
          "After this installation process you will "
          "be able to install additional packages.")
     _descriptionFields = (productName,)
-    sortPriority = 10005
+    sortPriority = 9999
 
     if not Entropy().is_installed("x11-wm/fluxbox"):
         hidden = 1

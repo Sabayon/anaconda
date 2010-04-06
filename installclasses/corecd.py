@@ -49,7 +49,7 @@ class InstallClass(BaseInstallClass):
          "This is the best choice for Server-oriented "
          "deployments.")
     _descriptionFields = (productName,)
-    sortPriority = 9999
+    sortPriority = 10000
 
     if not Entropy.is_corecd():
         hidden = 1

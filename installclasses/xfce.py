@@ -48,7 +48,7 @@ class InstallClass(BaseInstallClass):
          "with the XFCE desktop environment. "
          "A small lightweight and functional working environment at your service.")
     _descriptionFields = (productName,)
-    sortPriority = 10002
+    sortPriority = 10000
 
     if not Entropy().is_installed("xfce-base/xfce-utils"):
         hidden = 1
