@@ -36,8 +36,13 @@ class InstallClass(BaseInstallClass):
 
     id = "sabayon_kde"
     name = N_("Sabayon KDE")
-    pixmap = os.path.join(os.getenv("PIXMAPPATH", "/usr/share/pixmaps"),
-        "kde.png")
+
+    _pixmap_dirs = os.getenv("PIXMAPPATH", "/usr/share/pixmaps").split(":")
+    for _pix_dir in _pixmap_dirs:
+        _pix_path = os.path.join(_pix_dir, "kde.png")
+        if os.path.isfile(_pix_path):
+            pixmap = _pix_path
+
     dmrc = "KDE-4"
     _description = N_("Select this installation type for a default installation "
          "with the KDE desktop environment. "

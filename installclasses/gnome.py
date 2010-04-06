@@ -35,8 +35,13 @@ from sabayon.livecd import LiveCDCopyBackend
 class InstallClass(BaseInstallClass):
 
     id = "sabayon_gnome"
-    pixmap = os.path.join(os.getenv("PIXMAPPATH", "/usr/share/pixmaps"),
-        "gnome.png")
+
+    _pixmap_dirs = os.getenv("PIXMAPPATH", "/usr/share/pixmaps").split(":")
+    for _pix_dir in _pixmap_dirs:
+        _pix_path = os.path.join(_pix_dir, "gnome.png")
+        if os.path.isfile(_pix_path):
+            pixmap = _pix_path
+
     name = N_("Sabayon _GNOME Desktop")
     dmrc = "gnome"
     _description = N_("Select this installation type for a default installation "

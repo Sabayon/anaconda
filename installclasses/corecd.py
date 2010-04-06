@@ -36,8 +36,12 @@ class InstallClass(BaseInstallClass):
 
     id = "sabayon_corecd"
     name = N_("Sabayon Core CD")
-    pixmap = os.path.join(os.getenv("PIXMAPPATH", "/usr/share/pixmaps"),
-        "sabayon-core.png")
+
+    _pixmap_dirs = os.getenv("PIXMAPPATH", "/usr/share/pixmaps").split(":")
+    for _pix_dir in _pixmap_dirs:
+        _pix_path = os.path.join(_pix_dir, "sabayon-core.png")
+        if os.path.isfile(_pix_path):
+            pixmap = _pix_path
 
     dmrc = None
     _description = N_("Select this installation type to just install "

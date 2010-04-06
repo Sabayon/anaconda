@@ -36,8 +36,13 @@ class InstallClass(BaseInstallClass):
 
     id = "sabayon_fluxbox"
     name = N_("Sabayon Fluxbox")
-    pixmap = os.path.join(os.getenv("PIXMAPPATH", "/usr/share/pixmaps"),
-        "fluxbox.png")
+
+    _pixmap_dirs = os.getenv("PIXMAPPATH", "/usr/share/pixmaps").split(":")
+    for _pix_dir in _pixmap_dirs:
+        _pix_path = os.path.join(_pix_dir, "fluxbox.png")
+        if os.path.isfile(_pix_path):
+            pixmap = _pix_path
+
     dmrc = "fluxbox"
     _description = N_("Select this installation type for a default installation "
          "with the Fluxbox geeky minimal environment. "

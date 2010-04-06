@@ -36,8 +36,13 @@ class InstallClass(BaseInstallClass):
 
     id = "sabayon_xfce"
     name = N_("Sabayon XFCE")
-    pixmap = os.path.join(os.getenv("PIXMAPPATH", "/usr/share/pixmaps"),
-        "xfce4.png")
+
+    _pixmap_dirs = os.getenv("PIXMAPPATH", "/usr/share/pixmaps").split(":")
+    for _pix_dir in _pixmap_dirs:
+        _pix_path = os.path.join(_pix_dir, "xfce4.png")
+        if os.path.isfile(_pix_path):
+            pixmap = _pix_path
+
     dmrc = "xfce"
     _description = N_("Select this installation type for a default installation "
          "with the XFCE desktop environment. "

@@ -36,8 +36,13 @@ class InstallClass(BaseInstallClass):
 
     id = "sabayon_mce"
     name = N_("Sabayon Media Center")
-    pixmap = os.path.join(os.getenv("PIXMAPPATH", "/usr/share/pixmaps"),
-        "xbmc.png")
+
+    _pixmap_dirs = os.getenv("PIXMAPPATH", "/usr/share/pixmaps").split(":")
+    for _pix_dir in _pixmap_dirs:
+        _pix_path = os.path.join(_pix_dir, "xbmc.png")
+        if os.path.isfile(_pix_path):
+            pixmap = _pix_path
+
     _description = N_("Select this installation type for a Media "
         "Center installation featuring XBMC.")
     _descriptionFields = (productName,)
