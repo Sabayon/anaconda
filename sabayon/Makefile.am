@@ -17,7 +17,7 @@
 #
 # Author: Fabio Erculiani <lxnay@sabayon.org>
 
-sabayondir = $(libdir)/$(PACKAGE_NAME)/sabayon
+sabayondir = $(pyexecdir)/py$(PACKAGE_NAME)/sabayon
 sabayon_PYTHON = *.py
 
 MAINTAINERCLEANFILES = Makefile.in
