@@ -45,7 +45,7 @@ if [ ! -e /selinux/load ]; then
 fi
 
 # devkit-disks is now mounting lots of stuff.  for now, let's just try to unmount it all
-umount /media/*
+umount /media/* &> /dev/null
 tac /proc/mounts | grep ^/dev | grep -v live | while read dev mntpoint rest; do
     if [ -b $dev ]; then
        umount $mntpoint 2>/dev/null
