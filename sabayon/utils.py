@@ -17,20 +17,33 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# Glib imports
 import glib
 
+# Python imports
+import os
+import sys
 import stat
 import sys
 import subprocess
+import commands
 import shutil
 import statvfs
 
+# Entropy imports
 from entropy.const import etpUi, etpConst, etpSys
 import entropy.tools
-from entropy.cache import EntropyCacher
 from entropy.misc import TimeScheduled
 from entropy.core.settings.base import SystemSettings
 from entropy.core import Singleton
+
+# Anaconda imports
+from constants import productPath
+from sabayon import Entropy
+from sabayon.const import LIVE_USER, LANGUAGE_PACKS
+
+import gettext
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 STDERR_LOG = open("/tmp/anaconda.stderr.log","aw")
 
@@ -102,115 +115,73 @@ class SabayonProgress(Singleton):
         self._prog.adbox.show_all()
 
 
-class Tools:
+class SabayonInstall:
 
-    def __init__(self, id = None, intf = None, progressTools = None):
+    def __init__(self, anaconda):
 
-        self.id = None
-        self.intf = None
-        self.SystemHealthChecker = None
-        self.healthMessage = ''
-        self.unhealthySystemWarningShown = False
-        self.progressTools = progressTools
-        self.Entropy = Entropy
+        self._anaconda = anaconda
+        self._root = anaconda.rootPath
+        self._prod_root = productPath
+        self._intf = anaconda.intf
+        self._progress = SabayonProgress(anaconda)
+        self._entropy = Entropy()
         self._settings = SystemSettings()
-        f = open("/proc/cmdline","r")
-        self.cmdline = f.readline().strip().split()
-        f.close()
+        with open("/proc/cmdline", "r") as cmd_f:
+            self._cmdline = cmd_f.readline().strip().split()
+        #sys.stderr = STDERR_LOG
 
-        sys.stderr = STDERR_LOG
+        self.__start_system_health_check()
 
-        self.instPath = chrootPath
-        # instdata stuff - for the GUI
-        if id is not None:
-            self.id = id
-
-        if intf != None:
-            self.intf = intf
-
-        self.startSystemHealthCheck()
-
-        self.filesDb = None
-        self.liveDatabasePath = productPath + etpConst['etpdatabaseclientfilepath']
-        self.chrootDatabasePath = self.instPath+etpConst['etpdatabaseclientfilepath']
-        self.clientDbconn = self.openLiveDatabase()
+        self._files_db_path = self._root+"/files.db"
+        self._files_db = self._entropy.open_generic_repository(
+             self._files_db_path, dbname = "filesdb",
+            indexing_override = True)
+        self._files_db.initializeDatabase()
+        self._live_repo = self._open_live_installed_repository()
+        self._package_identifiers_to_remove = set()
 
     def destroy(self):
-        if self.SystemHealthChecker != None:
-            self.SystemHealthChecker.kill()
-            self.SystemHealthChecker.join()
-        EntropyCacher().stop()
-
-    def umountAll(self):
-        if not os.access("/etc/mtab",os.R_OK): return
-        f = open("/etc/mtab","r")
-        sab_mounts = sorted([x.strip().split()[1] for x in f.readlines() if (x.strip().find(self.instPath) != -1)], reverse = True)
-        f.close()
-        for mount in sab_mounts:
-            self.execCmd("umount %s &> /dev/null" % (mount,))
-
-    def checkBootAvailSpace(self):
-        boot_path = self.instPath+"/boot"
-        if not os.path.isdir(boot_path):
-            return
-        boot_size = (1024000*40)
-        # check if we have enough space on disk
-        st = os.statvfs(boot_path)
-        freeblocks = st[statvfs.F_BFREE]
-        blocksize = st[statvfs.F_BSIZE]
-        freespace = freeblocks*blocksize
-        if boot_size > freespace:
-            if self.intf != None:
-                self.intf.messageWindow(_("Not enough /boot partition space"),
-                        "You don't have enough space in /boot, you need at least 40Mb",
-                        custom_icon="error")
-                raise SystemExit(1)
-            else:
-                print "You don't have enough space in /boot, you need at least 40Mb."
-                raise SystemExit(1)
-
-    def startSystemHealthCheck(self):
-        self.SystemHealthChecker = TimeScheduled(20, self.healthCheck)
-        self.SystemHealthChecker.start()
-
-    def healthCheck(self):
-        if self.unhealthySystemWarningShown: return
-
-        msg_file = "/var/log/messages"
-        found_error = False
-        if not (os.path.isfile(msg_file) and os.access(msg_file,os.R_OK)):
-            return
-
-        f = open(msg_file,"r")
+        # remove files db if exists
+        self._files_db.closeDB()
         try:
-            f.seek(-500,2)
-        except IOError:
-            f.close()
+            os.remove(self._files_db_path)
+        except OSError:
+            pass
+
+        if self.__sys_health_checker != None:
+            self.__sys_health_checker.kill()
+            self.__sys_health_checker.join()
+
+    def __start_system_health_check(self):
+        self.__health_msg = ''
+        self.__sys_health_warn_shown = False
+        self.__sys_health_checker = TimeScheduled(30, self.__health_check)
+        self.__sys_health_checker.start()
+
+    def __health_check(self):
+        if self.__sys_health_warn_shown:
+            self.__sys_health_checker.kill()
             return
 
-        data = [x for x in f.read().split("\n") if x.find("SQUASHFS error") != -1]
-        f.close()
+        kern_msg_out = commands.getoutput("dmesg -s 1024000")
+        data = [x for x in kern_msg_out.split("\n") if \
+            x.find("SQUASHFS error") != -1]
+
         if data:
-            self.healthMessage = data[0].strip()
-            self.showBrokenSystemWarning()
-
-
-    def showBrokenSystemWarning(self):
-
-        if self.intf != None:
-            self.intf.messageWindow(
+            self.__health_msg = data[0].strip()
+            self._intf.messageWindow(
                 _("System Health Status Warning"),
-                "Your system is having HARDWARE issues, continue at your risk, error: "+self.healthMessage,
-                custom_icon="error"
-        )
-        self.unhealthySystemWarningShown = True
+                "Your system is having HARDWARE issues, "
+                "continue at your risk, error: %s" % (self.__health_msg,),
+                custom_icon="error")
+            self.__sys_health_warn_shown = True
 
-    def execChrootCommand(self, args, chroot, silent = False):
+    def spawn_chroot(self, args, silent = False):
 
         pid = os.fork()
         if pid == 0:
 
-            os.chroot(chroot)
+            os.chroot(self._root)
             os.chdir("/")
             do_shell = False
             myargs = args
@@ -229,54 +200,39 @@ class Tools:
             rcpid, rc = os.waitpid(pid,0)
             return rc
 
-    def execCmd(self, args):
+    def spawn(self, args):
         myargs = args
         if isinstance(args,(list, tuple)):
             myargs = ' '.join(args)
         return subprocess.call(myargs, shell = True)
 
-    # Flush data from RAM to hard drives
-    def syncDisks(self):
-        os.system("sync ; sync; sync")
-
-    # This create the "first time run" file
-    def createNativeEntropyFile(self):
-        if not os.path.isdir(self.instPath+"/etc/entropy"):
-            os.makedirs(self.instPath+"/etc/entropy")
-        f = open(self.instPath+"/etc/entropy/native","w")
-        f.write("# do not remove this file !!\n")
-        f.close()
-
-    def runLdconfig(self):
-        self.execChrootCommand("ldconfig", self.instPath)
-
-    def openLiveDatabase(self):
-        dbconn = self.Entropy.open_generic_repository(
-            dbfile = self.liveDatabasePath,
-            xcache = False, readOnly = True, dbname = "live_client",
-            indexing_override = False)
+    def _open_live_installed_repository(self):
+        dbpath = self._prod_root + etpConst['etpdatabaseclientfilepath']
+        dbconn = self._entropy.open_generic_repository(
+            dbfile = dbpath, xcache = False, readOnly = True,
+            dbname = "live_client", indexing_override = False)
         return dbconn
 
-    def switchEntropyChroot(self, chroot = ""):
-        if chroot == "":
-            self.Entropy.noclientdb = False
+    def _change_entropy_chroot(self, chroot = None):
+        if not chroot:
+            self._entropy.noclientdb = False
             etpUi['nolog'] = True
         else:
-            self.Entropy.noclientdb = True
+            self._entropy.noclientdb = True
             etpUi['nolog'] = False
-        self.Entropy.switch_chroot(chroot)
+        self._entropy.switch_chroot(chroot)
         sys_settings_plg_id = etpConst['system_settings_plugins_ids']['client_plugin']
         del self._settings[sys_settings_plg_id]['misc']['configprotectskip'][:]
 
-    def removePackage(self, atom, match = None, silent = False):
+    def remove_package(self, atom, match = None, silent = False):
 
-        chroot = self.instPath
+        chroot = self._root
         root = etpSys['rootdir']
         if chroot != root:
-            self.switchEntropyChroot(chroot)
+            self._change_entropy_chroot(chroot)
 
-        if match == None:
-            match = self.Entropy.installed_repository().atomMatch(atom)
+        if match is None:
+            match = self._entropy.installed_repository().atomMatch(atom)
 
         oldstdout = sys.stdout
         if silent:
@@ -285,7 +241,7 @@ class Tools:
         try:
             rc = 0
             if match[0] != -1:
-                Package = self.Entropy.Package()
+                Package = self._entropy.Package()
                 Package.prepare((match[0],),"remove")
                 if not Package.pkgmeta.has_key('remove_installed_vanished'):
                     rc = Package.run()
@@ -295,110 +251,84 @@ class Tools:
                 sys.stdout = oldstdout
 
         if chroot != root:
-            self.switchEntropyChroot(root)
+            self._change_entropy_chroot(root)
 
         return rc
 
-    def installPackage(self, tbz2):
-        chroot = self.instPath
+    def insall_package_file(self, package_file):
+        chroot = self._root
         root = etpSys['rootdir']
         if chroot != root:
-            self.switchEntropyChroot(chroot)
+            self._change_entropy_chroot(chroot)
 
-        rc, atomsfound = self.Entropy.add_package_to_repositories(tbz2)
+        rc, atomsfound = self._entropy.add_package_to_repositories(
+            package_file)
         repo = 0
         if rc != 0:
             return rc
         for match in atomsfound:
             repo = match[1]
-            Package = self.Entropy.Package()
+            Package = self._entropy.Package()
             Package.prepare(match,"install")
             rc2 = Package.run()
             if rc2 != 0:
                 if chroot != root:
-                    self.switchEntropyChroot(root)
+                    self._change_entropy_chroot(root)
                 return rc2
             Package.kill()
 
         if chroot != root:
-            self.switchEntropyChroot(root)
+            self._change_entropy_chroot(root)
 
         if repo != 0:
-            self.Entropy.remove_repository(repo)
+            self._entropy.remove_repository(repo)
 
         return 0
 
-    def isSabayonCoreCD(self):
-        rc = self.id.getDefaultDesktopChoose()
-        if rc == "corecd":
-            return True
-        return False
-
-    def configureDesktopSkel(self):
+    def _configure_skel(self):
 
         # copy Sulfur on the desktop
-        sulfur_desktop = self.instPath+"/usr/share/applications/sulfur.desktop"
+        sulfur_desktop = self._root+"/usr/share/applications/sulfur.desktop"
         if os.path.isfile(sulfur_desktop):
-            sulfur_user_desktop = self.instPath+"/etc/skel/Desktop/sulfur.desktop"
+            sulfur_user_desktop = self._root+"/etc/skel/Desktop/sulfur.desktop"
             shutil.copy2(sulfur_desktop, sulfur_user_desktop)
             try:
                 os.chmod(sulfur_user_desktop, 0775)
             except OSError:
                 pass
 
-        gparted_desktop = self.instPath+"/etc/skel/Desktop/gparted.desktop"
+        gparted_desktop = self._root+"/etc/skel/Desktop/gparted.desktop"
         if os.path.isfile(gparted_desktop):
             os.remove(gparted_desktop)
 
-        installer_desk = self.instPath+"/etc/skel/Desktop/Anaconda Installer.desktop"
+        installer_desk = self._root+"/etc/skel/Desktop/Anaconda Installer.desktop"
         if os.path.isfile(installer_desk):
             os.remove(installer_desk)
 
-    def removeLiveUser(self):
+    def setup_users(self):
 
         # configure .desktop files on Desktop
-        self.configureDesktopSkel()
+        self._configure_skel()
 
         # remove live user and its home dir
         pid = os.fork()
         if pid > 0:
             os.waitpid(pid, 0)
         else:
-            os.chroot(self.instPath)
-            live_user = self.getLiveUsername()
-            proc = subprocess.Popen(("userdel", "-f", "-r", live_user),
+            os.chroot(self._root)
+            proc = subprocess.Popen(("userdel", "-f", "-r", LIVE_USER),
                 stdout = subprocess.PIPE, stderr = subprocess.PIPE)
             os._exit(proc.wait())
 
-    def setParallelBoot(self, enable = False):
-        if "noparallel" in self.cmdline: return
+    def _is_encrypted(self):
+        if self._anaconda.storage.encryptionPassphrase:
+            return True
+        return False
 
-        rc_conf = self.instPath+"/etc/rc.conf"
-        if not os.path.isfile(rc_conf):
-            return
-        f = open(rc_conf,"r")
-        content = [x.strip() for x in f.readlines()]
-        f.close()
-        new_content = []
-        for line in content:
-            if line.startswith("rc_parallel="):
-                if enable:
-                    line = "rc_parallel=\"YES\""
-                else:
-                    line = "rc_parallel=\"NO\""
-            new_content.append(line)
-        f = open(rc_conf,"w")
-        for line in new_content:
-            f.write(line+"\n")
-        f.flush()
-        f.close()
+    def configure_services(self):
 
-
-    # Add/Remove system services
-    def configureServices(self):
-
-        action = "Configuring System Services"
-        self.progressTools.setPartialProgress(0,100,action)
+        action = _("Configuring System Services")
+        self._progress.set_text(action)
 
         # Remove Installer services
         config_script = """
@@ -418,43 +348,37 @@ class Tools:
                 rc-update add nfsmount default
             fi
         """
-        self.execChrootCommand(config_script, self.instPath, silent = True)
-
-        # configure user choosen services
-        if self.id is not None:
-            if self.id.RemoveServices:
-                for service in self.id.RemoveServices:
-                    self.execChrootCommand("rc-update del %s boot default" % (service,), self.instPath, silent = True)
-            for service, runlevel in self.id.AddServices:
-                self.execChrootCommand("rc-update add %s %s" % (service,runlevel,), self.instPath, silent = True)
-
-        self.progressTools.setPartialProgress(50,100,action)
+        self.spawn_chroot(config_script, silent = True)
 
         # setup dmcrypt service if user enabled encryption
-        if self.id.isEncryptionOn():
-            self.execChrootCommand("rc-update add dmcrypt boot", self.instPath, silent = True)
+        if self._is_encrypted():
+            self.spawn_chroot("rc-update add dmcrypt boot", silent = True)
 
         # Copy the kernel modules blacklist configuration file
         if os.access("/etc/modules.d/blacklist",os.F_OK):
-            self.execCmd("cp -p /etc/modules.d/blacklist %s//etc/modules.d/blacklist" % (self.instPath,))
+            self.spawn(
+                "cp -p /etc/modules.d/blacklist %s/etc/modules.d/blacklist" % (
+                    self._root,))
 
-        self.progressTools.setPartialProgress(100,100,action)
-
-    # Detect a possible OSS video card and remove /etc/env.d/*ati
-    def removeProprietaryDrivers(self):
-        if self.getOpenGL() == "xorg-x11":
+    def remove_proprietary_drivers(self):
+        """
+        Detect a possible OSS video card and remove /etc/env.d/*ati
+        """
+        if self._get_opengl() == "xorg-x11":
             ogl_script = """
                 rm -f /etc/env.d/09ati
                 rm -rf /usr/lib/opengl/ati
                 rm -rf /usr/lib/opengl/nvidia
             """
-            self.execChrootCommand(ogl_script, self.instPath)
-            self.removePackage('ati-drivers', silent = True)
-            self.removePackage('nvidia-settings', silent = True)
-            self.removePackage('nvidia-drivers', silent = True)
+            self.spawn_chroot(ogl_script)
+            self.remove_package('ati-drivers', silent = True)
+            self.remove_package('nvidia-settings', silent = True)
+            self.remove_package('nvidia-drivers', silent = True)
 
-    # get the current OpenGL subsystem (ati,nvidia,xorg-x11)
-    def getOpenGL(self, chroot = None):
+    def _get_opengl(self, chroot = None):
+        """
+        get the current OpenGL subsystem (ati,nvidia,xorg-x11)
+        """
 
         if chroot is None:
             oglprof = os.getenv('OPENGL_PROFILE')
@@ -477,7 +401,7 @@ class Tools:
 
         return "xorg-x11"
 
-    def setupManualNetworking(self):
+    def setup_manual_networking(self):
         mn_script = """
             rc-update del NetworkManager default
             rc-update del avahi-daemon default
@@ -487,37 +411,26 @@ class Tools:
                 sed -i 's/^rc_hotplug=".*"/rc_hotplug="*"/g' /etc/rc.conf
             fi
         """
-        self.execChrootCommand(mn_script, self.instPath, silent = True)
+        self.spawn_chroot(mn_script, silent = True)
 
-    def setupSplashSettings(self):
-        mn_script = """
-            if [ -f "/etc/conf.d/splash" ]; then
-                sed -i 's/SPLASH_VERBOSE_ON_ERRORS=".*"/SPLASH_VERBOSE_ON_ERRORS="no"/g' /etc/conf.d/splash
-                sed -i 's/SPLASH_AUTOVERBOSE=".*"/SPLASH_AUTOVERBOSE="no"/g' /etc/conf.d/splash
-            fi
-        """
-        self.execChrootCommand(mn_script, self.instPath, silent = True)
+    # This function copy the LiveCD/DVD content into self._root
+    def live_install(self):
 
-    # get the default livecd username
-    def getLiveUsername(self):
-        return "sabayonuser"
+        self._setup_packages_to_remove()
 
-    # This function copy the LiveCD/DVD content into self.instPath
-    def RunInstallFileCopy(self):
-
-        self.handleSelectedPackagesCategory()
-
-        action = "System Installation"
+        action = _("System Installation")
+        client_repo = self._entropy.installed_repository()
         copy_update_interval = 300
         copy_update_counter = 299
         # get file counters
         total_files = 0
-        imageDir = productPath
+        imageDir = self._prod_root
         for z,z,files in os.walk(imageDir):
             for file in files:
                 total_files += 1
 
-        self.progressTools.setPartialProgress(0,total_files,action)
+        self._progress.set_fraction(0.0)
+        self._progress.set_text(action)
 
         def copy_other(fromfile, tofile):
             proc = subprocess.Popen(("/bin/cp", "-a", fromfile, tofile),
@@ -554,12 +467,13 @@ class Tools:
 
             for xdir in subdirs:
 
-                imagepathDir = currentdir + "/" + xdir
-                mydir = imagepathDir[imageDir_len:]
-                rootdir = self.instPath + mydir # os.path.join(self.instPath,mydir) NOW TELL ME WHY THE HELL IT DOESN'T WORK
+                image_path_dir = currentdir + "/" + xdir
+                mydir = image_path_dir[imageDir_len:]
+                rootdir = self._root + mydir
 
                 # handle broken symlinks
-                if os.path.islink(rootdir) and not os.path.exists(rootdir):# broken symlink
+                if os.path.islink(rootdir) and not os.path.exists(rootdir):
+                    # broken symlink
                     os.remove(rootdir)
 
                 # if our directory is a file on the live system
@@ -567,29 +481,30 @@ class Tools:
                     os.remove(rootdir)
 
                 # if our directory is a symlink instead, then copy the symlink
-                if os.path.islink(imagepathDir) and not os.path.isdir(rootdir): # for security we skip live items that are dirs
-                    tolink = os.readlink(imagepathDir)
+                if os.path.islink(image_path_dir) and not os.path.isdir(rootdir):
+                    # for security we skip live items that are dirs
+                    tolink = os.readlink(image_path_dir)
                     if os.path.islink(rootdir):
                         os.remove(rootdir)
                     os.symlink(tolink,rootdir)
-                elif (not os.path.isdir(rootdir)) and (not os.access(rootdir,os.R_OK)):
-                    #print "creating dir "+rootdir
+                elif (not os.path.isdir(rootdir)) and \
+                    (not os.access(rootdir,os.R_OK)):
                     os.makedirs(rootdir)
 
-                if not os.path.islink(rootdir): # symlink don't need permissions, also until os.walk ends they might be broken
-                    user = os.stat(imagepathDir)[4]
-                    group = os.stat(imagepathDir)[5]
+                if not os.path.islink(rootdir):
+                    # symlink don't need permissions, also until os.walk
+                    # ends they might be broken
+                    user = os.stat(image_path_dir)[4]
+                    group = os.stat(image_path_dir)[5]
                     os.chown(rootdir,user,group)
-                    shutil.copystat(imagepathDir,rootdir)
+                    shutil.copystat(image_path_dir,rootdir)
 
-            for file in sorted(files):
+            for path_file in sorted(files):
 
                 current_counter += 1
-                fromfile = currentdir+"/"+file
+                fromfile = currentdir + "/" + path_file
                 currentfile = fromfile[imageDir_len:]
 
-                if currentfile.startswith("/opt/anaconda"):
-                    continue
                 if currentfile.startswith("/dev"):
                     continue
                 elif currentfile == "/boot/grub/grub.conf":
@@ -599,15 +514,14 @@ class Tools:
 
                 try:
                     # if file is in the ignore list
-                    if self.filesDb.isFileAvailable(
+                    if self._files_db.isFileAvailable(
                         currentfile.decode('raw_unicode_escape')):
                         continue
                 except:
                     import traceback
                     traceback.print_exc()
-                    pass
 
-                tofile = self.instPath + currentfile
+                tofile = self._root + currentfile
                 st_info = os.lstat(fromfile)
                 if stat.S_ISREG(st_info[stat.ST_MODE]):
                     copy_reg(fromfile, tofile)
@@ -617,53 +531,62 @@ class Tools:
                     copy_other(fromfile, tofile)
 
 
-            if (copy_update_counter == copy_update_interval) or ((total_files - 1000) < current_counter):
+            if (copy_update_counter == copy_update_interval) or \
+                ((total_files - 1000) < current_counter):
                 # do that every 1000 iterations
                 copy_update_counter = 0
-                self.progressTools.setPartialProgress(current_counter,total_files,action)
-                total_counter = round(float (current_counter) / total_files * 75,2)
-                self.progressTools.setTotalProgress(total_counter)
-                # for the Text part
+                frac = float(current_counter)/total_files*100
+                self._progress.set_fraction(frac)
 
-        self.switchEntropyChroot(self.instPath)
+        self._progress.set_fraction(100.0)
+
+        self._change_entropy_chroot(self._root)
         # Removing Unwanted Packages
-        if self.id.idpackagesToRemove:
+        if self._package_identifiers_to_remove:
 
             # this makes packages removal much faster
-            self.Entropy.installed_repository().indexing = True
-            self.Entropy.installed_repository().createAllIndexes()
+            client_repo.indexing = True
+            client_repo.createAllIndexes()
 
-            total_counter = len(self.id.idpackagesToRemove)
+            total_counter = len(self._package_identifiers_to_remove)
             current_counter = 0
-            self.progressTools.setPartialProgress(current_counter,total_counter,"Cleaning Packages")
-            self.Entropy.oldcount = [0,total_counter]
+            self._progress.set_fraction(current_counter)
+            self._progress.set_text(_("Cleaning packages"))
+            self._entropy.oldcount = [0,total_counter]
 
-            for idpackage in self.id.idpackagesToRemove:
+            for pkg_id in self._package_identifiers_to_remove:
                 current_counter += 1
-                atom = self.Entropy.installed_repository().retrieveAtom(idpackage)
+                atom = client_repo.retrieveAtom(pkg_id)
                 if not atom:
                     continue
 
                 ### XXX needed to speed up removal process
-                category = self.Entropy.installed_repository().retrieveCategory(idpackage)
-                version = self.Entropy.installed_repository().retrieveVersion(idpackage)
-                name = self.Entropy.installed_repository().retrieveName(idpackage)
-                ebuild_path = self.instPath+"/var/db/pkg/%s/%s-%s" % (category,name,version)
+                """
+                category = client_repo.retrieveCategory(pkg_id)
+                version = client_repo.retrieveVersion(pkg_id)
+                name = client_repo.retrieveName(pkg_id)
+                ebuild_path = self._root+"/var/db/pkg/%s/%s-%s" % (
+                    category, name, version)
                 if os.path.isdir(ebuild_path):
-                    shutil.rmtree(ebuild_path,True)
+                    shutil.rmtree(ebuild_path, True)
+                """
                 ### XXX
 
-                self.removePackage(idpackage, match = (idpackage,0))
-                self.progressTools.setPartialProgress(current_counter,total_counter,"Cleaning %s" % (atom,) )
-                self.Entropy.oldcount = [current_counter,total_counter]
+                self.remove_package(None, match = (pkg_id,0))
+                frac = float(current_counter)/total_counter*100
+                self._progress.set_fraction(frac)
+                self._progress.set_text("%s: %s" % (
+                    _("Cleaning package"), atom,))
+                self._entropy.oldcount = [current_counter,total_counter]
 
         while 1:
             change = False
             mydirs = set()
-            mydirs = self.filesDb.retrieveContent(None, contentType = "dir")
+            mydirs = self._files_db.retrieveContent(None, contentType = "dir")
             for mydir in mydirs:
-                mytree = os.path.join(self.instPath,mydir)
-                if os.path.isdir(mytree) and not self.Entropy.installed_repository().isFileAvailable(mydir):
+                mytree = os.path.join(self._root,mydir)
+                if os.path.isdir(mytree) and not client_repo.isFileAvailable(
+                    mydir):
                     try:
                         os.rmdir(mytree)
                         change = True
@@ -673,8 +596,9 @@ class Tools:
                 break
 
         # list installed packages and setup a package set
-        inst_packages = ['%s:%s\n' % (entropy.tools.dep_getkey(atom),slot,) for \
-            idpk,atom,slot,revision in self.Entropy.installed_repository().listAllPackages(get_scope = True, order_by = "atom")]
+        inst_packages = ['%s:%s\n' % (entropy.tools.dep_getkey(atom),slot,) \
+            for idpk, atom, slot, revision in client_repo.listAllPackages(
+                get_scope = True, order_by = "atom")]
         # perfectly fine w/o instPath
         pkgset_dir = etpConst['confsetsdir']
         if not os.path.isdir(pkgset_dir):
@@ -689,45 +613,56 @@ class Tools:
         except (IOError,):
             pass
 
-        self.switchEntropyChroot()
+        self._change_entropy_chroot()
 
-        # remove files db if exists
-        dbfile = self.filesDb.dbFile
-        self.filesDb.closeDB()
-        try:
-            os.remove(dbfile)
-        except OSError:
-            pass
+        self._progress.set_fraction(100)
+        self._progress.set_text(_("Installation complete"))
 
-        self.installationWorkarounds()
+    def _get_removable_localized_packages(self):
+        langpacks = [x.strip() for x in LANGUAGE_PACKS.split("\n") if \
+            (not x.strip().startswith("#")) and x.strip()]
 
-        action = "System Installation completed"
-        self.progressTools.setPartialProgress(100,100,action)
-        self.syncDisks()
+        # get cur lang
+        def_lang = self._anaconda.instLanguage.instLang
+        langpacks = set([x for x in langpacks if not \
+            x.endswith("-%s" % (def_lang,))])
 
-    def installationWorkarounds(self):
-        pass
+        client_repo = self._entropy.installed_repository()
+        for langpack in langpacks:
+            matches, m_rc = client_repo.atomMatch(langpack, multiMatch = True)
+            if m_rc != 0:
+                continue
+            for pkg_id in matches:
+                valid = self._entropy.validate_package_removal(pkg_id)
+                if not valid:
+                    continue
+                yield pkg_id
 
-    # this function handles all the LiveDVD files and user selected categories
-    # self.id.grpset is your friend
-    def handleSelectedPackagesCategory(self):
+    def _setup_packages_to_remove(self):
 
-        self.filesDb = self.Entropy.open_generic_repository(
-            self.instPath+"/files.db", dbname = "filesdb",
-            indexing_override = True)
-        self.filesDb.initializeDatabase()
-        self.id.handleLocalizedPackagesRemoval()
+        # remove anaconda if installed
+        client_repo = self._entropy.installed_repository()
+        pkg_id, pkg_rc = client_repo.atomMatch("anaconda")
+        if pkg_id != -1:
+            self._package_identifiers_to_remove.add(pkg_id)
 
-        if self.id.idpackagesToRemove:
+        self._package_identifiers_to_remove.update(
+            self._get_removable_localized_packages())
+
+        if self._package_identifiers_to_remove:
 
             current_counter = 0
-            self.progressTools.setPartialProgress(current_counter,len(self.id.idpackagesToRemove),"Collecting data")
+            total_counter = len(self._package_identifiers_to_remove)
+            self._progress.set_fraction(current_counter)
+            self._progress.set_text(_("Generating list of files to copy"))
 
-            for pkg in self.id.idpackagesToRemove:
+            for pkg in self._package_identifiers_to_remove:
                 current_counter += 1
-                self.progressTools.setPartialProgress(current_counter,len(self.id.idpackagesToRemove),"Collecting data")
+                self._progress.set_fraction(
+                    float(current_counter)/total_counter*100)
                 # get its files
-                mycontent = self.clientDbconn.retrieveContent(pkg, extended = True)
+                mycontent = self._live_repo.retrieveContent(pkg,
+                    extended = True)
                 mydirs = [x[0] for x in mycontent if x[1] == "dir"]
                 for x in mydirs:
                     if x.find("/usr/lib64") != -1:
@@ -744,12 +679,12 @@ class Tools:
                     self.addFileToIgnore(x, "obj")
                 del mycontent
 
-            self.progressTools.setPartialProgress(100,100,"Collecting data")
+            self._progress.set_fraction(100)
 
-        self.filesDb.commitChanges()
-        self.filesDb.indexing = True
-        self.filesDb.createAllIndexes()
+        self._files_db.commitChanges()
+        self._files_db.indexing = True
+        self._files_db.createAllIndexes()
 
     def addFileToIgnore(self, f_path, ctype):
-        self.filesDb._cursor().execute(
+        self._files_db._cursor().execute(
             'INSERT into content VALUES (?,?,?)' , ( None, f_path, ctype, ))

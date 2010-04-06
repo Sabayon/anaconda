@@ -223,3 +223,4 @@ app-i18n/man-pages-ru
 app-i18n/man-pages-zh_CN
 """
 
+LIVE_USER = "sabayonuser"

@@ -86,24 +86,21 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._progress.start()
         self._entropy = Entropy()
         self._entropy.connect_progress(self._progress)
+        self._sabayon_install = sabayon.utils.SabayonInstall(anaconda)
 
     def doInstall(self, anaconda):
         log.info("Preparing to install Sabayon")
 
-        self._progress.set_label(_("Copying live image to hard drive."))
+        self._progress.set_label(_("Installing Sabayon to hard drive."))
         self._progress.set_fraction(0.0)
 
         shot_adbox = TimeScheduled(60, self._progress.spawn_adimage)
         shot_adbox.start()
 
-        #slTools = sabayon.utils.Tools(id, intf, instPath, progressTools)
-
         time.sleep(120)
 
         shot_adbox.kill()
         shot_adbox.join()
-        const_kill_threads()
-        anaconda.intf.setInstallProgressClass(None)
 
     def doPostInstall(self, anaconda):
 
@@ -116,18 +113,29 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         f.flush()
         f.close()
 
+        self._sabayon_install.destroy()
+
         if hasattr(self._entropy, "shutdown"):
             self._entropy.shutdown()
         else:
             self._entropy.destroy()
             EntropyCacher().stop()
 
+        const_kill_threads()
+        anaconda.intf.setInstallProgressClass(None)
+
     def writeConfiguration(self):
+        """
+        System configuration is written in anaconda.write().
+        Add extra config files setup here.
+        """
         pass
 
     def kernelVersionList(self, rootPath = "/"):
-        # FIXME: implement
-        return [("name", "arch", "tag")]
+        """
+        This won't be used, because our Anaconda codebase is using grub2
+        """
+        return []
 
     def doBackendSetup(self, anaconda):
 

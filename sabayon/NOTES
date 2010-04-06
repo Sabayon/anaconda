@@ -3,9 +3,9 @@ Welcome to the Sabayon Linux Anaconda porting project.
 Package dependencies:
 
     DEPEND:
-        sys-process/audit (embed?)
+        sys-process/audit
         sys-fs/lvm2
-        sys-libs/libselinux (otherwise drop from codebase)
+        sys-libs/libselinux
         app-cdr/isomd5sum
         sys-block/open-iscsi-2.0.870.3-r1 (from sabayon, w/libiscsi)
         >=app-archive/libarchive-2.8
@@ -15,7 +15,7 @@ Package dependencies:
     RDEPEND:
         dev-util/pykickstart
         dev-python/pyblock
-        app-admin/libuser
+        sys-libs/libuser
         dev-python/python-nss
         dev-python/python-cryptsetup
         dev-python/urlgrabber
@@ -23,44 +23,60 @@ Package dependencies:
         dev-python/python-meh (gtk2)
         >=app-misc/sabayon-version-5-r1
         dev-python/python-report
+        app-admin/system-config-users ?
+        app-admin/firstboot
+        net-misc/fcoe-utils
 
-    bzip2
-    e2fsprogs
-    xfsprogs
-    reiserfsprogs
-    jfsutils
-    ntfsprogs
-    dosfstools
-    gzip
-    dmidecode
-    pyblock
-    cryptsetup-luks[python]
-    gettext
-    elfutils
-    X? (
-        gtk2
-        libXt
-        libX11
-        libXxf86misc
-        libblkid
-    )
-    libcurl
-    libnl
-    libxml2[python]
-    pango
-    python-urlgrabber
-    slang
-    xmlto
-    zlib
-    networkmanager
-    dbus[python]
-    desktop-file-utils
-    cracklib
-    squashfs-tools
-    makebootfat
-    zenity
-    mdadm
-    dhclient
+    UNSORTED:
+        bzip2
+        e2fsprogs
+        xfsprogs
+        reiserfsprogs
+        jfsutils
+        ntfsprogs
+        dosfstools
+        gzip
+        dmidecode
+        pyblock
+        cryptsetup-luks[python]
+        gettext
+        elfutils
+        X? (
+            gtk2
+            libXt
+            libX11
+            libXxf86misc
+            libblkid
+        )
+        libcurl
+        libnl
+        libxml2[python]
+        pango
+        slang
+        xmlto
+        zlib
+        networkmanager
+        dbus[python]
+        desktop-file-utils
+        cracklib
+        squashfs-tools
+        makebootfat
+        zenity
+        mdadm
+        dhclient
 
 TODO:
     - make bugzilla bug report option working
+    - dcbd init script
+    - grub2
+    - installer update button (via external script, in anaconda-runtime)
+    - primary user setup
+    - text mode
+
+TEST:
+    - fstab
+    - network settings?
+    - timezone
+    - clock
+    - users
+    - encryption
