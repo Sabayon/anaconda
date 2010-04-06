@@ -38,6 +38,7 @@ from entropy.core.settings.base import SystemSettings
 from entropy.core import Singleton
 
 # Anaconda imports
+import logging
 from constants import productPath
 from sabayon import Entropy
 from sabayon.const import LIVE_USER, LANGUAGE_PACKS
@@ -45,7 +46,8 @@ from sabayon.const import LIVE_USER, LANGUAGE_PACKS
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
 
-STDERR_LOG = open("/tmp/anaconda.stderr.log","aw")
+STDERR_LOG = open("/tmp/anaconda.log","aw")
+log = logging.getLogger("anaconda")
 
 class SabayonProgress(Singleton):
 
@@ -57,7 +59,7 @@ class SabayonProgress(Singleton):
 
     def start(self):
         if self.__updater is None:
-            self.__updater = TimeScheduled(3, self._prog.processEvents)
+            self.__updater = TimeScheduled(2, self._prog.processEvents)
             self.__updater.start()
 
     def stop(self):
@@ -202,7 +204,7 @@ class SabayonInstall:
 
     def spawn(self, args):
         myargs = args
-        if isinstance(args,(list, tuple)):
+        if isinstance(args, (list, tuple)):
             myargs = ' '.join(args)
         return subprocess.call(myargs, shell = True)
 
@@ -305,21 +307,6 @@ class SabayonInstall:
         if os.path.isfile(installer_desk):
             os.remove(installer_desk)
 
-    def setup_users(self):
-
-        # configure .desktop files on Desktop
-        self._configure_skel()
-
-        # remove live user and its home dir
-        pid = os.fork()
-        if pid > 0:
-            os.waitpid(pid, 0)
-        else:
-            os.chroot(self._root)
-            proc = subprocess.Popen(("userdel", "-f", "-r", LIVE_USER),
-                stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-            os._exit(proc.wait())
-
     def _is_encrypted(self):
         if self._anaconda.storage.encryptionPassphrase:
             return True
@@ -401,6 +388,21 @@ class SabayonInstall:
 
         return "xorg-x11"
 
+    def setup_users(self):
+
+        # configure .desktop files on Desktop
+        self._configure_skel()
+
+        # remove live user and its home dir
+        pid = os.fork()
+        if pid > 0:
+            os.waitpid(pid, 0)
+        else:
+            os.chroot(self._root)
+            proc = subprocess.Popen(("userdel", "-f", "-r", LIVE_USER),
+                stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+            os._exit(proc.wait())
+
     def setup_manual_networking(self):
         mn_script = """
             rc-update del NetworkManager default
@@ -413,8 +415,155 @@ class SabayonInstall:
         """
         self.spawn_chroot(mn_script, silent = True)
 
-    # This function copy the LiveCD/DVD content into self._root
+    def setup_sudo(self):
+        sudoers_file = self._root + '/etc/sudoers'
+        if os.path.isfile(sudoers_file):
+            self.spawn("sed -i '/NOPASSWD/ s/^/#/' %s" % (sudoers_file,))
+            with open(sudoers_file, "a") as sudo_f:
+                sudo_f.write("\n#Added by Sabayon Installer\n%wheel  ALL=ALL\n")
+                sudo_f.flush()
+
+    def setup_audio(self):
+        asound_state = "/etc/asound.state"
+        asound_state2 = "/var/lib/alsa/asound.state"
+        if os.path.isfile(asound_state) and os.access(asound_state, os.R_OK):
+            asound_state_dest_dir = os.path.dirname(self._root+asound_state)
+            asound_state_dest_dir2 = os.path.dirname(self._root+asound_state2)
+
+            if not os.path.isdir(asound_state_dest_dir):
+                os.makedirs(asound_state_dest_dir, 0755)
+
+            if not os.path.isdir(asound_state_dest_dir2):
+                os.makedirs(asound_state_dest_dir2, 0755)
+
+            source_f = open(asound_state, "r")
+            dest_f = open(self._root+asound_state, "w")
+            dest2_f = open(self._root+asound_state2, "w")
+            asound_data = source_f.readlines()
+            dest_f.writelines(asound_data)
+            dest2_f.writelines(asound_data)
+            dest_f.flush()
+            dest_f.close()
+            dest2_f.flush()
+            dest2_f.close()
+            source_f.close()
+
+    def setup_xorg(self):
+        # Copy current xorg.conf
+        live_xorg_conf = "/etc/X11/xorg.conf"
+        xorg_conf = self._root + live_xorg_conf
+        shutil.copy2(live_xorg_conf, xorg_conf)
+        shutil.copy2(live_xorg_conf, xorg_conf+".original")
+
+    def setup_dev(self):
+        # @deprecated
+        # Copy /dev from DVD to HD
+        # required even in baselayout-2
+        os.system("mkdir /tmp/dev-move "+REDIRECT_OUTPUT+" ; mount --move "+self._root+"/dev /tmp/dev-move &> /dev/null")
+        os.system("cp /dev/* "+self._root+"/dev/ -Rp &> /dev/null")
+        os.system("cp /dev/.u* "+self._root+"/dev/ -Rp &> /dev/null")
+        os.system("mount --move /tmp/dev-move "+self._root+"/dev &> /dev/null")
+
+    def setup_misc_language(self):
+        # Prepare locale variables
+        localization = self._anaconda.instLanguage.instLang.split(".")[0]
+        # Configure KDE language
+        if os.path.isfile(self._root + "/sbin/language-setup"):
+            self.spawn_chroot(("/sbin/language-setup", localization, "kde"),
+                silent = True)
+            self.spawn_chroot(("/sbin/language-setup", localization, "openoffice"),
+                silent = True)
+            self.spawn_chroot(("/sbin/language-setup", localization, "mozilla"),
+                silent = True)
+
+    def setup_nvidia_legacy(self):
+
+        # Configure NVIDIA legacy drivers, if needed
+        running_file = "/lib/nvidia/legacy/running"
+        drivers_dir = "/install-data/drivers"
+        if not os.path.isfile(running_file):
+            return
+        if not os.path.isdir(drivers_dir):
+            return
+
+        f = open(running_file)
+        nv_ver = f.readline().strip()
+        f.close()
+
+        if nv_ver.find("17x.xx.xx") != -1:
+            nv_ver = "17"
+        elif nv_ver.find("9x.xx") != -1:
+            nv_ver = "9"
+        else:
+            nv_ver = "7"
+
+        legacy_unmask_map = {
+            "7": "=x11-drivers/nvidia-drivers-7*",
+            "9": "=x11-drivers/nvidia-drivers-9*",
+            "17": "=x11-drivers/nvidia-drivers-17*"
+        }
+
+        self.remove_package('nvidia-drivers')
+        for pkg_file in os.listdir(drivers_dir):
+
+            if not pkg_file.startswith("x11-drivers:nvidia-drivers-"+nv_ver):
+                continue
+
+            pkg_filepath = os.path.join(drivers_dir, pkg_file)
+            try:
+                shutil.copy2(pkg_filepath, self._root+"/")
+            except:
+                continue
+
+            rc = self.insall_package_file(self._root+'/'+pkg_file)
+
+            # mask all the nvidia-drivers, this avoids having people
+            # updating their drivers resulting in a non working system
+            mask_file = os.path.join(self._root+'/',"etc/entropy/packages/package.mask")
+            unmask_file = os.path.join(self._root+'/',"etc/entropy/packages/package.unmask")
+            if os.access(mask_file, os.W_OK) and os.path.isfile(mask_file):
+                f = open(mask_file,"aw")
+                f.write("\n# added by Sabayon Installer\nx11-drivers/nvidia-drivers\n")
+                f.flush()
+                f.close()
+            if os.access(unmask_file, os.W_OK) and os.path.isfile(unmask_file):
+                f = open(unmask_file,"aw")
+                f.write("\n# added by Sabayon Installer\n%s\n" % (
+                    legacy_unmask_map[nv_ver],))
+                f.flush()
+                f.close()
+
+            if rc != 0:
+                question_text = "%s: %s" % (
+                    _("An issue occured while installing"),
+                    pkg_file,)
+                buttons = [_("Meh.")]
+                self._intf.messageWindow(_("Drivers installation issue"),
+                    question_text, custom_icon="question", type="custom",
+                    custom_buttons = buttons)
+
+        # force OpenGL reconfiguration
+        ogl_script = """
+            eselect opengl set xorg-x11 &> /dev/null
+            eselect opengl set nvidia &> /dev/null
+        """
+        self.spawn_chroot(ogl_script)
+
+    def env_update(self):
+        self.spawn_chroot("env-update &> /dev/null")
+
+    def emit_install_done(self):
+        # user installed Sabayon, w00hooh!
+        try:
+            self._entropy.UGC.add_download_stats("sabayonlinux.org",
+                ["installer"])
+        except Exception as err:
+            log.error("Unable to emit_install_done(): %s" % err) 
+
     def live_install(self):
+        """
+        This function copy the LiveCD/DVD content into self._root
+        """
 
         self._setup_packages_to_remove()
 
@@ -424,8 +573,8 @@ class SabayonInstall:
         copy_update_counter = 299
         # get file counters
         total_files = 0
-        imageDir = self._prod_root
-        for z,z,files in os.walk(imageDir):
+        image_dir = self._prod_root
+        for z,z,files in os.walk(image_dir):
             for file in files:
                 total_files += 1
 
@@ -458,17 +607,17 @@ class SabayonInstall:
 
         current_counter = 0
         currentfile = "/"
-        imageDir_len = len(imageDir)
+        image_dir_len = len(image_dir)
         # Create the directory structure
         # self.InstallFilesToIgnore
-        for currentdir, subdirs, files in os.walk(imageDir):
+        for currentdir, subdirs, files in os.walk(image_dir):
 
             copy_update_counter += 1
 
             for xdir in subdirs:
 
                 image_path_dir = currentdir + "/" + xdir
-                mydir = image_path_dir[imageDir_len:]
+                mydir = image_path_dir[image_dir_len:]
                 rootdir = self._root + mydir
 
                 # handle broken symlinks
@@ -503,10 +652,11 @@ class SabayonInstall:
 
                 current_counter += 1
                 fromfile = currentdir + "/" + path_file
-                currentfile = fromfile[imageDir_len:]
+                currentfile = fromfile[image_dir_len:]
 
-                if currentfile.startswith("/dev"):
-                    continue
+                # @deprecated
+                #if currentfile.startswith("/dev"):
+                #    continue
                 elif currentfile == "/boot/grub/grub.conf":
                     continue
                 elif currentfile == "/boot/grub/grub.cfg":
@@ -599,7 +749,7 @@ class SabayonInstall:
         inst_packages = ['%s:%s\n' % (entropy.tools.dep_getkey(atom),slot,) \
             for idpk, atom, slot, revision in client_repo.listAllPackages(
                 get_scope = True, order_by = "atom")]
-        # perfectly fine w/o instPath
+        # perfectly fine w/o self._root
         pkgset_dir = etpConst['confsetsdir']
         if not os.path.isdir(pkgset_dir):
             os.makedirs(pkgset_dir, 0755)
@@ -669,14 +819,14 @@ class SabayonInstall:
                         x = x.replace("/usr/lib64","/usr/lib")
                     elif x.find("/lib64") != -1:
                         x = x.replace("/lib64","/lib")
-                    self.addFileToIgnore(x, "dir")
+                    self._add_file_to_ignore(x, "dir")
                 mycontent = [x[0] for x in mycontent if x[1] == "obj"]
                 for x in mycontent:
                     if x.find("/usr/lib64") != -1:
                         x = x.replace("/usr/lib64","/usr/lib")
                     elif x.find("/lib64") != -1:
                         x = x.replace("/lib64","/lib")
-                    self.addFileToIgnore(x, "obj")
+                    self._add_file_to_ignore(x, "obj")
                 del mycontent
 
             self._progress.set_fraction(100)
@@ -685,6 +835,6 @@ class SabayonInstall:
         self._files_db.indexing = True
         self._files_db.createAllIndexes()
 
-    def addFileToIgnore(self, f_path, ctype):
+    def _add_file_to_ignore(self, f_path, ctype):
         self._files_db._cursor().execute(
             'INSERT into content VALUES (?,?,?)' , ( None, f_path, ctype, ))

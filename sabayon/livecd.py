@@ -91,14 +91,46 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
     def doInstall(self, anaconda):
         log.info("Preparing to install Sabayon")
 
-        self._progress.set_label(_("Installing Sabayon to hard drive."))
+        self._progress.set_label(_("Installing Sabayon onto hard drive."))
         self._progress.set_fraction(0.0)
 
         shot_adbox = TimeScheduled(60, self._progress.spawn_adimage)
         shot_adbox.start()
 
-        time.sleep(120)
+        # sabayonmce boot param if mce is selected
+        if Entropy.is_sabayon_mce():
+            anaconda.bootloader.args.append("sabayonmce")
 
+        # Actually install
+        self._sabayon_install.live_install()
+        self._sabayon_install.setup_users()
+        self._sabayon_install.spawn_chroot("ldconfig")
+
+        action = _("Configuring Sabayon")
+        self._progress.set_label(action)
+        self._progress.set_fraction(90)
+
+        self._sabayon_install.setup_sudo()
+        self._sabayon_install.setup_audio()
+        self._sabayon_install.setup_xorg()
+        self._sabayon_install.remove_proprietary_drivers()
+        self._sabayon_install.setup_nvidia_legacy()
+        self._progress.set_fraction(95)
+        #self._sabayon_install.setup_dev()
+        self._sabayon_install.setup_misc_language()
+        self._sabayon_install.configure_services()
+        self._sabayon_install.env_update()
+        # Configure network
+        if Entropy.is_corecd():
+            self._sabayon_install.setup_manual_networking()
+        self._sabayon_install.emit_install_done()
+
+        action = _("Sabayon configuration complete")
+        self._progress.set_label(action)
+        self._progress.set_fraction(100)
+
+        # kill threads
+        self._sabayon_install.destroy()
         shot_adbox.kill()
         shot_adbox.join()
 
@@ -106,15 +138,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         storage.writeEscrowPackets(anaconda)
 
-        # now write out the "real" fstab and mtab
-        anaconda.storage.write(anaconda.rootPath)
-        f = open(anaconda.rootPath + "/etc/mtab", "w+")
-        f.write(anaconda.storage.mtab)
-        f.flush()
-        f.close()
-
         self._sabayon_install.destroy()
-
         if hasattr(self._entropy, "shutdown"):
             self._entropy.shutdown()
         else:
@@ -129,7 +153,9 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         System configuration is written in anaconda.write().
         Add extra config files setup here.
         """
-        pass
+        self._sabayon_install.spawn_chroot("locale-gen", silent = True)
+        # Fix a possible /tmp problem
+        self._sabayon_install.spawn("chmod a+w "+self.anaconda.rootPath+"/tmp")
 
     def kernelVersionList(self, rootPath = "/"):
         """

@@ -72,11 +72,12 @@ TODO:
     - installer update button (via external script, in anaconda-runtime)
     - primary user setup
     - text mode
+    - locale (including glibc)
+    - timezone
+    - clock
+    - users
 
 TEST:
     - fstab
     - network settings?
-    - timezone
-    - clock
-    - users
     - encryption
