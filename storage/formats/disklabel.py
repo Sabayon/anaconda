@@ -26,7 +26,7 @@ import copy
 from ..storage_log import log_method_call
 import parted
 import _ped
-import pyanaconda.platform as platform
+from ..platform import getPlatform
 from ..errors import *
 from ..udev import udev_settle
 from . import DeviceFormat, register_device_format
@@ -120,7 +120,7 @@ class DiskLabel(DeviceFormat):
     def freshPartedDisk(self):
         """ Return a new, empty parted.Disk instance for this device. """
         log_method_call(self, device=self.device)
-        platf = platform.getPlatform(None)
+        platf = getPlatform(None)
         labelType = platf.diskLabelType(self.partedDevice.type)
         return parted.freshDisk(device=self.partedDevice, ty=labelType)
 

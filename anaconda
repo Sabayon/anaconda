@@ -244,6 +244,8 @@ def setupPythonPath():
     # HACK: to workaround Anaconda sys.path hackery
     # lxnay here
     python_path = os.path.dirname(get_python_lib(plat_specific=1))
+    if python_path in sys.path:
+        sys.path.remove(python_path)
     sys.path.insert(0, python_path)
 
 def addPoPath(dir):
@@ -568,7 +570,7 @@ class Anaconda(object):
     @property
     def platform(self):
         if not self._platform:
-            import platform
+            import pyanaconda.platform as platform
             self._platform = platform.getPlatform(self)
 
         return self._platform
