@@ -53,7 +53,7 @@ class PPCPRePBoot(DeviceFormat):
 
     @property
     def supported(self):
-        import platform
+        import pyanaconda.platform as platform
         return isinstance(platform.getPlatform(None), platform.IPSeriesPPC)
 
     def writeKS(self, f):

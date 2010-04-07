@@ -45,7 +45,7 @@ def register_device_format(fmt_class):
 
 default_fstypes = ("ext4", "ext3", "ext2")
 def get_default_filesystem_type(boot=None):
-    import platform
+    import pyanaconda.platform as platform
 
     if boot:
         fstypes = [platform.getPlatform(None).defaultBootFSType]

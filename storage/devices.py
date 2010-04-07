@@ -104,7 +104,7 @@ from devicelibs import lvm
 from devicelibs import dm
 import parted
 import _ped
-import platform
+import pyanaconda.platform as platform
 import block
 
 from errors import *

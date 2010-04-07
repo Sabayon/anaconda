@@ -23,7 +23,7 @@ import gui
 from iw_gui import *
 from constants import *
 import os
-import platform
+import pyanaconda.platform as platform
 
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)

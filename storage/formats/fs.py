@@ -1064,7 +1064,7 @@ class EFIFS(FATFS):
 
     @property
     def supported(self):
-        import platform
+        import pyanaconda.platform as platform
         p = platform.getPlatform(None)
         return (isinstance(p, platform.EFI) and
                 p.isEfi and
@@ -1269,7 +1269,7 @@ class AppleBootstrapFS(HFS):
 
     @property
     def supported(self):
-        import platform
+        import pyanaconda.platform as platform
         return (isinstance(platform.getPlatform(None), platform.NewWorldPPC)
                 and self.utilsAvailable)
 
