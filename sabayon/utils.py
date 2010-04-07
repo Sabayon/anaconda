@@ -55,6 +55,7 @@ class SabayonProgress(Singleton):
         self._intf = anaconda.intf
         self._prog = self._intf.instProgress
         self.__updater = None
+        self.__shot_adbox = None
         self._pix_count = 0
 
     def start(self):
