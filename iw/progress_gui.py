@@ -122,7 +122,7 @@ class InstallProgressWindow (InstallWindow):
         # Create rnote area
         self.adpix = None
         self.adbox = None
-        pix = gui.readImageFromFile ("progress_first.png")
+        pix = gui.readImageFromFile(self.pixmaps[0])
         if pix:
             frame = gtk.Frame()
             frame.set_shadow_type(gtk.SHADOW_NONE)
