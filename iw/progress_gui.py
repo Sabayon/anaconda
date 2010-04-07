@@ -51,7 +51,7 @@ class InstallProgressWindow (InstallWindow):
         return self.progress.get_fraction()
     def set_fraction(self, pct):
         cur = self.get_fraction()
-        if pct - cur > self._updateChange:
+        if abs(pct - cur) > self._updateChange:
             self.progress.set_fraction(pct)
             if self._showPercentage:
                 self.progress.set_text("%d %%" %(pct * 100,))
