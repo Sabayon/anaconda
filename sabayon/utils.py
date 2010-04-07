@@ -222,6 +222,8 @@ class SabayonInstall:
         else:
             self._entropy.noclientdb = True
             etpUi['nolog'] = False
+        if chroot is None:
+            chroot = ""
         self._entropy.switch_chroot(chroot)
         sys_settings_plg_id = etpConst['system_settings_plugins_ids']['client_plugin']
         del self._settings[sys_settings_plg_id]['misc']['configprotectskip'][:]
