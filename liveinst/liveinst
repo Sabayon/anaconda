@@ -78,9 +78,9 @@ kill_mounts
 
 /sbin/udevadm control --env=ANACONDA=1
 
-if [ -x /usr/bin/devkit-disks ]; then
+if [ -x /usr/bin/devkit-disks ] && [ -z "${SABAYON_DEBUG}" ]; then
     /usr/bin/devkit-disks --inhibit -- /usr/bin/hal-lock --interface org.freedesktop.Hal.Device.Storage --exclusive --run "$ANACONDA $*"
-elif [ -x /usr/bin/hal-lock -a -e /var/lock/subsys/haldaemon ]; then
+elif [ -x /usr/bin/hal-lock -a -e /var/lock/subsys/haldaemon ] && [ -z "${SABAYON_DEBUG}" ]; then
     /usr/bin/hal-lock --interface org.freedesktop.Hal.Device.Storage --exclusive --run "$ANACONDA $*"
 else
     $ANACONDA $*
