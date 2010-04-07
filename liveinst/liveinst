@@ -43,6 +43,7 @@ function kill_mounts() {
     done
 
     /sbin/swapoff -a
+    sleep 2
     /sbin/lvm vgchange -an --ignorelockingfailure
     for i in /dev/md*; do
         if [ ! -b $i ]; then
