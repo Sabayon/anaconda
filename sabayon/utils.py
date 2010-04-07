@@ -150,7 +150,7 @@ class SabayonInstall:
         self._entropy = Entropy()
         self._settings = SystemSettings()
         with open("/proc/cmdline", "r") as cmd_f:
-            self._cmdline = cmd_f.readline().strip().split()
+            self.cmdline = cmd_f.readline().strip().split()
         #sys.stderr = STDERR_LOG
 
         self.__start_system_health_check()
