@@ -654,10 +654,9 @@ class SabayonInstall:
                 fromfile = currentdir + "/" + path_file
                 currentfile = fromfile[image_dir_len:]
 
-                # @deprecated
-                #if currentfile.startswith("/dev"):
-                #    continue
-                if currentfile == "/boot/grub/grub.conf":
+                if currentfile.startswith("/dev/"):
+                    continue
+                elif currentfile == "/boot/grub/grub.conf":
                     continue
                 elif currentfile == "/boot/grub/grub.cfg":
                     continue
