@@ -24,10 +24,36 @@ for i in raid0 raid1 raid5 raid6 raid456 raid10 dm-mod dm-zero dm-mirror dm-snap
 export ANACONDA_PRODUCTNAME="Sabayon"
 export ANACONDA_PRODUCTVERSION="$(cat /etc/sabayon-release | cut -d' ' -f 4)"
 export ANACONDA_PRODUCTPATH="/mnt/livecd"
-export ANACONDA_CHROOTPATH="/mnt/sabayon"
+export ANACONDA_CHROOTPATH="/mnt/sysimage"
 export ANACONDA_PRODUCTARCH="$(cat /etc/sabayon-release | cut -d' ' -f 3)"
 export ANACONDA_BUGURL="http://bugs.sabayon.org"
 export PIXMAPPATH="/usr/share/anaconda/pixmaps"
+
+function kill_mounts() {
+    # devkit-disks is now mounting lots of stuff.  for now, let's just try to unmount it all
+    umount /media/* &> /dev/null
+    tac /proc/mounts | grep ^/dev | grep -v live | while read dev mntpoint rest; do
+        if [ -b $dev ]; then
+           umount $mntpoint 2>/dev/null
+        fi
+    done
+
+    /sbin/swapoff -a
+    /sbin/lvm vgchange -an --ignorelockingfailure
+    for i in /dev/md*; do
+        if [ ! -b $i ]; then
+            continue
+        fi
+
+        case "$i" in
+            /dev/md*p*)
+                ;;
+            *)
+                mdadm --stop $i >/dev/null 2>&1
+                ;;
+        esac
+    done
+}
 
 if [ -n "$DISPLAY" -a -n "$LANG" ]; then
     INSTLANG="--lang $LANG"
@@ -44,29 +70,7 @@ if [ ! -e /selinux/load ]; then
     ANACONDA="$ANACONDA --noselinux"
 fi
 
-# devkit-disks is now mounting lots of stuff.  for now, let's just try to unmount it all
-umount /media/* &> /dev/null
-tac /proc/mounts | grep ^/dev | grep -v live | while read dev mntpoint rest; do
-    if [ -b $dev ]; then
-       umount $mntpoint 2>/dev/null
-    fi
-done
-
-/sbin/swapoff -a
-/sbin/lvm vgchange -an --ignorelockingfailure
-for i in /dev/md*; do
-    if [ ! -b $i ]; then
-        continue
-    fi
-
-    case "$i" in
-        /dev/md*p*)
-            ;;
-        *)
-            mdadm --stop $i >/dev/null 2>&1
-            ;;
-    esac
-done
+kill_mounts
 
 /sbin/udevadm control --env=ANACONDA=1
 
@@ -81,3 +85,5 @@ fi
 if [ -n "$current" ]; then
     /usr/sbin/setenforce $current
 fi
+
+kill_mounts
