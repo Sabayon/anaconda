@@ -263,6 +263,7 @@ class SabayonInstall:
         oldstdout = sys.stdout
         if silent:
             sys.stdout = STDERR_LOG
+            etpUi['mute'] = True
 
         try:
             rc = 0
@@ -275,6 +276,7 @@ class SabayonInstall:
         finally:
             if silent:
                 sys.stdout = oldstdout
+                etpUi['mute'] = False
 
         if chroot != root:
             self._change_entropy_chroot(root)
@@ -527,7 +529,7 @@ class SabayonInstall:
             "17": "=x11-drivers/nvidia-drivers-17*"
         }
 
-        self.remove_package('nvidia-drivers')
+        self.remove_package('nvidia-drivers', silent = True)
         for pkg_file in os.listdir(drivers_dir):
 
             if not pkg_file.startswith("x11-drivers:nvidia-drivers-"+nv_ver):
@@ -745,12 +747,12 @@ class SabayonInstall:
                 """
                 ### XXX
 
-                self.remove_package(None, match = (pkg_id,0))
+                self.remove_package(None, match = (pkg_id,0), silent = True)
                 frac = float(current_counter)/total_counter
                 self._progress.set_fraction(frac)
                 self._progress.set_text("%s: %s" % (
                     _("Cleaning package"), atom,))
-                self._entropy.oldcount = [current_counter,total_counter]
+                self._entropy.oldcount = [current_counter, total_counter]
 
         while 1:
             change = False
