@@ -19,10 +19,16 @@
 #
 
 import os
+import sys
 
 # Entropy Interface
 from entropy.client.interfaces import Client
 from entropy.output import nocolor
+
+# HACK: to workaround Anaconda sys.path hackery
+from distutils.sysconfig import get_python_lib
+python_path = os.path.dirname(get_python_lib(plat_specific=1))
+sys.path.insert(0, python_path)
 
 class Entropy(Client):
 
