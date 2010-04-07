@@ -108,14 +108,14 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         action = _("Configuring Sabayon")
         self._progress.set_label(action)
-        self._progress.set_fraction(90)
+        self._progress.set_fraction(0.9)
 
         self._sabayon_install.setup_sudo()
         self._sabayon_install.setup_audio()
         self._sabayon_install.setup_xorg()
         self._sabayon_install.remove_proprietary_drivers()
         self._sabayon_install.setup_nvidia_legacy()
-        self._progress.set_fraction(95)
+        self._progress.set_fraction(0.95)
         #self._sabayon_install.setup_dev()
         self._sabayon_install.setup_misc_language()
         self._sabayon_install.configure_services()
@@ -127,7 +127,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         action = _("Sabayon configuration complete")
         self._progress.set_label(action)
-        self._progress.set_fraction(100)
+        self._progress.set_fraction(1.0)
 
         # kill threads
         self._sabayon_install.destroy()

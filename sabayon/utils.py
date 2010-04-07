@@ -684,10 +684,10 @@ class SabayonInstall:
                 ((total_files - 1000) < current_counter):
                 # do that every 1000 iterations
                 copy_update_counter = 0
-                frac = float(current_counter)/total_files*100
+                frac = float(current_counter)/total_files
                 self._progress.set_fraction(frac)
 
-        self._progress.set_fraction(100.0)
+        self._progress.set_fraction(1)
 
         self._change_entropy_chroot(self._root)
         # Removing Unwanted Packages
@@ -722,7 +722,7 @@ class SabayonInstall:
                 ### XXX
 
                 self.remove_package(None, match = (pkg_id,0))
-                frac = float(current_counter)/total_counter*100
+                frac = float(current_counter)/total_counter
                 self._progress.set_fraction(frac)
                 self._progress.set_text("%s: %s" % (
                     _("Cleaning package"), atom,))
@@ -764,7 +764,7 @@ class SabayonInstall:
 
         self._change_entropy_chroot()
 
-        self._progress.set_fraction(100)
+        self._progress.set_fraction(1)
         self._progress.set_text(_("Installation complete"))
 
     def _get_removable_localized_packages(self):
@@ -808,7 +808,7 @@ class SabayonInstall:
             for pkg in self._package_identifiers_to_remove:
                 current_counter += 1
                 self._progress.set_fraction(
-                    float(current_counter)/total_counter*100)
+                    float(current_counter)/total_counter)
                 # get its files
                 mycontent = self._live_repo.retrieveContent(pkg,
                     extended = True)
@@ -828,7 +828,7 @@ class SabayonInstall:
                     self._add_file_to_ignore(x, "obj")
                 del mycontent
 
-            self._progress.set_fraction(100)
+            self._progress.set_fraction(1)
 
         self._files_db.commitChanges()
         self._files_db.indexing = True
