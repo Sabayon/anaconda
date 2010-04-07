@@ -32,10 +32,14 @@ export PIXMAPPATH="/usr/share/anaconda/pixmaps"
 function kill_mounts() {
     # devkit-disks is now mounting lots of stuff.  for now, let's just try to unmount it all
     umount /media/* &> /dev/null
+    if [ -d "${ANACONDA_CHROOTPATH}/dev" ]; then
+        tmpdir=$(mktemp)
+        rm -f $tmpdir
+        mkdir $tmpdir
+        mount --move ${ANACONDA_CHROOTPATH}/dev $tmpdir &> /dev/null
+    fi
     tac /proc/mounts | grep ^/dev | grep -v live | while read dev mntpoint rest; do
-        if [ -b $dev ]; then
-           umount $mntpoint 2>/dev/null
-        fi
+       umount $mntpoint 2>/dev/null
     done
 
     /sbin/swapoff -a
