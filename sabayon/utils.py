@@ -61,11 +61,24 @@ class SabayonProgress(Singleton):
         if self.__updater is None:
             self.__updater = TimeScheduled(2, self._prog.processEvents)
             self.__updater.start()
+        if self.__shot_adbox is None:
+            self.__shot_adbox = TimeScheduled(60, self._spawn_adimage)
+            self.__shot_adbox.start()
 
-    def stop(self):
+    def __kill_adbox(self):
+        if self.__shot_adbox is not None:
+            self.__shot_adbox.kill()
+            self.__shot_adbox = None
+
+    def __kill_updater(self):
         if self.__updater is not None:
             self.__updater.kill()
             self.__updater.join()
+            self.__updater = None
+
+    def stop(self):
+        self.__kill_updater()
+        self.__kill_adbox()
 
     def progress(self):
         return self._prog
@@ -88,13 +101,17 @@ class SabayonProgress(Singleton):
             return False
         glib.timeout_add(0, do_it)
 
-    def spawn_adimage(self):
+    def _spawn_adimage(self):
         pixmaps = getattr(self._prog, 'pixmaps', [])
         pix_len = len(pixmaps)
         if pix_len == 0:
+            log.warning("Shutting down _spawn_adimage, no images")
+            self.__kill_adbox()
             return
 
         if not self._prog.adpix:
+            log.warning("Shutting down _spawn_adimage, no adpix")
+            self.__kill_adbox()
             return
 
         try:
@@ -113,6 +130,9 @@ class SabayonProgress(Singleton):
             pix.set_alignment(0.5, 0.5)
             self._prog.adbox.add(pix)
             self._prog.adpix = pix
+        else:
+            log.warning("Shutting down _spawn_adimage, no pixmap: %s" % (
+                pix_path,))
 
         self._prog.adbox.show_all()
 
@@ -153,6 +173,7 @@ class SabayonInstall:
         if self.__sys_health_checker != None:
             self.__sys_health_checker.kill()
             self.__sys_health_checker.join()
+        self._progress.stop()
 
     def __start_system_health_check(self):
         self.__health_msg = ''
@@ -560,7 +581,7 @@ class SabayonInstall:
             self._entropy.UGC.add_download_stats("sabayonlinux.org",
                 ["installer"])
         except Exception as err:
-            log.error("Unable to emit_install_done(): %s" % err) 
+            log.error("Unable to emit_install_done(): %s" % err)
 
     def live_install(self):
         """

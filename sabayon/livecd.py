@@ -94,9 +94,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._progress.set_label(_("Installing Sabayon onto hard drive."))
         self._progress.set_fraction(0.0)
 
-        shot_adbox = TimeScheduled(60, self._progress.spawn_adimage)
-        shot_adbox.start()
-
         # sabayonmce boot param if mce is selected
         if Entropy.is_sabayon_mce():
             anaconda.bootloader.args.append("sabayonmce")
@@ -128,11 +125,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         action = _("Sabayon configuration complete")
         self._progress.set_label(action)
         self._progress.set_fraction(1.0)
-
-        # kill threads
-        self._sabayon_install.destroy()
-        shot_adbox.kill()
-        shot_adbox.join()
 
     def doPostInstall(self, anaconda):
 
