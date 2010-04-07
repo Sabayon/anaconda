@@ -91,6 +91,18 @@ class AnacondaExceptionHandler(ExceptionHandler):
 
     def runQuit(self, (ty, value, tb)):
         # see a similar comment at runDebug()
+
+        try:
+            from sabayon import Entropy
+            from entropy.cache import EntropyCacher
+            EntropyCacher().stop()
+            etp = Entropy()
+            etp.destroy()
+            if hasattr(etp, 'shutdown'):
+                etp.shutdown()
+        except ImportError:
+            pass
+
         try:
             isys.vtActivate(1)
         except SystemError:
