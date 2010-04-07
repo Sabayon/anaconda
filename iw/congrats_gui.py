@@ -69,6 +69,7 @@ class CongratulationWindow (InstallWindow):
 	    a.set_size_request(200, -1)
             hbox.pack_start (a, False, False, 36)
 
+        import pyanaconda.platform as platform
         if isinstance(anaconda.platform, platform.S390):
             txt = _("Congratulations, your %s installation is complete.\n\n") % (productName,)
 
