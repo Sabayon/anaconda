@@ -241,6 +241,11 @@ def setupPythonPath():
 
     sys.path.append('/usr/share/system-config-date')
 
+    # HACK: to workaround Anaconda sys.path hackery
+    # lxnay here
+    python_path = os.path.dirname(get_python_lib(plat_specific=1))
+    sys.path.insert(0, python_path)
+
 def addPoPath(dir):
     """ Looks to see what translations are under a given path and tells
     the gettext module to use that path as the base dir """
