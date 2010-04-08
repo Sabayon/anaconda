@@ -210,8 +210,11 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                     swap_crypted = True
                     break
 
-            log.info("Swap crypted? %s, %s, %s" % (swap_crypted,
-                crypto_dev.fstabSpec, crypto_dev.path))
+            if swap_crypted:
+                log.info("Swap crypted? %s, %s, %s" % (swap_crypted,
+                    crypto_dev.fstabSpec, crypto_dev.path))
+            else:
+                log.info("Swap crypted? NO!")
 
             if swap_crypted:
                 final_cmdline.append("resume=swap:%s" % (crypto_dev.fstabSpec,))
