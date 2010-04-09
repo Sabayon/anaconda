@@ -98,6 +98,10 @@ class SabayonProgress(Singleton):
 
     def set_fraction(self, pct):
         def do_it():
+            if pct > 1.0:
+                pct = 1.0
+            elif pct < 0.0:
+                pct = 0.0
             self._prog.set_fraction(pct)
             return False
         glib.timeout_add(0, do_it)
