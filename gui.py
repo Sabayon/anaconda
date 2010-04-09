@@ -1401,6 +1401,10 @@ class InstallControlWindow:
               and event.state & gtk.gdk.SHIFT_MASK):
             takeScreenShot()
 
+    def _doReboot(self, *args):
+        gtk.main_quit()
+        os._exit(100)
+
     def _doExit (self, *args):
         gtk.main_quit()
         os._exit(0)
@@ -1446,7 +1450,7 @@ class InstallControlWindow:
 
     def connectSignals(self):
         sigs = { "on_nextButton_clicked": self.nextClicked,
-            "on_rebootButton_clicked": self._doExit,
+            "on_rebootButton_clicked": self._doReboot,
             "on_closeButton_clicked": self._doExit,                 
             "on_backButton_clicked": self.prevClicked,
             "on_debugButton_clicked": self.debugClicked,

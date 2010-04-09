@@ -87,8 +87,15 @@ else
     $ANACONDA $*
 fi
 
+ANACONDA_RC="$?"
+
 if [ -n "$current" ]; then
     /usr/sbin/setenforce $current
 fi
 
 kill_mounts
+
+if [ "${ANACONDA_RC}" = "100" ]; then
+    # reboot
+    reboot -f
+fi
