@@ -518,146 +518,6 @@ class Network:
 
     def write(self, instPath='', anaconda=None, devices=None):
 
-        if devices is None:
-            devices = self.netdevices.values()
-
-        if len(devices) == 0:
-            return
-
-        sysconfig = "%s/etc/sysconfig" % (instPath,)
-        netscripts = "%s/network-scripts" % (sysconfig,)
-        destnetwork = "%s/network" % (sysconfig,)
-
-        if not os.path.isdir(netscripts):
-            iutil.mkdirChain(netscripts)
-
-        # /etc/sysconfig/network-scripts/ifcfg-*
-        for dev in devices:
-            device = dev.get('DEVICE')
-
-            cfgfile = "%s/ifcfg-%s" % (netscripts, device,)
-            if (instPath) and (os.path.isfile(cfgfile)):
-                continue
-
-            bootproto = dev.get('BOOTPROTO').lower()
-            ipv6addr = dev.get('IPV6ADDR').lower()
-            ipv6prefix = dev.get('IPV6PREFIX').lower()
-            ipv6autoconf = dev.get('IPV6_AUTOCONF').lower()
-            dhcpv6c = dev.get('DHCPV6C').lower()
-
-            newifcfg = "/tmp/ifcfg-%s.new" % (device,)
-            f = open(newifcfg, "w")
-            if len(dev.get("DESC")) > 0:
-                f.write("# %s\n" % (dev.get("DESC"),))
-
-            # if bootproto is dhcp, unset any static settings (#218489)
-            # *but* don't unset if either IPv4 or IPv6 is manual (#433290)
-            if bootproto == 'dhcp':
-                dev.unset('IPADDR')
-                dev.unset('NETMASK')
-                dev.unset('GATEWAY')
-
-            # handle IPv6 settings correctly for the ifcfg file
-            dev.unset('IPV6ADDR')
-            dev.unset('IPV6PREFIX')
-
-            if ipv6addr == 'dhcp':
-                dev.set(('IPV6INIT', 'yes'))
-                dev.set(('DHCPV6C', 'yes'))
-            elif ipv6addr != '' and ipv6addr is not None:
-                dev.set(('IPV6INIT', 'yes'))
-
-                if ipv6prefix != '' and ipv6prefix is not None:
-                    dev.set(('IPV6ADDR', ipv6addr + '/' + ipv6prefix))
-                else:
-                    dev.set(('IPV6ADDR', ipv6addr))
-
-            if dev.get('IPV6_AUTOCONF').lower() == 'yes':
-                dev.set(('IPV6INIT', 'yes'))
-
-            f.write(str(dev))
-
-            # write out the hostname as DHCP_HOSTNAME if given (#81613)
-            if (bootproto == 'dhcp' and self.hostname and
-                self.overrideDHCPhostname):
-                f.write("DHCP_HOSTNAME=%s\n" %(self.hostname,))
-
-            if dev.get('MTU') and dev.get('MTU') != 0:
-                f.write("MTU=%s\n" % dev.get('MTU'))
-
-            # tell NetworkManager not to touch any interfaces used during
-            # installation when / is on a network backed device.
-            if anaconda is not None:
-                import storage
-                rootdev = anaconda.storage.rootDevice
-                # FIXME: use d.host_address to only add "NM_CONTROLLED=no"
-                # for interfaces actually used enroute to the device
-                for d in anaconda.storage.devices:
-                    if isinstance(d, storage.devices.NetworkStorageDevice) and\
-                       (rootdev.dependsOn(d) or d.nic == device):
-                        f.write("NM_CONTROLLED=no\n")
-                        break
-
-            f.close()
-            os.chmod(newifcfg, 0644)
-
-            # move the new ifcfg in place
-            destcfg = "%s/ifcfg-%s" % (netscripts, device,)
-            try:
-                os.remove(destcfg)
-            except OSError as e:
-                if e.errno != 2:
-                    raise
-            shutil.move(newifcfg, destcfg)
-
-            # XXX: is this necessary with NetworkManager?
-            # handle the keys* files if we have those
-            if dev.get("KEY"):
-                cfgfile = "%s/keys-%s" % (netscripts, device,)
-                if not instPath == '' and os.path.isfile(cfgfile):
-                    continue
-
-                newkey = "%s/keys-%s.new" % (netscripts, device,)
-                f = open(newkey, "w")
-                f.write("KEY=%s\n" % (dev.get('KEY'),))
-                f.close()
-                os.chmod(newkey, 0600)
-
-                destkey = "%s/keys-%s" % (netscripts, device,)
-                shutil.move(newkey, destkey)
-
-            # /etc/dhclient-DEVICE.conf
-            dhclientconf = '/etc/dhclient-' + device + '.conf'
-            if os.path.isfile(dhclientconf):
-                destdhclientconf = '%s%s' % (instPath, dhclientconf,)
-                try:
-                    shutil.copy(dhclientconf, destdhclientconf)
-                except:
-                    log.warning("unable to copy %s to target system" % (dhclientconf,))
-
-        # /etc/sysconfig/network
-        if (not instPath) or (not os.path.isfile(destnetwork)) or flags.livecdInstall:
-            newnetwork = "%s.new" % (destnetwork,)
-
-            f = open(newnetwork, "w")
-            f.write("NETWORKING=yes\n")
-            f.write("HOSTNAME=")
-
-            # use instclass hostname if set(kickstart) to override
-            if self.hostname:
-                f.write(self.hostname + "\n")
-            else:
-                f.write("localhost.localdomain\n")
-
-            if dev.get('GATEWAY'):
-                f.write("GATEWAY=%s\n" % (dev.get('GATEWAY'),))
-
-            if dev.get('IPV6_DEFAULTGW'):
-                f.write("IPV6_DEFAULTGW=%s\n" % (dev.get('IPV6_DEFAULTGW'),))
-
-            f.close()
-            shutil.move(newnetwork, destnetwork)
-
         # If the hostname was not looked up, but typed in by the user,
         # domain might not be computed, so do it now.
         domainname = None
@@ -682,6 +542,8 @@ class Network:
             if domainname:
                 self.domains = [domainname]
 
+        name_servers = []
+        net_domains = []
         # /etc/resolv.conf
         if (not instPath) or (not os.path.isfile(instPath + '/etc/resolv.conf')) or flags.livecdInstall:
             if os.path.isfile('/etc/resolv.conf') and instPath != '':
@@ -694,11 +556,14 @@ class Network:
                 f = open(resolv, "w")
 
                 if self.domains != ['localdomain'] and self.domains:
-                    f.write("search %s\n" % (string.joinfields(self.domains, ' '),))
+                    _netdoms = string.joinfields(self.domains, ' ')
+                    f.write("search %s\n" % (_netdoms,))
+                    net_domains.extend(_netdoms.split())
 
                 for key in dev.info.keys():
                     if key.upper().startswith('DNS'):
                         f.write("nameserver %s\n" % (dev.get(key),))
+                        name_servers.append(dev.get(key))
 
                 f.close()
 
@@ -743,6 +608,133 @@ class Network:
                     f.write(s)
 
                 f.close()
+
+        net_conf = instPath+"/etc/conf.d/net"
+        net_conf_dir = os.path.dirname(net_conf)
+        if os.path.isfile(net_conf):
+            f = open(net_conf, "aw")
+        else:
+            if not os.path.isdir(net_conf_dir):
+                os.makedirs(net_conf_dir)
+            f = open (net_conf, "w")
+
+        for dev in self.netdevices.values():
+            device = dev.get("DEVICE")
+
+            net_conf = []
+
+            if dev.get('BOOTPROTO') == "dhcp":
+                net_conf.append('dhcp_%s="nosendhost"\n' % (device,))
+            else:
+                net_conf.append('config_%s="%s netmask %s"\n' % (
+                        device,
+                        dev.get('IPADDR'),
+                        dev.get('NETMASK'),
+                    )
+                )
+                if dev.get('GATEWAY'):
+                    net_conf.append('routes_%s="default via %s"\n' % (
+                            device,
+                            dev.get('GATEWAY'),
+                        )
+                    )
+
+                # DNS
+                ns_string = ' '.join(name_servers)
+                if ns_string:
+                    # add dns string
+                    net_conf.append('dns_servers_%s=" %s "\n' % (
+                            device,
+                            ns_string,
+                        )
+                    )
+            # add new dns_domain_device nis_domain_device management
+            net_conf.append('dns_domain_%s="localdomain"\n' % (
+                    device,
+                )
+            )
+            net_conf.append('nis_domain_%s="localdomain"\n' % (
+                    device,
+                )
+            )
+
+            # added dns search stuff?
+            if net_domains:
+                net_conf.append('dns_search_%s="%s"\n' % (device, net_domains,))
+
+            for line in net_conf:
+                f.write(line)
+            f.flush()
+
+        f.flush()
+        f.close()
+
+        # hostname
+        f = open(instPath+"/etc/conf.d/hostname","w")
+        if not self.hostname:
+            self.hostname = "sabayon"
+        f.write("hostname=\""+self.hostname + "\"\n")
+        f.flush()
+        f.close()
+
+        # samba
+        smb_cfg = instPath+"/etc/samba/smb.conf"
+        if os.path.isfile(smb_cfg):
+            g = open(smb_cfg, "r")
+            smb_conf = g.readlines()
+            g = open(smb_cfg, "w")
+            for line in smb_conf:
+                if (line.find("netbios name = ") != -1) and (not line.strip().startswith("#")):
+                    line = "  netbios name = %s\n" % (self.hostname,)
+                g.write(line)
+            g.flush()
+            g.close()
+
+        # /etc/hosts
+        host_file = instPath + "/etc/hosts"
+        host_data = []
+        if os.path.isfile(host_file) and os.access(host_file,os.R_OK):
+            f = open(host_file, "r")
+            host_data = [x.strip() for x in f.readlines()]
+            f.close()
+        f = open(host_file, "w")
+        found = False
+        for line in host_data:
+            if line.startswith("127.0.0.1"):
+                if self.hostname not in line.split():
+                    line += " %s" % (self.hostname,)
+                    found = True
+            f.write(line+"\n")
+        if not found:
+            f.write("127.0.0.1\t\t%s\n" % (self.hostname,))
+        f.flush()
+        f.close()
+
+        log.info("hostname set to = %s" % (self.hostname,))
+
+        domain_conf = instPath+"/etc/conf.d/domainname"
+        if os.path.isfile(domain_conf):
+            f = open(domain_conf,"r")
+            domainname_cont = f.readlines()
+            f.close()
+            f = open(domain_conf, "w")
+            for line in domainname_cont:
+                if line.startswith("DNSDOMAIN="):
+                    line = 'DNSDOMAIN="localdomain"\n'
+                elif line.startswith("NISDOMAIN="):
+                    line = 'NISDOMAIN="localdomain"\n'
+                f.write(line)
+            f.flush()
+            f.close()
+
+        # dhclient.conf -> force NetworkManager to not change hostname
+        dh_conf = instPath + "/etc/dhcp/dhclient.conf"
+        if os.path.isfile(dh_conf):
+            f = open(dh_conf, "w")
+            f.write('send host-name "'+self.hostname+'";\n')
+            f.write('supersede host-name "'+self.hostname+'";\n')
+            f.flush()
+            f.close()
 
     # write out current configuration state and wait for NetworkManager
     # to bring the device up, watch NM state and return to the caller
