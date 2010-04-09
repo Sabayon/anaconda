@@ -116,6 +116,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         #self._sabayon_install.setup_dev()
         self._sabayon_install.setup_misc_language()
         self._sabayon_install.configure_services()
+        self._sabayon_install.copy_udev()
         self._sabayon_install.env_update()
         # Configure network
         if Entropy.is_corecd():
