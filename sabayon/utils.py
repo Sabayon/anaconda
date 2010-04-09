@@ -98,14 +98,14 @@ class SabayonProgress(Singleton):
         glib.timeout_add(0, do_it)
 
     def set_fraction(self, pct):
-        def do_it():
+        def do_it(pct):
             if pct > 1.0:
                 pct = 1.0
             elif pct < 0.0:
                 pct = 0.0
             self._prog.set_fraction(pct)
             return False
-        glib.timeout_add(0, do_it)
+        glib.timeout_add(0, do_it, pct)
 
     def _spawn_adimage(self):
         pixmaps = getattr(self._prog, 'pixmaps', [])
