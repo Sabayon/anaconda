@@ -33,36 +33,46 @@ class Timezone:
         f.write(" %s\n" % self.tz)
 
     def write(self, instPath):
-        fromFile = instPath + "/usr/share/zoneinfo/" + self.tz
 
-        if not os.access(fromFile, os.R_OK):
-            log.error("Timezone to be copied (%s) doesn't exist" % fromFile)
-        else:
+        fromFile = "/usr/share/zoneinfo/" + self.tz
+        tzfile = instPath + "/etc/localtime"
+
+        if os.path.isdir(instPath+"/etc"):
+
             try:
-                shutil.copyfile(fromFile, instPath + "/etc/localtime")
-            except OSError as e:
-                log.error("Error copying timezone (from %s): %s" % (fromFile, e.strerror))
+                if os.path.lexists(tzfile):
+                    os.remove(tzfile)
+                os.symlink(fromFile, tzfile)
+            except OSError, e:
+                log.error("Error copying timezone (from %s): %s" % (
+                    fromFile, e,))
 
-        f = open(instPath + "/etc/sysconfig/clock", "w")
-
-        f.write('ZONE="%s"\n' % self.tz)
-        f.close()
-
-        try:
-            f = open(instPath + "/etc/adjtime", "r")
-            lines = f.readlines()
+            f = open(instPath + "/etc/timezone", "w")
+            f.write(self.tz)
+            f.flush()
             f.close()
-        except:
-            lines = [ "0.0 0 0.0\n", "0\n" ]
 
-        f = open(instPath + "/etc/adjtime", "w")
-        f.write(lines[0])
-        f.write(lines[1])
-        if self.utc:
-            f.write("UTC\n")
+        # set clock config
+        clock_conf = instPath+"/etc/conf.d/hwclock"
+        if not os.path.isfile(clock_conf):
+            log.info("Cannot find "+clock_conf)
         else:
-            f.write("LOCAL\n")
-        f.close()
+            f = open(clock_conf,"r")
+            olddata = [x.strip() for x in f.readlines()]
+            f.close()
+            newdata = []
+            for item in olddata:
+                if item.startswith("clock="):
+                    if self.utc:
+                        item = "clock=\"UTC\""
+                    else:
+                        item = "clock=\"local\""
+                newdata.append(item)
+            f = open(instPath+"/etc/conf.d/hwclock", "w")
+            for item in newdata:
+                f.write(item+"\n")
+            f.flush()
+            f.close()
 
     def getTimezoneInfo(self):
         return (self.tz, self.utc)
