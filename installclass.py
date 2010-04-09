@@ -57,6 +57,8 @@ class BaseInstallClass(object):
 
     # Default DESKTOP_SESSION value, if any
     dmrc = None
+    # Simple networking setup, if True, NetworkManager will be disabled
+    simplenet = False
 
     # list of of (txt, grplist) tuples for task selection screen
     tasks = []

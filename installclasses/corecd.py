@@ -44,6 +44,7 @@ class InstallClass(BaseInstallClass):
             pixmap = _pix_path
 
     dmrc = None
+    simplenet = True
     _description = N_("Select this installation type to just install "
          "a Core System without graphical applications. "
          "This is the best choice for Server-oriented "
