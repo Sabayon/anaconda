@@ -24,7 +24,6 @@ import subprocess
 import commands
 import stat
 import time
-import shutil
 
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
@@ -252,8 +251,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
     def _setup_grub2(self):
 
-        self.anaconda.bootloader.doUpgradeOnly = True
-        self.anaconda.bootloader.useGrubVal = False
         cmdline_args, swap_crypted, root_crypted = self._get_bootloader_args()
 
         # "sda" <string>
@@ -271,6 +268,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             cmdline_str = cmdline_str.replace('splash=silent', 'splash=verbose')
 
         self._write_grub2(cmdline_str, grub_target)
+        # disable Anaconda bootloader code
+        self.anaconda.bootloader.defaultDevice = -1
 
     def _write_grub2(self, cmdline, grub_target):
 
