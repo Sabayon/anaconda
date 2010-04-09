@@ -334,7 +334,7 @@ class SabayonInstall:
         if os.path.isfile(gparted_desktop):
             os.remove(gparted_desktop)
 
-        installer_desk = self._root+"/etc/skel/Desktop/Anaconda Installer.desktop"
+        installer_desk = self._root+"/etc/skel/Desktop/liveinst.desktop"
         if os.path.isfile(installer_desk):
             os.remove(installer_desk)
 
