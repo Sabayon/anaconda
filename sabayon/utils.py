@@ -760,7 +760,7 @@ class SabayonInstall:
                     continue
 
                 ### XXX needed to speed up removal process
-                """
+                #"""
                 category = client_repo.retrieveCategory(pkg_id)
                 version = client_repo.retrieveVersion(pkg_id)
                 name = client_repo.retrieveName(pkg_id)
@@ -768,7 +768,7 @@ class SabayonInstall:
                     category, name, version)
                 if os.path.isdir(ebuild_path):
                     shutil.rmtree(ebuild_path, True)
-                """
+                #"""
                 ### XXX
 
                 self.remove_package(None, match = (pkg_id,0), silent = True)
