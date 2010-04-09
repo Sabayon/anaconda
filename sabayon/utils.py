@@ -494,15 +494,6 @@ class SabayonInstall:
         shutil.copy2(live_xorg_conf, xorg_conf)
         shutil.copy2(live_xorg_conf, xorg_conf+".original")
 
-    def setup_dev(self):
-        # @deprecated
-        # Copy /dev from DVD to HD
-        # required even in baselayout-2
-        os.system("mkdir /tmp/dev-move "+REDIRECT_OUTPUT+" ; mount --move "+self._root+"/dev /tmp/dev-move &> /dev/null")
-        os.system("cp /dev/* "+self._root+"/dev/ -Rp &> /dev/null")
-        os.system("cp /dev/.u* "+self._root+"/dev/ -Rp &> /dev/null")
-        os.system("mount --move /tmp/dev-move "+self._root+"/dev &> /dev/null")
-
     def setup_misc_language(self):
         # Prepare locale variables
         localization = self._anaconda.instLanguage.instLang.split(".")[0]
