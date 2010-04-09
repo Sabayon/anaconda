@@ -268,13 +268,8 @@ class Language(object):
         return self.nativeLangNames[lang]
 
     def write(self, instPath):
-        f = open(instPath + "/etc/sysconfig/i18n", "w")
-
-        for (key, val) in self.info.iteritems():
-            if val != None:
-                f.write("%s=\"%s\"\n" % (key, val))
-
-        f.close()
+        # lxnay here: language setup is done inside sabayon.utils
+        return
 
     def writeKS(self, f):
         f.write("lang %s\n" % self.info['LANG'])

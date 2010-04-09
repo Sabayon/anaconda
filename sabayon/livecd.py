@@ -101,7 +101,11 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # Actually install
         self._sabayon_install.live_install()
         self._sabayon_install.setup_users()
-        self._sabayon_install.spawn_chroot("ldconfig")
+        self._sabayon_install.setup_language() # before ldconfig, thx
+        # if simple networking is enabled, disable NetworkManager
+        if self.anaconda.instClass.simplenet:
+            self._sabayon_install.setup_manual_networking()
+        self._sabayon_install.setup_keyboard()
 
         action = _("Configuring Sabayon")
         self._progress.set_label(action)
@@ -113,10 +117,13 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._sabayon_install.remove_proprietary_drivers()
         self._sabayon_install.setup_nvidia_legacy()
         self._progress.set_fraction(0.95)
-        self._sabayon_install.setup_misc_language()
         self._sabayon_install.configure_services()
         self._sabayon_install.copy_udev()
         self._sabayon_install.env_update()
+        self._sabayon_install.spawn_chroot("locale-gen", silent = True)
+        self._sabayon_install.spawn_chroot("ldconfig")
+        # Fix a possible /tmp problem
+        self._sabayon_install.spawn("chmod a+w "+self.anaconda.rootPath+"/tmp")
 
         action = _("Sabayon configuration complete")
         self._progress.set_label(action)
@@ -146,13 +153,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         # Write critical configuration not automatically written
         self.anaconda.storage.fsset.write()
-        # if simple networking is enabled, disable NetworkManager
-        if self.anaconda.instClass.simplenet:
-            self._sabayon_install.setup_manual_networking()
-
-        self._sabayon_install.spawn_chroot("locale-gen", silent = True)
-        # Fix a possible /tmp problem
-        self._sabayon_install.spawn("chmod a+w "+self.anaconda.rootPath+"/tmp")
 
         # HACK: since Anaconda doesn't support grub2 yet
         # Grub configuration is disabled

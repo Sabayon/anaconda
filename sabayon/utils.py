@@ -454,6 +454,18 @@ class SabayonInstall:
         """
         self.spawn_chroot(mn_script, silent = True)
 
+    def setup_keyboard(self):
+        console_kbd = self._anaconda.keyboard.get()
+        kbd = self._anaconda.keyboard.modelDict[console_kbd]
+        (name, layout, model, variant, options) = kbd
+        # for X, KDE and GNOME
+        keylayout = layout.split(",")[0].split("_")[0]
+        self.spawn("/sbin/keyboard-setup "+keylayout+" gnome --do-not-restart --with-root="+self._root+" &> /dev/null")
+        self.spawn("/sbin/keyboard-setup "+keylayout+" kde --do-not-restart --with-root="+self._root+" &> /dev/null")
+        self.spawn("/sbin/keyboard-setup "+keylayout+" xorg --do-not-restart --with-root="+self._root+" &> /dev/null") #redoundant
+        self.spawn("/sbin/keyboard-setup "+console_kbd+" system --do-not-restart --with-root="+self._root+" &> /dev/null")
+        self.spawn("/sbin/keyboard-setup "+console_kbd+" xfce --do-not-restart --with-root="+self._root+" &> /dev/null")
+
     def setup_sudo(self):
         sudoers_file = self._root + '/etc/sudoers'
         if os.path.isfile(sudoers_file):
@@ -494,17 +506,25 @@ class SabayonInstall:
         shutil.copy2(live_xorg_conf, xorg_conf)
         shutil.copy2(live_xorg_conf, xorg_conf+".original")
 
-    def setup_misc_language(self):
+    def setup_language(self):
         # Prepare locale variables
+
+        info = self._anaconda.instLanguage.info
+        f = open(self._root + "/etc/env.d/02locale", "w")
+        for key in info.keys():
+            if info[key] is not None:
+                f.write("%s=\"%s\"\n" % (key, info[key]))
+        f.flush()
+        f.close()
+
         localization = self._anaconda.instLanguage.instLang.split(".")[0]
         # Configure KDE language
-        if os.path.isfile(self._root + "/sbin/language-setup"):
-            self.spawn_chroot(("/sbin/language-setup", localization, "kde"),
-                silent = True)
-            self.spawn_chroot(("/sbin/language-setup", localization, "openoffice"),
-                silent = True)
-            self.spawn_chroot(("/sbin/language-setup", localization, "mozilla"),
-                silent = True)
+        self.spawn_chroot(("/sbin/language-setup", localization, "kde"),
+            silent = True)
+        self.spawn_chroot(("/sbin/language-setup", localization, "openoffice"),
+            silent = True)
+        self.spawn_chroot(("/sbin/language-setup", localization, "mozilla"),
+            silent = True)
 
     def setup_nvidia_legacy(self):
 

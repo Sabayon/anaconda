@@ -26,6 +26,9 @@ Package dependencies:
         app-admin/system-config-users ?
         app-admin/firstboot
         net-misc/fcoe-utils
+        app-admin/authconfig
+        >=app-misc/sabayonlive-tools-2.1.1
+        sys-apps/language-configuration-helpers
 
     UNSORTED:
         bzip2
@@ -68,16 +71,12 @@ Package dependencies:
 TODO:
     - make bugzilla bug report option working
     - dcbd init script
-    - grub2
-    - installer update button (via external script, in anaconda-runtime)
-    - primary user setup
+    - installer script -> wget tarball + unpack + configure + make + make install
+    - primary user setup (firstboot?)
     - text mode
-    - locale (including glibc)
-    - timezone
-    - clock
     - users
-
-TEST:
-    - fstab
-    - network settings?
-    - encryption
+    - shots (grow size, double)
+    - encryption (grub.cfg not properly written)
+    - check timezone
+    - check clock
+    - check language setup (02locale, locale.gen)
