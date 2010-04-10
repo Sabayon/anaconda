@@ -517,6 +517,27 @@ class SabayonInstall:
         f.flush()
         f.close()
 
+        # write locale.gen
+        supported_file = "/usr/share/i18n/SUPPORTED"
+        if os.path.isfile(supported_file):
+            f = open(supported_file, "r")
+            locale_supported = [x.strip() for x in f.readlines()]
+            f.close()
+
+            libc_locale = info['LANG'].split(".")[0].split("@")[0]
+            valid_locales = []
+            for locale in locale_supported:
+                if locale.startswith(libc_locale):
+                    valid_locales.append(locale)
+
+            f = open(self._root + "/etc/locale.gen", "w")
+            f.write("en_US.UTF-8 UTF-8\n")
+            f.write("en_US ISO-8859-1\n")
+            for locale in valid_locales:
+                f.write("%s\n" % (locale,))
+            f.flush()
+            f.close()
+
         localization = self._anaconda.instLanguage.instLang.split(".")[0]
         # Configure KDE language
         self.spawn_chroot(("/sbin/language-setup", localization, "kde"),
