@@ -274,7 +274,7 @@ class SabayonInstall:
             rc = 0
             if match[0] != -1:
                 Package = self._entropy.Package()
-                Package.prepare((match[0],),"remove")
+                Package.prepare((match[0],), "remove")
                 if not Package.pkgmeta.has_key('remove_installed_vanished'):
                     rc = Package.run()
                     Package.kill()
@@ -636,7 +636,8 @@ class SabayonInstall:
         This function copy the LiveCD/DVD content into self._root
         """
 
-        self._setup_packages_to_remove()
+        if not os.getenv("SABAYON_DISABLE_PKG_REMOVAL"):
+            self._setup_packages_to_remove()
 
         action = _("System Installation")
         client_repo = self._entropy.installed_repository()
