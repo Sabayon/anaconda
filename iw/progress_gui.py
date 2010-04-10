@@ -101,7 +101,8 @@ class InstallProgressWindow (InstallWindow):
                     break
 
         if len(pixmaps) > 0:
-            files = sorted([os.path.basename(x) for x in pixmaps])
+            files = sorted([os.path.join("rnotes", os.path.basename(x)) for \
+                x in pixmaps])
         else:
             files = ["progress_first.png"]
 
