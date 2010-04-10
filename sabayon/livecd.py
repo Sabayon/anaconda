@@ -317,6 +317,11 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             f_w.flush()
             f_w.close()
 
+        # remove device.map if found
+        dev_map = root_path + "/boot/grub/device.map"
+        if os.path.isfile(dev_map):
+            os.remove(dev_map)
+
         # write config file, temp mount /proc
         iutil.execWithRedirect('/bin/mount',
             ["-t", "proc", "proc", "/proc"],
