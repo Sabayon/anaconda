@@ -194,35 +194,13 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         root_device = self.anaconda.storage.rootDevice
         # device.format.mountpoint, device.format.type, device.format.mountable,
         # device.format.options, device.path, device.fstabSpec
-        swap_crypted = False
         root_crypted = False
 
         if swap_devices:
-
             log.info("Found swap devices: %s" % (swap_devices,))
-
             swap_dev = swap_devices[0]
-            swap_crypted = False
-            crypto_dev = None
-            for name in fsset.cryptTab.mappings.keys():
-                crypto_dev = fsset.cryptTab[name]['device']
-                if swap_dev == crypto_dev or swap_dev.dependsOn(crypto_dev):
-                    swap_crypted = True
-                    break
-
-            if swap_crypted:
-                log.info("Swap crypted? %s, %s, %s" % (swap_crypted,
-                    crypto_dev.fstabSpec, crypto_dev.path))
-            else:
-                log.info("Swap crypted? NO!")
-
-            if swap_crypted:
-                final_cmdline.append("resume=swap:%s" % (crypto_dev.fstabSpec,))
-                final_cmdline.append("real_resume=%s" % (crypto_dev.fstabSpec,))
-                final_cmdline.append("crypt_swap=%s" % (swap_dev.fstabSpec,))
-            else:
-                final_cmdline.append("resume=swap:%s" % (swap_dev.fstabSpec,))
-                final_cmdline.append("real_resume=%s" % (swap_dev.fstabSpec,))
+            final_cmdline.append("resume=swap:%s" % (swap_dev.fstabSpec,))
+            final_cmdline.append("real_resume=%s" % (swap_dev.fstabSpec,))
 
         # setup LVM
         lvscan_out = commands.getoutput("LANG=C LC_ALL=C lvscan").split("\n")[0].strip()
@@ -241,18 +219,18 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             root_device.fstabSpec, root_device.path))
 
         if root_crypted:
-            final_cmdline.append("real_root=/dev/mapper/root")
-            final_cmdline.append("crypt_root=%s" % (root_device.fstabSpec,))
+            final_cmdline.append("real_root=%s crypt_root=%s" % (
+                root_device.fstabSpec, root_device.path,))
         else:
             final_cmdline.append("real_root=%s" % (root_device.fstabSpec,))
 
         log.info("Generated boot cmdline: %s" % (final_cmdline,))
 
-        return final_cmdline, swap_crypted, root_crypted
+        return final_cmdline, root_crypted
 
     def _setup_grub2(self):
 
-        cmdline_args, swap_crypted, root_crypted = self._get_bootloader_args()
+        cmdline_args, root_crypted = self._get_bootloader_args()
 
         # "sda" <string>
         grub_target = self.anaconda.bootloader.getDevice()
@@ -265,7 +243,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         cmdline_str = ' '.join(cmdline_args)
 
         # if root_device or swap encrypted, replace splash=silent
-        if swap_crypted or root_crypted:
+        if root_crypted:
             cmdline_str = cmdline_str.replace('splash=silent', 'splash=verbose')
 
         self._write_grub2(cmdline_str, grub_target)
