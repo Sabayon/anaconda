@@ -94,10 +94,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._progress.set_label(_("Installing Sabayon onto hard drive."))
         self._progress.set_fraction(0.0)
 
-        # sabayonmce boot param if mce is selected
-        if Entropy.is_sabayon_mce():
-            anaconda.bootloader.args.append("sabayonmce")
-
         # Actually install
         self._sabayon_install.live_install()
         self._sabayon_install.setup_users()
