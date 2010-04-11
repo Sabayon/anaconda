@@ -46,7 +46,9 @@ class NetworkWindow(InstallWindow):
         self.hostnameEntry = self.xml.get_widget("hostnameEntry")
         self.hostnameEntry.set_text(self.hostname)
 
-        self.xml.get_widget("netconfButton").connect("clicked", self._NMConfig)
+        netconf_button = self.xml.get_widget("netconfButton")
+        #netconf_button.connect("clicked", self._NMConfig)
+        netconf_button.hide()
 
         # pressing Enter in confirm == clicking Next
         self.hostnameEntry.connect("activate",
