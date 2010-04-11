@@ -167,7 +167,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             "pci=routeirq", "irqpoll", "nohdparm", "pci=", "floppy.floppy=",
             "all-generic-ide", "gentoo=", "res=", "hsync=", "refresh=", "noddc",
             "xdriver=", "onlyvesa", "nvidia=", "dodmraid", "dmraid",
-            "sabayonmce", "quiet", "scandelay=", "gentoo=" ]
+            "sabayonmce", "quiet", "scandelay=", "gentoo=", "docrypt" ]
         usb_storage_dir = "/sys/bus/usb/drivers/usb-storage"
         if os.path.isdir(usb_storage_dir):
             for cdir, subdirs, files in os.walk(usb_storage_dir):
@@ -223,6 +223,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 root_device.fstabSpec, root_device.path,))
         else:
             final_cmdline.append("real_root=%s" % (root_device.fstabSpec,))
+
+        # always add docrypt, loads kernel mods required by cryptsetup devices
+        if "docrypt" not in final_cmdline:
+            final_cmdline.append("docrypt")
 
         log.info("Generated boot cmdline: %s" % (final_cmdline,))
 
