@@ -37,6 +37,7 @@ function kill_mounts() {
         rm -f $tmpdir
         mkdir $tmpdir
         mount --move ${ANACONDA_CHROOTPATH}/dev $tmpdir &> /dev/null
+        umount -l $tmpdir &> /dev/null
     fi
     tac /proc/mounts | grep ^/dev | grep -v live | while read dev mntpoint rest; do
        umount $mntpoint 2>/dev/null
