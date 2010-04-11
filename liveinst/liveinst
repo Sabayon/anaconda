@@ -59,6 +59,10 @@ function kill_mounts() {
                 ;;
         esac
     done
+
+    # close any luks device
+    cryptsetup luksClose /dev/mapper/* &> /dev/null
+
 }
 
 if [ -n "$DISPLAY" -a -n "$LANG" ]; then
