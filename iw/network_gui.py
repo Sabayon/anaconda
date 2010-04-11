@@ -46,10 +46,6 @@ class NetworkWindow(InstallWindow):
         self.hostnameEntry = self.xml.get_widget("hostnameEntry")
         self.hostnameEntry.set_text(self.hostname)
 
-        netconf_button = self.xml.get_widget("netconfButton")
-        #netconf_button.connect("clicked", self._NMConfig)
-        netconf_button.hide()
-
         # pressing Enter in confirm == clicking Next
         self.hostnameEntry.connect("activate",
                                    lambda w: self.ics.setGrabNext(1))
@@ -60,6 +56,9 @@ class NetworkWindow(InstallWindow):
         return self.align
 
     def focus(self):
+        netconf_button = self.xml.get_widget("netconfButton")
+        #netconf_button.connect("clicked", self._NMConfig)
+        netconf_button.hide()
         self.hostnameEntry.grab_focus()
 
     def hostnameError(self):
