@@ -24,6 +24,7 @@ import subprocess
 import commands
 import stat
 import time
+import shutil
 
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
@@ -154,6 +155,23 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # Grub configuration is disabled
         # and this code overrides it
         self._setup_grub2()
+
+        self._copy_logs()
+
+    def _copy_logs(self):
+
+        # copy log files into chroot
+        isys.sync()
+        config_files = ["/tmp/anaconda.log", "/tmp/lvmout", "/tmp/resize.out",
+             "/tmp/program.log", "/tmp/storage.log"]
+        install_dir = self._root + "/var/log/installer"
+        if not os.path.isdir(install_dir):
+            os.makedirs(install_dir)
+        for config_file in config_files:
+            if not os.path.isfile(config_file):
+                continue
+            dest_path = os.path.join(install_dir, os.path.basename(config_file))
+            shutil.copy2(config_file, dest_path)
 
     def _get_bootloader_args(self):
 
