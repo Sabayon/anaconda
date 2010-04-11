@@ -867,8 +867,16 @@ class SabayonInstall:
         if pkg_id != -1:
             self._package_identifiers_to_remove.add(pkg_id)
 
-        self._package_identifiers_to_remove.update(
-            self._get_removable_localized_packages())
+        localized_pkgs = self._get_removable_localized_packages()
+        if localized_pkgs:
+            question_text = _("This DVD contains many extra languages, "
+                "would you like to keep them installed?")
+            buttons = [_("Yes"), _("No")]
+            answer = self._intf.messageWindow(_("Language packs installation"),
+                question_text, custom_icon="question", type="custom",
+                custom_buttons = buttons)
+            if answer == 1:
+                self._package_identifiers_to_remove.update(localized_pkgs)
 
         if self._package_identifiers_to_remove:
 
