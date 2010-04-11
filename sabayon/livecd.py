@@ -56,6 +56,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         flags.livecdInstall = True
         self.supportsUpgrades = False
         self.supportsPackageSelection = False
+        self._root = anaconda.rootPath
 
         self.osimg = anaconda.methodstr[8:]
         if not os.path.ismount(self.osimg):
@@ -78,7 +79,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
     def postAction(self, anaconda):
         try:
             anaconda.storage.umountFilesystems(swapoff = False)
-            os.rmdir(anaconda.rootPath)
+            os.rmdir(self._root)
         except Exception, e:
             log.error("Unable to unmount filesystems: %s" % e) 
 
@@ -120,7 +121,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._sabayon_install.spawn_chroot("locale-gen", silent = True)
         self._sabayon_install.spawn_chroot("ldconfig")
         # Fix a possible /tmp problem
-        self._sabayon_install.spawn("chmod a+w "+self.anaconda.rootPath+"/tmp")
+        self._sabayon_install.spawn("chmod a+w "+self._root+"/tmp")
 
         action = _("Sabayon configuration complete")
         self._progress.set_label(action)
@@ -275,7 +276,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
     def _write_grub2(self, cmdline, grub_target):
 
-        root_path = self.anaconda.rootPath
         timeout = 5
         default_file_noroot = "/etc/default/grub"
         grub_cfg_noroot = "/boot/grub/grub.cfg"
@@ -289,10 +289,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         cmdline = ' '.join([x for x in cmdline.split() if \
             not x.startswith("vga=")])
 
-        f_r = open(root_path + default_file_noroot, "r")
+        f_r = open(self._root + default_file_noroot, "r")
         default_cont = f_r.readlines()
         f_r.close()
-        f_w = open(root_path + default_file_noroot, "w")
+        f_w = open(self._root + default_file_noroot, "w")
         for line in default_cont:
             if line.strip().startswith("GRUB_CMDLINE_LINUX="):
                 line = 'GRUB_CMDLINE_LINUX="%s"\n' % (cmdline,)
@@ -309,7 +309,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         if self.anaconda.bootloader.password and self.anaconda.bootloader.pure:
             # still no proper support, so implement what can be implemented
             # XXX: unencrypted password support
-            pass_file = root_path + "/etc/grub.d/00_password"
+            pass_file = self._root + "/etc/grub.d/00_password"
             f_w = open(pass_file, "w")
             f_w.write("""\
 set superuser="root"
@@ -319,7 +319,7 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             f_w.close()
 
         # remove device.map if found
-        dev_map = root_path + "/boot/grub/device.map"
+        dev_map = self._root + "/boot/grub/device.map"
         if os.path.isfile(dev_map):
             os.remove(dev_map)
 
@@ -328,14 +328,14 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             ["-t", "proc", "proc", "/proc"],
             stdout = MAIN_LOG_FILE,
             stderr = MAIN_LOG_FILE,
-            root = root_path
+            root = self._root
         )
         # and /sys
         iutil.execWithRedirect('/bin/mount',
             ["-t", "sysfs", "sysfs", "/sys"],
             stdout = MAIN_LOG_FILE,
             stderr = MAIN_LOG_FILE,
-            root = root_path
+            root = self._root
         )
 
         # this must be done before, otherwise gfx mode is not enabled
@@ -343,27 +343,27 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             ["/dev/" + grub_target],
             stdout = MAIN_LOG_FILE,
             stderr = MAIN_LOG_FILE,
-            root = root_path
+            root = self._root
         )
 
         iutil.execWithRedirect('/sbin/grub-mkconfig',
             ["--output=%s" % (grub_cfg_noroot,)],
             stdout = MAIN_LOG_FILE,
             stderr = MAIN_LOG_FILE,
-            root = root_path
+            root = self._root
         )
 
         iutil.execWithRedirect('/bin/umount',
             ["/proc"],
             stdout = MAIN_LOG_FILE,
             stderr = MAIN_LOG_FILE,
-            root = root_path
+            root = self._root
         )
         iutil.execWithRedirect('/bin/umount',
             ["/sys"],
             stdout = MAIN_LOG_FILE,
             stderr = MAIN_LOG_FILE,
-            root = root_path
+            root = self._root
         )
 
         log.info("%s: %s => %s\n" % ("_write_grub2", "end", locals()))
