@@ -205,19 +205,24 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # Device.fstabSpec => UUID= stuff automatically handled
         final_cmdline.extend(["root=/dev/ram0", "ramdisk=8192"])
 
+        crypto_dev = None
         for name in fsset.cryptTab.mappings.keys():
             crypto_dev = fsset.cryptTab[name]['device']
             if root_device == crypto_dev or root_device.dependsOn(crypto_dev):
                 root_crypted = True
                 break
 
-        log.info("Root crypted? %s, %s, %s" % (root_crypted,
-            root_device.fstabSpec, root_device.path))
-
         if root_crypted:
+            log.info("Root crypted? %s, %s, crypto_dev: %s" % (root_crypted,
+                root_device.path, crypto_dev.path))
+
+            # NOTE: cannot use crypto_dev.fstabSpec because
+            # genkernel doesn't support UUID= on crypto
             final_cmdline.append("real_root=%s crypt_root=%s" % (
-                root_device.fstabSpec, root_device.path,))
+                root_device.fstabSpec, crypto_dev.path,))
+
         else:
+            log.info("Root crypted? Nope!")
             final_cmdline.append("real_root=%s" % (root_device.fstabSpec,))
 
         # always add docrypt, loads kernel mods required by cryptsetup devices

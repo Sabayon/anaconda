@@ -69,14 +69,11 @@ Package dependencies:
         dhclient
 
 TODO:
+    - lokkit required?
     - make bugzilla bug report option working
     - dcbd init script
+    - firstboot init script (plymouth? users setup, make it working)
     - installer script -> wget tarball + unpack + configure + make + make install
-    - primary user setup (firstboot?)
     - text mode
-    - users
-    - shots (grow size, double)
-    - encryption (grub.cfg not properly written)
-    - check timezone
-    - check clock
-    - check language setup (02locale, locale.gen)
+    - encryption (grub.cfg not properly written, /dev/sda2, grub splash doesn't work?)
+    - test network setup
