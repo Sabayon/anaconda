@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: anaconda 14.2\n"
+"Project-Id-Version: anaconda 14.3\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-04-06 16:47-0400\n"
+"POT-Creation-Date: 2010-04-11 21:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: anaconda:334
+#: anaconda:341
 msgid "Press <enter> for a shell"
 msgstr ""
 
-#: anaconda:349 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
+#: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
 #: rescue.py:466 text.py:656 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
 #: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
@@ -36,7 +36,7 @@ msgstr ""
 #: loader/kickstart.c:296 loader/kickstart.c:328 loader/kickstart.c:510
 #: loader/lang.c:114 loader/lang.c:373 loader/loader.c:429 loader/loader.c:465
 #: loader/loader.c:505 loader/loader.c:523 loader/loader.c:540
-#: loader/loader.c:577 loader/loader.c:1195 loader/loader.c:1376
+#: loader/loader.c:577 loader/loader.c:1194 loader/loader.c:1375
 #: loader/mediacheck.c:47 loader/mediacheck.c:86 loader/mediacheck.c:93
 #: loader/mediacheck.c:97 loader/mediacheck.c:106 loader/method.c:277
 #: loader/method.c:351 loader/modules.c:382 loader/modules.c:398
@@ -45,16 +45,16 @@ msgstr ""
 #: loader/nfsinstall.c:91 loader/nfsinstall.c:279 loader/nfsinstall.c:296
 #: loader/nfsinstall.c:366 loader/telnetd.c:93 loader/urlinstall.c:137
 #: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urlinstall.c:372
-#: loader/urlinstall.c:383 loader/urlinstall.c:390 loader/urls.c:252
-#: loader/urls.c:329 loader/urls.c:335 textw/constants_text.py:44
+#: loader/urlinstall.c:383 loader/urlinstall.c:390 loader/urls.c:259
+#: loader/urls.c:330 loader/urls.c:336 textw/constants_text.py:44
 msgid "OK"
 msgstr ""
 
-#: anaconda:356
+#: anaconda:363
 msgid "You do not have enough RAM to use the graphical installer."
 msgstr ""
 
-#: anaconda:360
+#: anaconda:367
 msgid ""
 "Try the text mode installer by running:\n"
 "\n"
@@ -63,30 +63,34 @@ msgid ""
 " from a root terminal."
 msgstr ""
 
-#: anaconda:363
+#: anaconda:370
 msgid "Not enough RAM"
 msgstr ""
 
-#: anaconda:373
+#: anaconda:380
 msgid "Starting text mode."
 msgstr ""
 
-#: anaconda:704
+#: anaconda:636
+msgid "Starting graphical installation."
+msgstr ""
+
+#: anaconda:1056
 msgid "Would you like to use VNC?"
 msgstr ""
 
-#: anaconda:705
+#: anaconda:1057
 msgid ""
 "Text mode provides a limited set of installation options.  It does not allow "
 "you to specify your own partitioning layout or package selections.  Would "
 "you like to use VNC mode instead?"
 msgstr ""
 
-#: anaconda:731
+#: anaconda:1083
 msgid "Graphical installation is not available. Starting text mode."
 msgstr ""
 
-#: anaconda:739
+#: anaconda:1091
 msgid "DISPLAY variable not set. Starting text mode."
 msgstr ""
 
@@ -120,10 +124,10 @@ msgid ""
 "probably out of disk space."
 msgstr ""
 
-#: backend.py:169 image.py:289 livecd.py:198 livecd.py:403
+#: backend.py:169 image.py:289 livecd.py:198 livecd.py:400
 #: partIntfHelpers.py:237 text.py:354 text.py:358 yuminstall.py:416
-#: yuminstall.py:798 yuminstall.py:916 yuminstall.py:921 yuminstall.py:1184
-#: yuminstall.py:1243 yuminstall.py:1434 yuminstall.py:1456
+#: yuminstall.py:805 yuminstall.py:923 yuminstall.py:928 yuminstall.py:1190
+#: yuminstall.py:1249 yuminstall.py:1440 yuminstall.py:1462
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
 #: iw/advanced_storage.py:176 iw/advanced_storage.py:179
 #: iw/advanced_storage.py:207 iw/autopart_type.py:96 iw/cleardisks_gui.py:43
@@ -136,23 +140,23 @@ msgstr ""
 #: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:315
 #: loader/hdinstall.c:421 loader/hdinstall.c:464 loader/hdinstall.c:477
 #: loader/kickstart.c:296 loader/lang.c:114 loader/loader.c:429
-#: loader/loader.c:540 loader/loader.c:1195 loader/mediacheck.c:47
+#: loader/loader.c:540 loader/loader.c:1194 loader/mediacheck.c:47
 #: loader/mediacheck.c:86 loader/mediacheck.c:93 loader/mediacheck.c:97
 #: loader/method.c:277 loader/method.c:351 loader/nfsinstall.c:279
 #: loader/nfsinstall.c:296 loader/telnetd.c:93 loader/urlinstall.c:137
-#: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urls.c:329
-#: loader/urls.c:335 storage/__init__.py:215 storage/__init__.py:1794
+#: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urls.c:330
+#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1794
 #: storage/__init__.py:1881 textw/netconfig_text.py:282
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188
+#: textw/upgrade_text.py:188 sabayon/livecd.py:382
 msgid "Error"
 msgstr ""
 
 #: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1102
 #: gui.py:1162 image.py:82 installinterfacebase.py:41 text.py:485 text.py:545
-#: yuminstall.py:1412 yuminstall.py:1619 yuminstall.py:1654
+#: yuminstall.py:1418 yuminstall.py:1622 yuminstall.py:1657
 #: iw/blpasswidget.py:148 iw/upgrade_swap_gui.py:190
 #: iw/upgrade_swap_gui.py:198 iw/upgrade_swap_gui.py:205
 #: textw/upgrade_text.py:193
@@ -167,18 +171,18 @@ msgid ""
 "Would you like to continue with the installation?"
 msgstr ""
 
-#: bootloader.py:60 gui.py:1053 gui.py:1198 gui.py:1413 image.py:91
-#: kickstart.py:156 livecd.py:205 livecd.py:410 packages.py:130 upgrade.py:58
-#: upgrade.py:239 yuminstall.py:257 yuminstall.py:703 yuminstall.py:918
-#: yuminstall.py:923 yuminstall.py:1003 yuminstall.py:1009 yuminstall.py:1163
-#: yuminstall.py:1180 yuminstall.py:1233 yuminstall.py:1421 yuminstall.py:1440
-#: yuminstall.py:1463 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1975 storage/dasd.py:139
+#: bootloader.py:60 gui.py:1053 gui.py:1198 gui.py:1403 image.py:91
+#: kickstart.py:156 livecd.py:205 livecd.py:407 packages.py:130 upgrade.py:56
+#: upgrade.py:237 yuminstall.py:257 yuminstall.py:703 yuminstall.py:925
+#: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
+#: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
+#: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
+#: storage/__init__.py:1975 storage/dasd.py:139 sabayon/livecd.py:389
 msgid "_Exit installer"
 msgstr ""
 
-#: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1338
-#: kickstart.py:1377 upgrade.py:58 yuminstall.py:1238 yuminstall.py:1422
+#: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
+#: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
 #: iw/partition_gui.py:1598 storage/__init__.py:1976
 msgid "_Continue"
 msgstr ""
@@ -211,8 +215,8 @@ msgstr ""
 msgid "In progress"
 msgstr ""
 
-#: cmdline.py:89 gui.py:1193 kickstart.py:1202 kickstart.py:1210
-#: kickstart.py:1248 kickstart.py:1256 text.py:391
+#: cmdline.py:89 gui.py:1193 kickstart.py:1214 kickstart.py:1222
+#: kickstart.py:1260 kickstart.py:1268 text.py:391
 #, python-format
 msgid ""
 "The following error was found while parsing the kickstart configuration "
@@ -231,17 +235,17 @@ msgstr ""
 msgid "Can't have a question in command line mode!"
 msgstr ""
 
-#: constants.py:74
+#: constants.py:75
 msgid ""
 "An unhandled exception has occurred.  This is most likely a bug.  Please "
 "save a copy of the detailed exception and file a bug report"
 msgstr ""
 
-#: constants.py:80
+#: constants.py:81
 msgid " with the provider of this software."
 msgstr ""
 
-#: constants.py:84
+#: constants.py:85
 #, python-format
 msgid " against anaconda at %s"
 msgstr ""
@@ -311,7 +315,7 @@ msgid ""
 "installation you must enter the device's passphrase below."
 msgstr ""
 
-#: gui.py:734 gui.py:1413 partIntfHelpers.py:157 partIntfHelpers.py:342
+#: gui.py:734 gui.py:1403 partIntfHelpers.py:157 partIntfHelpers.py:342
 #: text.py:100 text.py:101 iw/account_gui.py:130 loader/dirbrowser.c:129
 #: loader/driverdisk.c:423 loader/kickstart.c:328 loader/loader.c:465
 #: loader/loader.c:577 textw/constants_text.py:48
@@ -369,15 +373,15 @@ msgstr ""
 msgid "Error Parsing Kickstart Config"
 msgstr ""
 
-#: gui.py:1237
+#: gui.py:1223
 msgid "default:LTR"
 msgstr ""
 
-#: gui.py:1317 text.py:621
+#: gui.py:1303 text.py:621
 msgid "Error!"
 msgstr ""
 
-#: gui.py:1318 text.py:622
+#: gui.py:1304 text.py:622
 #, python-format
 msgid ""
 "An error occurred when attempting to load an installer interface component.\n"
@@ -385,46 +389,46 @@ msgid ""
 "className = %s"
 msgstr ""
 
-#: gui.py:1323 image.py:164 image.py:194 packages.py:328
+#: gui.py:1309 image.py:164 image.py:194 packages.py:328
 #: storage/__init__.py:1793
 msgid "_Exit"
 msgstr ""
 
-#: gui.py:1324 image.py:164 image.py:194 livecd.py:205 yuminstall.py:795
-#: yuminstall.py:1180 yuminstall.py:1233 yuminstall.py:1440
+#: gui.py:1310 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
+#: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1446
 msgid "_Retry"
 msgstr ""
 
-#: gui.py:1326 storage/partitioning.py:276
+#: gui.py:1312 storage/partitioning.py:276
 msgid "The system will now reboot."
 msgstr ""
 
-#: gui.py:1327 image.py:251 packages.py:332 yuminstall.py:1481
+#: gui.py:1313 image.py:251 packages.py:332 yuminstall.py:1487
 msgid "_Reboot"
 msgstr ""
 
-#: gui.py:1329
+#: gui.py:1315
 msgid "Exiting"
 msgstr ""
 
-#: gui.py:1410 livecd.py:126 text.py:270 upgrade.py:230
+#: gui.py:1400 livecd.py:126 text.py:270 upgrade.py:228 sabayon/livecd.py:67
 msgid "Exit installer"
 msgstr ""
 
-#: gui.py:1411
+#: gui.py:1401
 msgid "Are you sure you wish to exit the installer?"
 msgstr ""
 
-#: gui.py:1420
+#: gui.py:1410
 #, python-format
 msgid "%s Installer"
 msgstr ""
 
-#: gui.py:1426
+#: gui.py:1416
 msgid "Unable to load title bar"
 msgstr ""
 
-#: gui.py:1488
+#: gui.py:1483
 msgid "Install Window"
 msgstr ""
 
@@ -480,9 +484,9 @@ msgid ""
 "need to abort the installation and exit please select \"Reboot\"."
 msgstr ""
 
-#: image.py:251 livecd.py:409 packages.py:332 upgrade.py:238 yuminstall.py:923
-#: yuminstall.py:1009 yuminstall.py:1421 yuminstall.py:1463 yuminstall.py:1481
-#: ui/anaconda.glade.h:2
+#: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
+#: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:388
 msgid "_Back"
 msgstr ""
 
@@ -493,7 +497,7 @@ msgid ""
 "accessing %s from the shell on tty2 and then click OK to retry."
 msgstr ""
 
-#: installclass.py:66
+#: installclass.py:71
 msgid "Install on System"
 msgstr ""
 
@@ -508,83 +512,83 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: iutil.py:862
+#: iutil.py:816
 #, python-format
 msgid ""
 "Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: %(e)"
 "s)"
 msgstr ""
 
-#: iutil.py:873
+#: iutil.py:827
 #, python-format
 msgid ""
 "Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
 "(e)s)"
 msgstr ""
 
-#: iutil.py:882
+#: iutil.py:836
 #, python-format
 msgid ""
 "Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
 "(e)s)"
 msgstr ""
 
-#: iutil.py:901
+#: iutil.py:855
 #, python-format
 msgid "Error: Could not set %(device)s as reIPL device (%(e)s)"
 msgstr ""
 
-#: iutil.py:911
+#: iutil.py:865
 #, python-format
 msgid "Error: Could not reset loadparm (%s)"
 msgstr ""
 
-#: iutil.py:920
+#: iutil.py:874
 #, python-format
 msgid "Warning: Could not reset parm (%s)"
 msgstr ""
 
-#: iutil.py:933
+#: iutil.py:887
 #, python-format
 msgid ""
 "After shutdown, please perform a manual IPL from DASD device %s to continue "
 "installation"
 msgstr ""
 
-#: iutil.py:955
+#: iutil.py:909
 #, python-format
 msgid "Error: reading FCP property %(syspath_property)s for reIPL (%(e)s)"
 msgstr ""
 
-#: iutil.py:970
+#: iutil.py:924
 #, python-format
 msgid "Error: writing FCP property %(reipl_property)s for reIPL (%(e)s)"
 msgstr ""
 
-#: iutil.py:985
+#: iutil.py:939
 #, python-format
 msgid ""
 "Error: writing default FCP property %(reipl_property)s for reIPL (%(e)s)"
 msgstr ""
 
-#: iutil.py:1000
+#: iutil.py:954
 #, python-format
 msgid ""
 "After shutdown, please perform a manual IPL from FCP %(device)s with WWPN %"
 "(wwpn)s and LUN %(lun)s to continue installation"
 msgstr ""
 
-#: iutil.py:1017
+#: iutil.py:971
 msgid ""
 "After shutdown, please perform a manual IPL from the device now containing /"
 "boot to continue installation"
 msgstr ""
 
-#: iutil.py:1028
+#: iutil.py:982
 msgid "Error determining boot device's disk name"
 msgstr ""
 
-#: iutil.py:1032
+#: iutil.py:986
 msgid "The mount point /boot or / is on a disk that we are not familiar with"
 msgstr ""
 
@@ -600,7 +604,7 @@ msgstr ""
 msgid "Scriptlet Failure"
 msgstr ""
 
-#: kickstart.py:150 rescue.py:248 yuminstall.py:698 yuminstall.py:1158
+#: kickstart.py:150 rescue.py:248 yuminstall.py:698 yuminstall.py:1164
 #: iw/task_gui.py:308
 msgid "No Network Available"
 msgstr ""
@@ -611,63 +615,72 @@ msgid ""
 "the network on your system."
 msgstr ""
 
-#: kickstart.py:1221
+#: kickstart.py:164
+#, python-format
+msgid ""
+"The following error was encountered while downloading the escrow "
+"certificate:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: kickstart.py:1233
 #, python-format
 msgid "Error processing %%ksappend lines: %s"
 msgstr ""
 
-#: kickstart.py:1224
+#: kickstart.py:1236
 #, python-format
 msgid "Unknown error processing %%ksappend lines: %s"
 msgstr ""
 
-#: kickstart.py:1279 livecd.py:229
+#: kickstart.py:1291 livecd.py:229
 msgid "Post-Installation"
 msgstr ""
 
-#: kickstart.py:1280
+#: kickstart.py:1292
 msgid "Running post-installation scripts"
 msgstr ""
 
-#: kickstart.py:1296
+#: kickstart.py:1308
 msgid "Pre-Installation"
 msgstr ""
 
-#: kickstart.py:1297
+#: kickstart.py:1309
 msgid "Running pre-installation scripts"
 msgstr ""
 
-#: kickstart.py:1329
+#: kickstart.py:1341
 msgid "Missing Package"
 msgstr ""
 
-#: kickstart.py:1330
+#: kickstart.py:1342
 #, python-format
 msgid ""
 "You have specified that the package '%s' should be installed.  This package "
 "does not exist. Would you like to continue or abort this installation?"
 msgstr ""
 
-#: kickstart.py:1336 kickstart.py:1375
+#: kickstart.py:1348 kickstart.py:1387
 msgid "_Abort"
 msgstr ""
 
-#: kickstart.py:1337 kickstart.py:1376
+#: kickstart.py:1349 kickstart.py:1388
 msgid "_Ignore All"
 msgstr ""
 
-#: kickstart.py:1367
+#: kickstart.py:1379
 msgid "Missing Group"
 msgstr ""
 
-#: kickstart.py:1368
+#: kickstart.py:1380
 #, python-format
 msgid ""
 "You have specified that the group '%s' should be installed. This group does "
 "not exist. Would you like to continue or abort this installation?"
 msgstr ""
 
-#: kickstart.py:1483
+#: kickstart.py:1495
 #, python-format
 msgid ""
 "The kickstart configuration file is missing required information that "
@@ -676,7 +689,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: livecd.py:121
+#: livecd.py:121 sabayon/livecd.py:62
 msgid "Unable to find image"
 msgstr ""
 
@@ -705,7 +718,7 @@ msgid ""
 "minutes."
 msgstr ""
 
-#: livecd.py:404
+#: livecd.py:401 sabayon/livecd.py:383
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -1001,17 +1014,17 @@ msgid ""
 "Are you sure you want to reset the partition table to its original state?"
 msgstr ""
 
-#: platform.py:98 platform.py:343 platform.py:411 platform.py:519
+#: platform.py:98 platform.py:344 platform.py:412 platform.py:520
 #: ui/create-storage.glade.h:17
 msgid "RAID Device"
 msgstr ""
 
-#: platform.py:99 platform.py:102 platform.py:344 platform.py:412
-#: platform.py:520 platform.py:523
+#: platform.py:99 platform.py:102 platform.py:345 platform.py:413
+#: platform.py:521 platform.py:524
 msgid "Master Boot Record (MBR)"
 msgstr ""
 
-#: platform.py:101 platform.py:522
+#: platform.py:101 platform.py:523
 msgid "First sector of boot partition"
 msgstr ""
 
@@ -1056,34 +1069,34 @@ msgstr ""
 msgid "/boot/efi is not EFI."
 msgstr ""
 
-#: platform.py:250
+#: platform.py:251
 #, python-format
 msgid "%s must have a %s disk label."
 msgstr ""
 
-#: platform.py:288
+#: platform.py:289
 #, python-format
 msgid "%s must have a bsd disk label."
 msgstr ""
 
-#: platform.py:300
+#: platform.py:301
 #, python-format
 msgid "The disk %s requires at least 1MB of free space at the beginning."
 msgstr ""
 
-#: platform.py:346
+#: platform.py:347
 msgid "PPC PReP Boot"
 msgstr ""
 
-#: platform.py:362
+#: platform.py:363
 msgid "The boot partition must be within the first 4MB of the disk."
 msgstr ""
 
-#: platform.py:414 platform.py:417
+#: platform.py:415 platform.py:418
 msgid "Apple Bootstrap"
 msgstr ""
 
-#: platform.py:431
+#: platform.py:432
 #, python-format
 msgid "%s must have a mac disk label."
 msgstr ""
@@ -1105,12 +1118,12 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr ""
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:203 textw/constants_text.py:56
+#: loader/hdinstall.c:203 textw/constants_text.py:56 sabayon/utils.py:874
 msgid "Yes"
 msgstr ""
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60
+#: textw/constants_text.py:60 sabayon/utils.py:874
 msgid "No"
 msgstr ""
 
@@ -1270,26 +1283,26 @@ msgstr ""
 msgid "I can't go to the previous step from here. You will have to try again."
 msgstr ""
 
-#: upgrade.py:51
+#: upgrade.py:49
 msgid "Proceed with upgrade?"
 msgstr ""
 
-#: upgrade.py:52
+#: upgrade.py:50
 msgid ""
 "The file systems of the Linux installation you have chosen to upgrade have "
 "already been mounted. You cannot go back past this point. \n"
 "\n"
 msgstr ""
 
-#: upgrade.py:56
+#: upgrade.py:54
 msgid "Would you like to continue with the upgrade?"
 msgstr ""
 
-#: upgrade.py:217
+#: upgrade.py:215
 msgid "Mount failed"
 msgstr ""
 
-#: upgrade.py:218
+#: upgrade.py:216
 #, python-format
 msgid ""
 "The following error occurred when mounting the file systems listed in /etc/"
@@ -1297,21 +1310,21 @@ msgid ""
 "%s"
 msgstr ""
 
-#: upgrade.py:226 upgrade.py:233
+#: upgrade.py:224 upgrade.py:231
 msgid "Upgrade root not found"
 msgstr ""
 
-#: upgrade.py:227
+#: upgrade.py:225
 msgid "The root for the previously installed system was not found."
 msgstr ""
 
-#: upgrade.py:234
+#: upgrade.py:232
 msgid ""
 "The root for the previously installed system was not found.  You can exit "
 "installer or backtrack to choose installation instead of upgrade."
 msgstr ""
 
-#: upgrade.py:257
+#: upgrade.py:255
 msgid ""
 "The following files are absolute symbolic links, which we do not support "
 "during an upgrade. Please change them to relative symbolic links and restart "
@@ -1319,11 +1332,11 @@ msgid ""
 "\n"
 msgstr ""
 
-#: upgrade.py:263
+#: upgrade.py:261
 msgid "Absolute Symlinks"
 msgstr ""
 
-#: upgrade.py:274
+#: upgrade.py:272
 msgid ""
 "The following are directories which should instead be symbolic links, which "
 "will cause problems with the upgrade.  Please return them to their original "
@@ -1331,7 +1344,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: upgrade.py:280
+#: upgrade.py:278
 msgid "Invalid Directories"
 msgstr ""
 
@@ -1574,21 +1587,21 @@ msgstr ""
 msgid "Repository %r is missing name in configuration, using id"
 msgstr ""
 
-#: yuminstall.py:699 yuminstall.py:1159 iw/task_gui.py:309
+#: yuminstall.py:699 yuminstall.py:1165 iw/task_gui.py:309
 msgid ""
 "Some of your software repositories require networking, but there was an "
 "error enabling the network on your system."
 msgstr ""
 
-#: yuminstall.py:793 yuminstall.py:795
+#: yuminstall.py:800 yuminstall.py:802
 msgid "Re_boot"
 msgstr ""
 
-#: yuminstall.py:793
+#: yuminstall.py:800
 msgid "_Eject"
 msgstr ""
 
-#: yuminstall.py:799
+#: yuminstall.py:806
 #, python-format
 msgid ""
 "The file %s cannot be opened.  This is due to a missing file, a corrupt "
@@ -1599,102 +1612,102 @@ msgid ""
 "\n"
 msgstr ""
 
-#: yuminstall.py:847
+#: yuminstall.py:854
 msgid "Retrying"
 msgstr ""
 
-#: yuminstall.py:847
+#: yuminstall.py:854
 msgid "Retrying download."
 msgstr ""
 
-#: yuminstall.py:912
+#: yuminstall.py:919
 #, python-format
 msgid ""
 "There was an error running your transaction for the following reason: %s\n"
 msgstr ""
 
-#: yuminstall.py:955 yuminstall.py:956
+#: yuminstall.py:962 yuminstall.py:963
 msgid "file conflicts"
 msgstr ""
 
-#: yuminstall.py:957
+#: yuminstall.py:964
 msgid "older package(s)"
 msgstr ""
 
-#: yuminstall.py:958
+#: yuminstall.py:965
 msgid "insufficient disk space"
 msgstr ""
 
-#: yuminstall.py:959
+#: yuminstall.py:966
 msgid "insufficient disk inodes"
 msgstr ""
 
-#: yuminstall.py:960
+#: yuminstall.py:967
 msgid "package conflicts"
 msgstr ""
 
-#: yuminstall.py:961
+#: yuminstall.py:968
 msgid "package already installed"
 msgstr ""
 
-#: yuminstall.py:962
+#: yuminstall.py:969
 msgid "required package"
 msgstr ""
 
-#: yuminstall.py:963
+#: yuminstall.py:970
 msgid "package for incorrect arch"
 msgstr ""
 
-#: yuminstall.py:964
+#: yuminstall.py:971
 msgid "package for incorrect os"
 msgstr ""
 
-#: yuminstall.py:978
+#: yuminstall.py:985
 msgid "You need more space on the following file systems:\n"
 msgstr ""
 
-#: yuminstall.py:991
+#: yuminstall.py:998
 #, python-format
 msgid ""
 "There were file conflicts when checking the packages to be installed:\n"
 "%s\n"
 msgstr ""
 
-#: yuminstall.py:994
+#: yuminstall.py:1001
 #, python-format
 msgid ""
 "There was an error running your transaction for the following reason(s): %"
 "s.\n"
 msgstr ""
 
-#: yuminstall.py:1001 yuminstall.py:1006
+#: yuminstall.py:1008 yuminstall.py:1013
 msgid "Error Running Transaction"
 msgstr ""
 
-#: yuminstall.py:1185
+#: yuminstall.py:1191
 msgid ""
 "Unable to read group information from repositories.  This is a problem with "
 "the generation of your install tree."
 msgstr ""
 
-#: yuminstall.py:1221
+#: yuminstall.py:1227
 msgid "Retrieving installation information."
 msgstr ""
 
-#: yuminstall.py:1223
+#: yuminstall.py:1229
 #, python-format
 msgid "Retrieving installation information for %s."
 msgstr ""
 
-#: yuminstall.py:1225
+#: yuminstall.py:1231
 msgid "Installation Progress"
 msgstr ""
 
-#: yuminstall.py:1233 textw/constants_text.py:64
+#: yuminstall.py:1239 textw/constants_text.py:64
 msgid "Edit"
 msgstr ""
 
-#: yuminstall.py:1244 yuminstall.py:1435
+#: yuminstall.py:1250 yuminstall.py:1441
 #, python-format
 msgid ""
 "Unable to read package metadata. This may be due to a missing repodata "
@@ -1704,7 +1717,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: yuminstall.py:1413
+#: yuminstall.py:1419
 msgid ""
 "Some of the packages you have selected for install are missing "
 "dependencies.  You can exit the installation, go back and change your "
@@ -1713,7 +1726,7 @@ msgid ""
 "missing components."
 msgstr ""
 
-#: yuminstall.py:1457
+#: yuminstall.py:1463
 #, python-format
 msgid ""
 "Your selected packages require %d MB of free space for installation, but you "
@@ -1721,22 +1734,22 @@ msgid ""
 "installer."
 msgstr ""
 
-#: yuminstall.py:1478
+#: yuminstall.py:1484
 msgid "Reboot?"
 msgstr ""
 
-#: yuminstall.py:1479
+#: yuminstall.py:1485
 msgid "The system will be rebooted now."
 msgstr ""
 
-#: yuminstall.py:1620
+#: yuminstall.py:1623
 #, python-format
 msgid ""
 "You appear to be upgrading from a system which is too old to upgrade to this "
 "version of %s.  Are you sure you wish to continue the upgrade process?"
 msgstr ""
 
-#: yuminstall.py:1655
+#: yuminstall.py:1658
 #, python-format
 msgid ""
 "The arch of the release of %(productName)s you are upgrading to appears to "
@@ -1745,83 +1758,80 @@ msgid ""
 "upgrade process?"
 msgstr ""
 
-#: yuminstall.py:1702
+#: yuminstall.py:1705
 msgid "Post Upgrade"
 msgstr ""
 
-#: yuminstall.py:1703
+#: yuminstall.py:1706
 msgid "Performing post-upgrade configuration"
 msgstr ""
 
-#: yuminstall.py:1705
+#: yuminstall.py:1708
 msgid "Post Installation"
 msgstr ""
 
-#: yuminstall.py:1706
+#: yuminstall.py:1709
 msgid "Performing post-installation configuration"
 msgstr ""
 
-#: yuminstall.py:1929
+#: yuminstall.py:1932
 msgid "Installation Starting"
 msgstr ""
 
-#: yuminstall.py:1930
+#: yuminstall.py:1933
 msgid "Starting installation process"
 msgstr ""
 
-#: yuminstall.py:1968
+#: yuminstall.py:1971
 msgid "Dependency Check"
 msgstr ""
 
-#: yuminstall.py:1969
+#: yuminstall.py:1972
 msgid "Checking dependencies in packages selected for installation"
 msgstr ""
 
-#: installclasses/fedora.py:38
-msgid "_Fedora"
+#: installclasses/corecd.py:38
+msgid "Sabayon Core CD"
 msgstr ""
 
-#: installclasses/fedora.py:39
-#, python-format
+#: installclasses/corecd.py:48
 msgid ""
-"The default installation of %s includes a set of software applicable for "
-"general internet usage. You can optionally select a different set of "
-"software now."
+"Select this installation type to just install a Core System without "
+"graphical applications. This is the best choice for Server-oriented "
+"deployments."
 msgstr ""
 
-#: installclasses/fedora.py:48
-msgid "Graphical Desktop"
+#: installclasses/fluxbox.py:38
+msgid "Sabayon Fluxbox"
 msgstr ""
 
-#: installclasses/fedora.py:53 installclasses/rhel.py:61
-msgid "Software Development"
-msgstr ""
-
-#: installclasses/fedora.py:59 installclasses/rhel.py:71
-msgid "Web Server"
-msgstr ""
-
-#: installclasses/fedora.py:63 installclasses/rhel.py:51
-msgid "Minimal"
-msgstr ""
-
-#: installclasses/rhel.py:39
-msgid "Red Hat Enterprise Linux"
-msgstr ""
-
-#: installclasses/rhel.py:40
-#, python-format
+#: installclasses/fluxbox.py:47
 msgid ""
-"The default installation of %s is a minimal install. You can optionally "
-"select a different set of software now."
+"Select this installation type for a default installation with the Fluxbox "
+"geeky minimal environment. After this installation process you will be able "
+"to install additional packages."
 msgstr ""
 
-#: installclasses/rhel.py:52
-msgid "Desktop"
+#: installclasses/gnome.py:45
+msgid "Sabayon GNOME Desktop"
 msgstr ""
 
-#: installclasses/rhel.py:78
-msgid "Advanced Server"
+#: installclasses/gnome.py:47
+msgid ""
+"Select this installation type for a default installation with the GNOME "
+"desktop environment. After this installation process you will be able to "
+"install additional packages."
+msgstr ""
+
+#: installclasses/kde.py:38
+msgid "Sabayon KDE"
+msgstr ""
+
+#: installclasses/kde.py:47
+msgid ""
+"Select this installation type for a default installation with the KDE "
+"desktop environment. After this installation process you will be able to "
+"install additional packages."
 msgstr ""
 
 #: iw/GroupSelector.py:147
@@ -2111,36 +2121,36 @@ msgid ""
 "reformatted unless you choose to do so during customization."
 msgstr ""
 
-#: iw/congrats_gui.py:33
+#: iw/congrats_gui.py:32
 msgid "Congratulations"
 msgstr ""
 
-#: iw/congrats_gui.py:74 textw/complete_text.py:39
+#: iw/congrats_gui.py:74 textw/complete_text.py:38
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
 "\n"
 msgstr ""
 
-#: iw/congrats_gui.py:77 textw/complete_text.py:42
+#: iw/congrats_gui.py:77 textw/complete_text.py:41
 msgid "Shutdown"
 msgstr ""
 
-#: iw/congrats_gui.py:79 textw/complete_text.py:44
+#: iw/congrats_gui.py:79 textw/complete_text.py:43
 msgid "Please shutdown to use the installed system.\n"
 msgstr ""
 
-#: iw/congrats_gui.py:81 textw/complete_text.py:46
+#: iw/congrats_gui.py:81 textw/complete_text.py:45
 msgid "Please reboot to use the installed system.\n"
 msgstr ""
 
-#: iw/congrats_gui.py:86 textw/complete_text.py:51
+#: iw/congrats_gui.py:86 textw/complete_text.py:50
 msgid ""
 "Note that updates may be available to ensure the proper functioning of your "
 "system and installation of these updates is recommended after the reboot."
 msgstr ""
 
-#: iw/congrats_gui.py:90 textw/complete_text.py:55
+#: iw/congrats_gui.py:90 textw/complete_text.py:54
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2214,7 +2224,7 @@ msgstr ""
 msgid "Paths"
 msgstr ""
 
-#: iw/filter_gui.py:494 loader/urls.c:293
+#: iw/filter_gui.py:494
 msgid "Port"
 msgstr ""
 
@@ -2620,15 +2630,15 @@ msgstr ""
 msgid "Error configuring network device:"
 msgstr ""
 
-#: iw/network_gui.py:72 iw/network_gui.py:78
+#: iw/network_gui.py:73 iw/network_gui.py:79
 msgid "Error with Hostname"
 msgstr ""
 
-#: iw/network_gui.py:73
+#: iw/network_gui.py:74
 msgid "You must enter a valid hostname for this computer."
 msgstr ""
 
-#: iw/network_gui.py:79
+#: iw/network_gui.py:80
 #, python-format
 msgid ""
 "The hostname \"%(hostname)s\" is not valid for the following reason:\n"
@@ -3496,9 +3506,9 @@ msgstr ""
 #: loader/driverdisk.c:542 loader/driverselect.c:79 loader/driverselect.c:153
 #: loader/driverselect.c:179 loader/hdinstall.c:203 loader/hdinstall.c:257
 #: loader/kbd.c:119 loader/loader.c:506 loader/loader.c:523
-#: loader/loader.c:1376 loader/loader.c:1409 loader/net.c:578 loader/net.c:949
+#: loader/loader.c:1375 loader/loader.c:1408 loader/net.c:578 loader/net.c:949
 #: loader/net.c:1848 loader/net.c:1867 loader/nfsinstall.c:91
-#: loader/urls.c:252 storage/__init__.py:157 storage/devicetree.py:90
+#: loader/urls.c:259 storage/__init__.py:157 storage/devicetree.py:90
 #: textw/constants_text.py:52
 msgid "Back"
 msgstr ""
@@ -3834,86 +3844,86 @@ msgstr ""
 msgid "Error downloading updates image"
 msgstr ""
 
-#: loader/loader.c:1191
+#: loader/loader.c:1190
 #, c-format
 msgid "You do not have enough RAM to install %s on this machine."
 msgstr ""
 
-#: loader/loader.c:1245
+#: loader/loader.c:1244
 msgid "Media Detected"
 msgstr ""
 
-#: loader/loader.c:1246
+#: loader/loader.c:1245
 msgid "Found local installation media"
 msgstr ""
 
-#: loader/loader.c:1368
+#: loader/loader.c:1367
 msgid "Rescue Method"
 msgstr ""
 
-#: loader/loader.c:1369
+#: loader/loader.c:1368
 msgid "Installation Method"
 msgstr ""
 
-#: loader/loader.c:1371
+#: loader/loader.c:1370
 msgid "What type of media contains the rescue image?"
 msgstr ""
 
-#: loader/loader.c:1373
+#: loader/loader.c:1372
 msgid "What type of media contains the installation image?"
 msgstr ""
 
-#: loader/loader.c:1408
+#: loader/loader.c:1407
 msgid "No driver found"
 msgstr ""
 
-#: loader/loader.c:1408
+#: loader/loader.c:1407
 msgid "Select driver"
 msgstr ""
 
-#: loader/loader.c:1409
+#: loader/loader.c:1408
 msgid "Use a driver disk"
 msgstr ""
 
-#: loader/loader.c:1410
+#: loader/loader.c:1409
 msgid ""
 "Unable to find any devices of the type needed for this installation type.  "
 "Would you like to manually select your driver or use a driver disk?"
 msgstr ""
 
-#: loader/loader.c:1638
+#: loader/loader.c:1637
 msgid "The following devices have been found on your system."
 msgstr ""
 
-#: loader/loader.c:1640
+#: loader/loader.c:1639
 msgid ""
 "No device drivers have been loaded for your system.  Would you like to load "
 "any now?"
 msgstr ""
 
-#: loader/loader.c:1644
+#: loader/loader.c:1643
 msgid "Devices"
 msgstr ""
 
-#: loader/loader.c:1645
+#: loader/loader.c:1644
 msgid "Done"
 msgstr ""
 
-#: loader/loader.c:1646
+#: loader/loader.c:1645
 msgid "Add Device"
 msgstr ""
 
-#: loader/loader.c:1922
+#: loader/loader.c:1921
 #, c-format
 msgid "loader has already been run.  Starting shell.\n"
 msgstr ""
 
-#: loader/loader.c:2370
+#: loader/loader.c:2361
 #, c-format
 msgid "Running anaconda %s, the %s rescue mode - please wait.\n"
 msgstr ""
 
-#: loader/loader.c:2372
+#: loader/loader.c:2363
 #, c-format
 msgid "Running anaconda %s, the %s system installer - please wait.\n"
 msgstr ""
@@ -4041,7 +4051,7 @@ msgstr ""
 msgid "IPv4 address:"
 msgstr ""
 
-#: loader/net.c:787 loader/net.c:854 ui/netconfig.glade.h:1
+#: loader/net.c:787 loader/net.c:854
 msgid "/"
 msgstr ""
 
@@ -4214,41 +4224,41 @@ msgstr ""
 msgid "Unknown Url method %s"
 msgstr ""
 
-#: loader/urls.c:158 loader/urls.c:166
+#: loader/urls.c:168 loader/urls.c:176
 msgid "Retrieving"
 msgstr ""
 
-#: loader/urls.c:255
+#: loader/urls.c:262
 #, c-format
 msgid ""
 "Please enter the URL containing the %s installation image on your server."
 msgstr ""
 
-#: loader/urls.c:273
+#: loader/urls.c:280
 msgid "Enable HTTP proxy"
 msgstr ""
 
-#: loader/urls.c:288
+#: loader/urls.c:294
 msgid "Proxy URL"
 msgstr ""
 
-#: loader/urls.c:298
+#: loader/urls.c:299
 msgid "Username"
 msgstr ""
 
-#: loader/urls.c:303
+#: loader/urls.c:304
 msgid "Password"
 msgstr ""
 
-#: loader/urls.c:322
+#: loader/urls.c:323
 msgid "URL Setup"
 msgstr ""
 
-#: loader/urls.c:330
+#: loader/urls.c:331
 msgid "You must enter a URL."
 msgstr ""
 
-#: loader/urls.c:336
+#: loader/urls.c:337
 msgid "URL must be either an ftp or http URL"
 msgstr ""
 
@@ -4621,23 +4631,23 @@ msgstr ""
 msgid "lvs failed for %s"
 msgstr ""
 
-#: storage/devices.py:1259 storage/devices.py:1926 storage/devices.py:2329
-#: storage/devices.py:2800 storage/devices.py:3282
+#: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
+#: storage/devices.py:2799 storage/devices.py:3281
 msgid "Creating"
 msgstr ""
 
-#: storage/devices.py:1260 storage/devices.py:1927 storage/devices.py:2330
-#: storage/devices.py:2801
+#: storage/devices.py:1259 storage/devices.py:1926 storage/devices.py:2329
+#: storage/devices.py:2800
 #, python-format
 msgid "Creating device %s"
 msgstr ""
 
-#: storage/devices.py:2423
+#: storage/devices.py:2422
 #, python-format
 msgid "A RAID%d set requires atleast %d members"
 msgstr ""
 
-#: storage/devices.py:3283
+#: storage/devices.py:3282
 #, python-format
 msgid "Creating file %s"
 msgstr ""
@@ -4770,31 +4780,31 @@ msgstr ""
 msgid "Scanning iSCSI nodes"
 msgstr ""
 
-#: storage/iscsi.py:176 storage/iscsi.py:177
+#: storage/iscsi.py:177 storage/iscsi.py:178
 msgid "Initializing iSCSI initiator"
 msgstr ""
 
-#: storage/iscsi.py:213
+#: storage/iscsi.py:214
 msgid "iSCSI not available"
 msgstr ""
 
-#: storage/iscsi.py:215
+#: storage/iscsi.py:216
 msgid "No initiator name set"
 msgstr ""
 
-#: storage/iscsi.py:229
+#: storage/iscsi.py:230
 msgid "No iSCSI nodes discovered"
 msgstr ""
 
-#: storage/iscsi.py:232 storage/iscsi.py:233
+#: storage/iscsi.py:233 storage/iscsi.py:234
 msgid "Logging in to iSCSI nodes"
 msgstr ""
 
-#: storage/iscsi.py:258
+#: storage/iscsi.py:260
 msgid "No new iSCSI nodes discovered"
 msgstr ""
 
-#: storage/iscsi.py:261
+#: storage/iscsi.py:263
 msgid "Could not log in to any of the discovered nodes"
 msgstr ""
 
@@ -4947,15 +4957,15 @@ msgstr ""
 msgid "Could not set zFCP device %(devnum)s offline (%(e)s)."
 msgstr ""
 
-#: textw/complete_text.py:32
+#: textw/complete_text.py:31
 msgid "Reboot"
 msgstr ""
 
-#: textw/complete_text.py:34
+#: textw/complete_text.py:33
 msgid "<Enter> to exit"
 msgstr ""
 
-#: textw/complete_text.py:62
+#: textw/complete_text.py:61
 msgid "Complete"
 msgstr ""
 
@@ -4972,11 +4982,11 @@ msgstr ""
 msgid "A value is required for the field %s"
 msgstr ""
 
-#: textw/netconfig_text.py:88 ui/netconfig.glade.h:9
+#: textw/netconfig_text.py:88 ui/netconfig.glade.h:1
 msgid "Enable network interface"
 msgstr ""
 
-#: textw/netconfig_text.py:91 ui/netconfig.glade.h:10
+#: textw/netconfig_text.py:91
 msgid ""
 "This requires that you have an active network connection during the "
 "installation process.  Please configure a network interface."
@@ -5054,11 +5064,11 @@ msgstr ""
 msgid "<Space>,<+>,<-> selection   |   <F2> Add drive   |   <F12> next screen"
 msgstr ""
 
-#: textw/partition_text.py:173 ui/adddrive.glade.h:4
+#: textw/partition_text.py:173
 msgid "Advanced Storage Options"
 msgstr ""
 
-#: textw/partition_text.py:174 ui/adddrive.glade.h:5
+#: textw/partition_text.py:174
 msgid "How would you like to modify your drive configuration?"
 msgstr ""
 
@@ -5294,18 +5304,6 @@ msgid ""
 msgstr ""
 
 #: ui/adddrive.glade.h:1
-msgid "Add _FCoE SAN"
-msgstr ""
-
-#: ui/adddrive.glade.h:2
-msgid "Add _ZFCP LUN"
-msgstr ""
-
-#: ui/adddrive.glade.h:3
-msgid "Add _iSCSI target"
-msgstr ""
-
-#: ui/adddrive.glade.h:6
 msgid "_Add drive"
 msgstr ""
 
@@ -5391,27 +5389,23 @@ msgid "<b>Shrink partition _to size (in MB):</b>"
 msgstr ""
 
 #: ui/autopart.glade.h:2
-msgid "Re_view and modify partitioning layout"
-msgstr ""
-
-#: ui/autopart.glade.h:3
 msgid "Volume to Shrink"
 msgstr ""
 
-#: ui/autopart.glade.h:4
+#: ui/autopart.glade.h:3
 msgid ""
 "Which partition would you like to shrink to make room for your installation?"
 msgstr ""
 
-#: ui/autopart.glade.h:5
+#: ui/autopart.glade.h:4
 msgid "Which type of installation would you like?"
 msgstr ""
 
-#: ui/autopart.glade.h:6
+#: ui/autopart.glade.h:5
 msgid "_Encrypt system"
 msgstr ""
 
-#: ui/autopart.glade.h:7
+#: ui/autopart.glade.h:6
 msgid "_Shrink"
 msgstr ""
 
@@ -5728,38 +5722,6 @@ msgstr ""
 msgid "Enter passphrase:"
 msgstr ""
 
-#: ui/netconfig.glade.h:2
-msgid "<b>Gateway:</b>"
-msgstr ""
-
-#: ui/netconfig.glade.h:3
-msgid "<b>IPv4 Address:</b>"
-msgstr ""
-
-#: ui/netconfig.glade.h:4
-msgid "<b>IPv6 Address:</b>"
-msgstr ""
-
-#: ui/netconfig.glade.h:5
-msgid "<b>Nameserver:</b>"
-msgstr ""
-
-#: ui/netconfig.glade.h:6
-msgid "<b>_Interface:</b>"
-msgstr ""
-
-#: ui/netconfig.glade.h:7
-msgid "Enable IPv_4 support"
-msgstr ""
-
-#: ui/netconfig.glade.h:8
-msgid "Enable IPv_6 support"
-msgstr ""
-
-#: ui/netconfig.glade.h:11
-msgid "Use _dynamic IP configuration (DHCP)"
-msgstr ""
-
 #: ui/network.glade.h:1
 msgid "Configure Network"
 msgstr ""
@@ -5775,38 +5737,16 @@ msgid ""
 msgstr ""
 
 #: ui/tasksel.glade.h:1
-msgid "Customize _later"
-msgstr ""
-
-#: ui/tasksel.glade.h:2
 msgid ""
 "Please select any additional repositories that you want to use for software "
 "installation."
 msgstr ""
 
-#: ui/tasksel.glade.h:4
-#, no-c-format
-msgid ""
-"The default installation of %s includes a set of software applicable for "
-"general internet usage.  What additional tasks would you like your system to "
-"support?"
-msgstr ""
-
-#: ui/tasksel.glade.h:5
-msgid ""
-"You can further customize the software selection now, or after install via "
-"the software management application."
-msgstr ""
-
-#: ui/tasksel.glade.h:6
+#: ui/tasksel.glade.h:2
 msgid "_Add additional software repositories"
 msgstr ""
 
-#: ui/tasksel.glade.h:7
-msgid "_Customize now"
-msgstr ""
-
-#: ui/tasksel.glade.h:8
+#: ui/tasksel.glade.h:3
 msgid "_Modify repository"
 msgstr ""
 
@@ -6068,4 +6008,73 @@ msgstr ""
 
 #: lang-table.h:61
 msgid "Zulu"
+msgstr ""
+
+#: sabayon/livecd.py:63
+#, python-format
+msgid ""
+"The given location [%s] isn't a valid %s live CD to use as an installation "
+"source."
+msgstr ""
+
+#: sabayon/livecd.py:95
+msgid "Installing Sabayon onto hard drive."
+msgstr ""
+
+#: sabayon/livecd.py:107
+msgid "Configuring Sabayon"
+msgstr ""
+
+#: sabayon/livecd.py:125
+msgid "Sabayon configuration complete"
+msgstr ""
+
+#: sabayon/utils.py:202
+msgid "System Health Status Warning"
+msgstr ""
+
+#: sabayon/utils.py:348
+msgid "Configuring System Services"
+msgstr ""
+
+#: sabayon/utils.py:609
+msgid "An issue occured while installing"
+msgstr ""
+
+#: sabayon/utils.py:611
+msgid "Meh."
+msgstr ""
+
+#: sabayon/utils.py:612
+msgid "Drivers installation issue"
+msgstr ""
+
+#: sabayon/utils.py:642
+msgid "System Installation"
+msgstr ""
+
+#: sabayon/utils.py:775
+msgid "Cleaning packages"
+msgstr ""
+
+#: sabayon/utils.py:800
+msgid "Cleaning package"
+msgstr ""
+
+#: sabayon/utils.py:840
+msgid "Installation complete"
+msgstr ""
+
+#: sabayon/utils.py:872
+msgid ""
+"This DVD contains many extra languages, would you like to keep them "
+"installed?"
+msgstr ""
+
+#: sabayon/utils.py:875
+msgid "Language packs installation"
+msgstr ""
+
+#: sabayon/utils.py:886
+msgid "Generating list of files to copy"
 msgstr ""

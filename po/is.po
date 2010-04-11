@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda.master.is\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-01-20 16:07-1000\n"
+"POT-Creation-Date: 2010-04-11 21:22+0200\n"
 "PO-Revision-Date: 2010-03-03 10:24+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: Icelandic <rglug@rglug.org>\n"
@@ -18,93 +18,107 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: anaconda:355
+#: anaconda:341
 msgid "Press <enter> for a shell"
 msgstr "Sláðu á <enter> til að fara í skel"
 
-#: anaconda:370 rescue.py:324 rescue.py:350 rescue.py:363 rescue.py:441
-#: rescue.py:453 text.py:652 loader/cdinstall.c:228 loader/cdinstall.c:232
+#: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
+#: rescue.py:466 text.py:656 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
-#: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:128
-#: loader/driverdisk.c:270 loader/driverdisk.c:423 loader/driverdisk.c:461
-#: loader/driverdisk.c:492 loader/driverdisk.c:527 loader/driverdisk.c:543
-#: loader/driverdisk.c:555 loader/driverdisk.c:563 loader/driverdisk.c:723
-#: loader/driverdisk.c:762 loader/driverselect.c:78 loader/driverselect.c:178
+#: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
+#: loader/driverdisk.c:266 loader/driverdisk.c:422 loader/driverdisk.c:460
+#: loader/driverdisk.c:491 loader/driverdisk.c:526 loader/driverdisk.c:542
+#: loader/driverdisk.c:554 loader/driverdisk.c:562 loader/driverdisk.c:722
+#: loader/driverdisk.c:761 loader/driverselect.c:79 loader/driverselect.c:179
 #: loader/hdinstall.c:115 loader/hdinstall.c:257 loader/hdinstall.c:315
 #: loader/hdinstall.c:349 loader/hdinstall.c:421 loader/hdinstall.c:464
 #: loader/hdinstall.c:477 loader/kbd.c:119 loader/kickstart.c:132
 #: loader/kickstart.c:142 loader/kickstart.c:184 loader/kickstart.c:189
 #: loader/kickstart.c:296 loader/kickstart.c:328 loader/kickstart.c:510
-#: loader/lang.c:114 loader/lang.c:372 loader/loader.c:414 loader/loader.c:450
-#: loader/loader.c:490 loader/loader.c:508 loader/loader.c:525
-#: loader/loader.c:562 loader/loader.c:1177 loader/loader.c:1358
-#: loader/mediacheck.c:46 loader/mediacheck.c:85 loader/mediacheck.c:92
-#: loader/mediacheck.c:101 loader/method.c:277 loader/method.c:351
-#: loader/modules.c:381 loader/modules.c:397 loader/net.c:579 loader/net.c:950
-#: loader/net.c:1558 loader/net.c:1579 loader/net.c:1851 loader/net.c:1870
-#: loader/net.c:1882 loader/nfsinstall.c:91 loader/nfsinstall.c:279
-#: loader/nfsinstall.c:296 loader/nfsinstall.c:366 loader/telnetd.c:92
-#: loader/urlinstall.c:137 loader/urlinstall.c:159 loader/urlinstall.c:221
-#: loader/urlinstall.c:372 loader/urlinstall.c:383 loader/urlinstall.c:390
-#: loader/urls.c:249 loader/urls.c:326 loader/urls.c:332
-#: textw/constants_text.py:44
+#: loader/lang.c:114 loader/lang.c:373 loader/loader.c:429 loader/loader.c:465
+#: loader/loader.c:505 loader/loader.c:523 loader/loader.c:540
+#: loader/loader.c:577 loader/loader.c:1194 loader/loader.c:1375
+#: loader/mediacheck.c:47 loader/mediacheck.c:86 loader/mediacheck.c:93
+#: loader/mediacheck.c:97 loader/mediacheck.c:106 loader/method.c:277
+#: loader/method.c:351 loader/modules.c:382 loader/modules.c:398
+#: loader/net.c:578 loader/net.c:949 loader/net.c:1557 loader/net.c:1578
+#: loader/net.c:1848 loader/net.c:1867 loader/net.c:1879
+#: loader/nfsinstall.c:91 loader/nfsinstall.c:279 loader/nfsinstall.c:296
+#: loader/nfsinstall.c:366 loader/telnetd.c:93 loader/urlinstall.c:137
+#: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urlinstall.c:372
+#: loader/urlinstall.c:383 loader/urlinstall.c:390 loader/urls.c:259
+#: loader/urls.c:330 loader/urls.c:336 textw/constants_text.py:44
 msgid "OK"
 msgstr "Í lagi"
 
-#: anaconda:377
-msgid ""
-"You do not have enough RAM to use the graphical installer.  Starting text "
-"mode."
+#: anaconda:363
+#, fuzzy
+msgid "You do not have enough RAM to use the graphical installer."
 msgstr ""
 "Það er ekki nægjanlegt vinnsluminni í vélinni til að nota myndræna "
 "uppsetningarforritið. Fer í textaham."
 
-#: anaconda:498
+#: anaconda:367
+msgid ""
+"Try the text mode installer by running:\n"
+"\n"
+"'/usr/bin/liveinst -T'\n"
+"\n"
+" from a root terminal."
+msgstr ""
+
+#: anaconda:370
+#, fuzzy
+msgid "Not enough RAM"
+msgstr "Ekki nóg pláss"
+
+#: anaconda:380
+#, fuzzy
+msgid "Starting text mode."
+msgstr "Nota textaham"
+
+#: anaconda:636
 msgid "Starting graphical installation."
 msgstr "Ræsi myndræna uppsetningu."
 
-#: anaconda:837
+#: anaconda:1056
 msgid "Would you like to use VNC?"
 msgstr "Myndirðu vilja nota VNC?"
 
-#: anaconda:838
+#: anaconda:1057
 msgid ""
 "Text mode provides a limited set of installation options.  It does not allow "
 "you to specify your own partitioning layout or package selections.  Would "
 "you like to use VNC mode instead?"
 msgstr ""
 
-#: anaconda:864
-msgid "Install class forcing text mode installation"
-msgstr "Uppsetningaraðferðin krefst uppsetningar í textaham"
-
-#: anaconda:883
+#: anaconda:1083
 msgid "Graphical installation is not available. Starting text mode."
 msgstr "Myndræn uppsetning er ekki tiltæk. Fer í textaham."
 
-#: anaconda:891
+#: anaconda:1091
 msgid "DISPLAY variable not set. Starting text mode."
 msgstr "DISPLAY breytan er ekki sett. Ræsi í textaham."
 
-#: backend.py:151
+#: backend.py:135
 #, python-format
 msgid "Upgrading %s\n"
 msgstr "Uppfæri %s\n"
 
-#: backend.py:153
+#: backend.py:137
 #, python-format
 msgid "Installing %s\n"
 msgstr "Set upp %s\n"
 
-#: backend.py:166
+#: backend.py:150
 msgid "Copying File"
 msgstr "Afrita skrá"
 
-#: backend.py:167
+#: backend.py:151
 msgid "Transferring install image to hard drive"
 msgstr "Flyt uppsetningarskrár á harða diskinn."
 
-#: backend.py:177
+#: backend.py:161
 msgid ""
 "An error occurred transferring the install image to your hard drive.  This "
 "is often cause by damaged or low quality media."
@@ -112,7 +126,7 @@ msgstr ""
 "Villa kom upp við að flytja uppsetningarskrár á harða diskinn. Það er oftast "
 "vegna gallaðra eða lélegra miðla."
 
-#: backend.py:181
+#: backend.py:165
 msgid ""
 "An error occurred transferring the install image to your hard drive. You are "
 "probably out of disk space."
@@ -120,37 +134,42 @@ msgstr ""
 "Villa kom upp við að flytja uppsetningarskrár á harða diskinn. Hann er "
 "líklega fullur."
 
-#: backend.py:185 image.py:288 livecd.py:198 livecd.py:403
-#: partIntfHelpers.py:237 text.py:350 text.py:354 yuminstall.py:407
-#: yuminstall.py:787 yuminstall.py:905 yuminstall.py:910 yuminstall.py:1181
-#: yuminstall.py:1245 yuminstall.py:1434 yuminstall.py:1456
-#: iw/autopart_type.py:96 iw/osbootwidget.py:211 iw/osbootwidget.py:220
-#: iw/raid_dialog_gui.py:212 iw/raid_dialog_gui.py:729
-#: iw/raid_dialog_gui.py:768 iw/task_gui.py:64 iw/task_gui.py:165
-#: iw/task_gui.py:311 iw/task_gui.py:449 loader/cdinstall.c:228
-#: loader/cdinstall.c:504 loader/driverdisk.c:270 loader/driverdisk.c:492
-#: loader/driverdisk.c:527 loader/driverdisk.c:555 loader/driverdisk.c:563
-#: loader/driverdisk.c:627 loader/hdinstall.c:115 loader/hdinstall.c:315
+#: backend.py:169 image.py:289 livecd.py:198 livecd.py:400
+#: partIntfHelpers.py:237 text.py:354 text.py:358 yuminstall.py:416
+#: yuminstall.py:805 yuminstall.py:923 yuminstall.py:928 yuminstall.py:1190
+#: yuminstall.py:1249 yuminstall.py:1440 yuminstall.py:1462
+#: iw/advanced_storage.py:90 iw/advanced_storage.py:100
+#: iw/advanced_storage.py:176 iw/advanced_storage.py:179
+#: iw/advanced_storage.py:207 iw/autopart_type.py:96 iw/cleardisks_gui.py:43
+#: iw/cleardisks_gui.py:53 iw/filter_gui.py:411 iw/osbootwidget.py:211
+#: iw/osbootwidget.py:220 iw/raid_dialog_gui.py:215 iw/raid_dialog_gui.py:766
+#: iw/raid_dialog_gui.py:805 iw/task_gui.py:54 iw/task_gui.py:155
+#: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
+#: loader/cdinstall.c:504 loader/driverdisk.c:266 loader/driverdisk.c:491
+#: loader/driverdisk.c:526 loader/driverdisk.c:554 loader/driverdisk.c:562
+#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:315
 #: loader/hdinstall.c:421 loader/hdinstall.c:464 loader/hdinstall.c:477
-#: loader/kickstart.c:296 loader/lang.c:114 loader/loader.c:414
-#: loader/loader.c:525 loader/loader.c:1177 loader/mediacheck.c:46
-#: loader/mediacheck.c:85 loader/mediacheck.c:92 loader/method.c:277
-#: loader/method.c:351 loader/nfsinstall.c:279 loader/nfsinstall.c:296
-#: loader/telnetd.c:92 loader/urlinstall.c:137 loader/urlinstall.c:159
-#: loader/urlinstall.c:221 loader/urls.c:326 loader/urls.c:332
-#: storage/__init__.py:209 storage/__init__.py:1725 storage/__init__.py:1812
-#: textw/netconfig_text.py:282 textw/partition_text.py:186
-#: textw/partition_text.py:192 textw/partition_text.py:198
-#: textw/partition_text.py:227 textw/partition_text.py:273
-#: textw/upgrade_text.py:179 textw/upgrade_text.py:186
+#: loader/kickstart.c:296 loader/lang.c:114 loader/loader.c:429
+#: loader/loader.c:540 loader/loader.c:1194 loader/mediacheck.c:47
+#: loader/mediacheck.c:86 loader/mediacheck.c:93 loader/mediacheck.c:97
+#: loader/method.c:277 loader/method.c:351 loader/nfsinstall.c:279
+#: loader/nfsinstall.c:296 loader/telnetd.c:93 loader/urlinstall.c:137
+#: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urls.c:330
+#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1794
+#: storage/__init__.py:1881 textw/netconfig_text.py:282
+#: textw/partition_text.py:186 textw/partition_text.py:192
+#: textw/partition_text.py:198 textw/partition_text.py:227
+#: textw/partition_text.py:273 textw/upgrade_text.py:181
+#: textw/upgrade_text.py:188 sabayon/livecd.py:382
 msgid "Error"
 msgstr "Villa"
 
-#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1148
-#: gui.py:1208 image.py:82 text.py:479 text.py:539 yuminstall.py:1413
-#: yuminstall.py:1622 yuminstall.py:1657 iw/blpasswidget.py:148
-#: iw/upgrade_swap_gui.py:190 iw/upgrade_swap_gui.py:198
-#: iw/upgrade_swap_gui.py:205 textw/upgrade_text.py:191
+#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1102
+#: gui.py:1162 image.py:82 installinterfacebase.py:41 text.py:485 text.py:545
+#: yuminstall.py:1418 yuminstall.py:1622 yuminstall.py:1657
+#: iw/blpasswidget.py:148 iw/upgrade_swap_gui.py:190
+#: iw/upgrade_swap_gui.py:198 iw/upgrade_swap_gui.py:205
+#: textw/upgrade_text.py:193
 msgid "Warning"
 msgstr "Aðvörun"
 
@@ -166,19 +185,19 @@ msgstr ""
 "\n"
 "Viltu halda uppsetningunni áfram?"
 
-#: bootloader.py:60 gui.py:1099 gui.py:1244 gui.py:1450 image.py:91
-#: kickstart.py:156 livecd.py:205 livecd.py:410 packages.py:161 upgrade.py:58
-#: upgrade.py:199 yuminstall.py:248 yuminstall.py:689 yuminstall.py:907
-#: yuminstall.py:912 yuminstall.py:992 yuminstall.py:998 yuminstall.py:1152
-#: yuminstall.py:1177 yuminstall.py:1235 yuminstall.py:1421 yuminstall.py:1440
-#: yuminstall.py:1463 storage/__init__.py:106 storage/__init__.py:213
-#: storage/__init__.py:1906
+#: bootloader.py:60 gui.py:1053 gui.py:1198 gui.py:1403 image.py:91
+#: kickstart.py:156 livecd.py:205 livecd.py:407 packages.py:130 upgrade.py:56
+#: upgrade.py:237 yuminstall.py:257 yuminstall.py:703 yuminstall.py:925
+#: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
+#: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
+#: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
+#: storage/__init__.py:1975 storage/dasd.py:139 sabayon/livecd.py:389
 msgid "_Exit installer"
 msgstr "_Loka uppsetningarforritinu"
 
-#: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1300
-#: kickstart.py:1339 upgrade.py:58 yuminstall.py:1240 yuminstall.py:1422
-#: iw/partition_gui.py:1600 storage/__init__.py:1907
+#: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
+#: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
+#: iw/partition_gui.py:1598 storage/__init__.py:1976
 msgid "_Continue"
 msgstr "_Halda áfram"
 
@@ -204,16 +223,16 @@ msgstr ""
 "Engir kjarnapakkar voru settir inn á vélina þína. Stillingum ræsistjóra "
 "verður ekki breytt."
 
-#: cmdline.py:55
+#: cmdline.py:56
 msgid "Completed"
 msgstr "Lokið"
 
-#: cmdline.py:63
+#: cmdline.py:64
 msgid "In progress"
 msgstr "Í gangi"
 
-#: cmdline.py:86 gui.py:1239 kickstart.py:1164 kickstart.py:1172
-#: kickstart.py:1210 kickstart.py:1218 text.py:387
+#: cmdline.py:89 gui.py:1193 kickstart.py:1214 kickstart.py:1222
+#: kickstart.py:1260 kickstart.py:1268 text.py:391
 #, python-format
 msgid ""
 "The following error was found while parsing the kickstart configuration "
@@ -225,17 +244,17 @@ msgstr ""
 "\n"
 "%s"
 
-#: cmdline.py:98
+#: cmdline.py:101
 msgid ""
 "Command line mode requires all choices to be specified in a kickstart "
 "configuration file."
 msgstr ""
 
-#: cmdline.py:117 cmdline.py:124 cmdline.py:131 cmdline.py:141 cmdline.py:151
+#: cmdline.py:120 cmdline.py:127 cmdline.py:134 cmdline.py:144 cmdline.py:154
 msgid "Can't have a question in command line mode!"
 msgstr "Það má ekki vera spurningamerki í skipanalínuham!"
 
-#: constants.py:74
+#: constants.py:75
 msgid ""
 "An unhandled exception has occurred.  This is most likely a bug.  Please "
 "save a copy of the detailed exception and file a bug report"
@@ -243,24 +262,24 @@ msgstr ""
 "Óeðlilegt ástand hefur komið upp. Orsökin er líklegast villa. Vinsamlegast "
 "afritaðu allan textann hérna og sendu inn villutilkynningu"
 
-#: constants.py:80
+#: constants.py:81
 msgid " with the provider of this software."
 msgstr " til höfunda hugbúnaðarins."
 
-#: constants.py:84
+#: constants.py:85
 #, python-format
 msgid " against anaconda at %s"
 msgstr " um anaconda, á %s"
 
-#: gui.py:108
+#: gui.py:109
 msgid "An error occurred saving screenshots to disk."
 msgstr "Villa kom upp við að afrita skjámyndirnar á disk."
 
-#: gui.py:119
+#: gui.py:120
 msgid "Screenshots Copied"
 msgstr "Skjámyndir afritaðar"
 
-#: gui.py:120
+#: gui.py:121
 msgid ""
 "The screenshots have been saved in the directory:\n"
 "\n"
@@ -275,20 +294,20 @@ msgstr ""
 "Þú getur skráð þig inn sem kerfisstjóra og litið á þær þegar vélin hefur "
 "endurræst."
 
-#: gui.py:163
+#: gui.py:164
 msgid "Saving Screenshot"
 msgstr "Vista skjámynd"
 
-#: gui.py:164
+#: gui.py:165
 #, python-format
 msgid "A screenshot named '%s' has been saved."
 msgstr "Skjámynd með heitinu '%s' hefur verið vistuð."
 
-#: gui.py:167
+#: gui.py:168
 msgid "Error Saving Screenshot"
 msgstr "Villa við að vista skjámynd"
 
-#: gui.py:168
+#: gui.py:169
 msgid ""
 "An error occurred while saving the screenshot.  If this occurred during "
 "package installation, you may need to try several times for it to succeed."
@@ -297,11 +316,11 @@ msgstr ""
 "var að setja inn pakka gætir þú þurft að reyna nokkrum sinnum til viðbótar "
 "áður en það tekst."
 
-#: gui.py:560
+#: gui.py:510
 msgid "Installation Key"
 msgstr "Uppsetningarlykill"
 
-#: gui.py:631 text.py:148
+#: gui.py:581 text.py:149
 msgid ""
 "Choose a passphrase for the encrypted devices. You will be prompted for this "
 "passphrase during system boot."
@@ -309,37 +328,37 @@ msgstr ""
 "Settu inn lykilorð fyrir þessa dulkóðuðu disksneið. Þú verður krafin(n) um "
 "þetta setningu við ræsingu kerfisins."
 
-#: gui.py:650 gui.py:658 text.py:186 text.py:196
+#: gui.py:600 gui.py:608 text.py:187 text.py:197
 msgid "Error with passphrase"
 msgstr "Villa með lykilorð"
 
-#: gui.py:651 text.py:187
+#: gui.py:601 text.py:188
 msgid "The passphrases you entered were different.  Please try again."
 msgstr "Lykilorðin sem þú slóst inn eru ekki eins. Reyndu aftur."
 
-#: gui.py:659
+#: gui.py:609
 msgid "The passphrase must be at least eight characters long."
 msgstr "Lykilorðið verður að vera minnst 6 stafir að lengd."
 
-#: gui.py:693 text.py:224
+#: gui.py:643 text.py:225
 #, python-format
 msgid ""
 "Device %s is encrypted. In order to access the device's contents during "
 "installation you must enter the device's passphrase below."
 msgstr ""
 
-#: gui.py:784 gui.py:1450 partIntfHelpers.py:157 partIntfHelpers.py:342
-#: text.py:99 text.py:100 iw/account_gui.py:130 loader/dirbrowser.c:128
-#: loader/driverdisk.c:424 loader/kickstart.c:328 loader/loader.c:450
-#: loader/loader.c:562 textw/constants_text.py:48
+#: gui.py:734 gui.py:1403 partIntfHelpers.py:157 partIntfHelpers.py:342
+#: text.py:100 text.py:101 iw/account_gui.py:130 loader/dirbrowser.c:129
+#: loader/driverdisk.c:423 loader/kickstart.c:328 loader/loader.c:465
+#: loader/loader.c:577 textw/constants_text.py:48
 msgid "Cancel"
 msgstr "Hætta við"
 
-#: gui.py:796 gui.py:797 gui.py:913 gui.py:914 ui/anaconda.glade.h:2
+#: gui.py:746 gui.py:747 gui.py:863 gui.py:864 ui/anaconda.glade.h:3
 msgid "_Debug"
 msgstr "_Aflúsun"
 
-#: gui.py:1149 text.py:480
+#: gui.py:1103 text.py:486
 #, python-format
 msgid ""
 "Error processing drive:\n"
@@ -356,23 +375,23 @@ msgid ""
 "(details)s"
 msgstr ""
 
-#: gui.py:1158 gui.py:1216 text.py:489 text.py:547
+#: gui.py:1112 gui.py:1170 text.py:495 text.py:553
 msgid "_Ignore"
 msgstr "H_unsa"
 
-#: gui.py:1159 gui.py:1217 text.py:490 text.py:548
+#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
 msgid "Ignore _all"
 msgstr "Hunsa _allt"
 
-#: gui.py:1160 gui.py:1218 text.py:491 text.py:549
+#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
 msgid "_Re-initialize"
 msgstr "F_rumstilla"
 
-#: gui.py:1161 gui.py:1219 text.py:492 text.py:550
+#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
 msgid "Re-ini_tialize all"
 msgstr "Frums_tilla allt"
 
-#: gui.py:1209 text.py:540
+#: gui.py:1163 text.py:546
 #, python-format
 msgid ""
 "Error processing LVM.\n"
@@ -382,19 +401,19 @@ msgid ""
 "with inconsistent metadata."
 msgstr ""
 
-#: gui.py:1241 text.py:389
+#: gui.py:1195 text.py:393
 msgid "Error Parsing Kickstart Config"
 msgstr "Villa við þáttun hraðuppsetningarskrár"
 
-#: gui.py:1284
+#: gui.py:1223
 msgid "default:LTR"
 msgstr "sjálfgefið:LTR"
 
-#: gui.py:1364 text.py:617
+#: gui.py:1303 text.py:621
 msgid "Error!"
 msgstr "Villa!"
 
-#: gui.py:1365 text.py:618
+#: gui.py:1304 text.py:622
 #, python-format
 msgid ""
 "An error occurred when attempting to load an installer interface component.\n"
@@ -405,46 +424,46 @@ msgstr ""
 "\n"
 "className = %s"
 
-#: gui.py:1370 image.py:164 image.py:194 packages.py:359
-#: storage/__init__.py:1724
+#: gui.py:1309 image.py:164 image.py:194 packages.py:328
+#: storage/__init__.py:1793
 msgid "_Exit"
 msgstr "_Hætta"
 
-#: gui.py:1371 image.py:164 image.py:194 livecd.py:205 yuminstall.py:779
-#: yuminstall.py:1177 yuminstall.py:1235 yuminstall.py:1440
+#: gui.py:1310 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
+#: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1446
 msgid "_Retry"
 msgstr "_Reyna aftur"
 
-#: gui.py:1373 storage/partitioning.py:275
+#: gui.py:1312 storage/partitioning.py:276
 msgid "The system will now reboot."
 msgstr "Vélin þín mun nú endurræsa."
 
-#: gui.py:1374 image.py:251 packages.py:363 yuminstall.py:1481
+#: gui.py:1313 image.py:251 packages.py:332 yuminstall.py:1487
 msgid "_Reboot"
 msgstr "En_durræsa"
 
-#: gui.py:1376
+#: gui.py:1315
 msgid "Exiting"
 msgstr "Hætti"
 
-#: gui.py:1447 livecd.py:126 text.py:266 upgrade.py:190
+#: gui.py:1400 livecd.py:126 text.py:270 upgrade.py:228 sabayon/livecd.py:67
 msgid "Exit installer"
 msgstr "Loka uppsetningarforritinu"
 
-#: gui.py:1448
+#: gui.py:1401
 msgid "Are you sure you wish to exit the installer?"
 msgstr "Ertu viss um að þú viljir fara út úr uppsetningaforritinu?"
 
-#: gui.py:1457
+#: gui.py:1410
 #, python-format
 msgid "%s Installer"
 msgstr "%s uppsetningarforrit"
 
-#: gui.py:1463
+#: gui.py:1416
 msgid "Unable to load title bar"
 msgstr "Get ekki lesið titilröndina"
 
-#: gui.py:1525
+#: gui.py:1483
 msgid "Install Window"
 msgstr "Uppsetningargluggi"
 
@@ -496,8 +515,8 @@ msgstr ""
 "Uppsetningarforritið reyndi að tengja diskmyndina #%s en hún var ekki til "
 "staðar á harða disknum.\n"
 "\n"
-"Vinsamlega afritaðu þessa diskmynd á harða diskinn og smelltu á 'Reyna aftur'. "
-"Smelltu á 'Hætta' til að hætta við uppsetninguna."
+"Vinsamlega afritaðu þessa diskmynd á harða diskinn og smelltu á 'Reyna "
+"aftur'. Smelltu á 'Hætta' til að hætta við uppsetninguna."
 
 #: image.py:241
 msgid "Required Install Media"
@@ -517,15 +536,16 @@ msgstr ""
 "(productName)s %(productVersion)s geisladiska:\n"
 "\n"
 "%(reqcdstr)s\n"
-"Hafðu þá tiltæka áður en lengra er haldið. Ef þú þarft að hætta "
-"við þessa uppsetningu og endurræsa getur þú valið \"Endurræsa\" hnappinn."
+"Hafðu þá tiltæka áður en lengra er haldið. Ef þú þarft að hætta við þessa "
+"uppsetningu og endurræsa getur þú valið \"Endurræsa\" hnappinn."
 
-#: image.py:251 livecd.py:409 packages.py:363 upgrade.py:198 yuminstall.py:912
-#: yuminstall.py:998 yuminstall.py:1421 yuminstall.py:1463 yuminstall.py:1481
+#: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
+#: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:388
 msgid "_Back"
 msgstr "_Til baka"
 
-#: image.py:289
+#: image.py:290
 #, python-format
 msgid ""
 "An error occurred unmounting the disc.  Please make sure you're not "
@@ -535,86 +555,98 @@ msgstr ""
 "þú sért ekki að nota %s í skélinni á tty2 og veldu svo Í lagi til að reyna "
 "aftur."
 
-#: installclass.py:74
+#: installclass.py:71
 msgid "Install on System"
 msgstr "Setja upp á kerfi"
 
-#: iutil.py:823
+#: installinterfacebase.py:42
+#, python-format
+msgid ""
+"Disk %s contains BIOS RAID metadata, but is not part of any recognized BIOS "
+"RAID sets. Ignoring disk %s."
+msgid_plural ""
+"Disks %s contain BIOS RAID metadata, but are not part of any recognized BIOS "
+"RAID sets. Ignoring disks %s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: iutil.py:816
 #, python-format
 msgid ""
 "Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: %(e)"
 "s)"
 msgstr ""
 
-#: iutil.py:834
+#: iutil.py:827
 #, python-format
 msgid ""
 "Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
 "(e)s)"
 msgstr ""
 
-#: iutil.py:843
+#: iutil.py:836
 #, python-format
 msgid ""
 "Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
 "(e)s)"
 msgstr ""
 
-#: iutil.py:862
+#: iutil.py:855
 #, python-format
 msgid "Error: Could not set %(device)s as reIPL device (%(e)s)"
 msgstr ""
 
-#: iutil.py:872
+#: iutil.py:865
 #, python-format
 msgid "Error: Could not reset loadparm (%s)"
 msgstr ""
 
-#: iutil.py:881
+#: iutil.py:874
 #, python-format
 msgid "Warning: Could not reset parm (%s)"
 msgstr ""
 
-#: iutil.py:894
+#: iutil.py:887
 #, python-format
 msgid ""
 "After shutdown, please perform a manual IPL from DASD device %s to continue "
 "installation"
 msgstr ""
 
-#: iutil.py:916
+#: iutil.py:909
 #, python-format
 msgid "Error: reading FCP property %(syspath_property)s for reIPL (%(e)s)"
 msgstr ""
 
-#: iutil.py:931
+#: iutil.py:924
 #, python-format
 msgid "Error: writing FCP property %(reipl_property)s for reIPL (%(e)s)"
 msgstr ""
 
-#: iutil.py:946
+#: iutil.py:939
 #, python-format
-msgid "Error: writing default FCP property %(reipl_property)s for reIPL (%(e)s)"
+msgid ""
+"Error: writing default FCP property %(reipl_property)s for reIPL (%(e)s)"
 msgstr ""
 
-#: iutil.py:961
+#: iutil.py:954
 #, python-format
 msgid ""
 "After shutdown, please perform a manual IPL from FCP %(device)s with WWPN %"
 "(wwpn)s and LUN %(lun)s to continue installation"
 msgstr ""
 
-#: iutil.py:978
+#: iutil.py:971
 msgid ""
 "After shutdown, please perform a manual IPL from the device now containing /"
 "boot to continue installation"
 msgstr ""
 
-#: iutil.py:989
+#: iutil.py:982
 msgid "Error determining boot device's disk name"
 msgstr ""
 
-#: iutil.py:993
+#: iutil.py:986
 msgid "The mount point /boot or / is on a disk that we are not familiar with"
 msgstr ""
 
@@ -634,7 +666,8 @@ msgstr ""
 msgid "Scriptlet Failure"
 msgstr "Smáforritavilla"
 
-#: kickstart.py:150 rescue.py:240 yuminstall.py:684 yuminstall.py:1147
+#: kickstart.py:150 rescue.py:248 yuminstall.py:698 yuminstall.py:1164
+#: iw/task_gui.py:308
 #, fuzzy
 msgid "No Network Available"
 msgstr "Netkort"
@@ -645,41 +678,53 @@ msgid ""
 "the network on your system."
 msgstr ""
 
-#: kickstart.py:1183
+#: kickstart.py:164
+#, fuzzy, python-format
+msgid ""
+"The following error was encountered while downloading the escrow "
+"certificate:\n"
+"\n"
+"%s"
+msgstr ""
+"Eftirfarandi villa kom upp við þáttun hraðuppsetningarskrárarinnar:\n"
+"\n"
+"%s"
+
+#: kickstart.py:1233
 #, fuzzy, python-format
 msgid "Error processing %%ksappend lines: %s"
 msgstr "Villa við opnun hraðuppsetningarskrár %s: %s"
 
-#: kickstart.py:1186
+#: kickstart.py:1236
 #, fuzzy, python-format
 msgid "Unknown error processing %%ksappend lines: %s"
 msgstr "Óþekkt villa kom upp við keyrslu %%ksappend lína: %s"
 
-#: kickstart.py:1241 livecd.py:229
+#: kickstart.py:1291 livecd.py:229
 #, fuzzy
 msgid "Post-Installation"
 msgstr "Eftir uppsetningu"
 
-#: kickstart.py:1242
+#: kickstart.py:1292
 #, fuzzy
 msgid "Running post-installation scripts"
 msgstr "Keyri skeljaforrit eftir uppsetningu"
 
-#: kickstart.py:1258
+#: kickstart.py:1308
 #, fuzzy
 msgid "Pre-Installation"
 msgstr "Uppsetning pakka"
 
-#: kickstart.py:1259
+#: kickstart.py:1309
 #, fuzzy
 msgid "Running pre-installation scripts"
 msgstr "Keyri skeljaforrit fyrir uppsetningu"
 
-#: kickstart.py:1291
+#: kickstart.py:1341
 msgid "Missing Package"
 msgstr "Pakka vantar"
 
-#: kickstart.py:1292
+#: kickstart.py:1342
 #, fuzzy, python-format
 msgid ""
 "You have specified that the package '%s' should be installed.  This package "
@@ -688,20 +733,20 @@ msgstr ""
 "Þú kaust að setja inn pakkann '%s' sem er ekki til. Viltu halda áfram með "
 "uppsetninguna eða hætta við?"
 
-#: kickstart.py:1298 kickstart.py:1337
+#: kickstart.py:1348 kickstart.py:1387
 msgid "_Abort"
 msgstr "_Hætta við"
 
-#: kickstart.py:1299 kickstart.py:1338
+#: kickstart.py:1349 kickstart.py:1388
 #, fuzzy
 msgid "_Ignore All"
 msgstr "Hunsa"
 
-#: kickstart.py:1329
+#: kickstart.py:1379
 msgid "Missing Group"
 msgstr "Hóp vantar"
 
-#: kickstart.py:1330
+#: kickstart.py:1380
 #, fuzzy, python-format
 msgid ""
 "You have specified that the group '%s' should be installed. This group does "
@@ -710,7 +755,7 @@ msgstr ""
 "Þú kaust að setja inn pakkahópinn '%s' sem er ekki til. Viltu halda áfram "
 "með uppsetninguna eða hætta við?"
 
-#: kickstart.py:1445
+#: kickstart.py:1495
 #, python-format
 msgid ""
 "The kickstart configuration file is missing required information that "
@@ -719,13 +764,14 @@ msgid ""
 "%s"
 msgstr ""
 
-#: livecd.py:121
+#: livecd.py:121 sabayon/livecd.py:62
 msgid "Unable to find image"
 msgstr "Get ekki fundið diskmyndina"
 
 #: livecd.py:122
 #, python-format
-msgid "The given location isn't a valid %s live CD to use as an installation source."
+msgid ""
+"The given location isn't a valid %s live CD to use as an installation source."
 msgstr ""
 "Uppgefin staðsetning er ekki gildur %s lifandi diskur sem hægt er að setja "
 "upp frá."
@@ -760,7 +806,7 @@ msgstr ""
 "Framkvæmi breytingar á skráarkerfinu eftir uppsetningu. Þetta gæti tekið "
 "nokkrar mínútur..."
 
-#: livecd.py:404
+#: livecd.py:401 sabayon/livecd.py:383
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -781,7 +827,8 @@ msgstr "Heiti vélar verður að byrja á gildum staf á bilinu 'a-z' eða 'A-Z'
 
 #: network.py:67
 #, fuzzy
-msgid "Hostnames can only contain the characters 'a-z', 'A-Z', '0-9', '-', or '.'"
+msgid ""
+"Hostnames can only contain the characters 'a-z', 'A-Z', '0-9', '-', or '.'"
 msgstr "Heiti vélar má einungis innihalda stafina 'a-z', 'A-Z', '-', eða '.'"
 
 #: network.py:176
@@ -806,95 +853,37 @@ msgstr "'%s' er ekki gilt IPv6 vistfang."
 msgid "'%s' is an invalid IP address."
 msgstr "'%s' er ekki gilt IP vistfang."
 
-#: packages.py:113
-#, fuzzy
-msgid "Device Resize Failed"
-msgstr "Sæki"
-
-#: packages.py:114
-#, fuzzy, python-format
-msgid "An error was encountered while resizing device %s."
-msgstr "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
-
-#: packages.py:118
-#, fuzzy
-msgid "Device Creation Failed"
-msgstr "Tenging mistókst"
-
-#: packages.py:119
-#, fuzzy, python-format
-msgid "An error was encountered while creating device %s."
-msgstr "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
-
-#: packages.py:123
-msgid "Device Removal Failed"
-msgstr "Fjarlæging tækis mistókst"
-
-#: packages.py:124
-#, fuzzy, python-format
-msgid "An error was encountered while removing device %s."
-msgstr "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
-
-#: packages.py:128
-msgid "Device Setup Failed"
-msgstr "Uppsetning tækis mistókst"
-
-#: packages.py:129
-#, fuzzy, python-format
-msgid "An error was encountered while setting up device %s."
-msgstr "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
-
-#: packages.py:133
+#: packages.py:111
 #, fuzzy
 msgid "Resizing Failed"
 msgstr "Sæki"
 
-#: packages.py:134
+#: packages.py:112
 #, fuzzy, python-format
 msgid "There was an error encountered while resizing the device %s."
-msgstr "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
+msgstr ""
+"Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
 
-#: packages.py:142
+#: packages.py:120
 #, fuzzy
 msgid "Migration Failed"
 msgstr "Tenging mistókst"
 
-#: packages.py:143
+#: packages.py:121
 #, fuzzy, python-format
 msgid "An error was encountered while migrating filesystem on device %s."
-msgstr "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
-
-#: packages.py:147
-#, fuzzy
-msgid "Formatting Failed"
-msgstr "Forsníð"
-
-#: packages.py:148
-#, fuzzy, python-format
-msgid "An error was encountered while formatting device %s."
-msgstr "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
-
-#: packages.py:153
-msgid "Storage Activation Failed"
 msgstr ""
+"Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
 
-#: packages.py:154
-#, fuzzy
-msgid "An error was encountered while activating your storage configuration."
-msgstr ""
-"Eftirfarandi villa kom upp við þáttun hraðuppsetningarskrárarinnar:\n"
-"\n"
-"%s"
-
-#: packages.py:161
+#: packages.py:130
 msgid "_File Bug"
 msgstr ""
 
-#: packages.py:343 packages.py:364
+#: packages.py:312 packages.py:333
 msgid "Warning! This is pre-release software!"
 msgstr "Aðvörun! Þetta er beta-hugbúnaður!"
 
-#: packages.py:344
+#: packages.py:313
 #, fuzzy, python-format
 msgid ""
 "Thank you for downloading this pre-release of %(productName)s.\n"
@@ -920,11 +909,11 @@ msgstr ""
 "\n"
 "og flokkað það í flokkinn '%s'.\n"
 
-#: packages.py:359
+#: packages.py:328
 msgid "_Install anyway"
 msgstr "_Setja samt upp"
 
-#: packages.py:362
+#: packages.py:331
 msgid "Your system will now be rebooted..."
 msgstr "Vélin þín mun nú endurræsa sig..."
 
@@ -992,7 +981,7 @@ msgstr "Get ekki fjarlægt"
 msgid "You must first select a partition to delete."
 msgstr "Þú verður að velja disksneið sem á að fjarlægja."
 
-#: partIntfHelpers.py:153 partIntfHelpers.py:341 iw/lvm_dialog_gui.py:843
+#: partIntfHelpers.py:153 partIntfHelpers.py:341 iw/lvm_dialog_gui.py:862
 msgid "Confirm Delete"
 msgstr "Staðfesta eyðingu"
 
@@ -1001,8 +990,8 @@ msgstr "Staðfesta eyðingu"
 msgid "You are about to delete all partitions on the device '%s'."
 msgstr "Þú ert við það að eyða öllum disksneiðum á tækinu '/dev/%s'."
 
-#: partIntfHelpers.py:157 partIntfHelpers.py:342 iw/lvm_dialog_gui.py:846
-#: iw/lvm_dialog_gui.py:1379 iw/osbootwidget.py:104 iw/partition_gui.py:1811
+#: partIntfHelpers.py:157 partIntfHelpers.py:342 iw/lvm_dialog_gui.py:865
+#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1811
 #: iw/partition_gui.py:1823
 msgid "_Delete"
 msgstr "_Eyða"
@@ -1065,7 +1054,7 @@ msgstr ""
 msgid "Format?"
 msgstr "Forsníða?"
 
-#: partIntfHelpers.py:249 iw/partition_gui.py:1598
+#: partIntfHelpers.py:249 iw/partition_gui.py:1596
 msgid "_Modify Partition"
 msgstr "_Breyta disksneið"
 
@@ -1166,19 +1155,21 @@ msgid "Confirm Reset"
 msgstr "Staðfesta frumstillingu"
 
 #: partIntfHelpers.py:350
-msgid "Are you sure you want to reset the partition table to its original state?"
+msgid ""
+"Are you sure you want to reset the partition table to its original state?"
 msgstr "Ertu viss um að þú viljir frumstilla disksneiðatöfluna ?"
 
-#: platform.py:98 platform.py:328 platform.py:396 platform.py:503
+#: platform.py:98 platform.py:344 platform.py:412 platform.py:520
+#: ui/create-storage.glade.h:17
 msgid "RAID Device"
 msgstr "RAID tæki"
 
-#: platform.py:99 platform.py:102 platform.py:329 platform.py:397
-#: platform.py:504 platform.py:507
+#: platform.py:99 platform.py:102 platform.py:345 platform.py:413
+#: platform.py:521 platform.py:524
 msgid "Master Boot Record (MBR)"
 msgstr "Aðalræsifærsluna (MBR)"
 
-#: platform.py:101 platform.py:506
+#: platform.py:101 platform.py:523
 msgid "First sector of boot partition"
 msgstr "Fyrsta geira ræsidisksneiðar"
 
@@ -1187,115 +1178,119 @@ msgstr "Fyrsta geira ræsidisksneiðar"
 msgid "You have not created a bootable partition."
 msgstr "Þú verður að búa til PPC PReP ræsisneið."
 
-#: platform.py:116
-msgid "Bootable partitions can only be on RAID1 devices."
-msgstr "Ræsisneiðar mega einungis vera á RAID1 tækjum."
-
-#: platform.py:120
-msgid "Bootable partitions cannot be on a logical volume."
-msgstr "Ræsisneiðar mega ekki vera á sýndardiskum."
-
-#: platform.py:124
+#: platform.py:118
 #, fuzzy
 msgid "Bootable partitions cannot be on a RAID device."
 msgstr "Ræsisneiðar mega einungis vera á RAID1 tækjum."
 
+#: platform.py:120
+msgid "Bootable partitions can only be on RAID1 devices."
+msgstr "Ræsisneiðar mega einungis vera á RAID1 tækjum."
+
+#: platform.py:124
+msgid "Bootable RAID1 set members must be partitions."
+msgstr ""
+
 #: platform.py:129
+msgid "Bootable partitions cannot be on a logical volume."
+msgstr "Ræsisneiðar mega ekki vera á sýndardiskum."
+
+#: platform.py:136
 #, fuzzy, python-format
 msgid "Bootable partitions cannot be on an %s filesystem."
 msgstr "Ræsisneiðar mega ekki vera á sýndardiskum."
 
-#: platform.py:133 platform.py:138
+#: platform.py:140 platform.py:145
 #, fuzzy
 msgid "Bootable partitions cannot be on an encrypted block device"
 msgstr "Ræsisneiðar mega ekki vera á sýndardiskum."
 
-#: platform.py:210
+#: platform.py:217
 #, fuzzy
 msgid "EFI System Partition"
 msgstr "Breyta disksneið"
 
-#: platform.py:222
+#: platform.py:229
 #, fuzzy
 msgid "You have not created a /boot/efi partition."
 msgstr "Þú verður að búa til PPC PReP ræsisneið."
 
-#: platform.py:228
+#: platform.py:235
 msgid "/boot/efi is not EFI."
 msgstr ""
 
-#: platform.py:235
+#: platform.py:251
 #, python-format
 msgid "%s must have a %s disk label."
 msgstr ""
 
-#: platform.py:273
+#: platform.py:289
 #, python-format
 msgid "%s must have a bsd disk label."
 msgstr ""
 
-#: platform.py:285
+#: platform.py:301
 #, python-format
 msgid "The disk %s requires at least 1MB of free space at the beginning."
 msgstr ""
 
-#: platform.py:331
+#: platform.py:347
 msgid "PPC PReP Boot"
 msgstr "PPC PReP Boot"
 
-#: platform.py:347
+#: platform.py:363
 #, fuzzy
 msgid "The boot partition must be within the first 4MB of the disk."
 msgstr "Það kom upp villa við að skrifa stöðu kerfisins á disklinginn."
 
-#: platform.py:399 platform.py:402
+#: platform.py:415 platform.py:418
 msgid "Apple Bootstrap"
 msgstr "Eplaræsing"
 
-#: platform.py:416
+#: platform.py:432
 #, python-format
 msgid "%s must have a mac disk label."
 msgstr ""
 
-#: rescue.py:199
+#: rescue.py:207
 msgid "When finished please exit from the shell and your system will reboot."
 msgstr ""
 "Vinsamlegast hættu í skelinni þegar þú ert búin(n) og þá mun vélin endurræsa "
 "sig."
 
-#: rescue.py:213
+#: rescue.py:221
 msgid "Unable to find /bin/sh to execute!  Not starting shell"
 msgstr ""
 
-#: rescue.py:232
+#: rescue.py:240
 msgid "Setup Networking"
 msgstr "Stillingar nets"
 
-#: rescue.py:233
+#: rescue.py:241
 msgid "Do you want to start the network interfaces on this system?"
 msgstr "Viltu ræsa netkortin í þessari vél þegar vélin ræsir?"
 
-#: rescue.py:234 loader/driverdisk.c:667 loader/driverdisk.c:677
-#: loader/hdinstall.c:203 textw/constants_text.py:56
+#: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
+#: loader/hdinstall.c:203 textw/constants_text.py:56 sabayon/utils.py:874
 msgid "Yes"
 msgstr "Já"
 
-#: rescue.py:234 rescue.py:236 loader/driverdisk.c:667 loader/driverdisk.c:677
-#: textw/constants_text.py:60
+#: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
+#: textw/constants_text.py:60 sabayon/utils.py:874
 msgid "No"
 msgstr "Nei"
 
-#: rescue.py:241
+#: rescue.py:249
 msgid ""
 "Unable to activate a networking device.  Networking will not be available in "
 "rescue mode."
 msgstr ""
 
-#: rescue.py:276 rescue.py:345 rescue.py:356 rescue.py:436
+#: rescue.py:284 rescue.py:353 rescue.py:364 rescue.py:449
 msgid "Rescue"
 msgstr "Bjarga"
 
-#: rescue.py:277
+#: rescue.py:285
 #, python-format
 msgid ""
 "The rescue environment will now attempt to find your Linux installation and "
@@ -1318,35 +1313,35 @@ msgstr ""
 "verður þá sleppt og þú lendir í skel.\n"
 "\n"
 
-#: rescue.py:287 iw/partition_gui.py:781 loader/cdinstall.c:206
-#: loader/cdinstall.c:214 loader/driverdisk.c:628 storage/__init__.py:151
-#: storage/devicetree.py:88
+#: rescue.py:295 iw/partition_gui.py:781 loader/cdinstall.c:206
+#: loader/cdinstall.c:214 loader/driverdisk.c:627 storage/__init__.py:157
+#: storage/devicetree.py:90
 msgid "Continue"
 msgstr "Halda áfram"
 
-#: rescue.py:287 rescue.py:292
+#: rescue.py:295 rescue.py:300
 msgid "Read-Only"
 msgstr "Einungis lestur"
 
-#: rescue.py:287 rescue.py:289 loader/cdinstall.c:248 loader/cdinstall.c:251
-#: loader/method.c:324 storage/__init__.py:1724 textw/upgrade_text.py:137
+#: rescue.py:295 rescue.py:297 loader/cdinstall.c:248 loader/cdinstall.c:251
+#: loader/method.c:324 storage/__init__.py:1793 textw/upgrade_text.py:139
 msgid "Skip"
 msgstr "Sleppa"
 
-#: rescue.py:321
+#: rescue.py:329
 msgid "System to Rescue"
 msgstr "Kerfi sem á að bjarga"
 
-#: rescue.py:322
+#: rescue.py:330
 #, fuzzy
 msgid "Which device holds the root partition of your installation?"
 msgstr "Á hvaða disksneið er rót skráarkerfisins?"
 
-#: rescue.py:324 rescue.py:328 text.py:622 text.py:624
+#: rescue.py:332 rescue.py:336 text.py:626 text.py:628
 msgid "Exit"
 msgstr "Hætta"
 
-#: rescue.py:346
+#: rescue.py:354
 msgid ""
 "Your system had dirty file systems which you chose not to mount.  Press "
 "return to get a shell from which you can fsck and mount your partitions.  "
@@ -1357,7 +1352,7 @@ msgstr ""
 "lagfæra (með fsck) og tengja skráarkerfin. Vélin mun endurræsa sig þegar þú "
 "hættir í skelinni."
 
-#: rescue.py:357
+#: rescue.py:365
 #, fuzzy, python-format
 msgid ""
 "Your system has been mounted under %(rootPath)s.\n"
@@ -1378,7 +1373,7 @@ msgstr ""
 "\n"
 "Vélin mun endurræsa sig sjálfvirkt þegar þú hættir í skelinni."
 
-#: rescue.py:437
+#: rescue.py:450
 #, python-format
 msgid ""
 "An error occurred trying to mount some or all of your system. Some of it may "
@@ -1393,15 +1388,15 @@ msgstr ""
 "Sláðu á <return> til að komast í skel. Vélin mun endurræsa sig sjálfvirkt "
 "þegar þú hættir í skelinni."
 
-#: rescue.py:446
+#: rescue.py:459
 msgid "You don't have any Linux partitions.  Rebooting.\n"
 msgstr ""
 
-#: rescue.py:449
+#: rescue.py:462
 msgid "Rescue Mode"
 msgstr "Björgunarhamur"
 
-#: rescue.py:450
+#: rescue.py:463
 msgid ""
 "You don't have any Linux partitions. Press return to get a shell. The system "
 "will reboot automatically when you exit from the shell."
@@ -1409,71 +1404,75 @@ msgstr ""
 "Þú ert ekki með neinar Linux disksneiðar. Sláðu á <return> til að komast í "
 "skel. Vélin mun endurræsa sig sjálfvirkt þegar þú hættir í skelinni."
 
-#: rescue.py:463
+#: rescue.py:476
 #, python-format
 msgid "Your system is mounted under the %s directory."
 msgstr "Diskurinn þinn er tengdur undir %s möppunni."
 
-#: text.py:153
+#: text.py:154
 msgid "Passphrase for encrypted device"
 msgstr ""
 
-#: text.py:166
+#: text.py:167
 msgid "Also add this passphrase to all existing encrypted devices"
 msgstr ""
 
-#: text.py:197
+#: text.py:198
 #, fuzzy, python-format
 msgid "The passphrase must be at least %d character long."
-msgstr "Lykilorðið verður að vera minnst 6 stafir að lengd."
+msgid_plural "The passphrase must be at least %d characters long."
+msgstr[0] "Lykilorðið verður að vera minnst 6 stafir að lengd."
+msgstr[1] "Lykilorðið verður að vera minnst 6 stafir að lengd."
 
-#: text.py:231 ui/lukspassphrase.glade.h:6
+#: text.py:232 ui/lukspassphrase.glade.h:6
 msgid "Passphrase"
 msgstr "Lykilsetning"
 
-#: text.py:239 ui/lukspassphrase.glade.h:7
+#: text.py:240 ui/lukspassphrase.glade.h:7
 msgid "This is a global passphrase"
 msgstr ""
 
-#: text.py:351 text.py:355
+#: text.py:355 text.py:359
 #, fuzzy
 msgid "Repository editing is not available in text mode."
 msgstr "Myndrænu notendaskilin eru ekki tiltæk... Fer í textaham."
 
-#: text.py:417
+#: text.py:421
 #, fuzzy, python-format
 msgid "Welcome to %(productName)s for %(productArch)s"
 msgstr "Velkomin(n) í %s"
 
-#: text.py:419
+#: text.py:423
 #, python-format
 msgid "Welcome to %s"
 msgstr "Velkomin(n) í %s"
 
-#: text.py:421
+#: text.py:425
 msgid ""
 "  <Tab>/<Alt-Tab> between elements   |  <Space> selects   |  <F12> next "
 "screen"
-msgstr "  <Tab>/<Alt-Tab> milli atriða      | <Bilslá> velur  | <F12> næsti skjár "
+msgstr ""
+"  <Tab>/<Alt-Tab> milli atriða      | <Bilslá> velur  | <F12> næsti skjár "
 
-#: text.py:622 loader/net.c:110 loader/net.c:471 loader/net.c:526
-#: loader/net.c:668 loader/net.c:676 loader/net.c:1097 loader/net.c:1105
+#: text.py:626 loader/net.c:109 loader/net.c:470 loader/net.c:525
+#: loader/net.c:667 loader/net.c:675 loader/net.c:1096 loader/net.c:1104
 msgid "Retry"
 msgstr "Reyna aftur"
 
-#: text.py:648
+#: text.py:652
 msgid "Cancelled"
 msgstr "Hætt við"
 
-#: text.py:649
+#: text.py:653
 msgid "I can't go to the previous step from here. You will have to try again."
-msgstr "Þú kemst ekki í fyrra þrep uppsetningar héðan. Þú þarft að byrja upp á nýtt."
+msgstr ""
+"Þú kemst ekki í fyrra þrep uppsetningar héðan. Þú þarft að byrja upp á nýtt."
 
-#: upgrade.py:51
+#: upgrade.py:49
 msgid "Proceed with upgrade?"
 msgstr "Halda áfram með uppfærslu?"
 
-#: upgrade.py:52
+#: upgrade.py:50
 msgid ""
 "The file systems of the Linux installation you have chosen to upgrade have "
 "already been mounted. You cannot go back past this point. \n"
@@ -1483,15 +1482,15 @@ msgstr ""
 "verið tengd. Þú getur ekki farið til baka aftur fyrir þennan stað. \n"
 "\n"
 
-#: upgrade.py:56
+#: upgrade.py:54
 msgid "Would you like to continue with the upgrade?"
 msgstr "Viltu halda áfram með uppfærsluna?"
 
-#: upgrade.py:177
+#: upgrade.py:215
 msgid "Mount failed"
 msgstr "Tenging mistókst"
 
-#: upgrade.py:178
+#: upgrade.py:216
 #, fuzzy, python-format
 msgid ""
 "The following error occurred when mounting the file systems listed in /etc/"
@@ -1501,22 +1500,22 @@ msgstr ""
 "Ekki tókst að tengja eitt eða fleiri af skráarkerfunum í /etc/fstab á "
 "vélinni þinni. Vinsamlegast lagfærðu þetta og reyndu svo að uppfæra aftur."
 
-#: upgrade.py:186 upgrade.py:193
+#: upgrade.py:224 upgrade.py:231
 #, fuzzy
 msgid "Upgrade root not found"
 msgstr "Uppfærsla að byrja"
 
-#: upgrade.py:187
+#: upgrade.py:225
 msgid "The root for the previously installed system was not found."
 msgstr ""
 
-#: upgrade.py:194
+#: upgrade.py:232
 msgid ""
 "The root for the previously installed system was not found.  You can exit "
 "installer or backtrack to choose installation instead of upgrade."
 msgstr ""
 
-#: upgrade.py:217
+#: upgrade.py:255
 msgid ""
 "The following files are absolute symbolic links, which we do not support "
 "during an upgrade. Please change them to relative symbolic links and restart "
@@ -1528,11 +1527,11 @@ msgstr ""
 "með \"Absolute\" slóð heldur \"Relative\" og reyndu uppfærsluna aftur.\n"
 "\n"
 
-#: upgrade.py:223
+#: upgrade.py:261
 msgid "Absolute Symlinks"
 msgstr "Tákntengi með fullri slóð"
 
-#: upgrade.py:234
+#: upgrade.py:272
 msgid ""
 "The following are directories which should instead be symbolic links, which "
 "will cause problems with the upgrade.  Please return them to their original "
@@ -1544,7 +1543,7 @@ msgstr ""
 "reyndu svo að uppfæra aftur.\n"
 "\n"
 
-#: upgrade.py:240
+#: upgrade.py:278
 msgid "Invalid Directories"
 msgstr "Ógildar möppur"
 
@@ -1574,7 +1573,9 @@ msgstr "Mun reyna að tengjast aftur eftir 15 sekúndur..."
 #: vnc.py:195
 #, python-format
 msgid "Giving up attempting to connect after %d try!\n"
-msgstr ""
+msgid_plural "Giving up attempting to connect after %d tries!\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #: vnc.py:206
 #, python-format
@@ -1715,7 +1716,9 @@ msgstr "%s KB"
 #: yuminstall.py:90
 #, fuzzy, python-format
 msgid "%s Byte"
-msgstr "%s MB"
+msgid_plural "%s Bytes"
+msgstr[0] "%s MB"
+msgstr[1] "%s MB"
 
 #: yuminstall.py:134
 msgid "Preparing to install"
@@ -1734,7 +1737,9 @@ msgstr "<b>Set upp %s</b> (%s)\n"
 #: yuminstall.py:212
 #, python-format
 msgid "Packages completed: %(donepkgs)d of %(numpkgs)d"
-msgstr ""
+msgid_plural "Packages completed: %(donepkgs)d of %(numpkgs)d"
+msgstr[0] ""
+msgstr[1] ""
 
 #: yuminstall.py:227
 #, fuzzy
@@ -1746,24 +1751,24 @@ msgstr "Lýk við uppfærsluna"
 msgid "Finishing upgrade process.  This may take a little while."
 msgstr "Lýk við uppfærsluferlið.  Þetta gæti tekið nokkrar mínútur..."
 
-#: yuminstall.py:242
+#: yuminstall.py:251
 #, fuzzy
 msgid "Error Installing Package"
 msgstr "Set inn pakka"
 
-#: yuminstall.py:243
+#: yuminstall.py:252
 #, python-format
 msgid ""
 "A fatal error occurred when installing the %s package.  This could indicate "
 "errors when reading the installation media.  Installation cannot continue."
 msgstr ""
 
-#: yuminstall.py:344 iw/task_gui.py:321
+#: yuminstall.py:353 iw/task_gui.py:321
 #, fuzzy
 msgid "Error Setting Up Repository"
 msgstr "Bæta við hugbúnaðarsafni"
 
-#: yuminstall.py:345
+#: yuminstall.py:354
 #, fuzzy, python-format
 msgid ""
 "The following error occurred while setting up the installation repository:\n"
@@ -1778,48 +1783,48 @@ msgstr ""
 "\n"
 "Veldu 'Í lagi' til að hætta uppsetningunni."
 
-#: yuminstall.py:389
+#: yuminstall.py:398
 msgid "Change Disc"
 msgstr "Skipta um disk"
 
-#: yuminstall.py:390
+#: yuminstall.py:399
 #, fuzzy, python-format
 msgid "Please insert %(productName)s disc %(discnum)d to continue."
 msgstr "Vinsamlegast settu inn %s disk %d til að halda áfram."
 
-#: yuminstall.py:400
+#: yuminstall.py:409
 msgid "Wrong Disc"
 msgstr "Rangur diskur"
 
-#: yuminstall.py:401
+#: yuminstall.py:410
 #, python-format
 msgid "That's not the correct %s disc."
 msgstr "Þetta er ekki rétti %s diskurinn."
 
-#: yuminstall.py:408
+#: yuminstall.py:417
 msgid "Unable to access the disc."
 msgstr "Get ekki lesið diskinn."
 
-#: yuminstall.py:562
+#: yuminstall.py:575
 #, python-format
 msgid "Repository %r is missing name in configuration, using id"
 msgstr ""
 
-#: yuminstall.py:685 yuminstall.py:1148
+#: yuminstall.py:699 yuminstall.py:1165 iw/task_gui.py:309
 msgid ""
 "Some of your software repositories require networking, but there was an "
 "error enabling the network on your system."
 msgstr ""
 
-#: yuminstall.py:777 yuminstall.py:779
+#: yuminstall.py:800 yuminstall.py:802
 msgid "Re_boot"
 msgstr "En_durræsa"
 
-#: yuminstall.py:777
+#: yuminstall.py:800
 msgid "_Eject"
 msgstr "_Spýta út"
 
-#: yuminstall.py:788
+#: yuminstall.py:806
 #, python-format
 msgid ""
 "The file %s cannot be opened.  This is due to a missing file, a corrupt "
@@ -1836,78 +1841,79 @@ msgstr ""
 "vera nauðsynlegt að setja hana upp aftur.\n"
 "\n"
 
-#: yuminstall.py:836
+#: yuminstall.py:854
 msgid "Retrying"
 msgstr "Reyni aftur"
 
-#: yuminstall.py:836
+#: yuminstall.py:854
 msgid "Retrying download."
 msgstr "Reyni aftur niðurhal."
 
-#: yuminstall.py:901
+#: yuminstall.py:919
 #, python-format
-msgid "There was an error running your transaction for the following reason: %s\n"
+msgid ""
+"There was an error running your transaction for the following reason: %s\n"
 msgstr "Það kom upp villa við uppsetninguna af eftirfarandi ástæðu: %s\n"
 
-#: yuminstall.py:944 yuminstall.py:945
+#: yuminstall.py:962 yuminstall.py:963
 msgid "file conflicts"
 msgstr "árekstrar milli skráa"
 
-#: yuminstall.py:946
+#: yuminstall.py:964
 msgid "older package(s)"
 msgstr "eldri pakki/pakkar"
 
-#: yuminstall.py:947
+#: yuminstall.py:965
 msgid "insufficient disk space"
 msgstr "ekki nóg diskpláss"
 
-#: yuminstall.py:948
+#: yuminstall.py:966
 msgid "insufficient disk inodes"
 msgstr "ekki nægar inóður á disknum"
 
-#: yuminstall.py:949
+#: yuminstall.py:967
 msgid "package conflicts"
 msgstr "árekstrar milli pakka"
 
-#: yuminstall.py:950
+#: yuminstall.py:968
 msgid "package already installed"
 msgstr "pakkinn þegar uppsettur"
 
-#: yuminstall.py:951
+#: yuminstall.py:969
 msgid "required package"
 msgstr "nauðsynlegur pakki"
 
-#: yuminstall.py:952
+#: yuminstall.py:970
 msgid "package for incorrect arch"
 msgstr "pakkinn er fyrir rangan vélbúnað"
 
-#: yuminstall.py:953
+#: yuminstall.py:971
 msgid "package for incorrect os"
 msgstr "pakkinn er fyrir rangt stýrikerfi"
 
-#: yuminstall.py:967
+#: yuminstall.py:985
 msgid "You need more space on the following file systems:\n"
 msgstr "Þig vantar meira pláss á eftirfarandi skráarkerfum:\n"
 
-#: yuminstall.py:980
+#: yuminstall.py:998
 #, fuzzy, python-format
 msgid ""
 "There were file conflicts when checking the packages to be installed:\n"
 "%s\n"
 msgstr "Á hvernig miðli eru pakkarnir sem setja á upp?"
 
-#: yuminstall.py:983
+#: yuminstall.py:1001
 #, python-format
 msgid ""
 "There was an error running your transaction for the following reason(s): %"
 "s.\n"
 msgstr "Það kom upp villa við uppsetninguna vegna eftirfarandi skilyrða: %s\n"
 
-#: yuminstall.py:990 yuminstall.py:995
+#: yuminstall.py:1008 yuminstall.py:1013
 msgid "Error Running Transaction"
 msgstr "Villa við að keyra færsluna"
 
-#: yuminstall.py:1182
+#: yuminstall.py:1191
 msgid ""
 "Unable to read group information from repositories.  This is a problem with "
 "the generation of your install tree."
@@ -1915,24 +1921,24 @@ msgstr ""
 "Get ekki lesið hópupplýsingar frá hugbúnaðarveitunni.  Þetta er vegna þess "
 "að uppsetningartréið þar er ekki rétt upp sett."
 
-#: yuminstall.py:1218
+#: yuminstall.py:1227
 msgid "Retrieving installation information."
 msgstr "Sæki upplýsingar um uppsetninguna."
 
-#: yuminstall.py:1220
+#: yuminstall.py:1229
 #, python-format
 msgid "Retrieving installation information for %s."
 msgstr "Sæki upplýsingar um uppsetningu %s."
 
-#: yuminstall.py:1222
+#: yuminstall.py:1231
 msgid "Installation Progress"
 msgstr "Framvinda uppsetningar"
 
-#: yuminstall.py:1235 textw/constants_text.py:64
+#: yuminstall.py:1239 textw/constants_text.py:64
 msgid "Edit"
 msgstr "Breyta"
 
-#: yuminstall.py:1246 yuminstall.py:1435
+#: yuminstall.py:1250 yuminstall.py:1441
 #, python-format
 msgid ""
 "Unable to read package metadata. This may be due to a missing repodata "
@@ -1947,15 +1953,16 @@ msgstr ""
 "\n"
 "%s"
 
-#: yuminstall.py:1414
+#: yuminstall.py:1419
 msgid ""
 "Some of the packages you have selected for install are missing "
 "dependencies.  You can exit the installation, go back and change your "
 "package selections, or continue installing these packages without their "
-"dependencies."
+"dependencies.  If you continue, these packages may not work correctly due to "
+"missing components."
 msgstr ""
 
-#: yuminstall.py:1457
+#: yuminstall.py:1463
 #, python-format
 msgid ""
 "Your selected packages require %d MB of free space for installation, but you "
@@ -1966,11 +1973,11 @@ msgstr ""
 "þú hefur það ekki til reiðu. Þú getur breytt vali þínu eða lokað "
 "uppsetningarforritinu."
 
-#: yuminstall.py:1478
+#: yuminstall.py:1484
 msgid "Reboot?"
 msgstr "Endurræsa?"
 
-#: yuminstall.py:1479
+#: yuminstall.py:1485
 msgid "The system will be rebooted now."
 msgstr "Vélin þín mun nú endurræsa."
 
@@ -2012,72 +2019,65 @@ msgstr "Eftir uppsetningu"
 msgid "Performing post-installation configuration"
 msgstr "Breyti stillingum eftir uppsetningu"
 
-#: yuminstall.py:1929
+#: yuminstall.py:1932
 msgid "Installation Starting"
 msgstr "Uppsetning að hefjast"
 
-#: yuminstall.py:1930
+#: yuminstall.py:1933
 msgid "Starting installation process"
 msgstr "Byrja uppsetningarferli"
 
-#: yuminstall.py:1968
+#: yuminstall.py:1971
 msgid "Dependency Check"
 msgstr "Kanna pakkaskilyrði"
 
-#: yuminstall.py:1969
+#: yuminstall.py:1972
 msgid "Checking dependencies in packages selected for installation"
 msgstr "Kanna skilyrði pakka sem voru valdir til uppsetningar"
 
-#: installclasses/fedora.py:39
-msgid "_Fedora"
-msgstr "_Fedora"
+#: installclasses/corecd.py:38
+msgid "Sabayon Core CD"
+msgstr ""
 
-#: installclasses/fedora.py:40
-#, fuzzy, python-format
+#: installclasses/corecd.py:48
 msgid ""
-"The default installation of %s includes a set of software applicable for "
-"general internet usage. You can optionally select a different set of "
-"software now."
-msgstr ""
-"Sjálfgefin uppsetning %s inniheldur hugbúnað sem hentar vel til almennrar "
-"notkunar internetsins. Viltu hugbúnaðarstuðning fyrir fleira en það?"
-
-#: installclasses/fedora.py:49
-msgid "Graphical Desktop"
+"Select this installation type to just install a Core System without "
+"graphical applications. This is the best choice for Server-oriented "
+"deployments."
 msgstr ""
 
-#: installclasses/fedora.py:54 installclasses/rhel.py:61
-msgid "Software Development"
-msgstr "Hugbúnaðarþróun"
-
-#: installclasses/fedora.py:60 installclasses/rhel.py:71
-msgid "Web Server"
-msgstr "Vefþjónn"
-
-#: installclasses/fedora.py:64 installclasses/rhel.py:51
-msgid "Minimal"
+#: installclasses/fluxbox.py:38
+msgid "Sabayon Fluxbox"
 msgstr ""
 
-#: installclasses/rhel.py:40
-msgid "Red Hat Enterprise Linux"
-msgstr "Red Hat Enterprise Linux"
-
-#: installclasses/rhel.py:41
-#, python-format
+#: installclasses/fluxbox.py:47
 msgid ""
-"The default installation of %s is a minimal install. You can optionally "
-"select a different set of software now."
+"Select this installation type for a default installation with the Fluxbox "
+"geeky minimal environment. After this installation process you will be able "
+"to install additional packages."
 msgstr ""
 
-#: installclasses/rhel.py:52
-#, fuzzy
-msgid "Desktop"
-msgstr "Skjáborð"
+#: installclasses/gnome.py:45
+msgid "Sabayon GNOME Desktop"
+msgstr ""
 
-#: installclasses/rhel.py:78
-#, fuzzy
-msgid "Advanced Server"
-msgstr "Nafnaþjónn:"
+#: installclasses/gnome.py:47
+msgid ""
+"Select this installation type for a default installation with the GNOME "
+"desktop environment. After this installation process you will be able to "
+"install additional packages."
+msgstr ""
+
+#: installclasses/kde.py:38
+msgid "Sabayon KDE"
+msgstr ""
+
+#: installclasses/kde.py:47
+msgid ""
+"Select this installation type for a default installation with the KDE "
+"desktop environment. After this installation process you will be able to "
+"install additional packages."
+msgstr ""
 
 #: iw/GroupSelector.py:147
 #, python-format
@@ -2145,10 +2145,31 @@ msgid "Use Anyway"
 msgstr "Nota samt"
 
 #: iw/account_gui.py:138 textw/userauth_text.py:75
-msgid "Requested password contains non-ASCII characters, which are not allowed."
+msgid ""
+"Requested password contains non-ASCII characters, which are not allowed."
 msgstr ""
 "Uppgefið lykilorð er með stöfum sem ekki falla undir ascii staðalinn og mega "
 "því ekki vera í lykilorðum."
+
+#: iw/advanced_storage.py:91
+#, fuzzy
+msgid "You must select a NIC to use."
+msgstr "Þú verður að velja netkort"
+
+#: iw/advanced_storage.py:138
+#, fuzzy
+msgid "Invalid Initiator Name"
+msgstr "Heiti iSCSI _rekils"
+
+#: iw/advanced_storage.py:139
+#, fuzzy
+msgid "You must provide an initiator name."
+msgstr "Hugbúnaðarsafnið verður að hafa heiti."
+
+#: iw/advanced_storage.py:168
+#, fuzzy
+msgid "Error with Data"
+msgstr "Gagnavilla"
 
 #: iw/autopart_type.py:97
 msgid ""
@@ -2196,9 +2217,9 @@ msgstr "Skipta út Linux kerfi sem fyrir er"
 
 #: iw/autopart_type.py:238
 msgid ""
-"Removes only Linux partitions (created from a previous Linux installation).  "
-"This does not remove other partitions you may have on your storage device(s) "
-"(such as VFAT or FAT32).\n"
+"Removes all Linux partitions on the selected device(s). This does not remove "
+"other partitions you may have on your storage device(s) (such as VFAT or "
+"FAT32).\n"
 "\n"
 "<b>Tip:</b> This option will remove data from the selected device(s).  Make "
 "sure you have backups."
@@ -2210,7 +2231,8 @@ msgid "Shrink Current System"
 msgstr "Minnka núverandi skráakerfi"
 
 #: iw/autopart_type.py:248
-msgid "Shrinks existing partitions to create free space for the default layout."
+msgid ""
+"Shrinks existing partitions to create free space for the default layout."
 msgstr ""
 
 #: iw/autopart_type.py:250
@@ -2306,11 +2328,75 @@ msgstr "Setja ræs_istjórann upp á /dev/%s."
 msgid "_Change device"
 msgstr "Skipta um _tæki"
 
-#: iw/congrats_gui.py:33
+#: iw/cleardisks_gui.py:33
+msgid "Clear Disks Selector"
+msgstr ""
+
+#: iw/cleardisks_gui.py:44 iw/filter_gui.py:412
+#, fuzzy
+msgid "You must select at least one drive to be used for installation."
+msgstr "Þú verður að velja amk. eitt drif til að setja %s upp á."
+
+#: iw/cleardisks_gui.py:54
+#, fuzzy
+msgid "You must select one drive to boot from."
+msgstr "Þú verður að velja netkort"
+
+#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:447
+#: iw/filter_gui.py:458 iw/filter_gui.py:488
+msgid "Model"
+msgstr ""
+
+#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:448
+#: iw/filter_gui.py:459 iw/filter_gui.py:467 iw/filter_gui.py:478
+#: iw/filter_gui.py:489
+msgid "Capacity"
+msgstr ""
+
+#: iw/cleardisks_gui.py:123 iw/filter_gui.py:449 iw/filter_gui.py:468
+#: iw/filter_gui.py:479 iw/filter_gui.py:490
+#, fuzzy
+msgid "Vendor"
+msgstr "_Fedora"
+
+#: iw/cleardisks_gui.py:124 iw/filter_gui.py:450 iw/filter_gui.py:469
+#: iw/filter_gui.py:480 iw/filter_gui.py:491
+msgid "Interconnect"
+msgstr ""
+
+#: iw/cleardisks_gui.py:125 iw/filter_gui.py:451 iw/filter_gui.py:481
+#: iw/filter_gui.py:492
+msgid "Serial Number"
+msgstr ""
+
+#: iw/cleardisks_gui.py:139
+#, fuzzy
+msgid "Boot"
+msgstr "/boot"
+
+#: iw/cleardisks_gui.py:176
+msgid ""
+"<b>Tip:</b> All Linux filesystems on the install target devices will be "
+"reformatted and wiped of any data.  Make sure you have backups."
+msgstr ""
+
+#: iw/cleardisks_gui.py:178
+msgid ""
+"<b>Tip:</b> The install target devices will be reformatted and wiped of any "
+"data.  Make sure you have backups."
+msgstr ""
+
+#: iw/cleardisks_gui.py:180
+msgid ""
+"<b>Tip:</b> Your filesystems on the install target devices will not be "
+"reformatted unless you choose to do so during customization."
+msgstr ""
+
+#: iw/congrats_gui.py:32
 msgid "Congratulations"
 msgstr "Til hamingju"
 
-#: iw/congrats_gui.py:74 textw/complete_text.py:39
+#: iw/congrats_gui.py:74 textw/complete_text.py:38
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2319,19 +2405,19 @@ msgstr ""
 "Til hamingju, uppsetningu %s er lokið.\n"
 "\n"
 
-#: iw/congrats_gui.py:77 textw/complete_text.py:42
+#: iw/congrats_gui.py:77 textw/complete_text.py:41
 msgid "Shutdown"
 msgstr "Slökkva"
 
-#: iw/congrats_gui.py:79 textw/complete_text.py:44
+#: iw/congrats_gui.py:79 textw/complete_text.py:43
 msgid "Please shutdown to use the installed system.\n"
 msgstr "Endurræstu tölvuna til að nota uppsetta kerfið.\n"
 
-#: iw/congrats_gui.py:81 textw/complete_text.py:46
+#: iw/congrats_gui.py:81 textw/complete_text.py:45
 msgid "Please reboot to use the installed system.\n"
 msgstr "Endurræstu tölvuna til að nota uppsetta kerfið.\n"
 
-#: iw/congrats_gui.py:86 textw/complete_text.py:51
+#: iw/congrats_gui.py:86 textw/complete_text.py:50
 msgid ""
 "Note that updates may be available to ensure the proper functioning of your "
 "system and installation of these updates is recommended after the reboot."
@@ -2340,7 +2426,7 @@ msgstr ""
 "kerfisins, mælt er með því að slíkar uppfærslur séu settar inn strax og "
 "kerfið hefur verið endurræst."
 
-#: iw/congrats_gui.py:90 textw/complete_text.py:55
+#: iw/congrats_gui.py:90 textw/complete_text.py:54
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2355,16 +2441,16 @@ msgstr ""
 "til uppfærslur til að tryggja eðlilega virkni kerfisins, mælt er með því að "
 "slíkar uppfærslur séu settar inn strax og kerfið hefur verið endurræst."
 
-#: iw/examine_gui.py:37
+#: iw/examine_gui.py:39
 msgid "Upgrade Examine"
 msgstr "Skoða uppfærslu"
 
-#: iw/examine_gui.py:58
+#: iw/examine_gui.py:60
 #, fuzzy
 msgid "Fresh Installation"
 msgstr "Uppsetning pakka"
 
-#: iw/examine_gui.py:60
+#: iw/examine_gui.py:62
 #, fuzzy, python-format
 msgid ""
 "Choose this option to install a fresh copy of %s on your system.  Existing "
@@ -2373,12 +2459,12 @@ msgstr ""
 "Veldu þennan möguleika ef þú vilt setja upp kerfið þitt upp á nýtt. Gögn sem "
 "þegar eru á diskunum gætu tapast ef valkostir þínar síðar kalla á það."
 
-#: iw/examine_gui.py:65
+#: iw/examine_gui.py:67
 #, fuzzy
 msgid "Upgrade an Existing Installation"
 msgstr "_Uppfæra núverandi stýrikerfi"
 
-#: iw/examine_gui.py:67
+#: iw/examine_gui.py:69
 #, fuzzy, python-format
 msgid ""
 "Choose this option if you would like to upgrade your existing %s system.  "
@@ -2387,37 +2473,105 @@ msgstr ""
 "Veldu þennan möguleika ef þú vilt uppfæra %s uppsetninguna þína. Þessi "
 "möguleiki mun varðveita öll gögn á hörðu diskunum þínum."
 
-#: iw/examine_gui.py:105
+#: iw/examine_gui.py:109
 #, fuzzy
 msgid ""
 "At least one existing installation has been detected on your system.  What "
 "would you like to do?"
-msgstr "Það eru engir sérstakir tækjareklar í notkun. Viltu lesa einhverja inn núna?"
+msgstr ""
+"Það eru engir sérstakir tækjareklar í notkun. Viltu lesa einhverja inn núna?"
 
-#: iw/examine_gui.py:124
+#: iw/examine_gui.py:128
 #, fuzzy, python-format
 msgid "<b>Which %s installation would you like to upgrade?</b>"
 msgstr "Hvað viltu gera?"
 
-#: iw/examine_gui.py:138
+#: iw/examine_gui.py:142
 msgid "Unknown Linux system"
 msgstr "Óþekkt Linuxkerfi"
 
-#: iw/language_gui.py:33
+#: iw/filter_gui.py:147
+#, python-format
+msgid "<b>%s device(s) (%s MB) selected</b> out of %s device(s) (%s MB) total."
+msgstr ""
+
+#: iw/filter_gui.py:397
+#, fuzzy
+msgid "Device Filter"
+msgstr "Uppsetning tækis mistókst"
+
+#: iw/filter_gui.py:452 iw/filter_gui.py:460 iw/filter_gui.py:471
+#: iw/filter_gui.py:482 iw/filter_gui.py:497 iw/osbootwidget.py:66
+#: iw/partition_gui.py:607
+msgid "Device"
+msgstr "Tæki"
+
+#: iw/filter_gui.py:466 iw/filter_gui.py:477 iw/filter_gui.py:493
+#, fuzzy
+msgid "Identifier"
+msgstr "Auðkenna"
+
+#: iw/filter_gui.py:470
+#, fuzzy
+msgid "Paths"
+msgstr "S_lóð"
+
+#: iw/filter_gui.py:494
+#, fuzzy
+msgid "Port"
+msgstr "_Hætta við"
+
+#: iw/filter_gui.py:495
+#, fuzzy
+msgid "Target"
+msgstr "Prófa"
+
+#: iw/filter_gui.py:496
+msgid "LUN"
+msgstr ""
+
+#: iw/filter_type.py:55
+#, fuzzy
+msgid "What type of devices will your installation involve?"
+msgstr "Á hverskonar miðli er neyðardisklingurinn?"
+
+#: iw/filter_type.py:61
+#, fuzzy
+msgid "Basic Storage Devices"
+msgstr "Lýk við uppfærsluna"
+
+#: iw/filter_type.py:62
+msgid ""
+"Installs or upgrades to typical types of storage devices.  If you're not "
+"sure which option is right for you, this is probably it."
+msgstr ""
+
+#: iw/filter_type.py:66
+#, fuzzy
+msgid "Specialized Storage Devices"
+msgstr "Lýk við uppfærsluna"
+
+#: iw/filter_type.py:67
+msgid ""
+"Installs or upgrades to devices such as Storage Area Networks (SANs) or "
+"mainframe attached disks (DASD), usually in an enterprise environment"
+msgstr ""
+
+#: iw/language_gui.py:33 textw/language_text.py:45
 msgid "Language Selection"
 msgstr "Veljið tungumál"
 
-#: iw/language_gui.py:81 loader/lang.c:370
+#: iw/language_gui.py:81 loader/lang.c:371 textw/language_text.py:46
 msgid "What language would you like to use during the installation process?"
 msgstr "Hvaða tungumál viltu nota meðan á uppsetningu stendur?"
 
-#: iw/lvm_dialog_gui.py:124 iw/lvm_dialog_gui.py:170 iw/lvm_dialog_gui.py:184
-#: iw/lvm_dialog_gui.py:223 iw/lvm_dialog_gui.py:300 iw/lvm_dialog_gui.py:682
-#: iw/lvm_dialog_gui.py:703
+#: iw/lvm_dialog_gui.py:125 iw/lvm_dialog_gui.py:171 iw/lvm_dialog_gui.py:185
+#: iw/lvm_dialog_gui.py:224 iw/lvm_dialog_gui.py:301 iw/lvm_dialog_gui.py:690
+#: iw/lvm_dialog_gui.py:711
 msgid "Not enough space"
 msgstr "Ekki nóg pláss"
 
-#: iw/lvm_dialog_gui.py:125
+#: iw/lvm_dialog_gui.py:126
 msgid ""
 "The physical extent size cannot be changed because otherwise the space "
 "required by the currently defined logical volumes will be increased to more "
@@ -2427,11 +2581,11 @@ msgstr ""
 "sem sýndardiskarnir sem þegar eru skilgreindir nota umfram það pláss sem "
 "þegar er til."
 
-#: iw/lvm_dialog_gui.py:134
+#: iw/lvm_dialog_gui.py:135
 msgid "Confirm Physical Extent Change"
 msgstr "Staðfestu breytingu raundiskabúta"
 
-#: iw/lvm_dialog_gui.py:135
+#: iw/lvm_dialog_gui.py:136
 msgid ""
 "This change in the value of the physical extent will require the sizes of "
 "the current logical volume requests to be rounded up in size to an integer "
@@ -2445,11 +2599,11 @@ msgstr ""
 "\n"
 "Þessi breyting á sér stað um leið."
 
-#: iw/lvm_dialog_gui.py:144 iw/lvm_dialog_gui.py:206
+#: iw/lvm_dialog_gui.py:145 iw/lvm_dialog_gui.py:207
 msgid "C_ontinue"
 msgstr "_Halda áfram"
 
-#: iw/lvm_dialog_gui.py:171
+#: iw/lvm_dialog_gui.py:172
 #, fuzzy, python-format
 msgid ""
 "The physical extent size cannot be changed because the value selected (%"
@@ -2459,7 +2613,7 @@ msgstr ""
 "Stærð raundiskbúta er ekki hægt að breyta svona því gildið sem þú valdir (%"
 "10.2f MB) er stærra en minnsti raundiskurinn (%10.2f MB) í sýndardiskhópnum."
 
-#: iw/lvm_dialog_gui.py:185
+#: iw/lvm_dialog_gui.py:186
 #, fuzzy, python-format
 msgid ""
 "The physical extent size cannot be changed because the value selected (%"
@@ -2469,11 +2623,11 @@ msgstr ""
 "Stærð raundiskbúta er ekki hægt að breyta svona því gildið sem þú valdir (%"
 "10.2f MB) er stærra en minnsti raundiskurinn (%10.2f MB) í sýndardiskhópnum."
 
-#: iw/lvm_dialog_gui.py:199
+#: iw/lvm_dialog_gui.py:200
 msgid "Too small"
 msgstr "Of smátt"
 
-#: iw/lvm_dialog_gui.py:200
+#: iw/lvm_dialog_gui.py:201
 msgid ""
 "This change in the value of the physical extent will waste substantial space "
 "on one or more of the physical volumes in the volume group."
@@ -2481,7 +2635,7 @@ msgstr ""
 "Þessi breyting á stærð raundiskabúta mun sóa talsverðu plássi á einum eða "
 "fleiri af raundiskunum í þessum sýndardiskhóp."
 
-#: iw/lvm_dialog_gui.py:224
+#: iw/lvm_dialog_gui.py:225
 #, python-format
 msgid ""
 "The physical extent size cannot be changed because the resulting maximum "
@@ -2492,7 +2646,7 @@ msgstr ""
 "út úr því kæmi (%10.2f MB) er minni en einn eða fleiri af þeim sýndardiskum "
 "sem þegar eru skilgreindir."
 
-#: iw/lvm_dialog_gui.py:301
+#: iw/lvm_dialog_gui.py:302
 msgid ""
 "You cannot remove this physical volume because otherwise the volume group "
 "will be too small to hold the currently defined logical volumes."
@@ -2500,96 +2654,100 @@ msgstr ""
 "Þú getur ekki eytt þessum raundisk því þá verður sýndardiskhópurinn ekki "
 "nógu stór fyrir þá sýndardiska sem þegar eru skilgreindir."
 
-#: iw/lvm_dialog_gui.py:400
+#: iw/lvm_dialog_gui.py:401
 msgid "Make Logical Volume"
 msgstr "Búa til sýndardisk"
 
-#: iw/lvm_dialog_gui.py:402
+#: iw/lvm_dialog_gui.py:403
 #, python-format
 msgid "Edit Logical Volume: %s"
 msgstr "Breyta sýndardisk: %s"
 
-#: iw/lvm_dialog_gui.py:433 iw/raid_dialog_gui.py:402
+#: iw/lvm_dialog_gui.py:442 iw/raid_dialog_gui.py:443
 msgid "_File System Type:"
 msgstr "_Tegund skráarkerfis:"
 
-#: iw/lvm_dialog_gui.py:439
+#: iw/lvm_dialog_gui.py:448
 msgid "_Logical Volume Name:"
 msgstr "_Heiti sýndardisks:"
 
-#: iw/lvm_dialog_gui.py:448 iw/partition_dialog_gui.py:432
+#: iw/lvm_dialog_gui.py:457 iw/partition_dialog_gui.py:469
 msgid "_Size (MB):"
 msgstr "_Stærð (MB):"
 
-#: iw/lvm_dialog_gui.py:455
+#: iw/lvm_dialog_gui.py:464
 #, python-format
 msgid "(Max size is %s MB)"
 msgstr "(Hám. stærð er %s MB)"
 
-#: iw/lvm_dialog_gui.py:460 iw/partition_dialog_gui.py:484
-#: iw/partition_ui_helpers_gui.py:331 iw/raid_dialog_gui.py:374
+#: iw/lvm_dialog_gui.py:469 iw/partition_dialog_gui.py:521
+#: iw/partition_ui_helpers_gui.py:331 iw/raid_dialog_gui.py:415
 msgid "_Encrypt"
 msgstr "_Dulrita"
 
-#: iw/lvm_dialog_gui.py:469 iw/raid_dialog_gui.py:412
+#: iw/lvm_dialog_gui.py:478 iw/partition_dialog_gui.py:451
+#: iw/raid_dialog_gui.py:453
 msgid "Original File System Type:"
 msgstr "Upprunaleg tegund skráarkerfis:"
 
-#: iw/lvm_dialog_gui.py:473 iw/raid_dialog_gui.py:417
-msgid "Unknown"
-msgstr "Óþekkt"
-
-#: iw/lvm_dialog_gui.py:477 iw/partition_dialog_gui.py:422
-#: iw/raid_dialog_gui.py:423
+#: iw/lvm_dialog_gui.py:483 iw/partition_dialog_gui.py:459
+#: iw/raid_dialog_gui.py:460
 msgid "Original File System Label:"
 msgstr "Upprunaleg merking skráarkerfisins:"
 
-#: iw/lvm_dialog_gui.py:482
+#: iw/lvm_dialog_gui.py:488
 msgid "Logical Volume Name:"
 msgstr "Heiti sýndardisks:"
 
-#: iw/lvm_dialog_gui.py:486
+#: iw/lvm_dialog_gui.py:492
 msgid "Size (MB):"
 msgstr "Stærð (MB):"
 
-#: iw/lvm_dialog_gui.py:513 iw/partition_dialog_gui.py:377
-#: iw/raid_dialog_gui.py:393
+#: iw/lvm_dialog_gui.py:519 iw/partition_dialog_gui.py:407
+#: iw/raid_dialog_gui.py:434
 msgid "_Mount Point:"
 msgstr "Tengi_punktur:"
 
-#: iw/lvm_dialog_gui.py:596
+#: iw/lvm_dialog_gui.py:596 iw/partition_dialog_gui.py:113
+#: iw/partition_ui_helpers_gui.py:109 iw/partition_ui_helpers_gui.py:131
+#: iw/partition_ui_helpers_gui.py:133 iw/raid_dialog_gui.py:169
+msgid "<Not Applicable>"
+msgstr "<Á ekki við>"
+
+#: iw/lvm_dialog_gui.py:604
 msgid "Illegal Logical Volume Name"
 msgstr "Ógilt heiti sýndardisks"
 
-#: iw/lvm_dialog_gui.py:611
+#: iw/lvm_dialog_gui.py:619
 msgid "Illegal logical volume name"
 msgstr "Ógilt heiti sýndardisks"
 
-#: iw/lvm_dialog_gui.py:612
+#: iw/lvm_dialog_gui.py:620
 #, python-format
 msgid "The logical volume name \"%s\" is already in use. Please pick another."
-msgstr "Heiti sýndardisksins \"%s\" er þegar í notkun. Vinsamlegast veldu annað."
+msgstr ""
+"Heiti sýndardisksins \"%s\" er þegar í notkun. Vinsamlegast veldu annað."
 
-#: iw/lvm_dialog_gui.py:653 iw/partition_dialog_gui.py:124
-#: iw/raid_dialog_gui.py:180
+#: iw/lvm_dialog_gui.py:661 iw/partition_dialog_gui.py:127
+#: iw/raid_dialog_gui.py:183
 msgid "Mount point in use"
 msgstr "Tengipunktur í notkun"
 
-#: iw/lvm_dialog_gui.py:654 iw/partition_dialog_gui.py:125
-#: iw/raid_dialog_gui.py:181
+#: iw/lvm_dialog_gui.py:662 iw/partition_dialog_gui.py:128
+#: iw/raid_dialog_gui.py:184
 #, python-format
 msgid "The mount point \"%s\" is in use. Please pick another."
 msgstr "Tengipunkturinn \"%s\" er þegar í notkun. Vinsamlegast veldu annan."
 
-#: iw/lvm_dialog_gui.py:669
+#: iw/lvm_dialog_gui.py:677
 msgid "Illegal size"
 msgstr "Ógild stærð"
 
-#: iw/lvm_dialog_gui.py:670
+#: iw/lvm_dialog_gui.py:678
 msgid "The requested size as entered is not a valid number greater than 0."
 msgstr "Það sem þú slóst inn er ekki gild tala sem er stærri en 0."
 
-#: iw/lvm_dialog_gui.py:683
+#: iw/lvm_dialog_gui.py:691
 #, fuzzy, python-format
 msgid ""
 "The current requested size (%(size)10.2f MB) is larger than the maximum "
@@ -2601,7 +2759,7 @@ msgstr ""
 "Til þess að hækka þetta þak getur þú búið til fleiri raundiska á öðrum "
 "diskum og bætt þeim við þennan sýndardiskhóp."
 
-#: iw/lvm_dialog_gui.py:704
+#: iw/lvm_dialog_gui.py:712
 #, python-format
 msgid ""
 "The logical volumes you have configured require %(size)d MB, but the volume "
@@ -2609,20 +2767,22 @@ msgid ""
 "larger or make the logical volume(s) smaller."
 msgstr ""
 
-#: iw/lvm_dialog_gui.py:797
+#: iw/lvm_dialog_gui.py:814
 msgid "No free slots"
 msgstr "Engar lausar færslur"
 
-#: iw/lvm_dialog_gui.py:798
+#: iw/lvm_dialog_gui.py:815
 #, python-format
 msgid "You cannot create more than %d logical volume per volume group."
-msgstr ""
+msgid_plural "You cannot create more than %d logical volumes per volume group."
+msgstr[0] ""
+msgstr[1] ""
 
-#: iw/lvm_dialog_gui.py:808
+#: iw/lvm_dialog_gui.py:825
 msgid "No free space"
 msgstr "Ekkert laust pláss"
 
-#: iw/lvm_dialog_gui.py:809
+#: iw/lvm_dialog_gui.py:826
 msgid ""
 "There is no room left in the volume group to create new logical volumes. To "
 "add a logical volume you must reduce the size of one or more of the "
@@ -2632,29 +2792,30 @@ msgstr ""
 "sýndardiska. Til að það sé hægt þarftu að minnka þau sem þegar eru til í "
 "sýndardiskhópnum"
 
-#: iw/lvm_dialog_gui.py:844
+#: iw/lvm_dialog_gui.py:863
 #, python-format
 msgid "Are you sure you want to delete the logical volume \"%s\"?"
 msgstr "Ertu viss um að þú viljir eyða sýndardisknum \"%s\"?"
 
-#: iw/lvm_dialog_gui.py:950
+#: iw/lvm_dialog_gui.py:969
 msgid "Invalid Volume Group Name"
 msgstr "Ógilt heiti sýndardiskhóps"
 
-#: iw/lvm_dialog_gui.py:959
+#: iw/lvm_dialog_gui.py:978
 msgid "Name in use"
 msgstr "Heiti í notkun"
 
-#: iw/lvm_dialog_gui.py:960
+#: iw/lvm_dialog_gui.py:979
 #, python-format
 msgid "The volume group name \"%s\" is already in use. Please pick another."
-msgstr "Heiti sýndardiskhópsins \"%s\" er þegar í notkun. Vinsamlegast veldu annað."
+msgstr ""
+"Heiti sýndardiskhópsins \"%s\" er þegar í notkun. Vinsamlegast veldu annað."
 
-#: iw/lvm_dialog_gui.py:1210
+#: iw/lvm_dialog_gui.py:1265
 msgid "Not enough physical volumes"
 msgstr "Ekki nægjanlega margir raundiskar"
 
-#: iw/lvm_dialog_gui.py:1211
+#: iw/lvm_dialog_gui.py:1266
 msgid ""
 "At least one unused physical volume partition is needed to create an LVM "
 "Volume Group.\n"
@@ -2668,70 +2829,70 @@ msgstr ""
 "Búðu til disksneið eða RAID tæki af gerðinni \"physical volume (LVM)\" og "
 "veldu svo \"LVM\" valmöguleikann aftur."
 
-#: iw/lvm_dialog_gui.py:1222
+#: iw/lvm_dialog_gui.py:1277
 msgid "Make LVM Volume Group"
 msgstr "Búa til LVM sýndardiskahóp"
 
-#: iw/lvm_dialog_gui.py:1225
+#: iw/lvm_dialog_gui.py:1280
 #, python-format
 msgid "Edit LVM Volume Group: %s"
 msgstr "Breyta LVM sýndardiskahóp: %s"
 
-#: iw/lvm_dialog_gui.py:1227
+#: iw/lvm_dialog_gui.py:1282
 msgid "Edit LVM Volume Group"
 msgstr "Breyta LVM sýndardiskahóp"
 
-#: iw/lvm_dialog_gui.py:1243
+#: iw/lvm_dialog_gui.py:1298
 msgid "_Volume Group Name:"
 msgstr "_Sýndardiskahópur:"
 
-#: iw/lvm_dialog_gui.py:1251
+#: iw/lvm_dialog_gui.py:1306
 msgid "Volume Group Name:"
 msgstr "Sýndardiskahópur:"
 
-#: iw/lvm_dialog_gui.py:1259
+#: iw/lvm_dialog_gui.py:1314
 msgid "_Physical Extent:"
 msgstr "_Raundiskbútur:"
 
-#: iw/lvm_dialog_gui.py:1274
+#: iw/lvm_dialog_gui.py:1329
 msgid "Physical Volumes to _Use:"
 msgstr "Raundiskar sem á að _nota:"
 
-#: iw/lvm_dialog_gui.py:1280
+#: iw/lvm_dialog_gui.py:1335
 msgid "Used Space:"
 msgstr "Diskpláss:"
 
-#: iw/lvm_dialog_gui.py:1297
+#: iw/lvm_dialog_gui.py:1352
 msgid "Free Space:"
 msgstr "Laust pláss:"
 
-#: iw/lvm_dialog_gui.py:1315
+#: iw/lvm_dialog_gui.py:1370
 msgid "Total Space:"
 msgstr "Heildarstærð:"
 
-#: iw/lvm_dialog_gui.py:1353
+#: iw/lvm_dialog_gui.py:1408
 msgid "Logical Volume Name"
 msgstr "Heiti sýndardisks"
 
-#: iw/lvm_dialog_gui.py:1356 iw/partition_gui.py:610
-#: iw/upgrade_swap_gui.py:138 textw/upgrade_text.py:122
+#: iw/lvm_dialog_gui.py:1411 iw/partition_gui.py:610
+#: iw/upgrade_swap_gui.py:138 textw/upgrade_text.py:124
 msgid "Mount Point"
 msgstr "Tengipunktur"
 
-#: iw/lvm_dialog_gui.py:1359 iw/partition_gui.py:609
+#: iw/lvm_dialog_gui.py:1414 iw/partition_gui.py:609
 msgid "Size (MB)"
 msgstr "Stærð (MB)"
 
-#: iw/lvm_dialog_gui.py:1373 iw/osbootwidget.py:96
+#: iw/lvm_dialog_gui.py:1428 iw/osbootwidget.py:96
 msgid "_Add"
 msgstr "_Bæta við"
 
-#: iw/lvm_dialog_gui.py:1376 iw/osbootwidget.py:100 iw/partition_gui.py:1810
+#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1810
 #: iw/partition_gui.py:1820
 msgid "_Edit"
 msgstr "_Breyta"
 
-#: iw/lvm_dialog_gui.py:1391
+#: iw/lvm_dialog_gui.py:1446
 #, fuzzy
 msgid "_Logical Volumes"
 msgstr "Sýndardiskar"
@@ -2801,17 +2962,17 @@ msgstr "Nafnaþjónn"
 msgid "Error configuring network device:"
 msgstr "Það kom upp villa við að stilla netkort:"
 
-#: iw/network_gui.py:67 iw/network_gui.py:73
+#: iw/network_gui.py:73 iw/network_gui.py:79
 #, fuzzy
 msgid "Error with Hostname"
 msgstr "Gagnavilla"
 
-#: iw/network_gui.py:68
+#: iw/network_gui.py:74
 #, fuzzy
 msgid "You must enter a valid hostname for this computer."
 msgstr "Þú verður að gefa upp heiti þjóns."
 
-#: iw/network_gui.py:74
+#: iw/network_gui.py:80
 #, fuzzy, python-format
 msgid ""
 "The hostname \"%(hostname)s\" is not valid for the following reason:\n"
@@ -2833,10 +2994,6 @@ msgstr "Sjálfgefið"
 #: iw/osbootwidget.py:66 iw/partition_gui.py:608
 msgid "Label"
 msgstr "Merking"
-
-#: iw/osbootwidget.py:66 iw/partition_gui.py:607
-msgid "Device"
-msgstr "Tæki"
 
 #: iw/osbootwidget.py:130
 msgid "Image"
@@ -2915,24 +3072,24 @@ msgstr "Nota allt pláss _upp að (MB):"
 msgid "Fill to maximum _allowable size"
 msgstr "Stækka upp í _mestu leyfilegu stærð"
 
-#: iw/partition_dialog_gui.py:347
+#: iw/partition_dialog_gui.py:377
 msgid "Add Partition"
 msgstr "Bæta við disksneið"
 
-#: iw/partition_dialog_gui.py:349
+#: iw/partition_dialog_gui.py:379
 #, python-format
 msgid "Edit Partition: %s"
 msgstr "Breyta disksneið: %s"
 
-#: iw/partition_dialog_gui.py:386
+#: iw/partition_dialog_gui.py:416
 msgid "File System _Type:"
 msgstr "_Gerð disksneiðar:"
 
-#: iw/partition_dialog_gui.py:402
+#: iw/partition_dialog_gui.py:432
 msgid "Allowable _Drives:"
 msgstr "Leyfileg _drif:"
 
-#: iw/partition_dialog_gui.py:471
+#: iw/partition_dialog_gui.py:508
 msgid "Force to be a _primary partition"
 msgstr "Gera að _primary disksneið"
 
@@ -2960,7 +3117,7 @@ msgstr ""
 msgid "Type"
 msgstr "Tegund"
 
-#: iw/partition_gui.py:612 storage/__init__.py:1724
+#: iw/partition_gui.py:612 storage/__init__.py:1793
 msgid "Format"
 msgstr "Forsníða"
 
@@ -2985,13 +3142,16 @@ msgid "Partitioning"
 msgstr "Disksneiðing"
 
 #: iw/partition_gui.py:846
-msgid "The partitioning scheme you requested caused the following critical errors."
+msgid ""
+"The partitioning scheme you requested caused the following critical errors."
 msgstr "Disksneiðarnar sem þú bjóst til ollu eftirfarandi villum."
 
 #: iw/partition_gui.py:848
 #, python-format
-msgid "You must correct these errors before you continue your installation of %s."
-msgstr "Þessar villur verður að lagfæra áður en uppsetningin á %s getur haldið áfram."
+msgid ""
+"You must correct these errors before you continue your installation of %s."
+msgstr ""
+"Þessar villur verður að lagfæra áður en uppsetningin á %s getur haldið áfram."
 
 #: iw/partition_gui.py:854
 msgid "Partitioning Errors"
@@ -3022,7 +3182,7 @@ msgstr ""
 msgid "Format Warnings"
 msgstr "Aðvaranir"
 
-#: iw/partition_gui.py:894
+#: iw/partition_gui.py:894 storage/dasd.py:139
 msgid "_Format"
 msgstr "_Forsníða"
 
@@ -3084,7 +3244,9 @@ msgstr ""
 #: iw/partition_gui.py:1465
 #, fuzzy, python-format
 msgid "You currently have %d software RAID partition free to use."
-msgstr "Búa til RAID _disksneið."
+msgid_plural "You currently have %d software RAID partitions free to use."
+msgstr[0] "Búa til RAID _disksneið."
+msgstr[1] "Búa til RAID _disksneið."
 
 #: iw/partition_gui.py:1469
 #, fuzzy
@@ -3094,26 +3256,28 @@ msgstr "hugbúnaðar RAID"
 #: iw/partition_gui.py:1475
 #, python-format
 msgid ""
-"Logical Volume Manager (LVM) is a 3 level construct. The fist level is made "
-"up of disks or partitions formated with LVM metadata called Physical Volumes "
-"(PV).  A Volume Group (VG) sits on top of one or more PVs. The VG, in turn, "
-"is the base to creat one ore more Logical Volumes (LV).  Note that a VG can "
-"be an aggregate of PVs from multiple physical disk.  For more information on "
-"using LVM please consult the %s documentation\n"
+"Logical Volume Manager (LVM) is a 3 level construct. The first level is made "
+"up of disks or partitions formatted with LVM metadata called Physical "
+"Volumes (PV).  A Volume Group (VG) sits on top of one or more PVs. The VG, "
+"in turn, is the base to create one or more Logical Volumes (LV).  Note that "
+"a VG can be an aggregate of PVs from multiple physical disks.  For more "
+"information on using LVM please consult the %s documentation\n"
 msgstr ""
 
 #: iw/partition_gui.py:1483
 msgid ""
 "To create a PV you need a partition with free space.  To create a VG you "
-"need a PV that is not part of any existing VG.  To create a LV you need a VG "
-"with free space.\n"
+"need a PV that is not part of any existing VG.  To create an LV you need a "
+"VG with free space.\n"
 "\n"
 msgstr ""
 
 #: iw/partition_gui.py:1487
 #, python-format
 msgid "You currently have %d available PV free to use.\n"
-msgstr ""
+msgid_plural "You currently have %d available PVs free to use.\n"
+msgstr[0] ""
+msgstr[1] ""
 
 #: iw/partition_gui.py:1491
 msgid "You currently have free space to create PVs."
@@ -3123,34 +3287,34 @@ msgstr ""
 msgid "About LVM"
 msgstr ""
 
-#: iw/partition_gui.py:1526
+#: iw/partition_gui.py:1525
 msgid "Couldn't Create Drive Clone Editor"
 msgstr "Gat ekki opnað diskafritunartólið"
 
-#: iw/partition_gui.py:1527
+#: iw/partition_gui.py:1526
 msgid "The drive clone editor could not be created for some reason."
 msgstr "Einhverra hluta vegna tókst ekki að opna diskafritunartólið."
 
-#: iw/partition_gui.py:1586 storage/partitioning.py:197
-#: storage/partitioning.py:238
+#: iw/partition_gui.py:1584 storage/partitioning.py:196
+#: storage/partitioning.py:239
 msgid "Error Partitioning"
 msgstr "Villa við disksneiðingu"
 
-#: iw/partition_gui.py:1587
+#: iw/partition_gui.py:1585
 #, python-format
 msgid "Could not allocate requested partitions: %s."
 msgstr "Gat ekki búið til umbeðnar disksneiðar: %s."
 
-#: iw/partition_gui.py:1596
+#: iw/partition_gui.py:1594
 #, python-format
 msgid "Warning: %s."
 msgstr "Aðvörun: %s."
 
-#: iw/partition_gui.py:1627
+#: iw/partition_gui.py:1625
 msgid "Unable To Edit"
 msgstr "Get ekki breytt skrá"
 
-#: iw/partition_gui.py:1628
+#: iw/partition_gui.py:1626
 #, python-format
 msgid ""
 "You cannot edit this device:\n"
@@ -3174,11 +3338,6 @@ msgstr "En_durstilla"
 msgid "Please Select A Device"
 msgstr "Vinsamlegast veldu frumdrif."
 
-#: iw/partition_ui_helpers_gui.py:109 iw/partition_ui_helpers_gui.py:131
-#: iw/partition_ui_helpers_gui.py:133
-msgid "<Not Applicable>"
-msgstr "<Á ekki við>"
-
 #: iw/partition_ui_helpers_gui.py:312
 msgid "_Format as:"
 msgstr "_Forsníða sem:"
@@ -3191,7 +3350,7 @@ msgstr "F_æra skráarkerfi til:"
 msgid "_Resize"
 msgstr "_Breyta stærð"
 
-#: iw/partition_ui_helpers_gui.py:433
+#: iw/partition_ui_helpers_gui.py:435
 #, python-format
 msgid ""
 "Partitions of type '%s' must be constrained to a single drive.  To do this, "
@@ -3200,11 +3359,7 @@ msgstr ""
 "Disksneiðar af gerðinni '%s' verða að vera bundnar við eitt drif.  Þetta er "
 "gert með því að velja drifið í 'Leyfileg drif' listanum."
 
-#: iw/progress_gui.py:37
-msgid "Installing Packages"
-msgstr "Set inn pakka"
-
-#: iw/raid_dialog_gui.py:341
+#: iw/raid_dialog_gui.py:382
 msgid ""
 "At least two unused software RAID partitions are needed to create a RAID "
 "device.\n"
@@ -3217,40 +3372,40 @@ msgstr ""
 "\n"
 "Búðu þær til fyrst og veldu svo \"RAID\" hnappinn aftur."
 
-#: iw/raid_dialog_gui.py:355
+#: iw/raid_dialog_gui.py:396
 msgid "Make RAID Device"
 msgstr "Búa til RAID tæki"
 
-#: iw/raid_dialog_gui.py:358
+#: iw/raid_dialog_gui.py:399
 #, python-format
 msgid "Edit RAID Device: %s"
 msgstr "Breyta RAID tæki: %s"
 
-#: iw/raid_dialog_gui.py:360
+#: iw/raid_dialog_gui.py:401
 msgid "Edit RAID Device"
 msgstr "Breyta RAID tæki"
 
-#: iw/raid_dialog_gui.py:431
+#: iw/raid_dialog_gui.py:468
 msgid "RAID _Device:"
 msgstr "RAID _tæki:"
 
-#: iw/raid_dialog_gui.py:449
+#: iw/raid_dialog_gui.py:486
 msgid "RAID _Level:"
 msgstr "RAID t_egund:"
 
-#: iw/raid_dialog_gui.py:491
+#: iw/raid_dialog_gui.py:528
 msgid "_RAID Members:"
 msgstr "_RAID drif:"
 
-#: iw/raid_dialog_gui.py:508
+#: iw/raid_dialog_gui.py:545
 msgid "Number of _spares:"
 msgstr "Fjöldi _varadrifa:"
 
-#: iw/raid_dialog_gui.py:518
+#: iw/raid_dialog_gui.py:555
 msgid "_Format partition?"
 msgstr "_Forsníða disksneiðina?"
 
-#: iw/raid_dialog_gui.py:592
+#: iw/raid_dialog_gui.py:629
 msgid ""
 "The source drive has no partitions to be cloned.  You must first define "
 "partitions of type 'software RAID' on this drive before it can be cloned."
@@ -3258,12 +3413,12 @@ msgstr ""
 "Á frumdisknum eru engar disksneiðar til að afrita. Þú verður að skilgreina "
 "disksneiðar af gerðinni 'software RAID' á því áður en hægt er að afrita það."
 
-#: iw/raid_dialog_gui.py:596 iw/raid_dialog_gui.py:602
-#: iw/raid_dialog_gui.py:616 iw/raid_dialog_gui.py:629
+#: iw/raid_dialog_gui.py:633 iw/raid_dialog_gui.py:639
+#: iw/raid_dialog_gui.py:653 iw/raid_dialog_gui.py:666
 msgid "Source Drive Error"
 msgstr "Villa á frumdrifi"
 
-#: iw/raid_dialog_gui.py:603
+#: iw/raid_dialog_gui.py:640
 msgid ""
 "The source drive you selected has partitions which are not of type 'software "
 "RAID'.\n"
@@ -3275,7 +3430,7 @@ msgstr ""
 "\n"
 "Þessum disksneiðum þarf að eyða áður en hægt er að afrita diskinn."
 
-#: iw/raid_dialog_gui.py:617
+#: iw/raid_dialog_gui.py:654
 #, python-format
 msgid ""
 "The source drive you selected has partitions which are not constrained to "
@@ -3290,7 +3445,7 @@ msgstr ""
 "Þessum disksneiðum þarf að eyða eða binda við drifið áður en hægt er að "
 "afrita diskinn. "
 
-#: iw/raid_dialog_gui.py:630
+#: iw/raid_dialog_gui.py:667
 msgid ""
 "The source drive you selected has software RAID partition(s) which are "
 "members of an active software RAID device.\n"
@@ -3302,21 +3457,21 @@ msgstr ""
 "\n"
 "Þessum disksneiðum þarf að eyða áður en hægt er að afrita diskinn."
 
-#: iw/raid_dialog_gui.py:644 iw/raid_dialog_gui.py:650
-#: iw/raid_dialog_gui.py:666
+#: iw/raid_dialog_gui.py:681 iw/raid_dialog_gui.py:687
+#: iw/raid_dialog_gui.py:703
 msgid "Target Drive Error"
 msgstr "Afritunardiskvilla"
 
-#: iw/raid_dialog_gui.py:645
+#: iw/raid_dialog_gui.py:682
 msgid "Please select the target drives for the clone operation."
 msgstr "Vinsamlegast veldu þá diska sem þú vilt afrita á."
 
-#: iw/raid_dialog_gui.py:651
+#: iw/raid_dialog_gui.py:688
 #, python-format
 msgid "The source drive %s cannot be selected as a target drive as well."
 msgstr "Ekki er hægt að afrita á frumdiskinn %s líka."
 
-#: iw/raid_dialog_gui.py:667
+#: iw/raid_dialog_gui.py:704
 #, fuzzy, python-format
 msgid ""
 "The target drive %(path)s has a partition which cannot be removed for the "
@@ -3333,11 +3488,11 @@ msgstr ""
 "\n"
 "Þú verður að eyða henni áður en hægt er að afrita á þennan disk."
 
-#: iw/raid_dialog_gui.py:730
+#: iw/raid_dialog_gui.py:767
 msgid "Please select a source drive."
 msgstr "Vinsamlegast veldu frumdrif."
 
-#: iw/raid_dialog_gui.py:750
+#: iw/raid_dialog_gui.py:787
 #, python-format
 msgid ""
 "The drive %s will now be cloned to the following drives:\n"
@@ -3346,7 +3501,7 @@ msgstr ""
 "Drifið %s verður nú afritað á eftirtalin drif:\n"
 "\n"
 
-#: iw/raid_dialog_gui.py:755
+#: iw/raid_dialog_gui.py:792
 msgid ""
 "\n"
 "\n"
@@ -3356,24 +3511,25 @@ msgstr ""
 "\n"
 "AÐVÖRUN: ÖLLUM GÖGNUM Á DISKUNUM SEM AFRITAÐ ER Á VERÐUR EYTT."
 
-#: iw/raid_dialog_gui.py:758
+#: iw/raid_dialog_gui.py:795
 msgid "Final Warning"
 msgstr "Lokaaðvörun"
 
-#: iw/raid_dialog_gui.py:760
+#: iw/raid_dialog_gui.py:797
 msgid "Clone Drives"
 msgstr "Afrita drif"
 
-#: iw/raid_dialog_gui.py:769
+#: iw/raid_dialog_gui.py:806
 msgid "There was an error clearing the target drives.  Cloning failed."
-msgstr "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
+msgstr ""
+"Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
 
-#: iw/raid_dialog_gui.py:792
+#: iw/raid_dialog_gui.py:829
 #, fuzzy
 msgid "Clone Drive Tool"
 msgstr "Afrita drif"
 
-#: iw/raid_dialog_gui.py:801
+#: iw/raid_dialog_gui.py:838
 msgid ""
 "This tool clones the layout from a partitioned source onto other similar "
 "sized drives. The source must have partitions which are restricted to that "
@@ -3381,19 +3537,19 @@ msgid ""
 "the target drive(s) will be destroyed.\n"
 msgstr ""
 
-#: iw/raid_dialog_gui.py:812
+#: iw/raid_dialog_gui.py:849
 msgid "Source Drive:"
 msgstr "Frumdrif:"
 
-#: iw/raid_dialog_gui.py:820
+#: iw/raid_dialog_gui.py:857
 msgid "Target Drive(s):"
 msgstr "Afrita á:"
 
-#: iw/raid_dialog_gui.py:828
+#: iw/raid_dialog_gui.py:865
 msgid "Drives"
 msgstr "Drif"
 
-#: iw/task_gui.py:65
+#: iw/task_gui.py:55
 #, python-format
 msgid ""
 "Unable to read package metadata from repository.  This may be due to a "
@@ -3408,11 +3564,11 @@ msgstr ""
 "\n"
 "%s"
 
-#: iw/task_gui.py:142
+#: iw/task_gui.py:132
 msgid "Edit Repository"
 msgstr "Breyta hugbúnaðarsafni"
 
-#: iw/task_gui.py:166
+#: iw/task_gui.py:156
 #, python-format
 msgid ""
 "The repository %s has already been added.  Please choose a different "
@@ -3421,33 +3577,33 @@ msgstr ""
 "Hugbúnaðarsafninu %s hefur þegar verið bætt við.  Vinsamlegast veldu annað "
 "heiti og aðra slóð."
 
-#: iw/task_gui.py:246
+#: iw/task_gui.py:236
 msgid "Invalid Proxy URL"
 msgstr "Ógild slóð milliþjóns"
 
-#: iw/task_gui.py:247
+#: iw/task_gui.py:237
 msgid "You must provide an HTTP, HTTPS, or FTP URL to a proxy."
 msgstr "Þú verður að gefa upp HTTP, HTTPS, eða FTP slóð á milliþjón."
 
-#: iw/task_gui.py:258 iw/task_gui.py:416
+#: iw/task_gui.py:249 iw/task_gui.py:430
 msgid "Invalid Repository URL"
 msgstr "Ógild slóð á hugbúnaðarsafn"
 
-#: iw/task_gui.py:259 iw/task_gui.py:417
+#: iw/task_gui.py:250 iw/task_gui.py:431
 msgid "You must provide an HTTP, HTTPS, or FTP URL to a repository."
 msgstr "Þú verður að gefa upp HTTP, HTTPS, eða FTP slóð á hugbúnaðarsafn."
 
-#: iw/task_gui.py:280 iw/task_gui.py:426
+#: iw/task_gui.py:271 iw/task_gui.py:440
 msgid "No Media Found"
 msgstr "Engir miðlar fundust"
 
-#: iw/task_gui.py:281 iw/task_gui.py:427
+#: iw/task_gui.py:272 iw/task_gui.py:441
 msgid ""
 "No installation media was found. Please insert a disc into your drive and "
 "try again."
 msgstr ""
 
-#: iw/task_gui.py:312 iw/task_gui.py:450
+#: iw/task_gui.py:303 iw/task_gui.py:464
 msgid "Please enter an NFS server and path."
 msgstr "Vinsamlegast sláðu inn heiti og slóð NFS-þjóns."
 
@@ -3470,15 +3626,15 @@ msgstr "Ógilt heiti hugbúnaðarsafns"
 msgid "You must provide a repository name."
 msgstr "Hugbúnaðarsafnið verður að hafa heiti."
 
-#: iw/task_gui.py:482 ui/addrepo.glade.h:3
+#: iw/task_gui.py:496 ui/addrepo.glade.h:3
 msgid "Add Repository"
 msgstr "Bæta við hugbúnaðarsafni"
 
-#: iw/task_gui.py:487
+#: iw/task_gui.py:501
 msgid "No Software Repos Enabled"
 msgstr "Engin hugbúnaðarsöfn eru virk"
 
-#: iw/task_gui.py:488
+#: iw/task_gui.py:502
 msgid ""
 "You must have at least one software repository enabled to continue "
 "installation."
@@ -3557,11 +3713,11 @@ msgstr ""
 msgid "What would you like to do?"
 msgstr "Hvað viltu gera?"
 
-#: iw/upgrade_migratefs_gui.py:38 textw/upgrade_text.py:40
+#: iw/upgrade_migratefs_gui.py:38 textw/upgrade_text.py:42
 msgid "Migrate File Systems"
 msgstr "Breyta skráarkerfum"
 
-#: iw/upgrade_migratefs_gui.py:69
+#: iw/upgrade_migratefs_gui.py:69 textw/upgrade_text.py:44
 #, fuzzy, python-format
 msgid ""
 "This release of %(productName)s supports an updated file system, which has "
@@ -3582,7 +3738,7 @@ msgstr ""
 msgid "Upgrade Swap Partition"
 msgstr "Uppfæra diskminnissneið"
 
-#: iw/upgrade_swap_gui.py:92 textw/upgrade_text.py:105
+#: iw/upgrade_swap_gui.py:92 textw/upgrade_text.py:107
 #, python-format
 msgid ""
 "Recent kernels (2.4 or newer) need significantly more swap than older "
@@ -3614,7 +3770,7 @@ msgstr "Ég vil _búa til diskminnisskrá"
 msgid "Select the _partition to put the swap file on:"
 msgstr "Veldu _disksneiðina til að setja diskminnisskrá á:"
 
-#: iw/upgrade_swap_gui.py:138 textw/upgrade_text.py:123
+#: iw/upgrade_swap_gui.py:138 textw/upgrade_text.py:125
 msgid "Partition"
 msgstr "Disksneið"
 
@@ -3647,12 +3803,13 @@ msgstr ""
 "Við mælum sterklega með að þú búir til diskminnisskrá. Ef þú gerir það ekki "
 "getur uppsetningaforritið hrunið.  Ertu viss um að þú viljir halda áfram ?"
 
-#: iw/upgrade_swap_gui.py:199 textw/upgrade_text.py:192
+#: iw/upgrade_swap_gui.py:199 textw/upgrade_text.py:194
 msgid "The swap file must be between 1 and 2000 MB in size."
 msgstr "Stærð diskminnisskráarinnar verður að vera á milli 1 og 2000 MB."
 
-#: iw/upgrade_swap_gui.py:206 textw/upgrade_text.py:187
-msgid "There is not enough space on the device you selected for the swap partition."
+#: iw/upgrade_swap_gui.py:206 textw/upgrade_text.py:189
+msgid ""
+"There is not enough space on the device you selected for the swap partition."
 msgstr ""
 "Það er ekki nægjanlegt laust pláss á disknum sem þú valdir fyrir "
 "diskminnissneiðina."
@@ -3710,7 +3867,7 @@ msgstr ""
 "\n"
 "Þú getur nú slegið inn aukaviðföng á kjarnann sem vélin þín kann að þurfa."
 
-#: iw/zipl_gui.py:90 textw/zipl_text.py:71
+#: iw/zipl_gui.py:90 textw/zipl_text.py:72
 msgid "Kernel Parameters"
 msgstr "Viðföng kjarnans"
 
@@ -3718,7 +3875,7 @@ msgstr "Viðföng kjarnans"
 msgid "Chandev Parameters"
 msgstr "Chandev viðföng"
 
-#: loader/cdinstall.c:185 loader/cdinstall.c:206 loader/mediacheck.c:60
+#: loader/cdinstall.c:185 loader/cdinstall.c:206 loader/mediacheck.c:61
 msgid "Media Check"
 msgstr "Yfirfara disk"
 
@@ -3807,13 +3964,13 @@ msgstr ""
 msgid "Disc Not Found"
 msgstr "Diskur fannst ekki"
 
-#: loader/cdinstall.c:431 loader/driverdisk.c:424 loader/driverdisk.c:462
-#: loader/driverdisk.c:543 loader/driverselect.c:78 loader/driverselect.c:152
-#: loader/driverselect.c:178 loader/hdinstall.c:203 loader/hdinstall.c:257
-#: loader/kbd.c:119 loader/loader.c:491 loader/loader.c:508
-#: loader/loader.c:1358 loader/loader.c:1391 loader/net.c:579 loader/net.c:950
-#: loader/net.c:1851 loader/net.c:1870 loader/nfsinstall.c:91
-#: loader/urls.c:249 storage/__init__.py:151 storage/devicetree.py:88
+#: loader/cdinstall.c:431 loader/driverdisk.c:423 loader/driverdisk.c:461
+#: loader/driverdisk.c:542 loader/driverselect.c:79 loader/driverselect.c:153
+#: loader/driverselect.c:179 loader/hdinstall.c:203 loader/hdinstall.c:257
+#: loader/kbd.c:119 loader/loader.c:506 loader/loader.c:523
+#: loader/loader.c:1375 loader/loader.c:1408 loader/net.c:578 loader/net.c:949
+#: loader/net.c:1848 loader/net.c:1867 loader/nfsinstall.c:91
+#: loader/urls.c:259 storage/__init__.py:157 storage/devicetree.py:90
 #: textw/constants_text.py:52
 msgid "Back"
 msgstr "Til baka"
@@ -3827,20 +3984,20 @@ msgstr "Gat ekki fundið hraðuppsetningarskrá á geisladisknum."
 msgid "Failed to read directory %s: %m"
 msgstr "Gat ekki lesið möppuna %s: %s"
 
-#: loader/driverdisk.c:308
+#: loader/driverdisk.c:304
 msgid "Loading"
 msgstr "Les inn"
 
-#: loader/driverdisk.c:308
+#: loader/driverdisk.c:304
 #, fuzzy
 msgid "Reading driver disk"
 msgstr "Les rekladiskinn..."
 
-#: loader/driverdisk.c:418 loader/driverdisk.c:457
+#: loader/driverdisk.c:417 loader/driverdisk.c:456
 msgid "Driver Disk Source"
 msgstr "Staðsetning rekladisks"
 
-#: loader/driverdisk.c:419
+#: loader/driverdisk.c:418
 msgid ""
 "You have multiple devices which could serve as sources for a driver disk.  "
 "Which would you like to use?"
@@ -3848,7 +4005,7 @@ msgstr ""
 "Þú hefur fleiri en eitt drif í vélinni þinni sem nota má fyrir "
 "rekladiskling. Hvert þeirra viltu nota við uppsetninguna?"
 
-#: loader/driverdisk.c:458
+#: loader/driverdisk.c:457
 msgid ""
 "There are multiple partitions on this device which could contain the driver "
 "disk image.  Which would you like to use?"
@@ -3856,49 +4013,50 @@ msgstr ""
 "Þú hefur fleiri en ein disksneið í vélinni þinni sem gæti innihaldið "
 "rekladiskmyndina. Hvert þeirra viltu reyna?"
 
-#: loader/driverdisk.c:493
+#: loader/driverdisk.c:492
 msgid "Failed to mount partition."
 msgstr "Gat ekki tengt disksneiðina."
 
-#: loader/driverdisk.c:498
+#: loader/driverdisk.c:497
 msgid "Select driver disk image"
 msgstr "Veldu rekladiskmynd."
 
-#: loader/driverdisk.c:499
+#: loader/driverdisk.c:498
 msgid "Select the file which is your driver disk image."
 msgstr "Veldu skrána sem er með rekladiskmyndina."
 
-#: loader/driverdisk.c:528
+#: loader/driverdisk.c:527
 msgid "Failed to load driver disk from file."
 msgstr "Gat ekki lesið rekladisklinginn úr skrá."
 
-#: loader/driverdisk.c:540
+#: loader/driverdisk.c:539
 #, c-format
 msgid "Insert your driver disk into /dev/%s and press \"OK\" to continue."
-msgstr "Settu rekladisklinginn í /dev/%s og veldu \"Í lagi\" til að halda áfram."
+msgstr ""
+"Settu rekladisklinginn í /dev/%s og veldu \"Í lagi\" til að halda áfram."
 
-#: loader/driverdisk.c:543
+#: loader/driverdisk.c:542
 msgid "Insert Driver Disk"
 msgstr "Settu rekladiskinn í drifið"
 
-#: loader/driverdisk.c:556
+#: loader/driverdisk.c:555
 msgid "Failed to mount driver disk."
 msgstr "Gat ekki tengt rekladisklinginn."
 
-#: loader/driverdisk.c:564
+#: loader/driverdisk.c:563
 #, c-format
 msgid "Driver disk is invalid for this release of %s."
 msgstr "Rekladiskurinn er ógildur fyrir þessa útgáfu af %s."
 
-#: loader/driverdisk.c:627
+#: loader/driverdisk.c:626
 msgid "Manually choose"
 msgstr "Velja handvirkt"
 
-#: loader/driverdisk.c:628
+#: loader/driverdisk.c:627
 msgid "Load another disk"
 msgstr "Setja annan disk í"
 
-#: loader/driverdisk.c:629
+#: loader/driverdisk.c:628
 msgid ""
 "No devices of the appropriate type were found on this driver disk.  Would "
 "you like to manually select the driver, continue anyway, or load another "
@@ -3907,37 +4065,37 @@ msgstr ""
 "Engin tæki af réttri tegund fundust á þessum rekladisk. Viltu velja rekil "
 "handvirkt, halda áfram eða lesa inn annann rekladisk?"
 
-#: loader/driverdisk.c:667
+#: loader/driverdisk.c:666
 msgid "Driver disk"
 msgstr "Rekladiskur"
 
-#: loader/driverdisk.c:668
+#: loader/driverdisk.c:667
 msgid "Do you have a driver disk?"
 msgstr "Ertu með rekladisk?"
 
-#: loader/driverdisk.c:677
+#: loader/driverdisk.c:676
 msgid "More Driver Disks?"
 msgstr "Fleiri rekladisklinga?"
 
-#: loader/driverdisk.c:678
+#: loader/driverdisk.c:677
 msgid "Do you wish to load any more driver disks?"
 msgstr "Viltu lesa inn fleiri rekladisklinga?"
 
-#: loader/driverdisk.c:723 loader/driverdisk.c:762 loader/hdinstall.c:349
+#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:349
 #: loader/kickstart.c:132 loader/kickstart.c:142 loader/kickstart.c:184
-#: loader/kickstart.c:189 loader/kickstart.c:510 loader/modules.c:381
-#: loader/modules.c:397 loader/net.c:1558 loader/net.c:1579
+#: loader/kickstart.c:189 loader/kickstart.c:510 loader/modules.c:382
+#: loader/modules.c:398 loader/net.c:1557 loader/net.c:1578
 #: loader/nfsinstall.c:366 loader/urlinstall.c:372 loader/urlinstall.c:383
 #: loader/urlinstall.c:390
 msgid "Kickstart Error"
 msgstr "Kickstart villa"
 
-#: loader/driverdisk.c:724
+#: loader/driverdisk.c:723
 #, c-format
 msgid "Unknown driver disk kickstart source: %s"
 msgstr "óleyfilegt staðsetning rekladisks: %s"
 
-#: loader/driverdisk.c:763
+#: loader/driverdisk.c:762
 #, fuzzy, c-format
 msgid ""
 "The following invalid argument was specified for the kickstart driver disk "
@@ -3946,7 +4104,7 @@ msgstr ""
 "Eftirfarandi er óleyfilegt viðfang við rekladiskskipun hraðuppsetningar: %s:%"
 "s"
 
-#: loader/driverselect.c:67
+#: loader/driverselect.c:68
 #, c-format
 msgid ""
 "Please enter any parameters which you wish to pass to the %s module "
@@ -3957,19 +4115,19 @@ msgstr ""
 "aðskilin með orðabilum. Ef þú veist ekki hvaða viðföng á að nota getur þú "
 "sleppt þessum skjá með því að velja \"Í lagi\" hnappinn."
 
-#: loader/driverselect.c:88
+#: loader/driverselect.c:89
 msgid "Enter Module Parameters"
 msgstr "Skáðu inn viðföng kjarnarekla"
 
-#: loader/driverselect.c:151
+#: loader/driverselect.c:152
 msgid "No drivers found"
 msgstr "Engir rekilar fundust"
 
-#: loader/driverselect.c:151
+#: loader/driverselect.c:152
 msgid "Load driver disk"
 msgstr "Nota rekladisk"
 
-#: loader/driverselect.c:152
+#: loader/driverselect.c:153
 msgid ""
 "No drivers were found to manually insert.  Would you like to use a driver "
 "disk?"
@@ -3977,7 +4135,7 @@ msgstr ""
 "Engir reklar fundust sem hægt er að setja inn handvirkt. Viltu reyna að nota "
 "rekladisk?"
 
-#: loader/driverselect.c:170
+#: loader/driverselect.c:171
 msgid ""
 "Please select the driver below which you wish to load.  If it does not "
 "appear and you have a driver disk, press F2."
@@ -3985,11 +4143,11 @@ msgstr ""
 "Hvaða rekil viltu reyna? Ef rekillinn sem þú þarft er ekki á þessum lista og "
 "þú ert með sérstakann rekladiskling veldu þá F2."
 
-#: loader/driverselect.c:179
+#: loader/driverselect.c:180
 msgid "Specify optional module arguments"
 msgstr "Gefðu upp viðföng kjarnarekla ef þarf"
 
-#: loader/driverselect.c:204
+#: loader/driverselect.c:205
 msgid "Select Device Driver to Load"
 msgstr "Veldu rekil til að lesa inn"
 
@@ -4100,7 +4258,7 @@ msgstr "Villa við opnun hraðuppsetningarskrár"
 msgid "Bad argument to shutdown kickstart method command: %s"
 msgstr "Óleyfilegt viðfang við shutdown skipun hraðuppsetningar %s: %s"
 
-#: loader/lang.c:63 loader/loader.c:225
+#: loader/lang.c:63 loader/loader.c:223
 #, fuzzy, c-format
 msgid "Welcome to %s for %s"
 msgstr "Velkomin(n) í %s"
@@ -4110,31 +4268,33 @@ msgstr "Velkomin(n) í %s"
 msgid "Welcome to %s for %s - Rescue Mode"
 msgstr "Velkomin(n) í %s - Björgunarham"
 
-#: loader/lang.c:65 loader/loader.c:232
-msgid "  <Tab>/<Alt-Tab> between elements  | <Space> selects | <F12> next screen "
-msgstr "  <Tab>/<Alt-Tab> milli atriða      | <Bilslá> velur  | <F12> næsti skjár "
+#: loader/lang.c:65 loader/loader.c:247
+msgid ""
+"  <Tab>/<Alt-Tab> between elements  | <Space> selects | <F12> next screen "
+msgstr ""
+"  <Tab>/<Alt-Tab> milli atriða      | <Bilslá> velur  | <F12> næsti skjár "
 
-#: loader/lang.c:369
+#: loader/lang.c:370
 msgid "Choose a Language"
 msgstr "Veldu tungumál"
 
-#: loader/loader.c:131
+#: loader/loader.c:130
 msgid "Local CD/DVD"
 msgstr "Staðbundið geisladrif"
 
-#: loader/loader.c:132
+#: loader/loader.c:131
 msgid "Hard drive"
 msgstr "Harðir diskar"
 
-#: loader/loader.c:133
+#: loader/loader.c:132
 msgid "NFS directory"
 msgstr "NFS mappa"
 
-#: loader/loader.c:445 loader/loader.c:486
+#: loader/loader.c:460 loader/loader.c:501
 msgid "Update Disk Source"
 msgstr "Staðsetning uppfærsludisks"
 
-#: loader/loader.c:446
+#: loader/loader.c:461
 msgid ""
 "You have multiple devices which could serve as sources for an update disk.  "
 "Which would you like to use?"
@@ -4142,7 +4302,7 @@ msgstr ""
 "Þú hefur fleiri en eitt tæki í vélinni þinni sem gætu hentað fyrir "
 "uppfærsludisk.  Hvert þeirra viltu nota?"
 
-#: loader/loader.c:487
+#: loader/loader.c:502
 #, fuzzy
 msgid ""
 "There are multiple partitions on this device which could contain the update "
@@ -4151,29 +4311,30 @@ msgstr ""
 "Þú hefur fleiri en ein disksneið í vélinni þinni sem gæti innihaldið "
 "rekladiskmyndina. Hvert þeirra viltu reyna?"
 
-#: loader/loader.c:505
+#: loader/loader.c:520
 #, fuzzy, c-format
 msgid "Insert your updates disk into %s and press \"OK\" to continue."
-msgstr "Settu uppfærsludisklinginn í /dev/%s og veldu \"Í lagi\" til að halda áfram."
+msgstr ""
+"Settu uppfærsludisklinginn í /dev/%s og veldu \"Í lagi\" til að halda áfram."
 
-#: loader/loader.c:508
+#: loader/loader.c:523
 msgid "Updates Disk"
 msgstr "Uppfærsludiskur"
 
-#: loader/loader.c:526
+#: loader/loader.c:541
 msgid "Failed to mount updates disk"
 msgstr "Gat ekki tengt uppfærsludisklinginn"
 
-#: loader/loader.c:531
+#: loader/loader.c:546
 msgid "Updates"
 msgstr "Uppfærslur"
 
-#: loader/loader.c:531
+#: loader/loader.c:546
 #, fuzzy
 msgid "Reading anaconda updates"
 msgstr "Les inn uppfærslur fyrir anacondu..."
 
-#: loader/loader.c:567
+#: loader/loader.c:582
 #, fuzzy
 msgid ""
 "Unable to download the updates image.  Please modify the updates location "
@@ -4183,55 +4344,55 @@ msgstr ""
 "hraðuppsetningar að neðan eða smelltu á hætta við til að fara í gagnvirka "
 "uppsetningu."
 
-#: loader/loader.c:576
+#: loader/loader.c:591
 #, fuzzy
 msgid "Error downloading updates image"
 msgstr "Villa við opnun hraðuppsetningarskrár"
 
-#: loader/loader.c:1173
+#: loader/loader.c:1190
 #, c-format
 msgid "You do not have enough RAM to install %s on this machine."
 msgstr "Það er ekki nægjanlegt vinnsluminni í vélinni til að setja upp %s."
 
-#: loader/loader.c:1227
+#: loader/loader.c:1244
 msgid "Media Detected"
 msgstr "Diskur fannst"
 
-#: loader/loader.c:1228
+#: loader/loader.c:1245
 #, fuzzy
 msgid "Found local installation media"
 msgstr "Staðbundnar uppsetningarskrár fundust..."
 
-#: loader/loader.c:1350
+#: loader/loader.c:1367
 msgid "Rescue Method"
 msgstr "Gerð neyðardisklings"
 
-#: loader/loader.c:1351
+#: loader/loader.c:1368
 msgid "Installation Method"
 msgstr "Tegund uppsetningar"
 
-#: loader/loader.c:1353
+#: loader/loader.c:1370
 msgid "What type of media contains the rescue image?"
 msgstr "Á hverskonar miðli er neyðardisklingurinn?"
 
-#: loader/loader.c:1355
+#: loader/loader.c:1372
 #, fuzzy
 msgid "What type of media contains the installation image?"
 msgstr "Á hverskonar miðli er neyðardisklingurinn?"
 
-#: loader/loader.c:1390
+#: loader/loader.c:1407
 msgid "No driver found"
 msgstr "Engin rekill fannst"
 
-#: loader/loader.c:1390
+#: loader/loader.c:1407
 msgid "Select driver"
 msgstr "Veldu rekil"
 
-#: loader/loader.c:1391
+#: loader/loader.c:1408
 msgid "Use a driver disk"
 msgstr "Nota rekladiskling"
 
-#: loader/loader.c:1392
+#: loader/loader.c:1409
 msgid ""
 "Unable to find any devices of the type needed for this installation type.  "
 "Would you like to manually select your driver or use a driver disk?"
@@ -4239,67 +4400,74 @@ msgstr ""
 "Engin tæki fundust til að framkvæma þessa tegund af uppsetningu.  Viltu "
 "velja rekil handvirkt eða nota rekladiskling?"
 
-#: loader/loader.c:1619
+#: loader/loader.c:1637
 msgid "The following devices have been found on your system."
 msgstr "Eftirfarandi tæki hafa fundist í vélinni þinni."
 
-#: loader/loader.c:1621
+#: loader/loader.c:1639
 msgid ""
 "No device drivers have been loaded for your system.  Would you like to load "
 "any now?"
-msgstr "Það eru engir sérstakir tækjareklar í notkun. Viltu lesa einhverja inn núna?"
+msgstr ""
+"Það eru engir sérstakir tækjareklar í notkun. Viltu lesa einhverja inn núna?"
 
-#: loader/loader.c:1625
+#: loader/loader.c:1643
 msgid "Devices"
 msgstr "Tæki"
 
-#: loader/loader.c:1626
+#: loader/loader.c:1644
 msgid "Done"
 msgstr "Búið"
 
-#: loader/loader.c:1627
+#: loader/loader.c:1645
 msgid "Add Device"
 msgstr "Bæta við tæki"
 
-#: loader/loader.c:1903
+#: loader/loader.c:1921
 #, c-format
 msgid "loader has already been run.  Starting shell.\n"
 msgstr "lesarinn hefur þegar verið keyrður. Ræsi skel.\n"
 
-#: loader/loader.c:2355
+#: loader/loader.c:2361
 #, fuzzy, c-format
 msgid "Running anaconda %s, the %s rescue mode - please wait.\n"
 msgstr "Keyri anaconda, %s björgunartólið - Vinsamlegast bíðið...\n"
 
-#: loader/loader.c:2357
+#: loader/loader.c:2363
 #, fuzzy, c-format
 msgid "Running anaconda %s, the %s system installer - please wait.\n"
 msgstr "Keyri anaconda, %s kerfisuppsetningatólið - Vinsamlegast bíðið...\n"
 
-#: loader/mediacheck.c:46
+#: loader/mediacheck.c:47
 #, c-format
 msgid "Unable to find install image %s"
 msgstr "Get ekki sótt uppsetningardiskmyndina %s"
 
-#: loader/mediacheck.c:52
+#: loader/mediacheck.c:53
 #, fuzzy, c-format
 msgid "Checking \"%s\"."
 msgstr "Fer yfir \"%s\"..."
 
-#: loader/mediacheck.c:54
+#: loader/mediacheck.c:55
 #, fuzzy, c-format
 msgid "Checking media."
 msgstr "Fer yfir diskmyndina..."
 
-#: loader/mediacheck.c:86
+#: loader/mediacheck.c:87
+#, fuzzy
 msgid ""
-"Unable to read the disc checksum from the primary volume descriptor.  This "
-"probably means the disc was created without adding the checksum."
+"Unable to find the checksum in the image.  This probably means the disc was "
+"created without adding the checksum."
 msgstr ""
 "Get ekki lesið gátsummu diskmyndarinnar. Þetta þýðir að diskurinn var "
 "líklega búinn til án hennar."
 
-#: loader/mediacheck.c:93
+#: loader/mediacheck.c:94
+#, fuzzy
+msgid "Unable to open the image."
+msgstr "Get ekki fundið diskmyndina"
+
+#: loader/mediacheck.c:98
 msgid ""
 "The image which was just tested has errors. This could be due to a corrupt "
 "download or a bad disc.  If applicable, please clean the disc and try "
@@ -4310,11 +4478,11 @@ msgstr ""
 "að hreinsa diskinn og reyna aftur.  Ef þetta próf heldur áfram að takast "
 "ekki ættir þú ekki að halda áfram uppsetningunni."
 
-#: loader/mediacheck.c:101
+#: loader/mediacheck.c:106
 msgid "Success"
 msgstr "Tókst"
 
-#: loader/mediacheck.c:102
+#: loader/mediacheck.c:107
 msgid ""
 "The image which was just tested was successfully verified.  It should be OK "
 "to install from this media.  Note that not all media/drive errors can be "
@@ -4336,21 +4504,22 @@ msgstr ""
 msgid "Checksum Test"
 msgstr "Gátsummupróf"
 
-#: loader/modules.c:382
+#: loader/modules.c:383
 #, fuzzy, c-format
 msgid "Bad argument to device kickstart method command: %s"
 msgstr "Óleyfilegt viðfang við tækjaskipun hraðuppsetningar %s: %s"
 
-#: loader/modules.c:398
+#: loader/modules.c:399
 #, fuzzy
 msgid "A module name must be specified for the kickstart device command."
-msgstr "Bæði heiti og gerð rekils þarf að gefa upp í tækjaskipun hraðuppsetningar."
+msgstr ""
+"Bæði heiti og gerð rekils þarf að gefa upp í tækjaskipun hraðuppsetningar."
 
-#: loader/net.c:110
+#: loader/net.c:109
 msgid "Invalid Prefix"
 msgstr "Ógillt forskeyti"
 
-#: loader/net.c:111
+#: loader/net.c:110
 msgid ""
 "Prefix must be between 1 and 32 for IPv4 networks or between 1 and 128 for "
 "IPv6 networks"
@@ -4358,12 +4527,12 @@ msgstr ""
 "Forskeytið verður að vera milli 1 og 32 fyrir IPv4 net eða milli 1 og 128 "
 "fyrir IPv6 net"
 
-#: loader/net.c:464 loader/net.c:472 loader/net.c:527
+#: loader/net.c:463 loader/net.c:471 loader/net.c:526
 #, c-format
 msgid "There was an error configuring your network interface."
 msgstr "Það kom upp villa við að stilla netkortið þitt."
 
-#: loader/net.c:466
+#: loader/net.c:465
 #, c-format
 msgid ""
 "\n"
@@ -4371,59 +4540,59 @@ msgid ""
 "Halting.\n"
 msgstr ""
 
-#: loader/net.c:471 loader/net.c:526
+#: loader/net.c:470 loader/net.c:525
 msgid "Network Error"
 msgstr "Netvilla"
 
-#: loader/net.c:557 textw/netconfig_text.py:133
+#: loader/net.c:556 textw/netconfig_text.py:133
 msgid "Enable IPv4 support"
 msgstr "Virkja IPv4 stuðning"
 
-#: loader/net.c:571
+#: loader/net.c:570
 msgid "Enable IPv6 support"
 msgstr "Virkja IPv6 stuðning"
 
-#: loader/net.c:611
+#: loader/net.c:610
 msgid "Configure TCP/IP"
 msgstr "Stillingar TCP/IP"
 
-#: loader/net.c:668
+#: loader/net.c:667
 msgid "Missing Protocol"
 msgstr "Samskiptamáta vantar"
 
-#: loader/net.c:669
+#: loader/net.c:668
 msgid "You must select at least one protocol (IPv4 or IPv6)."
 msgstr "Þú verður að velja amk. einn samskiptamála (IPv4 eða IPv6)."
 
-#: loader/net.c:676
+#: loader/net.c:675
 msgid "IPv4 Needed for NFS"
 msgstr "NFS krefst IPv4"
 
-#: loader/net.c:677
+#: loader/net.c:676
 msgid "NFS installation method requires IPv4 support."
 msgstr "NFS uppsetning krefst IPv4 stuðnings."
 
-#: loader/net.c:776
+#: loader/net.c:775
 msgid "IPv4 address:"
 msgstr "IPv4 vistfang:"
 
-#: loader/net.c:788 loader/net.c:855 ui/netconfig.glade.h:1
+#: loader/net.c:787 loader/net.c:854
 msgid "/"
 msgstr "/"
 
-#: loader/net.c:843
+#: loader/net.c:842
 msgid "IPv6 address:"
 msgstr "IPv6 vistfang:"
 
-#: loader/net.c:909 textw/netconfig_text.py:160
+#: loader/net.c:908 textw/netconfig_text.py:160
 msgid "Gateway:"
 msgstr "Gátt:"
 
-#: loader/net.c:917
+#: loader/net.c:916
 msgid "Name Server:"
 msgstr "Nafnaþjónn:"
 
-#: loader/net.c:956
+#: loader/net.c:955
 msgid ""
 "Enter the IPv4 and/or the IPv6 address and prefix (address / prefix).  For "
 "IPv4, the dotted-quad netmask or the CIDR-style prefix are acceptable. The "
@@ -4433,42 +4602,44 @@ msgstr ""
 "Fyrir IPv4 má slá inn netmöskva eða CIDR forskeyti. Bæði gáttin og "
 "nafnaþjónarnir verða að vera gildar IPv4 eða IPv6 vistföng."
 
-#: loader/net.c:973
+#: loader/net.c:972
 msgid "Manual TCP/IP Configuration"
 msgstr "Handvirkar TCP/IP stillingar"
 
-#: loader/net.c:1097 loader/net.c:1105
+#: loader/net.c:1096 loader/net.c:1104
 msgid "Missing Information"
 msgstr "Upplýsingar vantar"
 
-#: loader/net.c:1098
-msgid "You must enter both a valid IPv4 address and a network mask or CIDR prefix."
-msgstr "Þú verður að gefa upp gilt IPv4 vistfang og netmöskva eða CIDR forskeyti."
+#: loader/net.c:1097
+msgid ""
+"You must enter both a valid IPv4 address and a network mask or CIDR prefix."
+msgstr ""
+"Þú verður að gefa upp gilt IPv4 vistfang og netmöskva eða CIDR forskeyti."
 
-#: loader/net.c:1106
+#: loader/net.c:1105
 msgid "You must enter both a valid IPv6 address and a CIDR prefix."
 msgstr "Þú verður að gefa upp gilt IPv6 vistfang og CIDR forskeyti."
 
-#: loader/net.c:1559
+#: loader/net.c:1558
 #, fuzzy, c-format
 msgid "Bad argument to kickstart network command: %s"
 msgstr "óleyfilegt viðfang við netskipun hraðuppsetningar %s: %s"
 
-#: loader/net.c:1580
+#: loader/net.c:1579
 #, c-format
 msgid "Bad bootproto %s specified in network command"
 msgstr "Óleyfileg ''bootproto' %s í netskipun hraðuppsetningar"
 
-#: loader/net.c:1657
+#: loader/net.c:1656
 #, fuzzy
 msgid "Seconds:"
 msgstr "Annar nafnaþjónn:"
 
-#: loader/net.c:1846
+#: loader/net.c:1843
 msgid "Networking Device"
 msgstr "Netkort"
 
-#: loader/net.c:1847
+#: loader/net.c:1844
 msgid ""
 "You have multiple network devices on this system. Which would you like to "
 "install through?"
@@ -4476,39 +4647,39 @@ msgstr ""
 "Þú hefur fleiri en eitt netkort í vélinni þinni. Hvert þeirra viltu nota við "
 "uppsetninguna?"
 
-#: loader/net.c:1851
+#: loader/net.c:1848
 msgid "Identify"
 msgstr "Auðkenna"
 
-#: loader/net.c:1860
+#: loader/net.c:1857
 msgid "You can identify the physical port for"
 msgstr ""
 
-#: loader/net.c:1862
+#: loader/net.c:1859
 msgid ""
 "by flashing the LED lights for a number of seconds.  Enter a number between "
 "1 and 30 to set the duration to flash the LED port lights."
 msgstr ""
 
-#: loader/net.c:1869
+#: loader/net.c:1866
 msgid "Identify NIC"
 msgstr "Auðkenna NIC"
 
-#: loader/net.c:1882
+#: loader/net.c:1879
 #, fuzzy
 msgid "Invalid Duration"
 msgstr "Ógildar IP upplýsingar"
 
-#: loader/net.c:1883
+#: loader/net.c:1880
 msgid "You must enter the number of seconds as an integer between 1 and 30."
 msgstr ""
 
-#: loader/net.c:1895
+#: loader/net.c:1892
 #, c-format
 msgid "Flashing %s port lights for %d seconds."
 msgstr ""
 
-#: loader/net.c:2062 loader/net.c:2066
+#: loader/net.c:2061 loader/net.c:2065
 #, fuzzy, c-format
 msgid "Waiting for NetworkManager to configure %s.\n"
 msgstr "Bíð eftir telnet tengingu..."
@@ -4551,16 +4722,16 @@ msgstr "Þessi mappa virðist ekki innihalda %s uppsetningarmynd."
 msgid "Bad argument to NFS kickstart method command: %s"
 msgstr "óleyfilegt viðfang við NFS hraðuppsetningar skipun %s: %s"
 
-#: loader/telnetd.c:89 loader/telnetd.c:128
+#: loader/telnetd.c:90 loader/telnetd.c:129
 msgid "Telnet"
 msgstr "Telnet"
 
-#: loader/telnetd.c:89
+#: loader/telnetd.c:90
 #, fuzzy
 msgid "Waiting for telnet connection."
 msgstr "Bíð eftir telnet tengingu..."
 
-#: loader/telnetd.c:128
+#: loader/telnetd.c:129
 #, fuzzy
 msgid "Running anaconda via telnet."
 msgstr "Keyri anaconda gegnum telnet..."
@@ -4581,74 +4752,71 @@ msgstr "óleyfilegt viðfang við Url skipun hraðuppsetningar %s: %s"
 
 #: loader/urlinstall.c:384
 msgid "Must supply a --url argument to Url kickstart method."
-msgstr "Þú verður að gefa upp --url viðfangið við Url hraðuppsetningaraðferðina."
+msgstr ""
+"Þú verður að gefa upp --url viðfangið við Url hraðuppsetningaraðferðina."
 
 #: loader/urlinstall.c:391
 #, c-format
 msgid "Unknown Url method %s"
 msgstr "Óþekkt Url skipun %s"
 
-#: loader/urls.c:155 loader/urls.c:163
+#: loader/urls.c:168 loader/urls.c:176
 msgid "Retrieving"
 msgstr "Sæki"
 
-#: loader/urls.c:252
+#: loader/urls.c:262
 #, c-format
-msgid "Please enter the URL containing the %s installation image on your server."
+msgid ""
+"Please enter the URL containing the %s installation image on your server."
 msgstr ""
 
-#: loader/urls.c:270
+#: loader/urls.c:280
 #, fuzzy
 msgid "Enable HTTP proxy"
 msgstr "Virkja IPv4 stuðning"
 
-#: loader/urls.c:285
+#: loader/urls.c:294
 #, fuzzy
 msgid "Proxy URL"
 msgstr "Ógild slóð milliþjóns"
 
-#: loader/urls.c:290
-#, fuzzy
-msgid "Port"
-msgstr "_Hætta við"
-
-#: loader/urls.c:295
+#: loader/urls.c:299
 #, fuzzy
 msgid "Username"
 msgstr "CHAP notandanafn"
 
-#: loader/urls.c:300
+#: loader/urls.c:304
 #, fuzzy
 msgid "Password"
 msgstr "Lykilorð:"
 
-#: loader/urls.c:319
+#: loader/urls.c:323
 msgid "URL Setup"
 msgstr "Stillingar slóða (URL)"
 
-#: loader/urls.c:327
+#: loader/urls.c:331
 msgid "You must enter a URL."
 msgstr "Þú verður að setja inn slóð (URL)"
 
-#: loader/urls.c:333
+#: loader/urls.c:337
 msgid "URL must be either an ftp or http URL"
 msgstr "Slóðin (URL) verður að vera annað hvort FTP eða HTTP"
 
-#: loader/windows.c:65
+#: loader/windows.c:66
 msgid "Loading SCSI driver"
 msgstr "Les inn SCSI rekil"
 
-#: loader/windows.c:66
+#: loader/windows.c:67
 #, fuzzy, c-format
 msgid "Loading %s driver"
 msgstr "Les inn %s rekilinn..."
 
-#: storage/__init__.py:102
+#: storage/__init__.py:108
 #, fuzzy
 msgid "Unknown Device"
 msgstr "Óþekkt Ethernet-tæki"
 
-#: storage/__init__.py:103
+#: storage/__init__.py:109
 #, fuzzy, python-format
 msgid ""
 "The installation source given by device %s could not be found.  Please check "
@@ -4657,11 +4825,11 @@ msgstr ""
 "Villa kom upp þegar reynt var að lesa uppsetningarforritið úr ISO diskmynd. "
 "Vinsamlegast athugaðu diskmyndirnar og reyndu aftur."
 
-#: storage/__init__.py:114
+#: storage/__init__.py:120
 msgid "Installation cannot continue."
 msgstr "Uppsetningin getur ekki haldið áfram."
 
-#: storage/__init__.py:115
+#: storage/__init__.py:121
 #, fuzzy
 msgid ""
 "The storage configuration you have chosen has already been activated. You "
@@ -4671,99 +4839,99 @@ msgstr ""
 "Þessir rofar við disksneiðingu hafa þegar verið virkjaðir. Þú getur ekki "
 "lengur farið til baka í disksýsluskjáinn. Viltu halda uppsetningunni áfram?"
 
-#: storage/__init__.py:143
+#: storage/__init__.py:149
 #, fuzzy
 msgid "Encrypt device?"
 msgstr "Dulritunarlykill"
 
-#: storage/__init__.py:144
+#: storage/__init__.py:150
 msgid ""
 "You specified block device encryption should be enabled, but you have not "
 "supplied a passphrase. If you do not go back and provide a passphrase, block "
 "device encryption will be disabled."
 msgstr ""
 
-#: storage/__init__.py:167
+#: storage/__init__.py:173
 #, fuzzy
 msgid "Writing storage configuration to disk"
 msgstr "_Breyta disksneiðinni í:"
 
-#: storage/__init__.py:168
+#: storage/__init__.py:174
 msgid ""
 "The partitioning options you have selected will now be written to disk.  Any "
 "data on deleted or reformatted partitions will be lost."
 msgstr ""
 
-#: storage/__init__.py:173
+#: storage/__init__.py:179
 #, fuzzy
 msgid "Go _back"
 msgstr "_Til baka"
 
-#: storage/__init__.py:174
+#: storage/__init__.py:180
 #, fuzzy
 msgid "_Write changes to disk"
 msgstr "Skrifa bre_ytingar á disk"
 
-#: storage/__init__.py:193
+#: storage/__init__.py:199
 #, fuzzy
 msgid "Running..."
 msgstr "Keyri..."
 
-#: storage/__init__.py:194
+#: storage/__init__.py:200
 msgid "Storing encryption keys"
 msgstr ""
 
-#: storage/__init__.py:210
+#: storage/__init__.py:216
 #, python-format
 msgid "Error storing an encryption key: %s\n"
 msgstr ""
 
-#: storage/__init__.py:351
+#: storage/__init__.py:359
 #, fuzzy
 msgid "Finding Devices"
 msgstr "Pakka vantar"
 
-#: storage/__init__.py:352
+#: storage/__init__.py:360
 #, fuzzy
 msgid "Finding storage devices"
 msgstr "Lýk við uppfærsluna"
 
-#: storage/__init__.py:623
+#: storage/__init__.py:639
 msgid "This partition is holding the data for the hard drive install."
 msgstr "Þessi disksneið inniheldur gögnin fyrir uppsetningu frá hörðum disk."
 
-#: storage/__init__.py:628
+#: storage/__init__.py:644
 msgid "You cannot delete a partition of a LDL formatted DASD."
 msgstr "Þú getur ekki eytt disksneið af LDL sniðnu DASD tæki."
 
-#: storage/__init__.py:634
+#: storage/__init__.py:650
 #, fuzzy, python-format
 msgid "This device is part of the RAID device %s."
 msgstr "Þessi disksneið er hluti af RAID tækinu /dev/md%s."
 
-#: storage/__init__.py:637
+#: storage/__init__.py:653
 #, fuzzy
 msgid "This device is part of a RAID device."
 msgstr "Þessi disksneið er hluti af RAID tæki."
 
-#: storage/__init__.py:642
+#: storage/__init__.py:658
 #, fuzzy, python-format
 msgid "This device is part of the LVM volume group '%s'."
 msgstr "Þessi disksneið er hluti af LVM sýndardiskhópnum '%s'."
 
-#: storage/__init__.py:645
+#: storage/__init__.py:661
 #, fuzzy
 msgid "This device is part of a LVM volume group."
 msgstr "Þessi disksneið er hluti af LVM sýndardiskhóp."
 
-#: storage/__init__.py:661
+#: storage/__init__.py:677
 msgid ""
 "This device is an extended partition which contains logical partitions that "
 "cannot be deleted:\n"
 "\n"
 msgstr ""
 
-#: storage/__init__.py:937
+#: storage/__init__.py:953
 #, python-format
 msgid ""
 "You have not defined a root partition (/), which is required for "
@@ -4772,14 +4940,15 @@ msgstr ""
 "Þú hefur ekki skilgreint rótarsneið (/) sem er nauðsynleg svo uppsetning %s "
 "geti haldið áfram."
 
-#: storage/__init__.py:942
+#: storage/__init__.py:958
 #, python-format
 msgid ""
 "Your root partition is less than 250 megabytes which is usually too small to "
 "install %s."
-msgstr "Rótarsneiðin þín er minni en 250 megabæti sem er yfirleitt of lítið fyrir %s."
+msgstr ""
+"Rótarsneiðin þín er minni en 250 megabæti sem er yfirleitt of lítið fyrir %s."
 
-#: storage/__init__.py:948
+#: storage/__init__.py:964
 #, fuzzy, python-format
 msgid ""
 "Your / partition is less than %(min)s MB which is lower than recommended for "
@@ -4788,14 +4957,14 @@ msgstr ""
 "/ disksneiðin er minni en %s MB sem er minna en mælt er með fyrir venjulega %"
 "s uppsetningu."
 
-#: storage/__init__.py:958
+#: storage/__init__.py:974
 #, python-format
 msgid ""
 "Your / partition does not match the the live image you are installing from.  "
 "It must be formatted as %s."
 msgstr ""
 
-#: storage/__init__.py:965
+#: storage/__init__.py:981
 #, fuzzy, python-format
 msgid ""
 "Your %(mount)s partition is less than %(size)s megabytes which is lower than "
@@ -4804,17 +4973,18 @@ msgstr ""
 "%s disksneiðin er minni en %s megabæti sem er minna en mælt er með fyrir "
 "venjulega %s uppsetningu."
 
-#: storage/__init__.py:994
-msgid "Installing on a USB device.  This may or may not produce a working system."
+#: storage/__init__.py:1010
+msgid ""
+"Installing on a USB device.  This may or may not produce a working system."
 msgstr "Uppsetning á USB tæki.  Ekki er víst að út komi kerfi sem virkar."
 
-#: storage/__init__.py:997
+#: storage/__init__.py:1013
 msgid ""
 "Installing on a FireWire device.  This may or may not produce a working "
 "system."
 msgstr "Uppsetning á FireWire tæki.  Ekki er víst að út komi kerfi sem virkar."
 
-#: storage/__init__.py:1004
+#: storage/__init__.py:1020
 msgid ""
 "You have not specified a swap partition.  Due to the amount of memory "
 "present, a swap partition is required to complete installation."
@@ -4823,7 +4993,7 @@ msgstr ""
 "nægilegt til að hægt sé að klára uppsetningarferlið án þess að nota "
 "diskminnissneið."
 
-#: storage/__init__.py:1009
+#: storage/__init__.py:1025
 msgid ""
 "You have not specified a swap partition.  Although not strictly required in "
 "all cases, it will significantly improve performance for most installations."
@@ -4831,21 +5001,23 @@ msgstr ""
 "Þú hefur ekki skilgreint diskminnissneið. Þó það sé ekki algerlega "
 "nauðsynlegt mun það bæta afköst til muna í flestum tilfellum."
 
-#: storage/__init__.py:1016
+#: storage/__init__.py:1032
 #, python-format
-msgid "This mount point is invalid.  The %s directory must be on the / file system."
-msgstr "Þessi tengipunktur er ógildur.  %s mappan verður að vera á / skráakerfinu."
+msgid ""
+"This mount point is invalid.  The %s directory must be on the / file system."
+msgstr ""
+"Þessi tengipunktur er ógildur.  %s mappan verður að vera á / skráakerfinu."
 
-#: storage/__init__.py:1020
+#: storage/__init__.py:1036
 #, python-format
 msgid "The mount point %s must be on a linux file system."
 msgstr "Tengipunkturinn %s verður að vera á linux skráakerfi."
 
-#: storage/__init__.py:1031
+#: storage/__init__.py:1047
 msgid "No Drives Found"
 msgstr "Engin drif fundust"
 
-#: storage/__init__.py:1032
+#: storage/__init__.py:1048
 msgid ""
 "An error has occurred - no valid devices were found on which to create new "
 "file systems. Please check your hardware for the cause of this problem."
@@ -4853,11 +5025,11 @@ msgstr ""
 "Það kom upp villa. Engin tæki fundust sem unnt er að búa til ný skráakerfi "
 "á. Vinsamlegast skoðaðu vélbúnaðinn og athugaðu hverju sætir."
 
-#: storage/__init__.py:1271 storage/__init__.py:1280
+#: storage/__init__.py:1339 storage/__init__.py:1348
 msgid "Dirty File Systems"
 msgstr "Óhrein skráarkerfi"
 
-#: storage/__init__.py:1272
+#: storage/__init__.py:1340
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -4870,7 +5042,7 @@ msgstr ""
 "og keyrðu svo vélina rétt niður til að uppfæra.\n"
 "%s"
 
-#: storage/__init__.py:1281
+#: storage/__init__.py:1349
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -4881,7 +5053,7 @@ msgstr ""
 "þau þrátt fyrir það?\n"
 "%s"
 
-#: storage/__init__.py:1757
+#: storage/__init__.py:1826
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4892,7 +5064,7 @@ msgid ""
 "swap space, you must reformat as a new-style Linux swap partition."
 msgstr ""
 
-#: storage/__init__.py:1768
+#: storage/__init__.py:1837
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4911,7 +5083,7 @@ msgstr ""
 "þín er sofandi. Til þess að framkvæma uppfærslu þarftu að slökkva fyrst á "
 "vélinni í stað þess að svæfa hana."
 
-#: storage/__init__.py:1776
+#: storage/__init__.py:1845
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4931,7 +5103,7 @@ msgstr ""
 "skugga um að uppsetningaforritið sé stillt til að forsníða öll "
 "diskminnissvæði."
 
-#: storage/__init__.py:1788
+#: storage/__init__.py:1857
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4942,7 +5114,7 @@ msgid ""
 "installation, you will need to format the device or skip it."
 msgstr ""
 
-#: storage/__init__.py:1799
+#: storage/__init__.py:1868
 #, fuzzy, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -4958,7 +5130,7 @@ msgstr ""
 "\n"
 "Veldu Í lagi til að hætta uppsetningu."
 
-#: storage/__init__.py:1806
+#: storage/__init__.py:1875
 #, fuzzy, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -4973,11 +5145,11 @@ msgstr ""
 "\n"
 "Veldu Í lagi til að hætta í uppsetningarforritinu."
 
-#: storage/__init__.py:1869 storage/__init__.py:1881
+#: storage/__init__.py:1938 storage/__init__.py:1950
 msgid "Invalid mount point"
 msgstr "Óleyfilegur tengipunktur"
 
-#: storage/__init__.py:1870
+#: storage/__init__.py:1939
 #, python-format
 msgid ""
 "An error occurred when trying to create %s.  Some element of this path is "
@@ -4991,7 +5163,7 @@ msgstr ""
 "\n"
 "Sláðu á <Enter> til að hætta í uppsetningarforritinu."
 
-#: storage/__init__.py:1882
+#: storage/__init__.py:1951
 #, fuzzy, python-format
 msgid ""
 "An error occurred when trying to create %(mountpoint)s: %(msg)s.  This is a "
@@ -5004,11 +5176,11 @@ msgstr ""
 "\n"
 "Sláðu á <Enter> til að hætta í uppsetningarforritinu."
 
-#: storage/__init__.py:1898 storage/__init__.py:1922
+#: storage/__init__.py:1967 storage/__init__.py:1991
 msgid "Unable to mount filesystem"
 msgstr "Get ekki tengt skráarkerfið"
 
-#: storage/__init__.py:1899
+#: storage/__init__.py:1968
 #, fuzzy, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s.  You may "
@@ -5017,7 +5189,7 @@ msgstr ""
 "Það kom upp villa við að tengja tækið %s á %s.  Þú getur haldið "
 "uppsetningunni áfram en það geta komið upp vandamál."
 
-#: storage/__init__.py:1923
+#: storage/__init__.py:1992
 #, fuzzy, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s: %(msg)s. This "
@@ -5030,43 +5202,80 @@ msgstr ""
 "\n"
 "Sláðu á <Enter> til að hætta í uppsetningarforritinu."
 
-#: storage/devicelibs/lvm.py:315
+#: storage/dasd.py:120
+msgid "Unformatted DASD Device Found"
+msgid_plural "Unformatted DASD Devices Found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: storage/dasd.py:122
+#, python-format
+msgid ""
+"Format uninitialized DASD device?\n"
+"\n"
+"There is %d uninitialized DASD device on this system.  To continue "
+"installation, the device must be formatted.  Formatting will remove any data "
+"on this device."
+msgid_plural ""
+"Format uninitialized DASD devices?\n"
+"\n"
+"There are %d uninitialized DASD devices on this system.  To continue "
+"installation, the devices must be formatted.  Formatting will remove any "
+"data on these devices."
+msgstr[0] ""
+msgstr[1] ""
+
+#: storage/dasd.py:151
+#, fuzzy
+msgid "Formatting DASD Device"
+msgid_plural "Formatting DASD Devices"
+msgstr[0] "Forsníð"
+msgstr[1] "Forsníð"
+
+#: storage/dasd.py:152
+#, python-format
+msgid "Preparing %d DASD device for use with Linux..."
+msgid_plural "Preparing %d DASD devices for use with Linux..."
+msgstr[0] ""
+msgstr[1] ""
+
+#: storage/devicelibs/lvm.py:317
 #, python-format
 msgid "vginfo failed for %s"
 msgstr "vginfo brást fyrir %s"
 
-#: storage/devicelibs/lvm.py:344
+#: storage/devicelibs/lvm.py:346
 #, python-format
 msgid "lvs failed for %s"
 msgstr "lvs brást fyrir %s"
 
-#: storage/devices.py:1239 storage/devices.py:1853 storage/devices.py:2256
-#: storage/devices.py:2701 storage/devices.py:3153
+#: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
+#: storage/devices.py:2799 storage/devices.py:3281
 #, fuzzy
 msgid "Creating"
 msgstr "Forsníð"
 
-#: storage/devices.py:1240 storage/devices.py:1854 storage/devices.py:2257
-#: storage/devices.py:2702
+#: storage/devices.py:1259 storage/devices.py:1926 storage/devices.py:2329
+#: storage/devices.py:2800
 #, fuzzy, python-format
 msgid "Creating device %s"
 msgstr "Skipta um _tæki"
 
-#: storage/devices.py:2344
+#: storage/devices.py:2422
 #, python-format
 msgid "A RAID%d set requires atleast %d members"
 msgstr ""
 
-#: storage/devices.py:3154
+#: storage/devices.py:3282
 #, fuzzy, python-format
 msgid "Creating file %s"
 msgstr "Leita að skemmdum blokkum á /dev/%s..."
 
-#: storage/devicetree.py:97
+#: storage/devicetree.py:99
 msgid "Confirm"
 msgstr "Staðfesta"
 
-#: storage/devicetree.py:98
+#: storage/devicetree.py:100
 #, python-format
 msgid ""
 "Are you sure you want to skip entering a passphrase for device %s?\n"
@@ -5075,16 +5284,26 @@ msgid ""
 "installation."
 msgstr ""
 
-#: storage/devicetree.py:1819 storage/devicetree.py:1867
+#: storage/devicetree.py:1847 storage/devicetree.py:1895
 #, fuzzy
 msgid "This partition is part of an inconsistent LVM Volume Group."
 msgstr "Þessi disksneið er hluti af LVM sýndardiskhóp."
+
+#: storage/fcoe.py:67 storage/fcoe.py:68
+msgid "Connecting to FCoE SAN"
+msgstr ""
+
+#: storage/fcoe.py:120
+#, fuzzy
+msgid "FCoE not available"
+msgstr "Hjálp ekki tiltæk"
 
 #: storage/formats/fs.py:102
 msgid "filesystem configuration missing a type"
 msgstr ""
 
-#: storage/formats/fs.py:354
+#: storage/formats/fs.py:354 storage/formats/luks.py:194
+#: storage/formats/lvmpv.py:103 storage/formats/swap.py:161
 msgid "Formatting"
 msgstr "Forsníð"
 
@@ -5093,37 +5312,37 @@ msgstr "Forsníð"
 msgid "Creating %s filesystem on %s"
 msgstr "Leita að skemmdum blokkum á /dev/%s..."
 
-#: storage/formats/fs.py:453
+#: storage/formats/fs.py:463
 #, fuzzy
 msgid "Resizing"
 msgstr "Sæki"
 
-#: storage/formats/fs.py:454
+#: storage/formats/fs.py:464
 #, fuzzy, python-format
 msgid "Resizing filesystem on %s"
 msgstr "Forsníð %s skráakerfið..."
 
-#: storage/formats/fs.py:489
+#: storage/formats/fs.py:499
 #, fuzzy, python-format
 msgid "Unknown return code: %d."
 msgstr "Óþekkt Url skipun %s"
 
-#: storage/formats/fs.py:503
+#: storage/formats/fs.py:513
 #, fuzzy
 msgid "Checking"
 msgstr "Fer yfir \"%s\"..."
 
-#: storage/formats/fs.py:504
+#: storage/formats/fs.py:514
 #, fuzzy, python-format
 msgid "Checking filesystem on %s"
 msgstr "Leita að skemmdum blokkum á /dev/%s..."
 
-#: storage/formats/fs.py:521
+#: storage/formats/fs.py:531
 #, python-format
 msgid "%(type)s filesystem check failure on %(device)s: "
 msgstr ""
 
-#: storage/formats/fs.py:527
+#: storage/formats/fs.py:537
 msgid ""
 "Errors like this usually mean there is a problem with the filesystem that "
 "will require user interaction to repair.  Before restarting installation, "
@@ -5132,93 +5351,108 @@ msgid ""
 "problems on the filesystem."
 msgstr ""
 
-#: storage/formats/fs.py:535 storage/partitioning.py:274
+#: storage/formats/fs.py:545 storage/partitioning.py:275
 msgid "Unrecoverable Error"
 msgstr "Banvæn villa"
 
-#: storage/formats/fs.py:861
+#: storage/formats/fs.py:871
 msgid "File system errors left uncorrected."
 msgstr ""
 
-#: storage/formats/fs.py:862
+#: storage/formats/fs.py:872
 msgid "Operational error."
 msgstr ""
 
-#: storage/formats/fs.py:863
+#: storage/formats/fs.py:873
 msgid "Usage or syntax error."
 msgstr ""
 
-#: storage/formats/fs.py:864
+#: storage/formats/fs.py:874
 msgid "e2fsck cancelled by user request."
 msgstr ""
 
-#: storage/formats/fs.py:865
+#: storage/formats/fs.py:875
 msgid "Shared library error."
 msgstr ""
 
-#: storage/formats/fs.py:1024
+#: storage/formats/fs.py:1034
 msgid ""
 "Recoverable errors have been detected or dosfsck has discovered an internal "
 "inconsistency."
 msgstr ""
 
-#: storage/formats/fs.py:1026
+#: storage/formats/fs.py:1036
 #, fuzzy
 msgid "Usage error."
 msgstr "Afritunardiskvilla"
+
+#: storage/formats/luks.py:48
+#, fuzzy
+msgid "Encrypted"
+msgstr "_Dulrita"
+
+#: storage/formats/luks.py:195
+#, fuzzy, python-format
+msgid "Encrypting %s"
+msgstr "_Dulrita"
+
+#: storage/formats/lvmpv.py:104 storage/formats/swap.py:162
+#, fuzzy, python-format
+msgid "Creating %s on %s"
+msgstr "Leita að skemmdum blokkum á /dev/%s..."
 
 #: storage/iscsi.py:83 storage/iscsi.py:84
 #, fuzzy
 msgid "Scanning iSCSI nodes"
 msgstr "Les inn SCSI rekil"
 
-#: storage/iscsi.py:176 storage/iscsi.py:177
+#: storage/iscsi.py:177 storage/iscsi.py:178
 msgid "Initializing iSCSI initiator"
 msgstr "Frumstilli iSCSI rekilinn"
 
-#: storage/iscsi.py:213
+#: storage/iscsi.py:214
 #, fuzzy
 msgid "iSCSI not available"
 msgstr "Hjálp ekki tiltæk"
 
-#: storage/iscsi.py:215
+#: storage/iscsi.py:216
 #, fuzzy
 msgid "No initiator name set"
 msgstr "Heiti iSCSI _rekils"
 
-#: storage/iscsi.py:229
+#: storage/iscsi.py:230
 msgid "No iSCSI nodes discovered"
 msgstr ""
 
-#: storage/iscsi.py:232 storage/iscsi.py:233
+#: storage/iscsi.py:233 storage/iscsi.py:234
 msgid "Logging in to iSCSI nodes"
 msgstr ""
 
-#: storage/iscsi.py:258
+#: storage/iscsi.py:260
 msgid "No new iSCSI nodes discovered"
 msgstr ""
 
-#: storage/iscsi.py:261
+#: storage/iscsi.py:263
 msgid "Could not log in to any of the discovered nodes"
 msgstr ""
 
-#: storage/partitioning.py:191
+#: storage/partitioning.py:190
 msgid ""
 "Could not find enough free space for automatic partitioning.  Press 'OK' to "
 "exit the installer."
 msgstr ""
 
-#: storage/partitioning.py:194
+#: storage/partitioning.py:193
 msgid ""
 "Could not find enough free space for automatic partitioning, please use "
 "another partitioning method."
 msgstr ""
 
-#: storage/partitioning.py:223
+#: storage/partitioning.py:222
 msgid "Warnings During Automatic Partitioning"
 msgstr "Aðvaranir við sjálfvirka disksneiðingu"
 
-#: storage/partitioning.py:225
+#: storage/partitioning.py:224
 #, python-format
 msgid ""
 "Following warnings occurred during automatic partitioning:\n"
@@ -5229,7 +5463,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: storage/partitioning.py:237 storage/partitioning.py:258
+#: storage/partitioning.py:238 storage/partitioning.py:259
 msgid ""
 "\n"
 "\n"
@@ -5239,7 +5473,7 @@ msgstr ""
 "\n"
 "Veldu 'Í lagi' til að hætta uppsetningunni."
 
-#: storage/partitioning.py:239
+#: storage/partitioning.py:240
 #, fuzzy, python-format
 msgid ""
 "Could not allocate requested partitions: \n"
@@ -5250,7 +5484,7 @@ msgstr ""
 "\n"
 "%s.%s"
 
-#: storage/partitioning.py:260
+#: storage/partitioning.py:261
 msgid ""
 "\n"
 "\n"
@@ -5260,11 +5494,11 @@ msgstr ""
 "\n"
 "Veldu 'Í lagi' til að velja annan disksneiðamöguleika."
 
-#: storage/partitioning.py:262
+#: storage/partitioning.py:263
 msgid "Automatic Partitioning Errors"
 msgstr "Villa í sjálfvirkri disksneiðingu"
 
-#: storage/partitioning.py:263
+#: storage/partitioning.py:264
 #, fuzzy, python-format
 msgid ""
 "The following errors occurred with your partitioning:\n"
@@ -5327,7 +5561,8 @@ msgstr ""
 
 #: storage/zfcp.py:188
 #, python-format
-msgid "LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s already configured."
+msgid ""
+"LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s already configured."
 msgstr ""
 
 #: storage/zfcp.py:200
@@ -5368,15 +5603,15 @@ msgstr ""
 msgid "Could not set zFCP device %(devnum)s offline (%(e)s)."
 msgstr ""
 
-#: textw/complete_text.py:32
+#: textw/complete_text.py:31
 msgid "Reboot"
 msgstr "Endurræsa"
 
-#: textw/complete_text.py:34
+#: textw/complete_text.py:33
 msgid "<Enter> to exit"
 msgstr "<Enter> til hætta"
 
-#: textw/complete_text.py:62
+#: textw/complete_text.py:61
 msgid "Complete"
 msgstr "Lokið"
 
@@ -5393,11 +5628,11 @@ msgstr "Hvernig lyklaborð er tengt þessari vél?"
 msgid "A value is required for the field %s"
 msgstr "Gildi vantar í sviðið %s."
 
-#: textw/netconfig_text.py:88 ui/netconfig.glade.h:9
+#: textw/netconfig_text.py:88 ui/netconfig.glade.h:1
 msgid "Enable network interface"
 msgstr "Virkja netkort"
 
-#: textw/netconfig_text.py:91 ui/netconfig.glade.h:10
+#: textw/netconfig_text.py:91
 msgid ""
 "This requires that you have an active network connection during the "
 "installation process.  Please configure a network interface."
@@ -5481,11 +5716,11 @@ msgstr "Hvaða harða diska viltu nota fyrir Linux?"
 msgid "<Space>,<+>,<-> selection   |   <F2> Add drive   |   <F12> next screen"
 msgstr "<Bilslá>,<+>,<-> val        |  <F2> bæta við drifi |  <F2> næsti skjár"
 
-#: textw/partition_text.py:173 ui/adddrive.glade.h:4
+#: textw/partition_text.py:173
 msgid "Advanced Storage Options"
 msgstr "Frekari diskgeymslurofar"
 
-#: textw/partition_text.py:174 ui/adddrive.glade.h:5
+#: textw/partition_text.py:174
 msgid "How would you like to modify your drive configuration?"
 msgstr "Hvernig viltu breyta diskstillingum þínum?"
 
@@ -5579,55 +5814,39 @@ msgstr "sleppa uppfærslu ræsistjóra"
 msgid "Create new boot loader configuration"
 msgstr "Búa til nýjar ræsistjórastillingar"
 
-#: textw/upgrade_text.py:42
-#, fuzzy, python-format
-msgid ""
-"This release of %(productName)s supports the an updated file system, which "
-"has several benefits over the file system traditionally shipped in %"
-"(productName)s.  This installation program can migrate formatted partitions "
-"without data loss.\n"
-"\n"
-"Which of these partitions would you like to migrate?"
-msgstr ""
-"Þessi útgáfa af %s styður \"an\" skráarkerfið. Það hefur marga eiginleika "
-"umfram skráarkerfið sem hefur verið í %s hingað til. Þar er einnig hægt að "
-"færa forsniðnar disksneiðar án þess að tapa gögnum.\n"
-"\n"
-"Hverjar af þessum disksneiðum viltu færa til ?"
-
-#: textw/upgrade_text.py:123
+#: textw/upgrade_text.py:125
 msgid "Free Space"
 msgstr "Laust pláss"
 
-#: textw/upgrade_text.py:141
+#: textw/upgrade_text.py:143
 msgid "RAM detected (MB):"
 msgstr "Vinnsluminni (MB):"
 
-#: textw/upgrade_text.py:144
+#: textw/upgrade_text.py:146
 msgid "Suggested size (MB):"
 msgstr "Stærðartillaga (MB):"
 
-#: textw/upgrade_text.py:147
+#: textw/upgrade_text.py:149
 msgid "Swap file size (MB):"
 msgstr "Stærð diskminnisskráar (MB):"
 
-#: textw/upgrade_text.py:155
+#: textw/upgrade_text.py:157
 msgid "Add Swap"
 msgstr "Bæta við diskminni"
 
-#: textw/upgrade_text.py:180
+#: textw/upgrade_text.py:182
 msgid "The value you entered is not a valid number."
 msgstr "Það sem þú slóst inn er ekki gild tala."
 
-#: textw/upgrade_text.py:212
+#: textw/upgrade_text.py:214
 msgid "Reinstall System"
 msgstr "Setja upp kerfið aftur"
 
-#: textw/upgrade_text.py:222
+#: textw/upgrade_text.py:226
 msgid "System to Upgrade"
 msgstr "Kerfi sem á að uppfæra"
 
-#: textw/upgrade_text.py:223
+#: textw/upgrade_text.py:227
 msgid ""
 "There seem to be one or more existing Linux installations on your system.\n"
 "\n"
@@ -5680,7 +5899,7 @@ msgstr ""
 "Velkomin(n) í %s!\n"
 "\n"
 
-#: textw/zipl_text.py:35
+#: textw/zipl_text.py:36
 msgid ""
 "The z/IPL Boot Loader will be installed on your system after installation is "
 "complete. You can now enter any additional kernel and chandev parameters "
@@ -5690,11 +5909,11 @@ msgstr ""
 "lýkur. Þú getur slegið inn kjarnaviðföng og chandev viðföng hér sem vélin "
 "þín þarf á að halda."
 
-#: textw/zipl_text.py:67
+#: textw/zipl_text.py:68
 msgid "z/IPL Configuration"
 msgstr "Stillingar z/IPL"
 
-#: textw/zipl_text.py:75 textw/zipl_text.py:79
+#: textw/zipl_text.py:76 textw/zipl_text.py:80
 msgid "Chandev line "
 msgstr "Chandev viðföng "
 
@@ -5758,18 +5977,6 @@ msgstr ""
 "rótarnotandans."
 
 #: ui/adddrive.glade.h:1
-msgid "Add _FCoE SAN"
-msgstr "Bæta við _FCoE SAN"
-
-#: ui/adddrive.glade.h:2
-msgid "Add _ZFCP LUN"
-msgstr "Bæta við _ZFCP LUN"
-
-#: ui/adddrive.glade.h:3
-msgid "Add _iSCSI target"
-msgstr "Bæta við _iSCSI tæki"
-
-#: ui/adddrive.glade.h:6
 msgid "_Add drive"
 msgstr "_Bæta við drifi"
 
@@ -5798,7 +6005,8 @@ msgstr ""
 "Harður diskur"
 
 #: ui/addrepo.glade.h:9
-msgid "Please provide the configuration information for this software repository."
+msgid ""
+"Please provide the configuration information for this software repository."
 msgstr "Vinsamlega gefðu upp stillingar fyrir hugbúnaðarsafnið."
 
 #: ui/addrepo.glade.h:10
@@ -5849,7 +6057,7 @@ msgstr "Þ_jónn:"
 msgid "Reboo_t"
 msgstr "Endur_ræsa"
 
-#: ui/anaconda.glade.h:3
+#: ui/anaconda.glade.h:4
 msgid "_Next"
 msgstr "Á_fram"
 
@@ -5859,26 +6067,23 @@ msgid "<b>Shrink partition _to size (in MB):</b>"
 msgstr "<b>Minn_ka (í MB):</b>"
 
 #: ui/autopart.glade.h:2
-msgid "Re_view and modify partitioning layout"
-msgstr "Endurs_koða (og breyta ef þarf) disksneiðunum"
-
-#: ui/autopart.glade.h:3
 msgid "Volume to Shrink"
 msgstr "Diskrými sem á að minnka"
 
-#: ui/autopart.glade.h:4
-msgid "Which partition would you like to shrink to make room for your installation?"
+#: ui/autopart.glade.h:3
+msgid ""
+"Which partition would you like to shrink to make room for your installation?"
 msgstr "Hvaða disksneið viltu breyta stærð á til að koma fyrir uppsetningunni?"
 
-#: ui/autopart.glade.h:5
+#: ui/autopart.glade.h:4
 msgid "Which type of installation would you like?"
 msgstr ""
 
-#: ui/autopart.glade.h:6
+#: ui/autopart.glade.h:5
 msgid "_Encrypt system"
 msgstr "Dulkóða k_erfið"
 
-#: ui/autopart.glade.h:7
+#: ui/autopart.glade.h:6
 msgid "_Shrink"
 msgstr "_Minnka"
 
@@ -5918,6 +6123,117 @@ msgstr "Fyrsta BIOS-drif:"
 msgid "Where would you like to install the boot loader for your system?"
 msgstr "Hvar viltu setja upp ræsistjórann fyrir kerfið?"
 
+#: ui/cleardisks.glade.h:1
+msgid "<b>Data Storage Devices</b> (to be mounted only)"
+msgstr ""
+
+#: ui/cleardisks.glade.h:2
+msgid "<b>Install Target Devices</b>"
+msgstr ""
+
+#: ui/cleardisks.glade.h:3
+msgid ""
+"<b>Tip:</b> Install target devices will be reformatted and wiped of any "
+"data.  Make sure you have backups."
+msgstr ""
+
+#: ui/cleardisks.glade.h:4
+msgid ""
+"Below are the storage devices you've selected to be a part of this "
+"installation.  Please indicate using the arrows below which devices you'd "
+"like to use as data drives (these will not be formatted, only mounted) and "
+"which devices you'd like to use as system drives (these may be formatted)."
+msgstr ""
+
+#: ui/create-storage.glade.h:1
+msgid ""
+"<span size=\"small\" color=\"gray\">Create a RAID formatted partition</span>"
+msgstr ""
+
+#: ui/create-storage.glade.h:2
+msgid ""
+"<span size=\"small\" color=\"gray\">Create a logical volume on selected "
+"volume group</span>"
+msgstr ""
+
+#: ui/create-storage.glade.h:3
+msgid ""
+"<span size=\"small\" color=\"gray\">Create an LVM formatted partition</span>"
+msgstr ""
+
+#: ui/create-storage.glade.h:4
+msgid ""
+"<span size=\"small\" color=\"gray\">Facilitates RAID device creation</span>"
+msgstr ""
+
+#: ui/create-storage.glade.h:5
+msgid ""
+"<span size=\"small\" color=\"gray\">General purpose partition creation</span>"
+msgstr ""
+
+#: ui/create-storage.glade.h:6
+msgid ""
+"<span size=\"small\" color=\"gray\">Requires at least 1 free LVM formatted "
+"partition</span>"
+msgstr ""
+
+#: ui/create-storage.glade.h:7
+msgid ""
+"<span size=\"small\" color=\"gray\">Requires at least 2 free RAID formatted "
+"partitions</span>"
+msgstr ""
+
+#: ui/create-storage.glade.h:8
+#, fuzzy
+msgid "Create"
+msgstr "Forsníð"
+
+#: ui/create-storage.glade.h:9
+msgid "Create LVM"
+msgstr ""
+
+#: ui/create-storage.glade.h:10
+#, fuzzy
+msgid "Create Partition"
+msgstr "Veldu disksneið"
+
+#: ui/create-storage.glade.h:11
+msgid "Create Software RAID"
+msgstr ""
+
+#: ui/create-storage.glade.h:12
+msgid "Create Storage"
+msgstr ""
+
+#: ui/create-storage.glade.h:13
+#, fuzzy
+msgid "LVM Logical Volume"
+msgstr "Búa til sýndardisk"
+
+#: ui/create-storage.glade.h:14
+#, fuzzy
+msgid "LVM Physical Volume"
+msgstr "Sýndardiskar"
+
+#: ui/create-storage.glade.h:15
+#, fuzzy
+msgid "LVM Volume Group"
+msgstr "LVM sýndardiskhópar"
+
+#: ui/create-storage.glade.h:16
+msgid "RAID Clone"
+msgstr ""
+
+#: ui/create-storage.glade.h:18
+#, fuzzy
+msgid "RAID Partition"
+msgstr "Bæta við disksneið"
+
+#: ui/create-storage.glade.h:19
+#, fuzzy
+msgid "Standard Partition"
+msgstr "Bæta við disksneið"
+
 #: ui/detailed-dialog.glade.h:1
 msgid "Info"
 msgstr "Upplýsingar"
@@ -5945,6 +6261,108 @@ msgstr ""
 #, fuzzy
 msgid "_Add FCoE Disk(s)"
 msgstr "Bæta við FCoE SAN"
+
+#: ui/filter.glade.h:2
+#, no-c-format
+msgid "<b>%s devices (%s) selected</b> out of %s devices (%s) total."
+msgstr ""
+
+#: ui/filter.glade.h:3
+msgid ""
+"<b>Tip:</b> Selected drives will not be formatted unless you choose to do so "
+"later during installation.  Also, note that post-installation you may mount "
+"drives you did not select here by modifying your /etc/fstab file."
+msgstr ""
+
+#: ui/filter.glade.h:4
+#, fuzzy
+msgid "Add Advanced Target"
+msgstr "Nafnaþjónn:"
+
+#: ui/filter.glade.h:5
+#, fuzzy
+msgid "Basic Devices"
+msgstr "Tæki"
+
+#: ui/filter.glade.h:6
+msgid "Filter By:"
+msgstr ""
+
+#: ui/filter.glade.h:7
+msgid "Firmware RAID"
+msgstr ""
+
+#: ui/filter.glade.h:8
+#, fuzzy
+msgid "Identifier:"
+msgstr "Auðkenna"
+
+#: ui/filter.glade.h:9
+msgid ""
+"Interconnect\n"
+"Vendor\n"
+"Identifier"
+msgstr ""
+
+#: ui/filter.glade.h:12
+msgid "LUN:"
+msgstr ""
+
+#: ui/filter.glade.h:13
+#, fuzzy
+msgid "Multipath Devices"
+msgstr "Tækið tvítekið"
+
+#: ui/filter.glade.h:14
+#, fuzzy
+msgid "Other SAN Devices"
+msgstr "RAID tæki"
+
+#: ui/filter.glade.h:15
+msgid ""
+"Please select the drives you'd like to install the operating system on, as "
+"well as any drives you'd like to automatically mount on your system:"
+msgstr ""
+
+#: ui/filter.glade.h:16
+msgid ""
+"Port / Target / LUN\n"
+"Target Identifier"
+msgstr ""
+
+#: ui/filter.glade.h:18
+#, fuzzy
+msgid "Port:"
+msgstr "_Hætta við"
+
+#: ui/filter.glade.h:19
+msgid "Search"
+msgstr ""
+
+#: ui/filter.glade.h:20
+msgid "Search By:"
+msgstr ""
+
+#: ui/filter.glade.h:21
+msgid "Search Results:"
+msgstr ""
+
+#: ui/filter.glade.h:22
+msgid "Show Identifiers that Include:"
+msgstr ""
+
+#: ui/filter.glade.h:23
+msgid "Show Only Devices From:"
+msgstr ""
+
+#: ui/filter.glade.h:24
+msgid "Show Only Devices Using:"
+msgstr ""
+
+#: ui/filter.glade.h:25
+#, fuzzy
+msgid "Target:"
+msgstr "Afrita á:"
 
 #: ui/iscsi-config.glade.h:1
 msgid "<b>CHAP _Password:</b>"
@@ -6002,43 +6420,16 @@ msgstr "Settu inn lykilsetningu (passphrase) fyrir dulkóðuðu disksneiðina"
 msgid "Enter passphrase:"
 msgstr "Settu inn lykilsetningu (passphrase):"
 
-#: ui/netconfig.glade.h:2
-msgid "<b>Gateway:</b>"
-msgstr "<b>Gátt:</b>"
-
-#: ui/netconfig.glade.h:3
-msgid "<b>IPv4 Address:</b>"
-msgstr "<b>IPv4 vistfang:</b>"
-
-#: ui/netconfig.glade.h:4
-msgid "<b>IPv6 Address:</b>"
-msgstr "<b>IPv6 vistfang:</b>"
-
-#: ui/netconfig.glade.h:5
-msgid "<b>Nameserver:</b>"
-msgstr "<b>Nafnaþjónn:</b>"
-
-#: ui/netconfig.glade.h:6
-msgid "<b>_Interface:</b>"
-msgstr "<b>_Netkort:</b>"
-
-#: ui/netconfig.glade.h:7
-msgid "Enable IPv_4 support"
-msgstr "Virkja IPv_4 stuðning"
-
-#: ui/netconfig.glade.h:8
-msgid "Enable IPv_6 support"
-msgstr "Virkja IPv_6 stuðning"
-
-#: ui/netconfig.glade.h:11
-msgid "Use _dynamic IP configuration (DHCP)"
-msgstr "Nota lausbun_dnar IP stillingar (DHCP)"
-
 #: ui/network.glade.h:1
+#, fuzzy
+msgid "Configure Network"
+msgstr "Villa við stillingu netkorts"
+
+#: ui/network.glade.h:2
 msgid "Hostname:"
 msgstr "Vélarheiti:"
 
-#: ui/network.glade.h:2
+#: ui/network.glade.h:3
 msgid ""
 "Please name this computer.  The hostname identifies the computer on a "
 "network."
@@ -6047,10 +6438,6 @@ msgstr ""
 "á netkerfum."
 
 #: ui/tasksel.glade.h:1
-msgid "Customize _later"
-msgstr "Sérsníða síð_ar"
-
-#: ui/tasksel.glade.h:2
 msgid ""
 "Please select any additional repositories that you want to use for software "
 "installation."
@@ -6058,33 +6445,11 @@ msgstr ""
 "Vinsamlegast veldu viðbótarhugbúnaðarsöfn sem þú vilt nota í þessari "
 "uppsetningu."
 
-#: ui/tasksel.glade.h:4
-#, no-c-format
-msgid ""
-"The default installation of %s includes a set of software applicable for "
-"general internet usage.  What additional tasks would you like your system to "
-"support?"
-msgstr ""
-"Sjálfgefin uppsetning %s inniheldur hugbúnað sem hentar vel til almennrar "
-"notkunar internetsins. Viltu hugbúnaðarstuðning fyrir fleira en það?"
-
-#: ui/tasksel.glade.h:5
-msgid ""
-"You can further customize the software selection now, or after install via "
-"the software management application."
-msgstr ""
-"Það er hægt að sérsníða pakkavalið núna eða eftir að uppsetningu er lokið "
-"með pakkastjóranum."
-
-#: ui/tasksel.glade.h:6
+#: ui/tasksel.glade.h:2
 msgid "_Add additional software repositories"
 msgstr "_Bæta við auka hugbúnaðarsöfnum"
 
-#: ui/tasksel.glade.h:7
-msgid "_Customize now"
-msgstr "_Sérsníða núna"
-
-#: ui/tasksel.glade.h:8
+#: ui/tasksel.glade.h:3
 msgid "_Modify repository"
 msgstr "Bre_yta hugbúnaðarsafni"
 
@@ -6409,3 +6774,230 @@ msgstr "Velska"
 msgid "Zulu"
 msgstr "Zúlú"
 
+#: sabayon/livecd.py:63
+#, fuzzy, python-format
+msgid ""
+"The given location [%s] isn't a valid %s live CD to use as an installation "
+"source."
+msgstr ""
+"Uppgefin staðsetning er ekki gildur %s lifandi diskur sem hægt er að setja "
+"upp frá."
+
+#: sabayon/livecd.py:95
+#, fuzzy
+msgid "Installing Sabayon onto hard drive."
+msgstr "Set upp ræsistjóra."
+
+#: sabayon/livecd.py:107
+#, fuzzy
+msgid "Configuring Sabayon"
+msgstr "Stillingar VNC"
+
+#: sabayon/livecd.py:125
+msgid "Sabayon configuration complete"
+msgstr ""
+
+#: sabayon/utils.py:202
+msgid "System Health Status Warning"
+msgstr ""
+
+#: sabayon/utils.py:348
+#, fuzzy
+msgid "Configuring System Services"
+msgstr "Stilla netkort"
+
+#: sabayon/utils.py:609
+msgid "An issue occured while installing"
+msgstr ""
+
+#: sabayon/utils.py:611
+msgid "Meh."
+msgstr ""
+
+#: sabayon/utils.py:612
+#, fuzzy
+msgid "Drivers installation issue"
+msgstr "Uppsetning pakka"
+
+#: sabayon/utils.py:642
+#, fuzzy
+msgid "System Installation"
+msgstr "Eftir uppsetningu"
+
+#: sabayon/utils.py:775
+#, fuzzy
+msgid "Cleaning packages"
+msgstr "eldri pakki/pakkar"
+
+#: sabayon/utils.py:800
+#, fuzzy
+msgid "Cleaning package"
+msgstr "Pakka vantar"
+
+#: sabayon/utils.py:840
+#, fuzzy
+msgid "Installation complete"
+msgstr "Uppsetningarlykill"
+
+#: sabayon/utils.py:872
+#, fuzzy
+msgid ""
+"This DVD contains many extra languages, would you like to keep them "
+"installed?"
+msgstr "Hvaða tungumál viltu nota meðan á uppsetningu stendur?"
+
+#: sabayon/utils.py:875
+#, fuzzy
+msgid "Language packs installation"
+msgstr "Uppsetning pakka"
+
+#: sabayon/utils.py:886
+msgid "Generating list of files to copy"
+msgstr ""
+
+#~ msgid "Install class forcing text mode installation"
+#~ msgstr "Uppsetningaraðferðin krefst uppsetningar í textaham"
+
+#, fuzzy
+#~ msgid "Device Resize Failed"
+#~ msgstr "Sæki"
+
+#, fuzzy
+#~ msgid "An error was encountered while resizing device %s."
+#~ msgstr ""
+#~ "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
+
+#, fuzzy
+#~ msgid "Device Creation Failed"
+#~ msgstr "Tenging mistókst"
+
+#, fuzzy
+#~ msgid "An error was encountered while creating device %s."
+#~ msgstr ""
+#~ "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
+
+#~ msgid "Device Removal Failed"
+#~ msgstr "Fjarlæging tækis mistókst"
+
+#, fuzzy
+#~ msgid "An error was encountered while removing device %s."
+#~ msgstr ""
+#~ "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
+
+#, fuzzy
+#~ msgid "An error was encountered while setting up device %s."
+#~ msgstr ""
+#~ "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
+
+#, fuzzy
+#~ msgid "An error was encountered while formatting device %s."
+#~ msgstr ""
+#~ "Það kom upp villa við að hreinsa diskana sem afrita á í. Afritun mistókst."
+
+#, fuzzy
+#~ msgid ""
+#~ "An error was encountered while activating your storage configuration."
+#~ msgstr ""
+#~ "Eftirfarandi villa kom upp við þáttun hraðuppsetningarskrárarinnar:\n"
+#~ "\n"
+#~ "%s"
+
+#, fuzzy
+#~ msgid ""
+#~ "The default installation of %s includes a set of software applicable for "
+#~ "general internet usage. You can optionally select a different set of "
+#~ "software now."
+#~ msgstr ""
+#~ "Sjálfgefin uppsetning %s inniheldur hugbúnað sem hentar vel til almennrar "
+#~ "notkunar internetsins. Viltu hugbúnaðarstuðning fyrir fleira en það?"
+
+#~ msgid "Software Development"
+#~ msgstr "Hugbúnaðarþróun"
+
+#~ msgid "Web Server"
+#~ msgstr "Vefþjónn"
+
+#~ msgid "Red Hat Enterprise Linux"
+#~ msgstr "Red Hat Enterprise Linux"
+
+#, fuzzy
+#~ msgid "Desktop"
+#~ msgstr "Skjáborð"
+
+#~ msgid "Unknown"
+#~ msgstr "Óþekkt"
+
+#~ msgid "Installing Packages"
+#~ msgstr "Set inn pakka"
+
+#, fuzzy
+#~ msgid ""
+#~ "This release of %(productName)s supports the an updated file system, "
+#~ "which has several benefits over the file system traditionally shipped in %"
+#~ "(productName)s.  This installation program can migrate formatted "
+#~ "partitions without data loss.\n"
+#~ "\n"
+#~ "Which of these partitions would you like to migrate?"
+#~ msgstr ""
+#~ "Þessi útgáfa af %s styður \"an\" skráarkerfið. Það hefur marga eiginleika "
+#~ "umfram skráarkerfið sem hefur verið í %s hingað til. Þar er einnig hægt "
+#~ "að færa forsniðnar disksneiðar án þess að tapa gögnum.\n"
+#~ "\n"
+#~ "Hverjar af þessum disksneiðum viltu færa til ?"
+
+#~ msgid "Add _FCoE SAN"
+#~ msgstr "Bæta við _FCoE SAN"
+
+#~ msgid "Add _ZFCP LUN"
+#~ msgstr "Bæta við _ZFCP LUN"
+
+#~ msgid "Add _iSCSI target"
+#~ msgstr "Bæta við _iSCSI tæki"
+
+#~ msgid "Re_view and modify partitioning layout"
+#~ msgstr "Endurs_koða (og breyta ef þarf) disksneiðunum"
+
+#~ msgid "<b>Gateway:</b>"
+#~ msgstr "<b>Gátt:</b>"
+
+#~ msgid "<b>IPv4 Address:</b>"
+#~ msgstr "<b>IPv4 vistfang:</b>"
+
+#~ msgid "<b>IPv6 Address:</b>"
+#~ msgstr "<b>IPv6 vistfang:</b>"
+
+#~ msgid "<b>Nameserver:</b>"
+#~ msgstr "<b>Nafnaþjónn:</b>"
+
+#~ msgid "<b>_Interface:</b>"
+#~ msgstr "<b>_Netkort:</b>"
+
+#~ msgid "Enable IPv_4 support"
+#~ msgstr "Virkja IPv_4 stuðning"
+
+#~ msgid "Enable IPv_6 support"
+#~ msgstr "Virkja IPv_6 stuðning"
+
+#~ msgid "Use _dynamic IP configuration (DHCP)"
+#~ msgstr "Nota lausbun_dnar IP stillingar (DHCP)"
+
+#~ msgid "Customize _later"
+#~ msgstr "Sérsníða síð_ar"
+
+#~ msgid ""
+#~ "The default installation of %s includes a set of software applicable for "
+#~ "general internet usage.  What additional tasks would you like your system "
+#~ "to support?"
+#~ msgstr ""
+#~ "Sjálfgefin uppsetning %s inniheldur hugbúnað sem hentar vel til almennrar "
+#~ "notkunar internetsins. Viltu hugbúnaðarstuðning fyrir fleira en það?"
+
+#~ msgid ""
+#~ "You can further customize the software selection now, or after install "
+#~ "via the software management application."
+#~ msgstr ""
+#~ "Það er hægt að sérsníða pakkavalið núna eða eftir að uppsetningu er lokið "
+#~ "með pakkastjóranum."
+
+#~ msgid "_Customize now"
+#~ msgstr "_Sérsníða núna"

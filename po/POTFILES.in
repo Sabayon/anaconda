@@ -27,8 +27,10 @@ vnc.py
 yuminstall.py
 
 # Install class definitions
-installclasses/fedora.py
-installclasses/rhel.py
+installclasses/corecd.py
+installclasses/fluxbox.py
+installclasses/gnome.py
+installclasses/kde.py
 
 # Graphical user interface source files
 iw/DeviceSelector.py
@@ -151,3 +153,9 @@ ui/zfcp-config.glade.h
 
 # lang-table
 lang-table.h
+
+# Sabayon stuff
+sabayon/const.py
+sabayon/__init__.py
+sabayon/livecd.py
+sabayon/utils.py
