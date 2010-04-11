@@ -622,20 +622,23 @@ class Network:
             device = dev.get("DEVICE")
 
             net_conf = []
+            ipaddr = dev.get('IPADDR')
+            netmask = dev.get('NETMASK')
+            gateway = dev.get('GATEWAY')
 
             if dev.get('BOOTPROTO') == "dhcp":
                 net_conf.append('dhcp_%s="nosendhost"\n' % (device,))
             else:
                 net_conf.append('config_%s="%s netmask %s"\n' % (
                         device,
-                        dev.get('IPADDR'),
-                        dev.get('NETMASK'),
+                        ipaddr,
+                        netmask,
                     )
                 )
-                if dev.get('GATEWAY'):
+                if gateway:
                     net_conf.append('routes_%s="default via %s"\n' % (
                             device,
-                            dev.get('GATEWAY'),
+                            gateway,
                         )
                     )
 
