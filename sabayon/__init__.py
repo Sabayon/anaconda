@@ -21,6 +21,9 @@
 import os
 import sys
 
+# add Entropy module path to PYTHONPATH
+sys.path.insert(0, '/usr/lib/entropy/libraries')
+
 # Entropy Interface
 from entropy.client.interfaces import Client
 from entropy.output import nocolor
