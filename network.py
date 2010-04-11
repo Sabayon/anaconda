@@ -625,8 +625,9 @@ class Network:
             ipaddr = dev.get('IPADDR')
             netmask = dev.get('NETMASK')
             gateway = dev.get('GATEWAY')
+            is_dhcp_boot = dev.get('BOOTPROTO') == "dhcp"
 
-            if dev.get('BOOTPROTO') == "dhcp":
+            if is_dhcp_boot or (not ipaddr):
                 net_conf.append('dhcp_%s="nosendhost"\n' % (device,))
             else:
                 net_conf.append('config_%s="%s netmask %s"\n' % (
