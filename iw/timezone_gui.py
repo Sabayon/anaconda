@@ -75,8 +75,12 @@ class TimezoneWindow(InstallWindow):
     def timezone_widget_create (self, str1, str2, int1, int2):
         mappath = "/usr/share/system-config-date/pixmaps/map1440.png"
 
+        wp_width = 480
+        if self.ics.cw.window.get_size_request()[0] >= 800:
+            wp_width = 640
+
         self.tz = AnacondaTZMap(self.zonetab, self.default, map=mappath,
-                                viewportWidth=480)
+                                viewportWidth=wp_width)
         self.tz.show_all()
         return self.tz
 
