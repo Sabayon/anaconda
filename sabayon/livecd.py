@@ -325,7 +325,7 @@ password root """+str(self.anaconda.bootloader.pure)+"""
 
         # this must be done before, otherwise gfx mode is not enabled
         iutil.execWithRedirect('/sbin/grub2-install',
-            ["/dev/" + grub_target],
+            ["/dev/" + grub_target, "--recheck"],
             stdout = PROGRAM_LOG_FILE,
             stderr = PROGRAM_LOG_FILE,
             root = self._root

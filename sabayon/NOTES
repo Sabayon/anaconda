@@ -29,51 +29,43 @@ Package dependencies:
         app-admin/authconfig
         >=app-misc/sabayonlive-tools-2.1.1
         sys-apps/language-configuration-helpers
+        sys-fs/dosfstools
+        sys-apps/dmidecode
+        sys-fs/ntfsprogs
+        sys-fs/jfsutils
+        sys-fs/xfsprogs
+        sys-fs/reiserfsprogs
+        sys-fs/e2fsprogs
+        dev-libs/elfutils
+        net-misc/curl
+        sys-fs/cryptsetup
+        dev-libs/libnl
+        sys-fs/squashfs-tools
+        dev-libs/libxml2[python]
+        sys-boot/makebootfat
+        sys-libs/slang
+        app-text/xmlto
+        sys-fs/mdadm
+        net-misc/dhcp
+        sys-libs/cracklib
 
-    UNSORTED:
-        bzip2
-        e2fsprogs
-        xfsprogs
-        reiserfsprogs
-        jfsutils
-        ntfsprogs
-        dosfstools
-        gzip
-        dmidecode
-        pyblock
-        cryptsetup-luks[python]
-        gettext
-        elfutils
-        X? (
-            gtk2
-            libXt
-            libX11
-            libXxf86misc
-            libblkid
-        )
-        libcurl
-        libnl
-        libxml2[python]
-        pango
-        slang
-        xmlto
-        zlib
-        networkmanager
-        dbus[python]
-        desktop-file-utils
-        cracklib
-        squashfs-tools
-        makebootfat
-        zenity
-        mdadm
-        dhclient
+    RDEPEND{anaconda-gui}:
+        dev-python/pygtk
+        x11-libs/libXt
+        x11-libs/libX11
+        x11-libs/libXxf86misc
+        net-misc/networkmanager?
+        x11-libs/pango
+        gnome-extra/zenity?
 
 TODO:
     - lokkit required?
     - make bugzilla bug report option working
     - dcbd init script
-    - firstboot init script (plymouth? users setup, make it working)
-    - installer script -> wget tarball + unpack + configure + make + make install
+    - firstboot init script (plymouth? users setup!!, make it working)
     - text mode
-    - encryption (grub.cfg not properly written, /dev/sda2, grub splash doesn't work?)
-    - test network setup
+    - sw raid + grub
+    - shots (resize to >= 640? perhaps 720)
+
+CORECD:
+        - test USE=gtk, have to be disabled
