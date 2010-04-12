@@ -61,7 +61,7 @@ function kill_mounts() {
     done
 
     # close any luks device
-    cryptsetup luksClose /dev/mapper/* &> /dev/null
+    cryptsetup luksClose /dev/mapper/luks-* &> /dev/null
 
 }
 
