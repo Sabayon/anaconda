@@ -7,7 +7,7 @@ Package dependencies:
         sys-fs/lvm2
         sys-libs/libselinux
         app-cdr/isomd5sum
-        sys-block/open-iscsi-2.0.870.3-r1 (from sabayon, w/libiscsi)
+        =sys-block/open-iscsi-2.0.870.3-r1 (from sabayon, w/libiscsi)
         >=app-archive/libarchive-2.8
         app-admin/system-config-keyboard
         dev-libs/newt
@@ -48,6 +48,7 @@ Package dependencies:
         sys-fs/mdadm
         net-misc/dhcp
         sys-libs/cracklib
+        >=sys-boot/grub-1.98:2
 
     RDEPEND{anaconda-gui}:
         dev-python/pygtk
@@ -64,8 +65,8 @@ TODO:
     - dcbd init script
     - firstboot init script (plymouth? users setup!!, make it working)
     - text mode
-    - sw raid + grub
-    - shots (resize to >= 640? perhaps 720)
+    - sw raid + grub 1.98 (metadata=0.90 e niente bitmap)
+    - sw raid + encryption
 
 CORECD:
         - test USE=gtk, have to be disabled
