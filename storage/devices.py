@@ -2806,6 +2806,8 @@ class MDRaidArrayDevice(StorageDevice):
 
             disks = [disk.path for disk in self.devices]
             spares = len(self.devices) - self.memberDevices
+
+            """
             # Figure out format specific options
             metadata="1.1"
             # bitmaps are not meaningful on raid0 according to mdadm-3.0.3
@@ -2815,6 +2817,12 @@ class MDRaidArrayDevice(StorageDevice):
                 bitmap=False
             elif self.format.type == "swap":
                 bitmap=False
+            """
+            # XXX: lxnay here
+            # NOTE: grub2 doesn't support mdadm metadata format >=1.0
+            metadata="0.90"
+            bitmap=False
+
             mdraid.mdcreate(self.path,
                             self.level,
                             disks,
