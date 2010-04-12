@@ -225,7 +225,14 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                     break
 
             if swap_crypted:
-                import pdb; pdb.set_trace()
+                # genkernel hardcoded bullshit, cannot change /dev/mapper/swap
+                # change inside swap_dev, fstabSpec should return /dev/mapper/swap
+                swap_dev.path = "/dev/mapper/swap"
+                final_cmdline.append("resume=swap:%s" % (swap_dev.path,))
+                final_cmdline.append("real_resume=%s" % (swap_dev.path,))
+                # NOTE: cannot use swap_crypto_dev.fstabSpec because
+                # genkernel doesn't support UUID= on crypto
+                final_cmdline.append("crypt_swap=%s" % (swap_crypto_dev.path,))
             else:
                 final_cmdline.append("resume=swap:%s" % (swap_dev.fstabSpec,))
                 final_cmdline.append("real_resume=%s" % (swap_dev.fstabSpec,))
