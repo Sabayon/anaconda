@@ -37,7 +37,7 @@ import backend
 import isys
 import iutil
 import logging
-from anaconda_log import MAIN_LOG_FILE
+from anaconda_log import PROGRAM_LOG_FILE
 import sabayon.utils
 from sabayon import Entropy
 
@@ -323,46 +323,18 @@ password root """+str(self.anaconda.bootloader.pure)+"""
         if os.path.isfile(dev_map):
             os.remove(dev_map)
 
-        # write config file, temp mount /proc
-        iutil.execWithRedirect('/bin/mount',
-            ["-t", "proc", "proc", "/proc"],
-            stdout = MAIN_LOG_FILE,
-            stderr = MAIN_LOG_FILE,
-            root = self._root
-        )
-        # and /sys
-        iutil.execWithRedirect('/bin/mount',
-            ["-t", "sysfs", "sysfs", "/sys"],
-            stdout = MAIN_LOG_FILE,
-            stderr = MAIN_LOG_FILE,
-            root = self._root
-        )
-
         # this must be done before, otherwise gfx mode is not enabled
         iutil.execWithRedirect('/sbin/grub2-install',
             ["/dev/" + grub_target],
-            stdout = MAIN_LOG_FILE,
-            stderr = MAIN_LOG_FILE,
+            stdout = PROGRAM_LOG_FILE,
+            stderr = PROGRAM_LOG_FILE,
             root = self._root
         )
 
         iutil.execWithRedirect('/sbin/grub-mkconfig',
             ["--output=%s" % (grub_cfg_noroot,)],
-            stdout = MAIN_LOG_FILE,
-            stderr = MAIN_LOG_FILE,
-            root = self._root
-        )
-
-        iutil.execWithRedirect('/bin/umount',
-            ["/proc"],
-            stdout = MAIN_LOG_FILE,
-            stderr = MAIN_LOG_FILE,
-            root = self._root
-        )
-        iutil.execWithRedirect('/bin/umount',
-            ["/sys"],
-            stdout = MAIN_LOG_FILE,
-            stderr = MAIN_LOG_FILE,
+            stdout = PROGRAM_LOG_FILE,
+            stderr = PROGRAM_LOG_FILE,
             root = self._root
         )
 
