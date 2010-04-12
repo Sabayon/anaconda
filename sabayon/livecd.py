@@ -155,7 +155,11 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # HACK: since Anaconda doesn't support grub2 yet
         # Grub configuration is disabled
         # and this code overrides it
-        self._setup_grub2()
+        encrypted = self._setup_grub2()
+        if encrypted:
+            # HACK: since swap device path value is potentially changed
+            # it is required to rewrite the fstab (circular dependency, sigh)
+            self.anaconda.storage.fsset.write()
 
         self._copy_logs()
 
@@ -299,6 +303,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._write_grub2(cmdline_str, grub_target)
         # disable Anaconda bootloader code
         self.anaconda.bootloader.defaultDevice = -1
+        return root_crypted or swap_crypted
 
     def _write_grub2(self, cmdline, grub_target):
 
