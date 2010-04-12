@@ -64,7 +64,7 @@ class SabayonProgress(Singleton):
             self.__updater = TimeScheduled(2, self._prog.processEvents)
             self.__updater.start()
         if self.__shot_adbox is None:
-            self.__shot_adbox = TimeScheduled(60, self._spawn_adimage)
+            self.__shot_adbox = TimeScheduled(20, self._spawn_adimage)
             self.__shot_adbox.start()
 
     def __kill_adbox(self):
