@@ -210,12 +210,25 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # device.format.mountpoint, device.format.type, device.format.mountable,
         # device.format.options, device.path, device.fstabSpec
         root_crypted = False
+        swap_crypted = False
 
         if swap_devices:
             log.info("Found swap devices: %s" % (swap_devices,))
             swap_dev = swap_devices[0]
-            final_cmdline.append("resume=swap:%s" % (swap_dev.fstabSpec,))
-            final_cmdline.append("real_resume=%s" % (swap_dev.fstabSpec,))
+
+            swap_crypto_dev = None
+            for name in fsset.cryptTab.mappings.keys():
+                swap_crypto_dev = fsset.cryptTab[name]['device']
+                if swap_dev == swap_crypto_dev or swap_dev.dependsOn(
+                    swap_crypto_dev):
+                    swap_crypted = True
+                    break
+
+            if swap_crypted:
+                import pdb; pdb.set_trace()
+            else:
+                final_cmdline.append("resume=swap:%s" % (swap_dev.fstabSpec,))
+                final_cmdline.append("real_resume=%s" % (swap_dev.fstabSpec,))
 
         # setup LVM
         lvscan_out = commands.getoutput("LANG=C LC_ALL=C lvscan").split("\n")[0].strip()
@@ -256,11 +269,11 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         log.info("Generated boot cmdline: %s" % (final_cmdline,))
 
-        return final_cmdline, root_crypted
+        return final_cmdline, root_crypted, swap_crypted
 
     def _setup_grub2(self):
 
-        cmdline_args, root_crypted = self._get_bootloader_args()
+        cmdline_args, root_crypted, swap_crypted = self._get_bootloader_args()
 
         # "sda" <string>
         grub_target = self.anaconda.bootloader.getDevice()
@@ -273,7 +286,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         cmdline_str = ' '.join(cmdline_args)
 
         # if root_device or swap encrypted, replace splash=silent
-        if root_crypted:
+        if root_crypted or swap_crypted:
             cmdline_str = cmdline_str.replace('splash=silent', 'splash=verbose')
 
         self._write_grub2(cmdline_str, grub_target)
