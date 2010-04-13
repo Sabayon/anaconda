@@ -28,7 +28,7 @@ class FinishedWindow:
   
   def __call__ (self, screen, anaconda):
         bootstr = ""
-        buttonstr = _("Reboot")
+        buttonstr = _("Exit")
 
         bottomstr = _("<Enter> to exit")
 
