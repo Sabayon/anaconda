@@ -34,6 +34,7 @@ class FinishedWindow:
 
         screen.pushHelpLine (string.center(bottomstr, screen.width))
 
+        import pyanaconda.platform as platform
         if isinstance(anaconda.platform, platform.S390):
             txt = _("Congratulations, your %s installation is complete.\n\n") % (productName,)
 
