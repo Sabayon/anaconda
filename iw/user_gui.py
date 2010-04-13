@@ -182,7 +182,7 @@ class AccountWindow (InstallWindow):
         if not self.isStringLegal(username, spaces = False):
             self.intf.messageWindow(_("Error with username"),
                                     _("Requested username contains "
-                                      "non-ASCII characters, which are "
+                                      "non-ASCII characters or spaces, which are "
                                       "not allowed."),
                                     custom_icon="error")
             self.usernameError()
