@@ -54,16 +54,17 @@ class SabayonProgress(Singleton):
 
     def init_singleton(self, anaconda):
         self._intf = anaconda.intf
+        self._display_mode = anaconda.displayMode
         self._prog = self._intf.instProgress
         self.__updater = None
         self.__shot_adbox = None
         self._pix_count = 0
 
     def start(self):
-        if self.__updater is None:
+        if (self.__updater is None) and (self._display_mode == "g"):
             self.__updater = TimeScheduled(2, self._prog.processEvents)
             self.__updater.start()
-        if self.__shot_adbox is None:
+        if (self.__shot_adbox is None) and (self._display_mode == "g"):
             self.__shot_adbox = TimeScheduled(20, self._spawn_adimage)
             self.__shot_adbox.start()
 
@@ -86,26 +87,37 @@ class SabayonProgress(Singleton):
         return self._prog
 
     def set_label(self, label):
-        def do_it():
+        if self._display_mode == "g":
+            def do_it():
+                self._prog.set_label(label)
+                return False
+            glib.timeout_add(0, do_it)
+        else:
             self._prog.set_label(label)
-            return False
-        glib.timeout_add(0, do_it)
 
     def set_text(self, text):
-        def do_it():
+        if self._display_mode == "g":
+            def do_it():
+                self._prog.set_text(text)
+                return False
+            glib.timeout_add(0, do_it)
+        else:
             self._prog.set_text(text)
-            return False
-        glib.timeout_add(0, do_it)
 
     def set_fraction(self, pct):
-        def do_it(pct):
-            if pct > 1.0:
-                pct = 1.0
-            elif pct < 0.0:
-                pct = 0.0
+
+        if pct > 1.0:
+            pct = 1.0
+        elif pct < 0.0:
+            pct = 0.0
+
+        if self._display_mode == "g":
+            def do_it(pct):
+                self._prog.set_fraction(pct)
+                return False
+            glib.timeout_add(0, do_it, pct)
+        else:
             self._prog.set_fraction(pct)
-            return False
-        glib.timeout_add(0, do_it, pct)
 
     def _spawn_adimage(self):
         pixmaps = getattr(self._prog, 'pixmaps', [])
