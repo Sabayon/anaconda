@@ -64,9 +64,6 @@ TODO:
     - make bugzilla bug report option working
     - dcbd init script
     - firstboot init script (plymouth? users setup!!, make it working)
-    - text mode
-    - sw raid + grub 1.98 (metadata=0.90 e niente bitmap)
-    - sw raid + encryption
 
 CORECD:
         - test USE=gtk, have to be disabled
