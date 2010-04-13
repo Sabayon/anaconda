@@ -59,6 +59,7 @@ stepToClasses = {
     "network" : ("network_text", ("HostnameWindow")),
     "timezone" : ("timezone_text", "TimezoneWindow"),
     "accounts" : ("userauth_text", "RootPasswordWindow"),
+    "useraccounts" : ("userauth_text", "UserPasswordWindow"),
     "tasksel": ("task_text", "TaskWindow"),
     "install" : ("progress_text", "setupForInstall"),
     "complete" : ("complete_text", "FinishedWindow"),
