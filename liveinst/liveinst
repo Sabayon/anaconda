@@ -21,6 +21,11 @@
 # load modules that would get loaded by the loader... (#230945)
 for i in raid0 raid1 raid5 raid6 raid456 raid10 dm-mod dm-zero dm-mirror dm-snapshot dm-multipath dm-round-robin vfat dm-crypt cbc sha256 lrw xts ; do /sbin/modprobe $i 2>/dev/null ; done
 
+# NOTE (switches):
+# --text => ncurses based installer
+# --cmdline => cmdline based installer
+# <no arguments> => autodetection
+
 export ANACONDA_PRODUCTNAME="Sabayon"
 export ANACONDA_PRODUCTVERSION="$(cat /etc/sabayon-release | cut -d' ' -f 4)"
 export ANACONDA_PRODUCTPATH="/mnt/livecd"
