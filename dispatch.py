@@ -78,6 +78,7 @@ installSteps = [
     ("network", ),
     ("timezone", ),
     ("accounts", ),
+    ("useraccounts", ),
     ("setuptime", setupTimezone, ),
     ("parttype", ),
     ("cleardiskssel", ),

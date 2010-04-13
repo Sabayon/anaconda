@@ -97,6 +97,12 @@ class Users:
         self.anaconda = anaconda
         self.admin = libuser.admin()
         self.rootPassword = { "isCrypted": False, "password": "", "lock": False }
+        # dict composed by username as key
+        # 'fullname' => full name
+        # 'password' => password
+        # 'groups' => list of groups
+        # 'group' => main group
+        self.otherUsers = {}
 
     def createGroup (self, name=None, gid=None, root="/mnt/sysimage"):
         childpid = os.fork()
@@ -273,6 +279,15 @@ class Users:
 
         # User should already exist, just without a password.
         self.setRootPassword(algo=self.getPassAlgo())
+
+        for user, udata in self.otherUsers.items():
+            self.createUser(name=udata['username'],
+               password=udata['password'],
+               groups=udata['groups'],
+               algo=self.getPassAlgo(),
+               gecos=udata.get('fullname', None),
+               root=instPath
+           )
 
         if self.anaconda.ksdata:
             for gd in self.anaconda.ksdata.group.groupList:

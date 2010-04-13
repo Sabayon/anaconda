@@ -77,6 +77,7 @@ stepToClass = {
     "network" : ("network_gui", "NetworkWindow"),
     "timezone" : ("timezone_gui", "TimezoneWindow"),
     "accounts" : ("account_gui", "AccountWindow"),
+    "useraccounts" : ("user_gui", "AccountWindow"),
     "tasksel": ("task_gui", "TaskWindow"),    
     "group-selection": ("package_gui", "GroupSelectionWindow"),
     "install" : ("progress_gui", "InstallProgressWindow"),
