@@ -162,7 +162,6 @@
                         <property name="width_request">256</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="visibility">False</property>
                         <property name="invisible_char">&#x25CF;</property>
                       </widget>
                       <packing>
@@ -177,7 +176,6 @@
                         <property name="width_request">256</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="visibility">False</property>
                         <property name="invisible_char">&#x25CF;</property>
                       </widget>
                       <packing>
