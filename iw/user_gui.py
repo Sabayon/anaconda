@@ -73,6 +73,8 @@ class AccountWindow (InstallWindow):
         live_user_data = self.anaconda.users.otherUsers.get(LIVE_USER, {})
         self.pw.set_text(live_user_data.get('password', ''))
         self.confirm.set_text(live_user_data.get('password', ''))
+        self.username.set_text(live_user_data.get('username', ''))
+        self.fullname.set_text(live_user_data.get('fullname', ''))
 
         # pressing Enter in confirm == clicking Next
         vbox = self.xml.get_widget("account_box")
@@ -115,8 +117,10 @@ class AccountWindow (InstallWindow):
         else:
             self.capslock.set_text("")
 
-    def isStringLegal(self, tstr):
-        legal = string.digits + string.ascii_letters + string.punctuation + " "
+    def isStringLegal(self, tstr, spaces = True):
+        legal = string.digits + string.ascii_letters + string.punctuation
+        if spaces:
+            legal += " "
         for letter in tstr:
             if letter not in legal:
                 return False
@@ -125,7 +129,7 @@ class AccountWindow (InstallWindow):
     def getNext (self):
         pw = self.pw.get_text()
         confirm = self.confirm.get_text()
-        username = self.username.get_text()
+        username = self.username.get_text().lower()
         fullname = self.fullname.get_text()
 
         if not pw or not confirm:
@@ -175,7 +179,7 @@ class AccountWindow (InstallWindow):
                                     custom_icon="error")
             self.usernameError()
 
-        if not self.isStringLegal(username):
+        if not self.isStringLegal(username, spaces = False):
             self.intf.messageWindow(_("Error with username"),
                                     _("Requested username contains "
                                       "non-ASCII characters, which are "
