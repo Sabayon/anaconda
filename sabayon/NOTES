@@ -7,7 +7,7 @@ Package dependencies:
         sys-fs/lvm2
         sys-libs/libselinux
         app-cdr/isomd5sum
-        =sys-block/open-iscsi-2.0.870.3-r1 (from sabayon, w/libiscsi)
+        =sys-block/open-iscsi-2.0.870.3-r1
         >=app-archive/libarchive-2.8
         app-admin/system-config-keyboard
         dev-libs/newt
@@ -24,7 +24,6 @@ Package dependencies:
         >=app-misc/sabayon-version-5-r1
         dev-python/python-report
         app-admin/system-config-users ?
-        app-admin/firstboot
         net-misc/fcoe-utils
         app-admin/authconfig
         >=app-misc/sabayonlive-tools-2.1.1
@@ -55,15 +54,7 @@ Package dependencies:
         x11-libs/libXt
         x11-libs/libX11
         x11-libs/libXxf86misc
-        net-misc/networkmanager?
         x11-libs/pango
-        gnome-extra/zenity?
 
 TODO:
-    - lokkit required?
-    - make bugzilla bug report option working
-    - dcbd init script
-    - firstboot init script (plymouth? users setup!!, make it working)
-
-CORECD:
-        - test USE=gtk, have to be disabled
+    - [FUTURE] make bugzilla bug report option working
