@@ -18,6 +18,7 @@
 # Author: David Cantrell <dcantrell@redhat.com>
 
 m4_define(python_required_version, 2.5)
+m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
 
 AC_PREREQ([2.63])
 AC_INIT([anaconda], [14.3], [anaconda-devel-list@redhat.com])
