@@ -122,6 +122,13 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._sabayon_install.spawn_chroot("ldconfig")
         # Fix a possible /tmp problem
         self._sabayon_install.spawn("chmod a+w "+self._root+"/tmp")
+        var_tmp = self._root + "/var/tmp"
+        if not os.path.isdir(var_tmp): # wtf!
+            os.makedirs(var_tmp)
+        var_tmp_keep = os.path.join(var_tmp, ".keep")
+        if not os.path.isfile(var_tmp_keep):
+            with open(var_tmp_keep, "w") as wt:
+                wt.flush()
 
         action = _("Sabayon configuration complete")
         self._progress.set_label(action)
