@@ -1310,8 +1310,8 @@ class InstallControlWindow:
                                     custom_buttons=[_("_Exit"),
                                                     _("_Retry")])
                 if not win.getrc():
-                    msg =  _("The system will now reboot.")
-                    buttons = [_("_Reboot")]
+                    msg =  _("The installer will now exit.")
+                    buttons = [_("_Exit")]
 
                     MessageWindow(_("Exiting"),
                                   msg,
@@ -1389,6 +1389,8 @@ class InstallControlWindow:
             takeScreenShot()
 
     def _doReboot(self, *args):
+        with open("/tmp/__anaconda_reboot__", "w") as reb_f:
+            reb_f.flush()
         gtk.main_quit()
         os._exit(100)
 

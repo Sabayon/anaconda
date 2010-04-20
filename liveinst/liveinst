@@ -105,7 +105,7 @@ fi
 
 kill_mounts
 
-if [ "${ANACONDA_RC}" = "100" ]; then
+if [ "${ANACONDA_RC}" = "100" ] || [ -f "/tmp/__anaconda_reboot__" ]; then
     # reboot
     reboot -f
 fi
