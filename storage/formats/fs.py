@@ -1083,7 +1083,7 @@ class BTRFS(FS):
     _linuxNative = True
     _bootable = False
     _maxLabelChars = 256
-    _supported = False
+    _supported = True
     _dump = True
     _check = True
     _packages = ["btrfs-progs"]
@@ -1159,7 +1159,7 @@ class JFS(FS):
     _maxSize = 8 * 1024 * 1024
     _formattable = True
     _linuxNative = True
-    _supported = False
+    _supported = True
     _dump = True
     _check = True
     _infofs = "jfs_tune"
@@ -1192,7 +1192,7 @@ class ReiserFS(FS):
     _maxSize = 16 * 1024 * 1024
     _formattable = True
     _linuxNative = True
-    _supported = False
+    _supported = True
     _dump = True
     _check = True
     _packages = ["reiserfs-utils"]
