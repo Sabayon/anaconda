@@ -9,9 +9,10 @@ FETCH_URL=${FETCH_URL:-"http://www.sabayon.org/sabayon/installer/${FETCH_FN}"}
 
 cd /tmp
 echo "Fetching Sabayon Anaconda Installer from ${FETCH_URL}..."
-wget ${FETCH_WGET_ARGS} "${FETCH_URL}"
+wget ${FETCH_WGET_ARGS} "${FETCH_URL}" "${FETCH_URL}.md5"
 if [ "${?}" = "0" ]; then
-	tar xjf "${FETCH_FN}" -C /
+	md5sum -c "${FETCH_FN}.md5" || ( echo "OUCH, md5 does not match" && exit 1 )
+	sudo tar xjf "${FETCH_FN}" -C /
 	echo "ALL FINE, respawn the installer"
 	exit 0
 else
