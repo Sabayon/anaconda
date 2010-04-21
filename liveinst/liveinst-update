@@ -4,7 +4,7 @@ _fetch_ver="5"
 [[ -f "/etc/sabayon-edition" ]] && _fetch_ver=$(cat /etc/sabayon-edition | cut -d" " -f 3)
 
 FETCH_VER=${FETCH_VER:-${_fetch_ver}}
-FETCH_FN="anaconda-${FETCH_VER}.tar.bz2"
+FETCH_FN="anaconda-${FETCH_VER}-$(uname -m).tar.bz2"
 FETCH_URL=${FETCH_URL:-"http://www.sabayon.org/sabayon/installer/${FETCH_FN}"}
 
 cd /tmp
