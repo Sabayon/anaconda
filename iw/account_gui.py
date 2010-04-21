@@ -123,7 +123,7 @@ class AccountWindow (InstallWindow):
         try:
             cracklib.FascistCheck(pw)
         except ValueError, e:
-            msg = gettext.ldgettext("cracklib", e).decode("raw_unicode_escape")
+            msg = gettext.ldgettext("cracklib", e)
             ret = self.intf.messageWindow(_("Weak Password"),
                                           _("You have provided a weak password: %s") % msg,
                                           type="custom", custom_icon="error",
