@@ -34,6 +34,11 @@ export ANACONDA_PRODUCTARCH="$(cat /etc/sabayon-release | cut -d' ' -f 3)"
 export ANACONDA_BUGURL="http://bugs.sabayon.org"
 export PIXMAPPATH="/usr/share/anaconda/pixmaps"
 
+# XXX: hacky thing did by Redhat (they should have fixed their anaconda code)
+# Setup default encoding to utf-8
+# make gettext.gettext() returning unicode() objects
+cp /usr/lib/python?.?/site-packages/pyanaconda/sitecustomize.py /usr/lib/python?.?/site-packages
+
 function kill_mounts() {
     # devkit-disks is now mounting lots of stuff.  for now, let's just try to unmount it all
     umount /media/* &> /dev/null
@@ -104,6 +109,8 @@ if [ -n "$current" ]; then
 fi
 
 kill_mounts
+
+rm -f /usr/lib/python?.?/site-packages/sitecustomize.py
 
 if [ "${ANACONDA_RC}" = "100" ] || [ -f "/tmp/__anaconda_reboot__" ]; then
     # reboot
