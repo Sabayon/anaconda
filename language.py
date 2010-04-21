@@ -80,6 +80,7 @@ class Language(object):
         # Now set some things to make sure the language setting takes effect
         # right now.
         os.environ["LANG"] = self._instLang
+        os.environ["LANGUAGE"] = self._instLang
         os.environ["LC_NUMERIC"] = "C"
 
         try:
