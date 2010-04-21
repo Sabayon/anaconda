@@ -24,7 +24,7 @@ import gui
 from constants import *
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 class BootloaderPasswordWidget:
     def __init__(self, anaconda, parent):

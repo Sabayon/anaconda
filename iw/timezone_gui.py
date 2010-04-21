@@ -34,7 +34,7 @@ from bootloader import hasWindows
 
 from constants import *
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 try:
     import gnomecanvas
@@ -139,7 +139,7 @@ class AnacondaTZMap(TimezoneMap):
                     # York as the default.
                     self.fallbackEntry = entry
 
-            iter = self.tzStore.insert_after(iter, [gettext.ldgettext("system-config-date", entry.tz), entry.tz, entry])
+            iter = self.tzStore.insert_after(iter, [gettext.ldgettext("system-config-date", entry.tz).decode("raw_unicode_escape"), entry.tz, entry])
 
     def timezone_list_init (self, default):
         self.hbox = gtk.HBox()

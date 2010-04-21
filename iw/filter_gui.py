@@ -38,7 +38,7 @@ import storage.fcoe
 import storage.zfcp
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 DEVICE_COL = 4
 MODEL_COL = 5

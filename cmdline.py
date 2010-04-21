@@ -29,7 +29,7 @@ from iutil import strip_markup
 from installinterfacebase import InstallInterfaceBase
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 import logging
 log = logging.getLogger("anaconda")

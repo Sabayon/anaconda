@@ -31,7 +31,7 @@ from sabayon.const import LIVE_USER
 import grp
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 class AccountWindow (InstallWindow):
     def getScreen(self, anaconda):
@@ -157,7 +157,7 @@ class AccountWindow (InstallWindow):
         try:
             cracklib.FascistCheck(pw)
         except ValueError, e:
-            msg = gettext.ldgettext("cracklib", e)
+            msg = gettext.ldgettext("cracklib", e).decode("raw_unicode_escape")
             ret = self.intf.messageWindow(_("Weak Password"),
                                           _("You have provided a weak password: %s") % msg,
                                           type="custom", custom_icon="error",

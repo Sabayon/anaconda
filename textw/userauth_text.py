@@ -23,7 +23,7 @@ import cracklib
 
 from constants import *
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 class RootPasswordWindow:
     def __call__ (self, screen, anaconda):
@@ -79,7 +79,7 @@ class RootPasswordWindow:
                 try:
                     cracklib.FascistCheck(entry1.value())
                 except ValueError, e:
-                    msg = gettext.ldgettext("cracklib", e)
+                    msg = gettext.ldgettext("cracklib", e).decode("raw_unicode_escape")
                     ret = anaconda.intf.messageWindow(_("Weak Password"),
                              _("You have provided a weak password: %s\n\n"
                                "Would you like to continue with this password?"
@@ -186,7 +186,7 @@ class UserPasswordWindow:
                 try:
                     cracklib.FascistCheck(entry1.value())
                 except ValueError, e:
-                    msg = gettext.ldgettext("cracklib", e)
+                    msg = gettext.ldgettext("cracklib", e).decode("raw_unicode_escape")
                     ret = anaconda.intf.messageWindow(_("Weak Password"),
                              _("You have provided a weak password: %s\n\n"
                                "Would you like to continue with this password?"

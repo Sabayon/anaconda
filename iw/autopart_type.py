@@ -33,7 +33,7 @@ from flags import flags
 from storage.deviceaction import *
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 def whichToShrink(storage, intf):
     def getActive(combo):

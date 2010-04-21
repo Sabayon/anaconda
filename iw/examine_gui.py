@@ -27,7 +27,7 @@ import upgrade
 from flags import flags
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 UPGRADE_STR = "upgrade"
 REINSTALL_STR = "reinstall"

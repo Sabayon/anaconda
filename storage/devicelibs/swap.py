@@ -29,7 +29,7 @@ from ..errors import *
 from . import dm
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 
 def mkswap(device, label='', progress=None):

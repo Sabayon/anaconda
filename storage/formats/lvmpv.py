@@ -29,7 +29,7 @@ from ..devicelibs import lvm
 from . import DeviceFormat, register_device_format
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 import logging
 log = logging.getLogger("storage")

@@ -43,7 +43,7 @@ import logging
 log = logging.getLogger("anaconda")
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 def doPostAction(anaconda):
     anaconda.instClass.postAction(anaconda)

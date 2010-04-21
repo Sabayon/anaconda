@@ -27,7 +27,7 @@ import iutil
 from ..errors import *
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 # Keep the character set size a power of two to make sure all characters are
 # equally likely

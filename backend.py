@@ -37,7 +37,7 @@ from flags import flags
 log = logging.getLogger("anaconda")
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 class AnacondaBackend:
     def __init__(self, anaconda):

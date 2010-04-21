@@ -52,7 +52,7 @@ from storage.devicelibs import lvm
 from storage.devices import devicePathToName, PartitionDevice
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 P_ = lambda x, y, z: gettext.ldngettext("anaconda", x, y, z)
 
 import logging

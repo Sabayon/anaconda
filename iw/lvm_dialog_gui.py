@@ -33,7 +33,7 @@ from storage.devices import *
 from storage.deviceaction import *
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 P_ = lambda x, y, z: gettext.ldngettext("anaconda", x, y, z)
 
 import logging

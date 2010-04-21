@@ -29,7 +29,7 @@ from scdate.core import zonetab
 
 from constants import *
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 sys.path.append("/usr/share/system-config-date")
 
@@ -84,7 +84,7 @@ class TimezoneWindow:
 	self.l = Listbox(5, scroll = 1, returnExit = 0)
 
         for tz in timezones:
-	    self.l.append(gettext.ldgettext("system-config-date", tz), tz)
+	    self.l.append(gettext.ldgettext("system-config-date", tz).decode("raw_unicode_escape"), tz)
 
 	self.l.setCurrent(default.replace("_", " "))
 #	self.l.setCallback(self.updateClock)

@@ -16,7 +16,7 @@
 #
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
 
 # UI methods for supporting adding advanced storage devices.
 import gobject
