@@ -41,7 +41,7 @@ class Entropy(Client):
         self._progress = progress
 
     def output(self, text, header = "", footer = "", back = False,
-        importance = 0, type = "info", count = None, percent = False):
+        importance = 0, level = "info", count = None, percent = False):
 
         if not self._progress:
             return
