@@ -238,7 +238,8 @@ class MainBootloaderWindow(InstallWindow):
 
         # configure the systems available to boot from the boot loader
         self.oslist = OSBootWidget(anaconda, self.parent)
-        thebox.pack_end(self.oslist.getWidget(), True)
+        # XXX: lxnay here, GRUB-2 doesn't allow this
+        # thebox.pack_end(self.oslist.getWidget(), True)
 
         self.bootloaderChanged()
         return thebox
