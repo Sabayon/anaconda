@@ -64,10 +64,10 @@ class UpgradeExamineWindow (InstallWindow):
                            "be overwritten depending on your configuration "
                            "choices.") % productName)
 
-	r.addEntry(UPGRADE_STR, _("Upgrade an Existing Installation"),
+	r.addEntry(UPGRADE_STR, _("Bootloader Recovery"),
 		   pixmap=gui.readImageFromFile("upgrade.png"),
-                   descr=_("Choose this option if you would like to upgrade "
-                           "your existing %s system.  This option will "
+                   descr=_("Choose this option if you would like to recover "
+                           "your existing %s system bootloader. This option will "
                            "preserve the existing data on your storage "
                            "device(s).") % productName)
 
@@ -125,7 +125,7 @@ class UpgradeExamineWindow (InstallWindow):
         vbox.pack_start(b, False)
         self.root = self.parts[0]
 
-	uplabelstr = _("<b>Which %s installation would you like to upgrade?</b>") % productName
+	uplabelstr = _("<b>Which %s installation would you like to recover?</b>") % productName
 	self.uplabel = gtk.Label(uplabelstr)
         self.uplabel.set_use_markup(True)
         self.uplabel.set_alignment(0, 0)
