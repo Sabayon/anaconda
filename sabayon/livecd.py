@@ -54,7 +54,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
     def __init__(self, anaconda):
         backend.AnacondaBackend.__init__(self, anaconda)
         flags.livecdInstall = True
-        self.supportsUpgrades = False
+        self.supportsUpgrades = True
         self.supportsPackageSelection = False
         self._root = anaconda.rootPath
 
@@ -93,9 +93,22 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._entropy = Entropy()
         self._entropy.connect_progress(self._progress)
         self._sabayon_install = sabayon.utils.SabayonInstall(anaconda)
+        # We use anaconda.upgrade as bootloader recovery step
+        self._bootloader_recovery = anaconda.upgrade
 
     def doInstall(self, anaconda):
         log.info("Preparing to install Sabayon")
+
+        # Disable internal Anaconda bootloader setup, doesn't support GRUB2
+        anaconda.dispatch.skipStep("instbootloader", skip = 1)
+
+        if self._bootloader_recovery:
+            log.info("Preparing to recover Sabayon")
+            self._progress.set_label(_("Recovering Sabayon."))
+            self._progress.set_fraction(0.0)
+            return
+        else:
+            log.info("Preparing to install Sabayon")
 
         self._progress.set_label(_("Installing Sabayon onto hard drive."))
         self._progress.set_fraction(0.0)
@@ -163,14 +176,16 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # Write critical configuration not automatically written
         self.anaconda.storage.fsset.write()
 
-        # HACK: since Anaconda doesn't support grub2 yet
-        # Grub configuration is disabled
-        # and this code overrides it
-        encrypted = self._setup_grub2()
-        if encrypted:
-            # HACK: since swap device path value is potentially changed
-            # it is required to rewrite the fstab (circular dependency, sigh)
-            self.anaconda.storage.fsset.write()
+        if not self.anaconda.dispatch.stepInSkipList("bootloader"):
+
+            # HACK: since Anaconda doesn't support grub2 yet
+            # Grub configuration is disabled
+            # and this code overrides it
+            encrypted = self._setup_grub2()
+            if encrypted:
+                # HACK: since swap device path value is potentially changed
+                # it is required to rewrite the fstab (circular dependency, sigh)
+                self.anaconda.storage.fsset.write()
 
         self._copy_logs()
 
