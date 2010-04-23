@@ -24,7 +24,7 @@ from iw_gui import *
 
 from constants import *
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
+from anaconda_i18n import _
 
 class WelcomeWindow (InstallWindow):
 

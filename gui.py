@@ -47,7 +47,7 @@ import xutils
 import imputil
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
+from anaconda_i18n import _
 
 import logging
 log = logging.getLogger("anaconda")
@@ -1524,3 +1524,6 @@ class InstallControlState:
 
     def getICW (self):
         return self.cw
+
+# module loaded, switch to unicode gettext
+os.environ['ANACONDA_UNICODE'] = "1"

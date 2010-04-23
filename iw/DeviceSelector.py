@@ -23,7 +23,7 @@ import gtk.glade
 import gui
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
+from anaconda_i18n import _
 
 # The column that holds a python object containing information about the
 # device in each row.  This value really shouldn't be overridden.

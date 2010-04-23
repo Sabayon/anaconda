@@ -1,7 +1,7 @@
 #
-# iw_gui.py: install window base class
+# i18n.py - _() provider
 #
-# Copyright (C) 2000, 2001, 2002  Red Hat, Inc.  All rights reserved.
+# Copyright 2010 - Fabio Erculiani
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,38 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
-from constants import *
+import os
 import gettext
-from anaconda_i18n import _
 
-class InstallWindow:
-
-    windowTitle = None
-
-    def __init__ (self,ics):
-        self.ics = ics
-
-	if self.windowTitle:
-	    ics.setTitle (_(self.windowTitle))
-
-    def getNext (self):
-	return None
-
-    def renderCallback(self):
-	return None
-
-    def getPrev (self):
-	return None
-
-    def getScreen (self):
-        pass
-
-    def getICS (self):
-        return self.ics
-
-    def fixUp (self):
-        pass
-
-    def focus(self):
-        pass
+def _(x):
+    tr_x = gettext.ldgettext("anaconda", x)
+    if os.getenv("ANACONDA_UNICODE"):
+        return tr_x.decode("raw_unicode_escape")
+    return tr_x

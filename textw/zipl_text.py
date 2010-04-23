@@ -26,7 +26,7 @@ from constants import *
 from storage.dasd import getDasdPorts
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
+from anaconda_i18n import _
 
 class ZiplWindow:
     def __call__(self, screen, anaconda):

@@ -30,7 +30,7 @@ import logging
 log = logging.getLogger("anaconda")
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
+from anaconda_i18n import _
 P_ = lambda x, y, z: gettext.ldngettext("anaconda", x, y, z)
 
 def getDasdPorts():

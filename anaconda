@@ -855,7 +855,7 @@ if __name__ == "__main__":
     udev_settle()
 
     import gettext
-    _ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
+    from anaconda_i18n import _
 
     anaconda = Anaconda()
     warnings.showwarning = AnacondaShowWarning

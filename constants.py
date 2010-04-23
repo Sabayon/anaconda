@@ -20,7 +20,7 @@
 #
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
+from anaconda_i18n import _
 N_ = lambda x: x
 
 BETANAG = 0

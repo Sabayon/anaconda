@@ -22,7 +22,7 @@ from constants_text import *
 from constants import *
 import sys
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
+from anaconda_i18n import _
 
 class WelcomeWindow:
     def __call__(self, screen, anaconda):

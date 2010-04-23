@@ -31,7 +31,7 @@ from flags import flags
 from storage.deviceaction import *
 
 import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x).decode("raw_unicode_escape")
+from anaconda_i18n import _
 
 class FilterTypeWindow(InstallWindow):
     def __init__(self, ics):
