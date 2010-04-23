@@ -105,6 +105,12 @@ fi
 
 kill_mounts
 
+for arg in $*; do
+    if [ "${arg}" = "--text" ]; then
+        reset
+    fi
+done
+
 if [ "${ANACONDA_RC}" = "100" ] || [ -f "/tmp/__anaconda_reboot__" ]; then
     # reboot
     reboot -f
