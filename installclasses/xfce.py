@@ -82,7 +82,7 @@ class InstallClass(BaseInstallClass):
         except ValueError:
             return True
 
-        return newVer > oldVer
+        return newVer >= oldVer
 
     def __init__(self):
         BaseInstallClass.__init__(self)
