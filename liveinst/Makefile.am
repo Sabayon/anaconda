@@ -20,7 +20,7 @@
 SUBDIRS = console.apps pam.d
 
 if IS_LIVEINST_ARCH
-dist_sbin_SCRIPTS  = liveinst liveinst-update
+dist_sbin_SCRIPTS  = liveinst liveinst-update liveinst-update-quick
 
 desktopdir         = $(datadir)/applications
 desktop_DATA       = liveinst.desktop
