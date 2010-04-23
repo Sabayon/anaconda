@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda.master.es\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-04-11 21:22+0200\n"
+"POT-Creation-Date: 2010-04-23 14:54+0200\n"
 "PO-Revision-Date: 2010-03-25 11:30-0300\n"
 "Last-Translator: Claudio Rodrigo Pereyra Diaz <claudio@pereyradiaz.com.ar>\n"
 "Language-Team: Spanish <es@li.org>\n"
@@ -87,16 +87,16 @@ msgstr "Presione <intro> para entrar a un shell"
 # ../textw/silo_text.py:110 ../textw/silo_text.py:147
 # ../textw/silo_text.py:160 ../xserver.py:51
 #: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
-#: rescue.py:466 text.py:656 loader/cdinstall.c:228 loader/cdinstall.c:232
+#: rescue.py:466 text.py:657 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
 #: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
 #: loader/driverdisk.c:266 loader/driverdisk.c:422 loader/driverdisk.c:460
 #: loader/driverdisk.c:491 loader/driverdisk.c:526 loader/driverdisk.c:542
 #: loader/driverdisk.c:554 loader/driverdisk.c:562 loader/driverdisk.c:722
 #: loader/driverdisk.c:761 loader/driverselect.c:79 loader/driverselect.c:179
-#: loader/hdinstall.c:115 loader/hdinstall.c:257 loader/hdinstall.c:315
-#: loader/hdinstall.c:349 loader/hdinstall.c:421 loader/hdinstall.c:464
-#: loader/hdinstall.c:477 loader/kbd.c:119 loader/kickstart.c:132
+#: loader/hdinstall.c:115 loader/hdinstall.c:260 loader/hdinstall.c:318
+#: loader/hdinstall.c:352 loader/hdinstall.c:424 loader/hdinstall.c:467
+#: loader/hdinstall.c:480 loader/kbd.c:119 loader/kickstart.c:132
 #: loader/kickstart.c:142 loader/kickstart.c:184 loader/kickstart.c:189
 #: loader/kickstart.c:296 loader/kickstart.c:328 loader/kickstart.c:510
 #: loader/lang.c:114 loader/lang.c:373 loader/loader.c:429 loader/loader.c:465
@@ -283,7 +283,7 @@ msgstr ""
 # ../textw/upgrade_text.py:190 ../textw/xconfig_text.py:422 ../upgrade.py:293
 # ../upgrade.py:305
 #: backend.py:169 image.py:289 livecd.py:198 livecd.py:400
-#: partIntfHelpers.py:237 text.py:354 text.py:358 yuminstall.py:416
+#: partIntfHelpers.py:237 text.py:355 text.py:359 yuminstall.py:416
 #: yuminstall.py:805 yuminstall.py:923 yuminstall.py:928 yuminstall.py:1190
 #: yuminstall.py:1249 yuminstall.py:1440 yuminstall.py:1462
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
@@ -295,20 +295,20 @@ msgstr ""
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
 #: loader/cdinstall.c:504 loader/driverdisk.c:266 loader/driverdisk.c:491
 #: loader/driverdisk.c:526 loader/driverdisk.c:554 loader/driverdisk.c:562
-#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:315
-#: loader/hdinstall.c:421 loader/hdinstall.c:464 loader/hdinstall.c:477
+#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:318
+#: loader/hdinstall.c:424 loader/hdinstall.c:467 loader/hdinstall.c:480
 #: loader/kickstart.c:296 loader/lang.c:114 loader/loader.c:429
 #: loader/loader.c:540 loader/loader.c:1194 loader/mediacheck.c:47
 #: loader/mediacheck.c:86 loader/mediacheck.c:93 loader/mediacheck.c:97
 #: loader/method.c:277 loader/method.c:351 loader/nfsinstall.c:279
 #: loader/nfsinstall.c:296 loader/telnetd.c:93 loader/urlinstall.c:137
 #: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urls.c:330
-#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1794
-#: storage/__init__.py:1881 textw/netconfig_text.py:282
+#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1785
+#: storage/__init__.py:1872 textw/netconfig_text.py:282
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:382
+#: textw/upgrade_text.py:188 sabayon/livecd.py:411
 msgid "Error"
 msgstr "Error"
 
@@ -336,8 +336,8 @@ msgstr "Error"
 # ../textw/bootloader_text.py:128 ../textw/bootloader_text.py:429
 # ../textw/partition_text.py:167 ../textw/upgrade_text.py:172
 # ../upgrade.py:240 ../upgrade.py:349 ../upgrade.py:366
-#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1102
-#: gui.py:1162 image.py:82 installinterfacebase.py:41 text.py:485 text.py:545
+#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1103
+#: gui.py:1163 image.py:82 installinterfacebase.py:41 text.py:486 text.py:546
 #: yuminstall.py:1418 yuminstall.py:1622 yuminstall.py:1657
 #: iw/blpasswidget.py:148 iw/upgrade_swap_gui.py:190
 #: iw/upgrade_swap_gui.py:198 iw/upgrade_swap_gui.py:205
@@ -363,13 +363,13 @@ msgstr ""
 # ../packages.py:630
 # ../packages.py:646
 # ../packages.py:647
-#: bootloader.py:60 gui.py:1053 gui.py:1198 gui.py:1403 image.py:91
+#: bootloader.py:60 gui.py:1054 gui.py:1199 gui.py:1406 image.py:91
 #: kickstart.py:156 livecd.py:205 livecd.py:407 packages.py:130 upgrade.py:56
 #: upgrade.py:237 yuminstall.py:257 yuminstall.py:703 yuminstall.py:925
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1975 storage/dasd.py:139 sabayon/livecd.py:389
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:418
 msgid "_Exit installer"
 msgstr "Salir d_el instalador"
 
@@ -378,7 +378,7 @@ msgstr "Salir d_el instalador"
 # ../rescue.py:99
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1976
+#: iw/partition_gui.py:1598 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "_Continuar"
 
@@ -426,8 +426,8 @@ msgstr "Completado"
 msgid "In progress"
 msgstr "En progreso"
 
-#: cmdline.py:89 gui.py:1193 kickstart.py:1214 kickstart.py:1222
-#: kickstart.py:1260 kickstart.py:1268 text.py:391
+#: cmdline.py:89 gui.py:1194 kickstart.py:1214 kickstart.py:1222
+#: kickstart.py:1260 kickstart.py:1268 text.py:392
 #, python-format
 msgid ""
 "The following error was found while parsing the kickstart configuration "
@@ -476,16 +476,16 @@ msgstr " con el proveedor de este software."
 msgid " against anaconda at %s"
 msgstr " contra el paquete anaconda en %s"
 
-#: gui.py:109
+#: gui.py:110
 msgid "An error occurred saving screenshots to disk."
 msgstr ""
 "Se ha producido un error al copiar en el disco las capturas de pantallas."
 
-#: gui.py:120
+#: gui.py:121
 msgid "Screenshots Copied"
 msgstr "Tomas de pantalla copiadas"
 
-#: gui.py:121
+#: gui.py:122
 msgid ""
 "The screenshots have been saved in the directory:\n"
 "\n"
@@ -500,20 +500,20 @@ msgstr ""
 "Puede acceder a ellas cuando reinicie su sistema y se registre como usuario "
 "root."
 
-#: gui.py:164
+#: gui.py:165
 msgid "Saving Screenshot"
 msgstr "Guardando toma de pantalla"
 
-#: gui.py:165
+#: gui.py:166
 #, python-format
 msgid "A screenshot named '%s' has been saved."
 msgstr "Se ha guardado una toma de pantalla llamada '%s'."
 
-#: gui.py:168
+#: gui.py:169
 msgid "Error Saving Screenshot"
 msgstr "Error guardando la toma de pantalla"
 
-#: gui.py:169
+#: gui.py:170
 msgid ""
 "An error occurred while saving the screenshot.  If this occurred during "
 "package installation, you may need to try several times for it to succeed."
@@ -525,11 +525,11 @@ msgstr ""
 # ../loader/loader.c:1483
 # ../loader/loader.c:1483
 # ../loader/loader.c:1483
-#: gui.py:510
+#: gui.py:511
 msgid "Installation Key"
 msgstr "Clave de instalación"
 
-#: gui.py:581 text.py:149
+#: gui.py:582 text.py:150
 msgid ""
 "Choose a passphrase for the encrypted devices. You will be prompted for this "
 "passphrase during system boot."
@@ -540,14 +540,14 @@ msgstr ""
 # ../textw/userauth_text.py:21
 # ../textw/userauth_text.py:22
 # ../textw/userauth_text.py:22
-#: gui.py:600 gui.py:608 text.py:187 text.py:197
+#: gui.py:601 gui.py:609 text.py:188 text.py:198
 msgid "Error with passphrase"
 msgstr "Error con la contraseña"
 
 # ../textw/userauth_text.py:59 ../textw/userauth_text.py:129
 # ../textw/userauth_text.py:60 ../textw/userauth_text.py:137
 # ../textw/userauth_text.py:60 ../textw/userauth_text.py:137
-#: gui.py:601 text.py:188
+#: gui.py:602 text.py:189
 msgid "The passphrases you entered were different.  Please try again."
 msgstr ""
 "Las contraseñas que ha ingresado son diferentes. Por favor inténtelo de "
@@ -556,11 +556,11 @@ msgstr ""
 # ../textw/userauth_text.py:121
 # ../textw/userauth_text.py:129
 # ../textw/userauth_text.py:129
-#: gui.py:609
+#: gui.py:610
 msgid "The passphrase must be at least eight characters long."
 msgstr "La contraseña debe tener al menos 8 caracteres de largo."
 
-#: gui.py:643 text.py:225
+#: gui.py:644 text.py:226
 #, python-format
 msgid ""
 "Device %s is encrypted. In order to access the device's contents during "
@@ -593,8 +593,8 @@ msgstr ""
 # ../textw/constants_text.py:24 ../textw/silo_text.py:147
 # ../textw/silo_text.py:165 ../textw/userauth_text.py:76
 # ../textw/welcome_text.py:48 ../textw/welcome_text.py:51
-#: gui.py:734 gui.py:1403 partIntfHelpers.py:157 partIntfHelpers.py:342
-#: text.py:100 text.py:101 iw/account_gui.py:130 loader/dirbrowser.c:129
+#: gui.py:735 gui.py:1406 partIntfHelpers.py:157 partIntfHelpers.py:342
+#: text.py:101 text.py:102 iw/account_gui.py:130 loader/dirbrowser.c:129
 #: loader/driverdisk.c:423 loader/kickstart.c:328 loader/loader.c:465
 #: loader/loader.c:577 textw/constants_text.py:48
 msgid "Cancel"
@@ -603,11 +603,11 @@ msgstr "Cancelar"
 # ../text.py:265 ../text.py:266
 # ../text.py:265 ../text.py:266
 # ../text.py:266 ../text.py:267
-#: gui.py:746 gui.py:747 gui.py:863 gui.py:864 ui/anaconda.glade.h:3
+#: gui.py:747 gui.py:748 gui.py:864 gui.py:865 ui/anaconda.glade.h:3
 msgid "_Debug"
 msgstr "_Depurar"
 
-#: gui.py:1103 text.py:486
+#: gui.py:1104 text.py:487
 #, python-format
 msgid ""
 "Error processing drive:\n"
@@ -639,26 +639,26 @@ msgstr ""
 # ../gui.py:113 ../text.py:284
 # ../gui.py:113 ../text.py:284
 # ../gui.py:113 ../text.py:285
-#: gui.py:1112 gui.py:1170 text.py:495 text.py:553
+#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
 msgid "_Ignore"
 msgstr "_Ignorar"
 
 # ../gui.py:113 ../text.py:284
 # ../gui.py:113 ../text.py:284
 # ../gui.py:113 ../text.py:285
-#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
+#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
 msgid "Ignore _all"
 msgstr "_Ignorar todo"
 
-#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
+#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
 msgid "_Re-initialize"
 msgstr "_Reinicializar"
 
-#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
+#: gui.py:1116 gui.py:1174 text.py:499 text.py:557
 msgid "Re-ini_tialize all"
 msgstr "_Reinicializar todo"
 
-#: gui.py:1163 text.py:546
+#: gui.py:1164 text.py:547
 #, python-format
 msgid ""
 "Error processing LVM.\n"
@@ -676,7 +676,7 @@ msgstr ""
 # ../loader/kickstart.c:59
 # ../loader/kickstart.c:59
 # ../loader/kickstart.c:59
-#: gui.py:1195 text.py:393
+#: gui.py:1196 text.py:394
 msgid "Error Parsing Kickstart Config"
 msgstr "Error al analizar la configuración kickstart"
 
@@ -695,7 +695,7 @@ msgstr "Error al analizar la configuración kickstart"
 # ../textw/xconfig_text.py:377 ../textw/xconfig_text.py:384
 # ../textw/xconfig_text.py:480 ../textw/xconfig_text.py:481
 # ../textw/xconfig_text.py:500 ../textw/xconfig_text.py:501
-#: gui.py:1223
+#: gui.py:1224
 msgid "default:LTR"
 msgstr "Por defecto:LTR"
 
@@ -746,11 +746,11 @@ msgstr "Por defecto:LTR"
 # ../textw/upgrade_text.py:160 ../textw/upgrade_text.py:167
 # ../textw/upgrade_text.py:190 ../textw/xconfig_text.py:422 ../upgrade.py:293
 # ../upgrade.py:305
-#: gui.py:1303 text.py:621
+#: gui.py:1304 text.py:622
 msgid "Error!"
 msgstr "¡Error!"
 
-#: gui.py:1304 text.py:622
+#: gui.py:1305 text.py:623
 #, python-format
 msgid ""
 "An error occurred when attempting to load an installer interface component.\n"
@@ -768,29 +768,23 @@ msgstr ""
 # ../rescue.py:134
 # ../iw/congrats_gui.py:28 ../iw/congrats_gui.py:85 ../rescue.py:130
 # ../rescue.py:134
-#: gui.py:1309 image.py:164 image.py:194 packages.py:328
-#: storage/__init__.py:1793
+#: gui.py:1310 gui.py:1314 image.py:164 image.py:194 packages.py:328
+#: storage/__init__.py:1784
 msgid "_Exit"
 msgstr "_Salir"
 
 # ../gui.py:112 ../loader/net.c:277 ../loader/net.c:404 ../text.py:283
 # ../gui.py:112 ../loader/net.c:277 ../loader/net.c:404 ../text.py:283
 # ../gui.py:112 ../loader/net.c:277 ../loader/net.c:404 ../text.py:284
-#: gui.py:1310 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
+#: gui.py:1311 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1446
 msgid "_Retry"
 msgstr "_Volver a intentar"
 
-#: gui.py:1312 storage/partitioning.py:276
-msgid "The system will now reboot."
+#: gui.py:1313
+#, fuzzy
+msgid "The installer will now exit."
 msgstr "El sistema será reiniciado."
-
-# ../iw/partition_gui.py:1516
-# ../iw/partition_gui.py:1518
-# ../iw/partition_gui.py:1526
-#: gui.py:1313 image.py:251 packages.py:332 yuminstall.py:1487
-msgid "_Reboot"
-msgstr "_Reiniciar"
 
 # ../iw/congrats_gui.py:27 ../iw/congrats_gui.py:77 ../rescue.py:130
 # ../rescue.py:134
@@ -798,28 +792,28 @@ msgstr "_Reiniciar"
 # ../rescue.py:134
 # ../iw/congrats_gui.py:28 ../iw/congrats_gui.py:85 ../rescue.py:130
 # ../rescue.py:134
-#: gui.py:1315
+#: gui.py:1316
 msgid "Exiting"
 msgstr "Saliendo"
 
 # ../packages.py:630
 # ../packages.py:646
 # ../packages.py:647
-#: gui.py:1400 livecd.py:126 text.py:270 upgrade.py:228 sabayon/livecd.py:67
+#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:68
 msgid "Exit installer"
 msgstr "Salir del instalador"
 
 # ../partitioning.py:1555
 # ../partitioning.py:1575
 # ../partitioning.py:1578
-#: gui.py:1401
+#: gui.py:1404
 msgid "Are you sure you wish to exit the installer?"
 msgstr "¿Está seguro que desea salir de la instalación?"
 
 # ../packages.py:630
 # ../packages.py:646
 # ../packages.py:647
-#: gui.py:1410
+#: gui.py:1413
 #, python-format
 msgid "%s Installer"
 msgstr "Programa de instalación %s"
@@ -827,14 +821,14 @@ msgstr "Programa de instalación %s"
 # ../gui.py:706
 # ../gui.py:706
 # ../gui.py:706
-#: gui.py:1416
+#: gui.py:1419
 msgid "Unable to load title bar"
 msgstr "¡Ha sido imposible cargar la barra de título!"
 
 # ../gui.py:791
 # ../gui.py:791
 # ../gui.py:791
-#: gui.py:1483
+#: gui.py:1486
 msgid "Install Window"
 msgstr "Instalar ventana"
 
@@ -911,6 +905,13 @@ msgstr ""
 "Por favor téngalos listos antes de seguir con la instalación. Si necesita "
 "abortar la instalación y salir por favor seleccione \"Reiniciar\"."
 
+# ../iw/partition_gui.py:1516
+# ../iw/partition_gui.py:1518
+# ../iw/partition_gui.py:1526
+#: image.py:251 packages.py:332 yuminstall.py:1487
+msgid "_Reboot"
+msgstr "_Reiniciar"
+
 # ../gui.py:603 ../loader/cdrom.c:34 ../loader/devices.c:93
 # ../loader/devices.c:238 ../loader/devices.c:335 ../loader/lang.c:596
 # ../loader/loader.c:323 ../loader/loader.c:816 ../loader/loader.c:853
@@ -940,7 +941,7 @@ msgstr ""
 # ../textw/silo_text.py:110 ../textw/userauth_text.py:185
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:388
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:417
 msgid "_Back"
 msgstr "_Atrás"
 
@@ -1217,7 +1218,7 @@ msgstr ""
 # ../loader/loader.c:1214
 # ../loader/loader.c:1214
 # ../loader/loader.c:1214
-#: livecd.py:121 sabayon/livecd.py:62
+#: livecd.py:121 sabayon/livecd.py:63
 msgid "Unable to find image"
 msgstr "No se pudo encontrar la imagen"
 
@@ -1258,7 +1259,7 @@ msgstr ""
 "Realizando los cambios de post-instalación al sistema de archivos. Esto "
 "puede tardar varios minutos."
 
-#: livecd.py:401 sabayon/livecd.py:383
+#: livecd.py:401 sabayon/livecd.py:412
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -1893,7 +1894,7 @@ msgstr "¿Desea arrancar las tarjetas de red en el sistema?"
 # ../textw/bootdisk_text.py:26 ../textw/bootloader_text.py:76
 # ../textw/constants_text.py:32 ../textw/upgrade_text.py:252
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:203 textw/constants_text.py:56 sabayon/utils.py:874
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:886
 msgid "Yes"
 msgstr "Sí"
 
@@ -1916,7 +1917,7 @@ msgstr "Sí"
 # ../textw/constants_text.py:36 ../textw/upgrade_text.py:252
 # ../textw/upgrade_text.py:259
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:874
+#: textw/constants_text.py:60 sabayon/utils.py:886
 msgid "No"
 msgstr "No"
 
@@ -1987,7 +1988,7 @@ msgstr "Modo lectura"
 # ../textw/bootdisk_text.py:90 ../textw/silo_text.py:36
 # ../textw/upgrade_text.py:118
 #: rescue.py:295 rescue.py:297 loader/cdinstall.c:248 loader/cdinstall.c:251
-#: loader/method.c:324 storage/__init__.py:1793 textw/upgrade_text.py:139
+#: loader/method.c:324 storage/__init__.py:1784 textw/upgrade_text.py:139
 msgid "Skip"
 msgstr "Omitir"
 
@@ -2011,7 +2012,8 @@ msgstr "¿Qué dispositivo contiene la partición root de su instalación?"
 # ../rescue.py:134
 # ../iw/congrats_gui.py:28 ../iw/congrats_gui.py:85 ../rescue.py:130
 # ../rescue.py:134
-#: rescue.py:332 rescue.py:336 text.py:626 text.py:628
+#: rescue.py:332 rescue.py:336 text.py:627 text.py:629
+#: textw/complete_text.py:31
 msgid "Exit"
 msgstr "Salir"
 
@@ -2101,11 +2103,11 @@ msgstr ""
 msgid "Your system is mounted under the %s directory."
 msgstr "El sistema está montado bajo el directorio %s."
 
-#: text.py:154
+#: text.py:155
 msgid "Passphrase for encrypted device"
 msgstr "Contraseña del dispositivo encriptado"
 
-#: text.py:167
+#: text.py:168
 msgid "Also add this passphrase to all existing encrypted devices"
 msgstr ""
 "también agregue esta contraseña a todos los dispositivos encriptados "
@@ -2114,32 +2116,32 @@ msgstr ""
 # ../textw/userauth_text.py:121
 # ../textw/userauth_text.py:129
 # ../textw/userauth_text.py:129
-#: text.py:198
+#: text.py:199
 #, python-format
 msgid "The passphrase must be at least %d character long."
 msgid_plural "The passphrase must be at least %d characters long."
 msgstr[0] "La contraseña debe tener al menos %d caracter de largo."
 msgstr[1] "La contraseña debe tener al menos %d caracteres de largo."
 
-#: text.py:232 ui/lukspassphrase.glade.h:6
+#: text.py:233 ui/lukspassphrase.glade.h:6
 msgid "Passphrase"
 msgstr "Contraseña"
 
-#: text.py:240 ui/lukspassphrase.glade.h:7
+#: text.py:241 ui/lukspassphrase.glade.h:7
 msgid "This is a global passphrase"
 msgstr "Esta es la contraseña global"
 
 # ../anaconda:410
 # ../anaconda:410
 # ../anaconda:410
-#: text.py:355 text.py:359
+#: text.py:356 text.py:360
 msgid "Repository editing is not available in text mode."
 msgstr "La edición de repositorios no está disponible en modo texto."
 
 # ../iw/welcome_gui.py:21 ../iw/welcome_gui.py:48
 # ../iw/welcome_gui.py:21 ../iw/welcome_gui.py:48
 # ../iw/welcome_gui.py:21 ../iw/welcome_gui.py:48
-#: text.py:421
+#: text.py:422
 #, python-format
 msgid "Welcome to %(productName)s for %(productArch)s"
 msgstr "Bienvenido a %(productName)s para %(productArch)s"
@@ -2147,7 +2149,7 @@ msgstr "Bienvenido a %(productName)s para %(productArch)s"
 # ../iw/welcome_gui.py:21 ../iw/welcome_gui.py:48
 # ../iw/welcome_gui.py:21 ../iw/welcome_gui.py:48
 # ../iw/welcome_gui.py:21 ../iw/welcome_gui.py:48
-#: text.py:423
+#: text.py:424
 #, python-format
 msgid "Welcome to %s"
 msgstr "Bienvenido a %s"
@@ -2155,7 +2157,7 @@ msgstr "Bienvenido a %s"
 # ../text.py:305
 # ../text.py:305
 # ../text.py:306
-#: text.py:425
+#: text.py:426
 msgid ""
 "  <Tab>/<Alt-Tab> between elements   |  <Space> selects   |  <F12> next "
 "screen"
@@ -2165,7 +2167,7 @@ msgstr ""
 # ../gui.py:112 ../loader/net.c:277 ../loader/net.c:404 ../text.py:283
 # ../gui.py:112 ../loader/net.c:277 ../loader/net.c:404 ../text.py:283
 # ../gui.py:112 ../loader/net.c:277 ../loader/net.c:404 ../text.py:284
-#: text.py:626 loader/net.c:109 loader/net.c:470 loader/net.c:525
+#: text.py:627 loader/net.c:109 loader/net.c:470 loader/net.c:525
 #: loader/net.c:667 loader/net.c:675 loader/net.c:1096 loader/net.c:1104
 msgid "Retry"
 msgstr "Volver a intentar"
@@ -2173,14 +2175,14 @@ msgstr "Volver a intentar"
 # ../text.py:389
 # ../text.py:395
 # ../text.py:396
-#: text.py:652
+#: text.py:653
 msgid "Cancelled"
 msgstr "Cancelada"
 
 # ../text.py:390
 # ../text.py:396
 # ../text.py:397
-#: text.py:653
+#: text.py:654
 msgid "I can't go to the previous step from here. You will have to try again."
 msgstr "No puede retroceder desde aquí. Tendrá que intentarlo de nuevo. "
 
@@ -2448,28 +2450,28 @@ msgstr ""
 # ../loader/urls.c:357 ../textw/userauth_text.py:37
 # ../iw/account_gui.py:187 ../iw/bootloaderpassword_gui.py:87
 # ../loader/urls.c:357 ../textw/userauth_text.py:37
-#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47
+#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47 textw/userauth_text.py:134
 msgid "Password:"
 msgstr "Contraseña:"
 
 # ../textw/userauth_text.py:94
 # ../textw/userauth_text.py:102
 # ../textw/userauth_text.py:102
-#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49
+#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49 textw/userauth_text.py:136
 msgid "Password (confirm):"
 msgstr "Contraseña (confirmar):"
 
 # ../textw/userauth_text.py:58 ../textw/userauth_text.py:128
 # ../textw/userauth_text.py:59 ../textw/userauth_text.py:136
 # ../textw/userauth_text.py:59 ../textw/userauth_text.py:136
-#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70
+#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70 textw/userauth_text.py:162
 msgid "Password Mismatch"
 msgstr "Contraseñas distintas"
 
 # ../textw/userauth_text.py:59 ../textw/userauth_text.py:129
 # ../textw/userauth_text.py:60 ../textw/userauth_text.py:137
 # ../textw/userauth_text.py:60 ../textw/userauth_text.py:137
-#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71
+#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71 textw/userauth_text.py:163
 msgid "The passwords you entered were different. Please try again."
 msgstr ""
 "Las contraseñas que ha introducido son diferentes. Por favor inténtelo de "
@@ -2478,7 +2480,7 @@ msgstr ""
 # ../textw/userauth_text.py:53 ../textw/userauth_text.py:120
 # ../textw/userauth_text.py:54 ../textw/userauth_text.py:128
 # ../textw/userauth_text.py:54 ../textw/userauth_text.py:128
-#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66
+#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66 textw/userauth_text.py:158
 msgid "Password Length"
 msgstr "Longitud de la contraseña"
 
@@ -3050,7 +3052,7 @@ msgstr "Bloq Mayús está activado."
 # ../textw/userauth_text.py:22
 # ../textw/userauth_text.py:22
 #: iw/account_gui.py:102 iw/account_gui.py:110 iw/account_gui.py:117
-#: iw/account_gui.py:137 textw/userauth_text.py:74
+#: iw/account_gui.py:137 textw/userauth_text.py:74 textw/userauth_text.py:166
 msgid "Error with Password"
 msgstr "Error con la contraseña"
 
@@ -3081,7 +3083,7 @@ msgstr "La contraseña de root debe ser al menos de 6 caracteres de largo."
 # ../textw/userauth_text.py:93
 # ../textw/userauth_text.py:101
 # ../textw/userauth_text.py:101
-#: iw/account_gui.py:127 textw/userauth_text.py:83
+#: iw/account_gui.py:127 textw/userauth_text.py:83 textw/userauth_text.py:190
 msgid "Weak Password"
 msgstr "Contraseña débil"
 
@@ -3097,7 +3099,7 @@ msgstr "Ha establecido una contraseña débil: %s"
 msgid "Use Anyway"
 msgstr "Utilizar de todos modos"
 
-#: iw/account_gui.py:138 textw/userauth_text.py:75
+#: iw/account_gui.py:138 textw/userauth_text.py:75 textw/userauth_text.py:167
 msgid ""
 "Requested password contains non-ASCII characters, which are not allowed."
 msgstr ""
@@ -3459,7 +3461,7 @@ msgstr ""
 msgid "Congratulations"
 msgstr "Enhorabuena"
 
-#: iw/congrats_gui.py:74 textw/complete_text.py:38
+#: iw/congrats_gui.py:74 textw/complete_text.py:39
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -3468,19 +3470,19 @@ msgstr ""
 "Felicitaciones, su instalación de %s ha finalizado.\n"
 "\n"
 
-#: iw/congrats_gui.py:77 textw/complete_text.py:41
+#: iw/congrats_gui.py:77 textw/complete_text.py:42
 msgid "Shutdown"
 msgstr "Apagar"
 
-#: iw/congrats_gui.py:79 textw/complete_text.py:43
+#: iw/congrats_gui.py:79 textw/complete_text.py:44
 msgid "Please shutdown to use the installed system.\n"
 msgstr "Por favor, apague el sistema para usar el sistema instalado.\n"
 
-#: iw/congrats_gui.py:81 textw/complete_text.py:45
+#: iw/congrats_gui.py:81 textw/complete_text.py:46
 msgid "Please reboot to use the installed system.\n"
 msgstr "Por favor, reinicie el sistema para usar el sistema instalado.\n"
 
-#: iw/congrats_gui.py:86 textw/complete_text.py:50
+#: iw/congrats_gui.py:86 textw/complete_text.py:51
 msgid ""
 "Note that updates may be available to ensure the proper functioning of your "
 "system and installation of these updates is recommended after the reboot."
@@ -3489,7 +3491,7 @@ msgstr ""
 "funcionamiento apropiado de su sistema y la instalación de esas "
 "actualizaciones es recomendada luego de reiniciar."
 
-#: iw/congrats_gui.py:90 textw/complete_text.py:54
+#: iw/congrats_gui.py:90 textw/complete_text.py:55
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -3528,18 +3530,20 @@ msgstr ""
 "software y los datos existentes podrían ser sobreescritos dependiendo de las "
 "opciones de configuración elegidas."
 
-# ../installclasses/upgradeclass.py:8
-# ../installclasses/upgradeclass.py:8
-# ../installclasses/upgradeclass.py:8
+# ../bootloader.py:656
+# ../bootloader.py:682
+# ../bootloader.py:710
 #: iw/examine_gui.py:67
-msgid "Upgrade an Existing Installation"
-msgstr "Actualizar una Instalación Existente "
+#, fuzzy
+msgid "Bootloader Recovery"
+msgstr "Dispositivo del gestor de arranque"
 
 #: iw/examine_gui.py:69
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"Choose this option if you would like to upgrade your existing %s system.  "
-"This option will preserve the existing data on your storage device(s)."
+"Choose this option if you would like to recover your existing %s system "
+"bootloader. This option will preserve the existing data on your storage "
+"device(s)."
 msgstr ""
 "Seleccione esta opción si desea actualizar su sistema %s existente. Esta "
 "opción mantendrá los datos existentes en sus unidades de almacenamiento . "
@@ -3559,8 +3563,8 @@ msgstr ""
 # ../loader/loader.c:322
 # ../loader/loader.c:322
 #: iw/examine_gui.py:128
-#, python-format
-msgid "<b>Which %s installation would you like to upgrade?</b>"
+#, fuzzy, python-format
+msgid "<b>Which %s installation would you like to recover?</b>"
 msgstr "<b>¿Qué instalación de %s desearía actualizar?</b>"
 
 # ../loader/urls.c:247
@@ -4494,7 +4498,7 @@ msgstr "Tipo"
 # ../iw/partition_gui.py:1533
 # ../iw/partition_gui.py:1535
 # ../iw/partition_gui.py:1543
-#: iw/partition_gui.py:612 storage/__init__.py:1793
+#: iw/partition_gui.py:612 storage/__init__.py:1784
 msgid "Format"
 msgstr "Formato"
 
@@ -4612,7 +4616,7 @@ msgstr "Dispositivo RAID"
 # ../loader/loader.c:816
 # ../loader/loader.c:816
 # ../loader/loader.c:816
-#: iw/partition_gui.py:1017 loader/hdinstall.c:203
+#: iw/partition_gui.py:1017 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "Discos duros"
 
@@ -5708,7 +5712,7 @@ msgstr "Disco no Encontrado"
 # ../textw/silo_text.py:110 ../textw/userauth_text.py:185
 #: loader/cdinstall.c:431 loader/driverdisk.c:423 loader/driverdisk.c:461
 #: loader/driverdisk.c:542 loader/driverselect.c:79 loader/driverselect.c:153
-#: loader/driverselect.c:179 loader/hdinstall.c:203 loader/hdinstall.c:257
+#: loader/driverselect.c:179 loader/hdinstall.c:206 loader/hdinstall.c:260
 #: loader/kbd.c:119 loader/loader.c:506 loader/loader.c:523
 #: loader/loader.c:1375 loader/loader.c:1408 loader/net.c:578 loader/net.c:949
 #: loader/net.c:1848 loader/net.c:1867 loader/nfsinstall.c:91
@@ -5875,7 +5879,7 @@ msgstr "¿Desea cargar más discos de controladores? "
 # ../loader/kickstart.c:58 ../loader/kickstart.c:68 ../loader/kickstart.c:107
 # ../loader/kickstart.c:58 ../loader/kickstart.c:68 ../loader/kickstart.c:107
 # ../loader/kickstart.c:58 ../loader/kickstart.c:68 ../loader/kickstart.c:107
-#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:349
+#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:352
 #: loader/kickstart.c:132 loader/kickstart.c:142 loader/kickstart.c:184
 #: loader/kickstart.c:189 loader/kickstart.c:510 loader/modules.c:382
 #: loader/modules.c:398 loader/net.c:1557 loader/net.c:1578
@@ -5984,7 +5988,7 @@ msgstr ""
 # ../loader/loader.c:817
 # ../loader/loader.c:817
 # ../loader/loader.c:817
-#: loader/hdinstall.c:204
+#: loader/hdinstall.c:207
 msgid ""
 "You don't seem to have any hard drives on your system! Would you like to "
 "configure additional devices?"
@@ -5995,7 +5999,7 @@ msgstr ""
 # ../loader/loader.c:817
 # ../loader/loader.c:817
 # ../loader/loader.c:817
-#: loader/hdinstall.c:217
+#: loader/hdinstall.c:220
 #, c-format
 msgid ""
 "What partition and directory on that partition holds the installation image "
@@ -6009,21 +6013,21 @@ msgstr ""
 # ../loader/loader.c:845
 # ../loader/loader.c:845
 # ../loader/loader.c:845
-#: loader/hdinstall.c:241
+#: loader/hdinstall.c:244
 msgid "Directory holding image:"
 msgstr "Directorio que contiene las imágenes:"
 
 # ../loader/loader.c:865
 # ../loader/loader.c:865
 # ../loader/loader.c:865
-#: loader/hdinstall.c:269
+#: loader/hdinstall.c:272
 msgid "Select Partition"
 msgstr "Selección de la Partición"
 
 # ../loader/loader.c:913
 # ../loader/loader.c:913
 # ../loader/loader.c:913
-#: loader/hdinstall.c:316
+#: loader/hdinstall.c:319
 #, c-format
 msgid "Device %s does not appear to contain an installation image."
 msgstr "El dispositivo %s no contiene una imagen de instalación."
@@ -6031,7 +6035,7 @@ msgstr "El dispositivo %s no contiene una imagen de instalación."
 # ../loader/net.c:723
 # ../loader/net.c:723
 # ../loader/net.c:723
-#: loader/hdinstall.c:350
+#: loader/hdinstall.c:353
 #, c-format
 msgid "Bad argument to HD kickstart method command: %s"
 msgstr "Argumento no válido para el comando HD del método kickstart: %s"
@@ -6039,11 +6043,11 @@ msgstr "Argumento no válido para el comando HD del método kickstart: %s"
 # ../image.py:63
 # ../image.py:63
 # ../image.py:63
-#: loader/hdinstall.c:422 loader/hdinstall.c:478
+#: loader/hdinstall.c:425 loader/hdinstall.c:481
 msgid "Cannot find kickstart file on hard drive."
 msgstr "No se puede encontrar el archivo kickstart en el disco duro."
 
-#: loader/hdinstall.c:465
+#: loader/hdinstall.c:468
 #, c-format
 msgid "Cannot find hard drive for BIOS disk %s"
 msgstr "No se pudo encontrar el disco duro para el disco BIOS %s"
@@ -7226,14 +7230,14 @@ msgstr ""
 # ../upgrade.py:77 ../upgrade.py:209
 # ../upgrade.py:77 ../upgrade.py:214
 # ../upgrade.py:77
-#: storage/__init__.py:1339 storage/__init__.py:1348
+#: storage/__init__.py:1330 storage/__init__.py:1339
 msgid "Dirty File Systems"
 msgstr "Sistemas de ficheros incorrectos"
 
 # ../upgrade.py:78
 # ../upgrade.py:78
 # ../upgrade.py:78
-#: storage/__init__.py:1340
+#: storage/__init__.py:1331
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -7250,7 +7254,7 @@ msgstr ""
 # ../upgrade.py:78
 # ../upgrade.py:78
 # ../upgrade.py:78
-#: storage/__init__.py:1349
+#: storage/__init__.py:1340
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -7261,7 +7265,7 @@ msgstr ""
 "sistema Linux. ¿Desea montarlos de todas formas?\n"
 "%s"
 
-#: storage/__init__.py:1826
+#: storage/__init__.py:1817
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -7278,7 +7282,7 @@ msgstr ""
 "es una partición swap de Linux del estilo viejo. Si quiere usar este espacio "
 "swap, debe reformatearlo con el nuevo estilo de partición swap de Linux."
 
-#: storage/__init__.py:1837
+#: storage/__init__.py:1828
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -7298,7 +7302,7 @@ msgstr ""
 "hibernando. Para realizar una actualización, por favor, apague su sistema en "
 "vez de hibernarlo."
 
-#: storage/__init__.py:1845
+#: storage/__init__.py:1836
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -7318,7 +7322,7 @@ msgstr ""
 "hibernando. Si está realizando una nueva instalación, asegúrese de "
 "configurar el instalador para dar formato a todas las particiones swap."
 
-#: storage/__init__.py:1857
+#: storage/__init__.py:1848
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -7338,7 +7342,7 @@ msgstr ""
 # ../fsset.py:734
 # ../fsset.py:771
 # ../fsset.py:803
-#: storage/__init__.py:1868
+#: storage/__init__.py:1859
 #, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -7359,7 +7363,7 @@ msgstr ""
 # ../fsset.py:734
 # ../fsset.py:771
 # ../fsset.py:803
-#: storage/__init__.py:1875
+#: storage/__init__.py:1866
 #, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -7378,14 +7382,14 @@ msgstr ""
 # ../textw/network_text.py:132
 # ../fsset.py:890 ../fsset.py:899
 # ../fsset.py:922 ../fsset.py:931
-#: storage/__init__.py:1938 storage/__init__.py:1950
+#: storage/__init__.py:1929 storage/__init__.py:1941
 msgid "Invalid mount point"
 msgstr "Punto de montaje no válido"
 
 # ../fsset.py:828
 # ../fsset.py:891
 # ../fsset.py:923
-#: storage/__init__.py:1939
+#: storage/__init__.py:1930
 #, python-format
 msgid ""
 "An error occurred when trying to create %s.  Some element of this path is "
@@ -7402,7 +7406,7 @@ msgstr ""
 # ../fsset.py:828
 # ../fsset.py:900
 # ../fsset.py:932
-#: storage/__init__.py:1951
+#: storage/__init__.py:1942
 #, python-format
 msgid ""
 "An error occurred when trying to create %(mountpoint)s: %(msg)s.  This is a "
@@ -7418,11 +7422,11 @@ msgstr ""
 # ../gui.py:476
 # ../gui.py:476
 # ../gui.py:476
-#: storage/__init__.py:1967 storage/__init__.py:1991
+#: storage/__init__.py:1958 storage/__init__.py:1982
 msgid "Unable to mount filesystem"
 msgstr "No se pudo montar el sistema de archivo"
 
-#: storage/__init__.py:1968
+#: storage/__init__.py:1959
 #, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s.  You may "
@@ -7434,7 +7438,7 @@ msgstr ""
 # ../fsset.py:828
 # ../fsset.py:900
 # ../fsset.py:932
-#: storage/__init__.py:1992
+#: storage/__init__.py:1983
 #, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s: %(msg)s. This "
@@ -7510,7 +7514,7 @@ msgstr "lvs falló para %s"
 # ../rescue.py:99
 # ../rescue.py:99
 #: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3281
+#: storage/devices.py:2799 storage/devices.py:3289
 msgid "Creating"
 msgstr "Creando"
 
@@ -7531,7 +7535,7 @@ msgstr "El conjunto RAID %d requiere por lo menos %d miembros"
 # ../fsset.py:142
 # ../fsset.py:145
 # ../fsset.py:146
-#: storage/devices.py:3282
+#: storage/devices.py:3290
 #, python-format
 msgid "Creating file %s"
 msgstr "Creando sistema de archivos %s"
@@ -7836,6 +7840,10 @@ msgstr ""
 "Esto puede suceder cuando no hay suficiente espacio en su unidad(es) de "
 "disco duro para la instalación. %(extra)s"
 
+#: storage/partitioning.py:276
+msgid "The system will now reboot."
+msgstr "El sistema será reiniciado."
+
 #: storage/zfcp.py:50
 msgid "You have not specified a device number or the number is invalid"
 msgstr "No ha especificado un número de dispositivo o el número es inválido"
@@ -7944,13 +7952,6 @@ msgstr ""
 msgid "Could not set zFCP device %(devnum)s offline (%(e)s)."
 msgstr "No se pudo sacar de línea al dispositivo zFCP %(devnum)s (%(e)s)."
 
-# ../iw/partition_gui.py:1516
-# ../iw/partition_gui.py:1518
-# ../iw/partition_gui.py:1526
-#: textw/complete_text.py:31
-msgid "Reboot"
-msgstr "Reiniciar"
-
 # ../textw/complete_text.py:25
 # ../textw/complete_text.py:25
 # ../textw/complete_text.py:25
@@ -7964,7 +7965,7 @@ msgstr "<Intro> para salir"
 # ../textw/complete_text.py:71
 # ../textw/complete_text.py:35 ../textw/complete_text.py:56
 # ../textw/complete_text.py:71
-#: textw/complete_text.py:61
+#: textw/complete_text.py:62
 msgid "Complete"
 msgstr "Completado"
 
@@ -8354,7 +8355,7 @@ msgstr "La contraseña de root debe ser al menos de 6 caracteres."
 # ../iw/package_gui.py:35 ../packages.py:42
 # ../iw/package_gui.py:35 ../packages.py:42
 # ../iw/package_gui.py:35 ../packages.py:43
-#: textw/userauth_text.py:84
+#: textw/userauth_text.py:84 textw/userauth_text.py:191
 #, python-format
 msgid ""
 "You have provided a weak password: %s\n"
@@ -8364,6 +8365,72 @@ msgstr ""
 "Ha establecido una contraseña débil: %s\n"
 "\n"
 "¿Desea continuar con esta contraseña?"
+
+# ../iw/silo_gui.py:28
+# ../iw/silo_gui.py:28
+# ../iw/silo_gui.py:28
+#: textw/userauth_text.py:111
+#, fuzzy
+msgid "User configuration"
+msgstr "Configuración de VNC"
+
+#: textw/userauth_text.py:114
+msgid "Setup a username for regular (non-administrative) use."
+msgstr ""
+
+# ../loader/urls.c:190
+# ../loader/urls.c:190
+# ../loader/urls.c:190
+#: textw/userauth_text.py:130
+#, fuzzy
+msgid "Username:"
+msgstr "Nombre de usuario"
+
+#: textw/userauth_text.py:132
+msgid "Full name:"
+msgstr ""
+
+# ../textw/userauth_text.py:54
+# ../textw/userauth_text.py:55
+# ../textw/userauth_text.py:55
+#: textw/userauth_text.py:159
+#, fuzzy
+msgid "User password must be at least 6 characters long."
+msgstr "La contraseña de root debe ser al menos de 6 caracteres."
+
+# ../iw/partition_gui.py:1159 ../iw/partition_gui.py:1168
+# ../iw/partition_gui.py:1206 ../iw/partition_gui.py:1468
+# ../textw/partition_text.py:749 ../textw/partition_text.py:766
+# ../textw/partition_text.py:891
+# ../iw/partition_gui.py:1161 ../iw/partition_gui.py:1170
+# ../iw/partition_gui.py:1208 ../iw/partition_gui.py:1470
+# ../textw/partition_text.py:749 ../textw/partition_text.py:766
+# ../textw/partition_text.py:891
+# ../iw/partition_gui.py:1162 ../iw/partition_gui.py:1171
+# ../iw/partition_gui.py:1209 ../iw/partition_gui.py:1477
+# ../textw/partition_text.py:750 ../textw/partition_text.py:772
+# ../textw/partition_text.py:901
+#: textw/userauth_text.py:172 textw/userauth_text.py:178
+#, fuzzy
+msgid "Error with username"
+msgstr "Error con el nombre de host"
+
+# ../loader/urls.c:190
+# ../loader/urls.c:190
+# ../loader/urls.c:190
+#: textw/userauth_text.py:173
+#, fuzzy
+msgid "Username too short"
+msgstr "Nombre de usuario"
+
+#: textw/userauth_text.py:179
+#, fuzzy
+msgid ""
+"Requested username contains non-ASCII characters or spaces, which are not "
+"allowed."
+msgstr ""
+"La contraseña solicitada contiene caracteres que no son ASCII y no son "
+"permitidos. "
 
 #: textw/welcome_text.py:29
 #, python-format
@@ -8422,6 +8489,14 @@ msgstr "Instalar el CD vivo en su disco rígido"
 # ../loader/loader.c:816
 #: liveinst/liveinst.desktop.in.h:3
 msgid "Install to Hard Drive"
+msgstr "Instalar en el Disco Duro"
+
+# ../loader/loader.c:816
+# ../loader/loader.c:816
+# ../loader/loader.c:816
+#: liveinst:5
+#, fuzzy
+msgid "Starting Install to Hard Drive"
 msgstr "Instalar en el Disco Duro"
 
 #: ui/GroupSelector.glade.h:1
@@ -9392,7 +9467,7 @@ msgstr "Galés"
 msgid "Zulu"
 msgstr "Zulú"
 
-#: sabayon/livecd.py:63
+#: sabayon/livecd.py:64
 #, fuzzy, python-format
 msgid ""
 "The given location [%s] isn't a valid %s live CD to use as an installation "
@@ -9401,10 +9476,18 @@ msgstr ""
 "La ubicación dada %s no es un CD vivo válido para usar como una fuente de "
 "instalación."
 
+# ../iw/silo_gui.py:28
+# ../iw/silo_gui.py:28
+# ../iw/silo_gui.py:28
+#: sabayon/livecd.py:107
+#, fuzzy
+msgid "Recovering Sabayon."
+msgstr "Configuración de VNC"
+
 # ../bootloader.py:656
 # ../bootloader.py:682
 # ../bootloader.py:710
-#: sabayon/livecd.py:95
+#: sabayon/livecd.py:113
 #, fuzzy
 msgid "Installing Sabayon onto hard drive."
 msgstr "Instalación del gestor de arranque."
@@ -9412,36 +9495,36 @@ msgstr "Instalación del gestor de arranque."
 # ../iw/silo_gui.py:28
 # ../iw/silo_gui.py:28
 # ../iw/silo_gui.py:28
-#: sabayon/livecd.py:107
+#: sabayon/livecd.py:125
 #, fuzzy
 msgid "Configuring Sabayon"
 msgstr "Configuración de VNC"
 
-#: sabayon/livecd.py:125
+#: sabayon/livecd.py:150
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:202
+#: sabayon/utils.py:214
 msgid "System Health Status Warning"
 msgstr ""
 
-#: sabayon/utils.py:348
+#: sabayon/utils.py:360
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "Configurando las Interfaces de Red"
 
-#: sabayon/utils.py:609
+#: sabayon/utils.py:621
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:611
+#: sabayon/utils.py:623
 msgid "Meh."
 msgstr ""
 
 # ../textw/progress_text.py:79
 # ../textw/progress_text.py:79
 # ../textw/progress_text.py:79
-#: sabayon/utils.py:612
+#: sabayon/utils.py:624
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "Instalación Fresca"
@@ -9449,12 +9532,12 @@ msgstr "Instalación Fresca"
 # ../packages.py:630
 # ../packages.py:646
 # ../packages.py:647
-#: sabayon/utils.py:642
+#: sabayon/utils.py:654
 #, fuzzy
 msgid "System Installation"
 msgstr "Post instalación"
 
-#: sabayon/utils.py:775
+#: sabayon/utils.py:787
 #, fuzzy
 msgid "Cleaning packages"
 msgstr "Paquete(s) antiguo(s)"
@@ -9462,7 +9545,7 @@ msgstr "Paquete(s) antiguo(s)"
 # ../iw/progress_gui.py:28
 # ../iw/progress_gui.py:28
 # ../iw/progress_gui.py:28
-#: sabayon/utils.py:800
+#: sabayon/utils.py:812
 #, fuzzy
 msgid "Cleaning package"
 msgstr "Paquete faltante "
@@ -9470,7 +9553,7 @@ msgstr "Paquete faltante "
 # ../loader/loader.c:1483
 # ../loader/loader.c:1483
 # ../loader/loader.c:1483
-#: sabayon/utils.py:840
+#: sabayon/utils.py:852
 #, fuzzy
 msgid "Installation complete"
 msgstr "Clave de instalación"
@@ -9478,7 +9561,7 @@ msgstr "Clave de instalación"
 # ../iw/language_gui.py:49 ../textw/language_text.py:44
 # ../iw/language_gui.py:49 ../textw/language_text.py:39
 # ../iw/language_gui.py:49 ../textw/language_text.py:39
-#: sabayon/utils.py:872
+#: sabayon/utils.py:884
 #, fuzzy
 msgid ""
 "This DVD contains many extra languages, would you like to keep them "
@@ -9488,14 +9571,26 @@ msgstr "¿Qué idioma le gustaría usar durante el proceso de instalación?"
 # ../textw/progress_text.py:79
 # ../textw/progress_text.py:79
 # ../textw/progress_text.py:79
-#: sabayon/utils.py:875
+#: sabayon/utils.py:887
 #, fuzzy
 msgid "Language packs installation"
 msgstr "Instalación del paquete"
 
-#: sabayon/utils.py:886
+#: sabayon/utils.py:898
 msgid "Generating list of files to copy"
 msgstr ""
+
+# ../installclasses/upgradeclass.py:8
+# ../installclasses/upgradeclass.py:8
+# ../installclasses/upgradeclass.py:8
+#~ msgid "Upgrade an Existing Installation"
+#~ msgstr "Actualizar una Instalación Existente "
+
+# ../iw/partition_gui.py:1516
+# ../iw/partition_gui.py:1518
+# ../iw/partition_gui.py:1526
+#~ msgid "Reboot"
+#~ msgstr "Reiniciar"
 
 # ../iw/partition_gui.py:1533
 # ../iw/partition_gui.py:1535

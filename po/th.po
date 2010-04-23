@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: th\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-04-11 21:22+0200\n"
+"POT-Creation-Date: 2010-04-23 14:54+0200\n"
 "PO-Revision-Date: 2009-09-09 10:08+0700\n"
 "Last-Translator: Manatsawin Hanmongkolchai <manatsawin@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -29,16 +29,16 @@ msgid "Press <enter> for a shell"
 msgstr "กด <enter> เพื่อเรียกเชลล์"
 
 #: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
-#: rescue.py:466 text.py:656 loader/cdinstall.c:228 loader/cdinstall.c:232
+#: rescue.py:466 text.py:657 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
 #: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
 #: loader/driverdisk.c:266 loader/driverdisk.c:422 loader/driverdisk.c:460
 #: loader/driverdisk.c:491 loader/driverdisk.c:526 loader/driverdisk.c:542
 #: loader/driverdisk.c:554 loader/driverdisk.c:562 loader/driverdisk.c:722
 #: loader/driverdisk.c:761 loader/driverselect.c:79 loader/driverselect.c:179
-#: loader/hdinstall.c:115 loader/hdinstall.c:257 loader/hdinstall.c:315
-#: loader/hdinstall.c:349 loader/hdinstall.c:421 loader/hdinstall.c:464
-#: loader/hdinstall.c:477 loader/kbd.c:119 loader/kickstart.c:132
+#: loader/hdinstall.c:115 loader/hdinstall.c:260 loader/hdinstall.c:318
+#: loader/hdinstall.c:352 loader/hdinstall.c:424 loader/hdinstall.c:467
+#: loader/hdinstall.c:480 loader/kbd.c:119 loader/kickstart.c:132
 #: loader/kickstart.c:142 loader/kickstart.c:184 loader/kickstart.c:189
 #: loader/kickstart.c:296 loader/kickstart.c:328 loader/kickstart.c:510
 #: loader/lang.c:114 loader/lang.c:373 loader/loader.c:429 loader/loader.c:465
@@ -141,7 +141,7 @@ msgstr ""
 "เป็นไปได้ว่าคุณไม่มีที่ว่างบนดิสก์"
 
 #: backend.py:169 image.py:289 livecd.py:198 livecd.py:400
-#: partIntfHelpers.py:237 text.py:354 text.py:358 yuminstall.py:416
+#: partIntfHelpers.py:237 text.py:355 text.py:359 yuminstall.py:416
 #: yuminstall.py:805 yuminstall.py:923 yuminstall.py:928 yuminstall.py:1190
 #: yuminstall.py:1249 yuminstall.py:1440 yuminstall.py:1462
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
@@ -153,25 +153,25 @@ msgstr ""
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
 #: loader/cdinstall.c:504 loader/driverdisk.c:266 loader/driverdisk.c:491
 #: loader/driverdisk.c:526 loader/driverdisk.c:554 loader/driverdisk.c:562
-#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:315
-#: loader/hdinstall.c:421 loader/hdinstall.c:464 loader/hdinstall.c:477
+#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:318
+#: loader/hdinstall.c:424 loader/hdinstall.c:467 loader/hdinstall.c:480
 #: loader/kickstart.c:296 loader/lang.c:114 loader/loader.c:429
 #: loader/loader.c:540 loader/loader.c:1194 loader/mediacheck.c:47
 #: loader/mediacheck.c:86 loader/mediacheck.c:93 loader/mediacheck.c:97
 #: loader/method.c:277 loader/method.c:351 loader/nfsinstall.c:279
 #: loader/nfsinstall.c:296 loader/telnetd.c:93 loader/urlinstall.c:137
 #: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urls.c:330
-#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1794
-#: storage/__init__.py:1881 textw/netconfig_text.py:282
+#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1785
+#: storage/__init__.py:1872 textw/netconfig_text.py:282
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:382
+#: textw/upgrade_text.py:188 sabayon/livecd.py:411
 msgid "Error"
 msgstr "เกิดข้อผิดพลาด"
 
-#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1102
-#: gui.py:1162 image.py:82 installinterfacebase.py:41 text.py:485 text.py:545
+#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1103
+#: gui.py:1163 image.py:82 installinterfacebase.py:41 text.py:486 text.py:546
 #: yuminstall.py:1418 yuminstall.py:1622 yuminstall.py:1657
 #: iw/blpasswidget.py:148 iw/upgrade_swap_gui.py:190
 #: iw/upgrade_swap_gui.py:198 iw/upgrade_swap_gui.py:205
@@ -190,19 +190,19 @@ msgstr ""
 "\n"
 "คุณต้องการติดตั้งต่อหรือไม่?"
 
-#: bootloader.py:60 gui.py:1053 gui.py:1198 gui.py:1403 image.py:91
+#: bootloader.py:60 gui.py:1054 gui.py:1199 gui.py:1406 image.py:91
 #: kickstart.py:156 livecd.py:205 livecd.py:407 packages.py:130 upgrade.py:56
 #: upgrade.py:237 yuminstall.py:257 yuminstall.py:703 yuminstall.py:925
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1975 storage/dasd.py:139 sabayon/livecd.py:389
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:418
 msgid "_Exit installer"
 msgstr "_ออกจากการติดตั้ง"
 
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1976
+#: iw/partition_gui.py:1598 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "_ต่อไป"
 
@@ -234,8 +234,8 @@ msgstr "เสร็จสมบูรณ์"
 msgid "In progress"
 msgstr "กำลังดำเนินการ"
 
-#: cmdline.py:89 gui.py:1193 kickstart.py:1214 kickstart.py:1222
-#: kickstart.py:1260 kickstart.py:1268 text.py:391
+#: cmdline.py:89 gui.py:1194 kickstart.py:1214 kickstart.py:1222
+#: kickstart.py:1260 kickstart.py:1268 text.py:392
 #, python-format
 msgid ""
 "The following error was found while parsing the kickstart configuration "
@@ -274,15 +274,15 @@ msgstr "กับผู้ให้บริการซอฟต์แวร์
 msgid " against anaconda at %s"
 msgstr "กับอนาคอนดาที่ %s"
 
-#: gui.py:109
+#: gui.py:110
 msgid "An error occurred saving screenshots to disk."
 msgstr "เกิดข้อผิดพลาดขณะบันทึกภาพหน้าจอลงดิสก์"
 
-#: gui.py:120
+#: gui.py:121
 msgid "Screenshots Copied"
 msgstr "ภาพหน้าจอถูกคัดลอกแล้ว"
 
-#: gui.py:121
+#: gui.py:122
 msgid ""
 "The screenshots have been saved in the directory:\n"
 "\n"
@@ -296,20 +296,20 @@ msgstr ""
 "\n"
 "คุณสามารถเข้าไปใช้งานได้เมื่อรีบูตและเข้าระบบเป็น root"
 
-#: gui.py:164
+#: gui.py:165
 msgid "Saving Screenshot"
 msgstr "กำลังบันทึกภาพหน้าจอ"
 
-#: gui.py:165
+#: gui.py:166
 #, python-format
 msgid "A screenshot named '%s' has been saved."
 msgstr "ภาพหน้าจอชื่อ %s ถูกบันทึกแล้ว"
 
-#: gui.py:168
+#: gui.py:169
 msgid "Error Saving Screenshot"
 msgstr "เกิดข้อผิดพลาดขณะบันทึกภาพหน้าจอ"
 
-#: gui.py:169
+#: gui.py:170
 msgid ""
 "An error occurred while saving the screenshot.  If this occurred during "
 "package installation, you may need to try several times for it to succeed."
@@ -317,29 +317,29 @@ msgstr ""
 "เกิดข้อผิดพลาดขณะบันทึกภาพหน้าจอ หากข้อผิดพลาดเกิดขึ้นระหว่างการติดตั้งแพ็กเกจ คุณอาจต้องลองอีก "
 "2-3 ครั้งจึงจะสำเร็จ"
 
-#: gui.py:510
+#: gui.py:511
 msgid "Installation Key"
 msgstr "คีย์ติดตั้ง"
 
-#: gui.py:581 text.py:149
+#: gui.py:582 text.py:150
 msgid ""
 "Choose a passphrase for the encrypted devices. You will be prompted for this "
 "passphrase during system boot."
 msgstr "เลือกรหัสผ่านสำหรับอุปกรณ์ที่เข้ารหัสผ่านของคุณ จะถามรหัสผ่านนี้ขณะเปิดระบบ"
 
-#: gui.py:600 gui.py:608 text.py:187 text.py:197
+#: gui.py:601 gui.py:609 text.py:188 text.py:198
 msgid "Error with passphrase"
 msgstr "รหัสผ่านผิดพลาด"
 
-#: gui.py:601 text.py:188
+#: gui.py:602 text.py:189
 msgid "The passphrases you entered were different.  Please try again."
 msgstr "รหัสผ่านที่คุณป้อนแตกต่างกัน กรุณาลองใหม่อีกครั้ง"
 
-#: gui.py:609
+#: gui.py:610
 msgid "The passphrase must be at least eight characters long."
 msgstr "รหัสผ่านต้องยาวอย่างน้อย 8 ตัวอักษร"
 
-#: gui.py:643 text.py:225
+#: gui.py:644 text.py:226
 #, python-format
 msgid ""
 "Device %s is encrypted. In order to access the device's contents during "
@@ -347,18 +347,18 @@ msgid ""
 msgstr ""
 "อุปกรณ์ %s ได้เข้ารหัสไว้ ในการเข้าถึงอุปกรณ์นี้ขณะติดตั้ง คุณต้องใส่รหัสผ่านของอุปกรณ์ด้านล่างนี้"
 
-#: gui.py:734 gui.py:1403 partIntfHelpers.py:157 partIntfHelpers.py:342
-#: text.py:100 text.py:101 iw/account_gui.py:130 loader/dirbrowser.c:129
+#: gui.py:735 gui.py:1406 partIntfHelpers.py:157 partIntfHelpers.py:342
+#: text.py:101 text.py:102 iw/account_gui.py:130 loader/dirbrowser.c:129
 #: loader/driverdisk.c:423 loader/kickstart.c:328 loader/loader.c:465
 #: loader/loader.c:577 textw/constants_text.py:48
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#: gui.py:746 gui.py:747 gui.py:863 gui.py:864 ui/anaconda.glade.h:3
+#: gui.py:747 gui.py:748 gui.py:864 gui.py:865 ui/anaconda.glade.h:3
 msgid "_Debug"
 msgstr "_ดีบั๊ก"
 
-#: gui.py:1103 text.py:486
+#: gui.py:1104 text.py:487
 #, python-format
 msgid ""
 "Error processing drive:\n"
@@ -375,25 +375,25 @@ msgid ""
 "(details)s"
 msgstr ""
 
-#: gui.py:1112 gui.py:1170 text.py:495 text.py:553
+#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
 msgid "_Ignore"
 msgstr "_ละเลย"
 
-#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
+#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
 #, fuzzy
 msgid "Ignore _all"
 msgstr "_ไม่สนใจทั้งหมด"
 
-#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
+#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
 msgid "_Re-initialize"
 msgstr "_เปิดใช้อุปกรณ์ใหม่"
 
-#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
+#: gui.py:1116 gui.py:1174 text.py:499 text.py:557
 #, fuzzy
 msgid "Re-ini_tialize all"
 msgstr "_เปิดใช้อุปกรณ์ใหม่"
 
-#: gui.py:1163 text.py:546
+#: gui.py:1164 text.py:547
 #, fuzzy, python-format
 msgid ""
 "Error processing LVM.\n"
@@ -406,19 +406,19 @@ msgstr ""
 "มีข้อมูล LVM ไม่ตรงกันบน %s. คุณสามารถเตรียม PV ที่เกี่ยวข้องทั้งหมดใหม่ (%s) ซึ่งจะลบ "
 "metadata ของ LVM ทั้งหมดหรือเพิกเฉยเพื่อรักษาข้อมูลไว้"
 
-#: gui.py:1195 text.py:393
+#: gui.py:1196 text.py:394
 msgid "Error Parsing Kickstart Config"
 msgstr "เกิดข้อผิดพลาดในการวิเคราะห์ค่าที่กำหนดของ Kickstart"
 
-#: gui.py:1223
+#: gui.py:1224
 msgid "default:LTR"
 msgstr "ค่าปริยาย:LTR"
 
-#: gui.py:1303 text.py:621
+#: gui.py:1304 text.py:622
 msgid "Error!"
 msgstr "เกิดข้อผิดพลาด!"
 
-#: gui.py:1304 text.py:622
+#: gui.py:1305 text.py:623
 #, python-format
 msgid ""
 "An error occurred when attempting to load an installer interface component.\n"
@@ -429,46 +429,42 @@ msgstr ""
 "\n"
 "className = %s"
 
-#: gui.py:1309 image.py:164 image.py:194 packages.py:328
-#: storage/__init__.py:1793
+#: gui.py:1310 gui.py:1314 image.py:164 image.py:194 packages.py:328
+#: storage/__init__.py:1784
 msgid "_Exit"
 msgstr "_ออกจากโปรแกรม"
 
-#: gui.py:1310 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
+#: gui.py:1311 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1446
 msgid "_Retry"
 msgstr "_ลองใหม่"
 
-#: gui.py:1312 storage/partitioning.py:276
-msgid "The system will now reboot."
-msgstr "ระบบของคุณจะถูกรีบูตเดี๋ยวนี้ "
+#: gui.py:1313
+msgid "The installer will now exit."
+msgstr "โปรแกรมติดตั้งจะปิดตัว"
 
-#: gui.py:1313 image.py:251 packages.py:332 yuminstall.py:1487
-msgid "_Reboot"
-msgstr "_รีบูต"
-
-#: gui.py:1315
+#: gui.py:1316
 msgid "Exiting"
 msgstr "กำลังออก"
 
-#: gui.py:1400 livecd.py:126 text.py:270 upgrade.py:228 sabayon/livecd.py:67
+#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:68
 msgid "Exit installer"
 msgstr "ออกจากตัวติดตั้ง"
 
-#: gui.py:1401
+#: gui.py:1404
 msgid "Are you sure you wish to exit the installer?"
 msgstr "คุณแน่ใจหรือไม่ว่าคุณต้องการออกจากการติดตั้ง?"
 
-#: gui.py:1410
+#: gui.py:1413
 #, python-format
 msgid "%s Installer"
 msgstr "ตัวติดตั้ง %s"
 
-#: gui.py:1416
+#: gui.py:1419
 msgid "Unable to load title bar"
 msgstr "ไม่สามารถโหลดแถบหัวเรื่องได้"
 
-#: gui.py:1483
+#: gui.py:1486
 msgid "Install Window"
 msgstr "วินโดว์ติดตั้ง"
 
@@ -538,9 +534,13 @@ msgstr ""
 "%s\n"
 "กรุณาเตรียมไว้ให้พร้อมก่อนทำการติดตั้ง ถ้าคุณต้องการยกเลิกและจะรีบูต ให้เลือก \"รีบูต\""
 
+#: image.py:251 packages.py:332 yuminstall.py:1487
+msgid "_Reboot"
+msgstr "_รีบูต"
+
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:388
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:417
 msgid "_Back"
 msgstr "_ย้อนกลับ"
 
@@ -761,7 +761,7 @@ msgstr ""
 "กรุณาเพิ่มส่วนต่อไปนี้และลองใหม่:\n"
 "%s"
 
-#: livecd.py:121 sabayon/livecd.py:62
+#: livecd.py:121 sabayon/livecd.py:63
 msgid "Unable to find image"
 msgstr "ไม่สามารถหาอิมเมจ"
 
@@ -794,7 +794,7 @@ msgid ""
 "minutes."
 msgstr "กำลังทำการเปลี่ยนแปลงระบบแฟ้มหลังการติดตั้ง อาจจะใช้เวลาหลายนาที..."
 
-#: livecd.py:401 sabayon/livecd.py:383
+#: livecd.py:401 sabayon/livecd.py:412
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -1233,12 +1233,12 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "คุณต้องการให้เริ่มการทำงานของเน็ตเวิร์คอินเทอร์เฟซของระบบหรือไม่"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:203 textw/constants_text.py:56 sabayon/utils.py:874
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:886
 msgid "Yes"
 msgstr "ใช่"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:874
+#: textw/constants_text.py:60 sabayon/utils.py:886
 msgid "No"
 msgstr "ไม่"
 
@@ -1285,7 +1285,7 @@ msgid "Read-Only"
 msgstr "อ่านได้อย่างเดียว"
 
 #: rescue.py:295 rescue.py:297 loader/cdinstall.c:248 loader/cdinstall.c:251
-#: loader/method.c:324 storage/__init__.py:1793 textw/upgrade_text.py:139
+#: loader/method.c:324 storage/__init__.py:1784 textw/upgrade_text.py:139
 msgid "Skip"
 msgstr "ข้ามไป"
 
@@ -1297,7 +1297,8 @@ msgstr "ระบบที่จะกู้"
 msgid "Which device holds the root partition of your installation?"
 msgstr "อุปกรณ์ใดเก็บพาร์ทิชัน root ที่คุณติดตั้งไว้?"
 
-#: rescue.py:332 rescue.py:336 text.py:626 text.py:628
+#: rescue.py:332 rescue.py:336 text.py:627 text.py:629
+#: textw/complete_text.py:31
 msgid "Exit"
 msgstr "ออกจากโปรแกรมติดตั้ง"
 
@@ -1364,58 +1365,58 @@ msgstr ""
 msgid "Your system is mounted under the %s directory."
 msgstr "ระบบของคุณถูกเมานท์ภายใต้ไดเรกทอรี %s"
 
-#: text.py:154
+#: text.py:155
 msgid "Passphrase for encrypted device"
 msgstr "รหัสผ่านสำหรับอุปกรณ์ที่เข้ารหัส"
 
-#: text.py:167
+#: text.py:168
 msgid "Also add this passphrase to all existing encrypted devices"
 msgstr "เพิ่มรหัสผ่านนี้ไปยังอุปกรณ์ที่เข้ารหัสอยู่แล้วทั้งหมด"
 
-#: text.py:198
+#: text.py:199
 #, fuzzy, python-format
 msgid "The passphrase must be at least %d character long."
 msgid_plural "The passphrase must be at least %d characters long."
 msgstr[0] "รหัสผ่านต้องยาวอย่างน้อย %d ตัวอักษร"
 
-#: text.py:232 ui/lukspassphrase.glade.h:6
+#: text.py:233 ui/lukspassphrase.glade.h:6
 msgid "Passphrase"
 msgstr "รหัสผ่าน"
 
-#: text.py:240 ui/lukspassphrase.glade.h:7
+#: text.py:241 ui/lukspassphrase.glade.h:7
 msgid "This is a global passphrase"
 msgstr "นี่เป็นรหัสผ่านโดยรวม"
 
-#: text.py:355 text.py:359
+#: text.py:356 text.py:360
 msgid "Repository editing is not available in text mode."
 msgstr "การแก้ไขคลังแพคเกจไม่สามารถทำในโหมดข้อความได้"
 
-#: text.py:421
+#: text.py:422
 #, fuzzy, python-format
 msgid "Welcome to %(productName)s for %(productArch)s"
 msgstr "ยินดีต้อนรับสู่ %s สำหรับ %s"
 
-#: text.py:423
+#: text.py:424
 #, python-format
 msgid "Welcome to %s"
 msgstr "ยินดีต้อนรับสู่ %s"
 
-#: text.py:425
+#: text.py:426
 msgid ""
 "  <Tab>/<Alt-Tab> between elements   |  <Space> selects   |  <F12> next "
 "screen"
 msgstr "  <Tab>/<Alt-Tab> สลับส่วนประกอบ   |  <Space> เลือก   |  <F12> หน้าจอถัดไป"
 
-#: text.py:626 loader/net.c:109 loader/net.c:470 loader/net.c:525
+#: text.py:627 loader/net.c:109 loader/net.c:470 loader/net.c:525
 #: loader/net.c:667 loader/net.c:675 loader/net.c:1096 loader/net.c:1104
 msgid "Retry"
 msgstr "ลองใหม่"
 
-#: text.py:652
+#: text.py:653
 msgid "Cancelled"
 msgstr "ถูกยกเลิกแล้ว"
 
-#: text.py:653
+#: text.py:654
 msgid "I can't go to the previous step from here. You will have to try again."
 msgstr "ระบบไม่สามารถย้อนกลับไปขั้นตอนก่อนหน้านี้ได้ คุณอาจจะต้องลองใหม่"
 
@@ -1618,23 +1619,23 @@ msgstr ""
 "รหัสผ่านจะป้องกันผู้ที่ได้รับอนุญาตเชื่อมต่อเข้ามาและเฝ้าดูความก้าวหน้าของการติดตั้ง  "
 "กรุณาป้อนรหัสผ่านสำหรับใช้ในขั้นตอนการติดตั้งนี้"
 
-#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47
+#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47 textw/userauth_text.py:134
 msgid "Password:"
 msgstr "รหัสผ่าน:"
 
-#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49
+#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49 textw/userauth_text.py:136
 msgid "Password (confirm):"
 msgstr "รหัสผ่าน (ยืนยัน):"
 
-#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70
+#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70 textw/userauth_text.py:162
 msgid "Password Mismatch"
 msgstr "รหัสผ่านไม่ตรงกัน"
 
-#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71
+#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71 textw/userauth_text.py:163
 msgid "The passwords you entered were different. Please try again."
 msgstr "รหัสผ่านที่คุณป้อนแตกต่างกัน กรุณาลองใหม่อีกครั้ง"
 
-#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66
+#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66 textw/userauth_text.py:158
 msgid "Password Length"
 msgstr "ความยาวของรหัสผ่าน"
 
@@ -2062,7 +2063,7 @@ msgid "Caps Lock is on."
 msgstr "เปิด Caps Lock อยู่"
 
 #: iw/account_gui.py:102 iw/account_gui.py:110 iw/account_gui.py:117
-#: iw/account_gui.py:137 textw/userauth_text.py:74
+#: iw/account_gui.py:137 textw/userauth_text.py:74 textw/userauth_text.py:166
 msgid "Error with Password"
 msgstr "รหัสผ่านผิดพลาด"
 
@@ -2081,7 +2082,7 @@ msgstr "รหัสผ่านที่คุณป้อนแตกต่า
 msgid "The root password must be at least six characters long."
 msgstr "รหัสผ่านของ root ต้องยาวอย่างน้อย 6 ตัวอักษร"
 
-#: iw/account_gui.py:127 textw/userauth_text.py:83
+#: iw/account_gui.py:127 textw/userauth_text.py:83 textw/userauth_text.py:190
 msgid "Weak Password"
 msgstr "รหัสผ่านง่าย"
 
@@ -2095,7 +2096,7 @@ msgstr "คุณได้ระบุรหัสผ่านที่ง่า
 msgid "Use Anyway"
 msgstr "ชื่อผู้ใช้"
 
-#: iw/account_gui.py:138 textw/userauth_text.py:75
+#: iw/account_gui.py:138 textw/userauth_text.py:75 textw/userauth_text.py:167
 msgid ""
 "Requested password contains non-ASCII characters, which are not allowed."
 msgstr "รหัสผ่านมีตัวอักษรที่ไม่ใช่รหัส ascii ซึ่งจะไม่อนุญาตให้ใช้ในรหัสผ่าน"
@@ -2340,7 +2341,7 @@ msgstr ""
 msgid "Congratulations"
 msgstr "ขอแสดงความยินดี"
 
-#: iw/congrats_gui.py:74 textw/complete_text.py:38
+#: iw/congrats_gui.py:74 textw/complete_text.py:39
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2349,26 +2350,26 @@ msgstr ""
 "ขอแสดงความยินดี การติดตั้ง %s ของคุณเสร็จสมบูรณ์.\n"
 "\n"
 
-#: iw/congrats_gui.py:77 textw/complete_text.py:41
+#: iw/congrats_gui.py:77 textw/complete_text.py:42
 msgid "Shutdown"
 msgstr "ปิดเครื่อง"
 
-#: iw/congrats_gui.py:79 textw/complete_text.py:43
+#: iw/congrats_gui.py:79 textw/complete_text.py:44
 msgid "Please shutdown to use the installed system.\n"
 msgstr "กรุณาปิดเครื่องเพื่อใช้ระบบที่ถูกติดตั้ง\n"
 
-#: iw/congrats_gui.py:81 textw/complete_text.py:45
+#: iw/congrats_gui.py:81 textw/complete_text.py:46
 msgid "Please reboot to use the installed system.\n"
 msgstr "กรุณาเปิดเครื่องใหม่เพื่อใช้ระบบที่ถูกติดตั้ง\n"
 
-#: iw/congrats_gui.py:86 textw/complete_text.py:50
+#: iw/congrats_gui.py:86 textw/complete_text.py:51
 msgid ""
 "Note that updates may be available to ensure the proper functioning of your "
 "system and installation of these updates is recommended after the reboot."
 msgstr ""
 "อาจมีอัพเดตที่ช่วยให้ระบบของคุณทำงานได้ดี และหลังเปิดเครื่องใหม่แล้วแนะนำให้ติดตั้งอัพเดตเหล่านี้"
 
-#: iw/congrats_gui.py:90 textw/complete_text.py:54
+#: iw/congrats_gui.py:90 textw/complete_text.py:55
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2402,14 +2403,15 @@ msgstr ""
 
 #: iw/examine_gui.py:67
 #, fuzzy
-msgid "Upgrade an Existing Installation"
-msgstr "_อัพเกรดระบบที่ติดตั้งไว้แล้ว"
+msgid "Bootloader Recovery"
+msgstr "ไดรฟ์บูตโหลดเดอร์"
 
 #: iw/examine_gui.py:69
 #, fuzzy, python-format
 msgid ""
-"Choose this option if you would like to upgrade your existing %s system.  "
-"This option will preserve the existing data on your storage device(s)."
+"Choose this option if you would like to recover your existing %s system "
+"bootloader. This option will preserve the existing data on your storage "
+"device(s)."
 msgstr ""
 "เลือกตัวเลือกนี้หากคุณต้องการอัพเกรด %s ที่ติดตั้งอยู่แล้ว ซึ่งการติดตั้งจะยังรักษา ข้อมูลของคุณไว้"
 
@@ -2422,7 +2424,7 @@ msgstr "ไม่มีไดรเวอร์อุปกรณ์สำหร
 
 #: iw/examine_gui.py:128
 #, fuzzy, python-format
-msgid "<b>Which %s installation would you like to upgrade?</b>"
+msgid "<b>Which %s installation would you like to recover?</b>"
 msgstr "คุณต้องการที่จะทำอะไร?"
 
 #: iw/examine_gui.py:142
@@ -3046,7 +3048,7 @@ msgstr ""
 msgid "Type"
 msgstr "ชนิด"
 
-#: iw/partition_gui.py:612 storage/__init__.py:1793
+#: iw/partition_gui.py:612 storage/__init__.py:1784
 msgid "Format"
 msgstr "ฟอร์แมต"
 
@@ -3120,7 +3122,7 @@ msgstr "LVM Volume Groups"
 msgid "RAID Devices"
 msgstr "อุปกรณ์ RAID"
 
-#: iw/partition_gui.py:1017 loader/hdinstall.c:203
+#: iw/partition_gui.py:1017 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "ฮาร์ดไดรฟ์"
 
@@ -3861,7 +3863,7 @@ msgstr "ไม่พบแผ่น"
 
 #: loader/cdinstall.c:431 loader/driverdisk.c:423 loader/driverdisk.c:461
 #: loader/driverdisk.c:542 loader/driverselect.c:79 loader/driverselect.c:153
-#: loader/driverselect.c:179 loader/hdinstall.c:203 loader/hdinstall.c:257
+#: loader/driverselect.c:179 loader/hdinstall.c:206 loader/hdinstall.c:260
 #: loader/kbd.c:119 loader/loader.c:506 loader/loader.c:523
 #: loader/loader.c:1375 loader/loader.c:1408 loader/net.c:578 loader/net.c:949
 #: loader/net.c:1848 loader/net.c:1867 loader/nfsinstall.c:91
@@ -3969,7 +3971,7 @@ msgstr "มีแผ่นไดรเวอร์ อีกไหม?"
 msgid "Do you wish to load any more driver disks?"
 msgstr "คุณต้องการที่จะโหลดแผ่นไดรเวอร์เพิ่มอีกหรือไม่?"
 
-#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:349
+#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:352
 #: loader/kickstart.c:132 loader/kickstart.c:142 loader/kickstart.c:184
 #: loader/kickstart.c:189 loader/kickstart.c:510 loader/modules.c:382
 #: loader/modules.c:398 loader/net.c:1557 loader/net.c:1578
@@ -4040,13 +4042,13 @@ msgid ""
 "check your images and try again."
 msgstr "เกิดข้อผิดพลาดขณะหาอิมเมจติดตั้ง กรุณาตรวจสอบอิมเมจของคุณ แล้วลองใหม่อีกครั้ง"
 
-#: loader/hdinstall.c:204
+#: loader/hdinstall.c:207
 msgid ""
 "You don't seem to have any hard drives on your system! Would you like to "
 "configure additional devices?"
 msgstr "ดูเหมือนจะไม่มีฮาร์ดไดรฟ์บนระบบของคุณ! คุณต้องการจะกำหนดค่าอุปกรณ์เพิ่มเติมอีกหรือไม่?"
 
-#: loader/hdinstall.c:217
+#: loader/hdinstall.c:220
 #, c-format
 msgid ""
 "What partition and directory on that partition holds the installation image "
@@ -4056,29 +4058,29 @@ msgstr ""
 "อิมเมจติดตั้ง %s ถูกเก็บที่พาร์ทิชัน และไดเรกทอรีใด? ถ้าคุณไม่เห็นดิสก์ไดรฟ์ที่คุณใช้อยู่ในรายการนี้ "
 "ให้กด F2 เพื่อปรับแต่งอุปกรณ์เพิ่มเติม"
 
-#: loader/hdinstall.c:241
+#: loader/hdinstall.c:244
 msgid "Directory holding image:"
 msgstr "ไดเรกทอรีที่เก็บอิมเมจ:"
 
-#: loader/hdinstall.c:269
+#: loader/hdinstall.c:272
 msgid "Select Partition"
 msgstr "เลือกพาร์ทิชัน"
 
-#: loader/hdinstall.c:316
+#: loader/hdinstall.c:319
 #, c-format
 msgid "Device %s does not appear to contain an installation image."
 msgstr "อุปกรณ์ %s ไม่มีอิมเมจติดตั้ง"
 
-#: loader/hdinstall.c:350
+#: loader/hdinstall.c:353
 #, fuzzy, c-format
 msgid "Bad argument to HD kickstart method command: %s"
 msgstr "อากิวเมนต์ของคำสั่งเมธอด HD คิกสตาร์ทผิด %s: %s"
 
-#: loader/hdinstall.c:422 loader/hdinstall.c:478
+#: loader/hdinstall.c:425 loader/hdinstall.c:481
 msgid "Cannot find kickstart file on hard drive."
 msgstr "ไม่สามารถหาไฟล์คิกสตาร์ทบนฮาร์ดไดรฟ์"
 
-#: loader/hdinstall.c:465
+#: loader/hdinstall.c:468
 #, c-format
 msgid "Cannot find hard drive for BIOS disk %s"
 msgstr "ไม่พบฮาร์ดไดรฟ์สำหรับ BISO disk %s"
@@ -4862,11 +4864,11 @@ msgstr ""
 "มีข้อผิดพลาดเกิดขึ้น - ไม่พบอุปกรณ์ที่จะสร้างระบบแฟ้มใหม่ "
 "กรุณาตรวจสอบฮาร์ดแวร์ของคุณเพื่อหาสาเหตุของปัญหานี้"
 
-#: storage/__init__.py:1339 storage/__init__.py:1348
+#: storage/__init__.py:1330 storage/__init__.py:1339
 msgid "Dirty File Systems"
 msgstr "ระบบแฟ้มที่ไม่ได้ยกเลิกเมานท์อย่างถูกต้อง"
 
-#: storage/__init__.py:1340
+#: storage/__init__.py:1331
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -4879,7 +4881,7 @@ msgstr ""
 "แล้วปิดเครื่องอย่างถูกต้อง จึงจะดำเนินการอัพเกรดได้\n"
 "%s"
 
-#: storage/__init__.py:1349
+#: storage/__init__.py:1340
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -4889,7 +4891,7 @@ msgstr ""
 "ระบบแฟ้มของระบบลินุกซ์เดิมของคุณไม่ได้ยกเลิกเมานท์อย่างถูกต้อง คุณยังต้องการที่จะเมานท์หรือไม่? \n"
 "%s"
 
-#: storage/__init__.py:1826
+#: storage/__init__.py:1817
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4900,7 +4902,7 @@ msgid ""
 "swap space, you must reformat as a new-style Linux swap partition."
 msgstr ""
 
-#: storage/__init__.py:1837
+#: storage/__init__.py:1828
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4919,7 +4921,7 @@ msgstr ""
 "ซึ่งหมายความว่าระบบของคุณกำลังอยู่ในโหมดจำศีล "
 "หากจะอัพเกรดกรุณาปิดเครื่องโดยไม่ต้องใช้โหมดจำศีล"
 
-#: storage/__init__.py:1845
+#: storage/__init__.py:1836
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4938,7 +4940,7 @@ msgstr ""
 "ซึ่งหมายความว่าระบบของคุณกำลังอยู่ในโหมดจำศีล "
 "หากจะติดตั้งใหม่กรุณาตั้งให้ฟอร์แมตอุปกรณ์สว็อปทั้งหมด"
 
-#: storage/__init__.py:1857
+#: storage/__init__.py:1848
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4949,7 +4951,7 @@ msgid ""
 "installation, you will need to format the device or skip it."
 msgstr ""
 
-#: storage/__init__.py:1868
+#: storage/__init__.py:1859
 #, fuzzy, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -4965,7 +4967,7 @@ msgstr ""
 "\n"
 "กดปุ่ม ตกลง เพื่อรีบูตระบบของคุณใหม่"
 
-#: storage/__init__.py:1875
+#: storage/__init__.py:1866
 #, fuzzy, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -4980,11 +4982,11 @@ msgstr ""
 "\n"
 "กดปุ่ม ตกลง เพื่อรีบูตระบบของคุณใหม่"
 
-#: storage/__init__.py:1938 storage/__init__.py:1950
+#: storage/__init__.py:1929 storage/__init__.py:1941
 msgid "Invalid mount point"
 msgstr "ตำแหน่งเมานท์ไม่ถูกต้อง"
 
-#: storage/__init__.py:1939
+#: storage/__init__.py:1930
 #, python-format
 msgid ""
 "An error occurred when trying to create %s.  Some element of this path is "
@@ -4997,7 +4999,7 @@ msgstr ""
 "\n"
 "กด <Enter> เพื่อรีบูตระบบของคุณใหม่"
 
-#: storage/__init__.py:1951
+#: storage/__init__.py:1942
 #, fuzzy, python-format
 msgid ""
 "An error occurred when trying to create %(mountpoint)s: %(msg)s.  This is a "
@@ -5010,18 +5012,18 @@ msgstr ""
 "\n"
 "กด <Enter> เพื่อรีบูตระบบของคุณใหม่"
 
-#: storage/__init__.py:1967 storage/__init__.py:1991
+#: storage/__init__.py:1958 storage/__init__.py:1982
 msgid "Unable to mount filesystem"
 msgstr "ไม่สามารถเมานต์ระบบแฟ้ม"
 
-#: storage/__init__.py:1968
+#: storage/__init__.py:1959
 #, fuzzy, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s.  You may "
 "continue installation, but there may be problems."
 msgstr "เกิดข้อผิดพลาดในการเมานต์อุปกรณ์ %s เป็น %s คุณอาจติดตั้งต่อไป แต่อาจเกิดปัญหา"
 
-#: storage/__init__.py:1992
+#: storage/__init__.py:1983
 #, fuzzy, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s: %(msg)s. This "
@@ -5078,7 +5080,7 @@ msgid "lvs failed for %s"
 msgstr "lvs ล้มเหลวสำหรับ %s"
 
 #: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3281
+#: storage/devices.py:2799 storage/devices.py:3289
 #, fuzzy
 msgid "Creating"
 msgstr "ภาษาโครเอเชียน"
@@ -5094,7 +5096,7 @@ msgstr "_เปลี่ยนอุปกรณ์"
 msgid "A RAID%d set requires atleast %d members"
 msgstr ""
 
-#: storage/devices.py:3282
+#: storage/devices.py:3290
 #, fuzzy, python-format
 msgid "Creating file %s"
 msgstr "กำลังสร้างระบบแฟ้มบน %s"
@@ -5342,6 +5344,10 @@ msgstr ""
 "\n"
 "กรณีนี้สามารถเกิดขึ้นได้เมื่อพื้นที่บนดิสก์ไม่เพียงพอสำหรับการติดตั้ง %s"
 
+#: storage/partitioning.py:276
+msgid "The system will now reboot."
+msgstr "ระบบของคุณจะถูกรีบูตเดี๋ยวนี้ "
+
 #: storage/zfcp.py:50
 msgid "You have not specified a device number or the number is invalid"
 msgstr "คุณไม่ได้กำหนดเลขอุปกรณ์ หรือเลขนั้นไม่ถูกต้อง"
@@ -5430,15 +5436,11 @@ msgstr ""
 msgid "Could not set zFCP device %(devnum)s offline (%(e)s)."
 msgstr ""
 
-#: textw/complete_text.py:31
-msgid "Reboot"
-msgstr "รีบูต"
-
 #: textw/complete_text.py:33
 msgid "<Enter> to exit"
 msgstr "กด <Enter> เพื่อออก"
 
-#: textw/complete_text.py:61
+#: textw/complete_text.py:62
 msgid "Complete"
 msgstr "เสร็จสมบูรณ์"
 
@@ -5696,7 +5698,7 @@ msgstr ""
 msgid "The root password must be at least 6 characters long."
 msgstr "รหัสผ่านของ root ต้องมีความยาวอย่างน้อย 6 ตัวอักษร"
 
-#: textw/userauth_text.py:84
+#: textw/userauth_text.py:84 textw/userauth_text.py:191
 #, python-format
 msgid ""
 "You have provided a weak password: %s\n"
@@ -5706,6 +5708,46 @@ msgstr ""
 "รหัสผ่านที่เลือกไว้ง่ายเกินไป: %s\n"
 "\n"
 "คุณต้องการติดตั้งต่อไปด้วยรหัสผ่านนี้หรือไม่?"
+
+#: textw/userauth_text.py:111
+#, fuzzy
+msgid "User configuration"
+msgstr "การกำหนดค่าสำหรับ VNC"
+
+#: textw/userauth_text.py:114
+msgid "Setup a username for regular (non-administrative) use."
+msgstr ""
+
+#: textw/userauth_text.py:130
+#, fuzzy
+msgid "Username:"
+msgstr "_ชื่อผู้ใช้"
+
+#: textw/userauth_text.py:132
+msgid "Full name:"
+msgstr ""
+
+#: textw/userauth_text.py:159
+#, fuzzy
+msgid "User password must be at least 6 characters long."
+msgstr "รหัสผ่านของ root ต้องมีความยาวอย่างน้อย 6 ตัวอักษร"
+
+#: textw/userauth_text.py:172 textw/userauth_text.py:178
+#, fuzzy
+msgid "Error with username"
+msgstr "เกิดข้อผิดพลาดกับชื่อโฮสต์"
+
+#: textw/userauth_text.py:173
+#, fuzzy
+msgid "Username too short"
+msgstr "_ชื่อผู้ใช้"
+
+#: textw/userauth_text.py:179
+#, fuzzy
+msgid ""
+"Requested username contains non-ASCII characters or spaces, which are not "
+"allowed."
+msgstr "รหัสผ่านมีตัวอักษรที่ไม่ใช่รหัส ascii ซึ่งจะไม่อนุญาตให้ใช้ในรหัสผ่าน"
 
 #: textw/welcome_text.py:29
 #, python-format
@@ -5749,6 +5791,11 @@ msgstr "ติดตั้ง live CD ลงฮาร์ดดิสก์"
 
 #: liveinst/liveinst.desktop.in.h:3
 msgid "Install to Hard Drive"
+msgstr "ติดตั้งลงฮาร์ดดิสก์"
+
+#: liveinst:5
+#, fuzzy
+msgid "Starting Install to Hard Drive"
 msgstr "ติดตั้งลงฮาร์ดดิสก์"
 
 #: ui/GroupSelector.glade.h:1
@@ -6531,84 +6578,96 @@ msgstr "ภาษาชาวเวลส์"
 msgid "Zulu"
 msgstr "ภาษาซูลู"
 
-#: sabayon/livecd.py:63
+#: sabayon/livecd.py:64
 #, fuzzy, python-format
 msgid ""
 "The given location [%s] isn't a valid %s live CD to use as an installation "
 "source."
 msgstr "ตำแหน่งที่ระบุไม่ใช่ live CD %s ที่ถูกต้องสำหรับติดตั้ง"
 
-#: sabayon/livecd.py:95
+#: sabayon/livecd.py:107
+#, fuzzy
+msgid "Recovering Sabayon."
+msgstr "การกำหนดค่าสำหรับ VNC"
+
+#: sabayon/livecd.py:113
 #, fuzzy
 msgid "Installing Sabayon onto hard drive."
 msgstr "กำลังติดตั้งบูตโหลดเดอร์..."
 
-#: sabayon/livecd.py:107
+#: sabayon/livecd.py:125
 #, fuzzy
 msgid "Configuring Sabayon"
 msgstr "การกำหนดค่าสำหรับ VNC"
 
-#: sabayon/livecd.py:125
+#: sabayon/livecd.py:150
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:202
+#: sabayon/utils.py:214
 msgid "System Health Status Warning"
 msgstr ""
 
-#: sabayon/utils.py:348
+#: sabayon/utils.py:360
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "กำลังตั้งค่าอุปกรณ์เครือข่าย"
 
-#: sabayon/utils.py:609
+#: sabayon/utils.py:621
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:611
+#: sabayon/utils.py:623
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:612
+#: sabayon/utils.py:624
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "กำลังเริ่มกระบวนการติดตั้ง"
 
-#: sabayon/utils.py:642
+#: sabayon/utils.py:654
 #, fuzzy
 msgid "System Installation"
 msgstr "ช่วงหลังติดตั้ง"
 
-#: sabayon/utils.py:775
+#: sabayon/utils.py:787
 #, fuzzy
 msgid "Cleaning packages"
 msgstr "แพคเกจเก่ากว่า"
 
-#: sabayon/utils.py:800
+#: sabayon/utils.py:812
 #, fuzzy
 msgid "Cleaning package"
 msgstr "ไม่พบแพ็กเกจ"
 
-#: sabayon/utils.py:840
+#: sabayon/utils.py:852
 #, fuzzy
 msgid "Installation complete"
 msgstr "คีย์ติดตั้ง"
 
-#: sabayon/utils.py:872
+#: sabayon/utils.py:884
 #, fuzzy
 msgid ""
 "This DVD contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "ภาษาอะไรที่คุณต้องการใช้ในระหว่างกระบวนการการติดตั้ง?"
 
-#: sabayon/utils.py:875
+#: sabayon/utils.py:887
 #, fuzzy
 msgid "Language packs installation"
 msgstr "การติดตั้งแพ็กเกจ"
 
-#: sabayon/utils.py:886
+#: sabayon/utils.py:898
 msgid "Generating list of files to copy"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Upgrade an Existing Installation"
+#~ msgstr "_อัพเกรดระบบที่ติดตั้งไว้แล้ว"
+
+#~ msgid "Reboot"
+#~ msgstr "รีบูต"
 
 #~ msgid "Install class forcing text mode installation"
 #~ msgstr "บังคับการติดตั้งเป็นแบบโหมดตัวอักษร"
@@ -6618,9 +6677,6 @@ msgstr ""
 
 #~ msgid "reipl configuration failed => halt"
 #~ msgstr "การตั้งค่า reipl ล้มเหลว => หยุด"
-
-#~ msgid "The installer will now exit."
-#~ msgstr "โปรแกรมติดตั้งจะปิดตัว"
 
 #~ msgid ""
 #~ "The following error was found while parsing thekickstart configuration "

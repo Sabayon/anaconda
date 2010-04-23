@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda VERSION\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-04-11 21:22+0200\n"
+"POT-Creation-Date: 2010-04-23 14:54+0200\n"
 "PO-Revision-Date: 2005-12-29 11:25+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <am-translate@geez.org>\n"
@@ -20,16 +20,16 @@ msgid "Press <enter> for a shell"
 msgstr ""
 
 #: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
-#: rescue.py:466 text.py:656 loader/cdinstall.c:228 loader/cdinstall.c:232
+#: rescue.py:466 text.py:657 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
 #: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
 #: loader/driverdisk.c:266 loader/driverdisk.c:422 loader/driverdisk.c:460
 #: loader/driverdisk.c:491 loader/driverdisk.c:526 loader/driverdisk.c:542
 #: loader/driverdisk.c:554 loader/driverdisk.c:562 loader/driverdisk.c:722
 #: loader/driverdisk.c:761 loader/driverselect.c:79 loader/driverselect.c:179
-#: loader/hdinstall.c:115 loader/hdinstall.c:257 loader/hdinstall.c:315
-#: loader/hdinstall.c:349 loader/hdinstall.c:421 loader/hdinstall.c:464
-#: loader/hdinstall.c:477 loader/kbd.c:119 loader/kickstart.c:132
+#: loader/hdinstall.c:115 loader/hdinstall.c:260 loader/hdinstall.c:318
+#: loader/hdinstall.c:352 loader/hdinstall.c:424 loader/hdinstall.c:467
+#: loader/hdinstall.c:480 loader/kbd.c:119 loader/kickstart.c:132
 #: loader/kickstart.c:142 loader/kickstart.c:184 loader/kickstart.c:189
 #: loader/kickstart.c:296 loader/kickstart.c:328 loader/kickstart.c:510
 #: loader/lang.c:114 loader/lang.c:373 loader/loader.c:429 loader/loader.c:465
@@ -137,7 +137,7 @@ msgstr ""
 "የለዎት ይሆናል።"
 
 #: backend.py:169 image.py:289 livecd.py:198 livecd.py:400
-#: partIntfHelpers.py:237 text.py:354 text.py:358 yuminstall.py:416
+#: partIntfHelpers.py:237 text.py:355 text.py:359 yuminstall.py:416
 #: yuminstall.py:805 yuminstall.py:923 yuminstall.py:928 yuminstall.py:1190
 #: yuminstall.py:1249 yuminstall.py:1440 yuminstall.py:1462
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
@@ -149,25 +149,25 @@ msgstr ""
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
 #: loader/cdinstall.c:504 loader/driverdisk.c:266 loader/driverdisk.c:491
 #: loader/driverdisk.c:526 loader/driverdisk.c:554 loader/driverdisk.c:562
-#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:315
-#: loader/hdinstall.c:421 loader/hdinstall.c:464 loader/hdinstall.c:477
+#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:318
+#: loader/hdinstall.c:424 loader/hdinstall.c:467 loader/hdinstall.c:480
 #: loader/kickstart.c:296 loader/lang.c:114 loader/loader.c:429
 #: loader/loader.c:540 loader/loader.c:1194 loader/mediacheck.c:47
 #: loader/mediacheck.c:86 loader/mediacheck.c:93 loader/mediacheck.c:97
 #: loader/method.c:277 loader/method.c:351 loader/nfsinstall.c:279
 #: loader/nfsinstall.c:296 loader/telnetd.c:93 loader/urlinstall.c:137
 #: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urls.c:330
-#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1794
-#: storage/__init__.py:1881 textw/netconfig_text.py:282
+#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1785
+#: storage/__init__.py:1872 textw/netconfig_text.py:282
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:382
+#: textw/upgrade_text.py:188 sabayon/livecd.py:411
 msgid "Error"
 msgstr "ስህተት"
 
-#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1102
-#: gui.py:1162 image.py:82 installinterfacebase.py:41 text.py:485 text.py:545
+#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1103
+#: gui.py:1163 image.py:82 installinterfacebase.py:41 text.py:486 text.py:546
 #: yuminstall.py:1418 yuminstall.py:1622 yuminstall.py:1657
 #: iw/blpasswidget.py:148 iw/upgrade_swap_gui.py:190
 #: iw/upgrade_swap_gui.py:198 iw/upgrade_swap_gui.py:205
@@ -186,20 +186,20 @@ msgstr ""
 "የመረጡዋቸውን የመከፋፈያው ምርጭዎች ቀደም ብሎ መስራት ጀምሯል። ወደ መረጃ ማከማቻው ማረሚያ መስኮት ከአሁን በኋላ "
 "መመለስ አይችሉም። የማስገባት ሥራውን መቀጠል ይፈልጋሉ?"
 
-#: bootloader.py:60 gui.py:1053 gui.py:1198 gui.py:1403 image.py:91
+#: bootloader.py:60 gui.py:1054 gui.py:1199 gui.py:1406 image.py:91
 #: kickstart.py:156 livecd.py:205 livecd.py:407 packages.py:130 upgrade.py:56
 #: upgrade.py:237 yuminstall.py:257 yuminstall.py:703 yuminstall.py:925
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1975 storage/dasd.py:139 sabayon/livecd.py:389
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:418
 #, fuzzy
 msgid "_Exit installer"
 msgstr "የ%s ማስገቢያ"
 
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1976
+#: iw/partition_gui.py:1598 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "ቀጥል (_C)"
 
@@ -234,8 +234,8 @@ msgstr "ተጠናቋል"
 msgid "In progress"
 msgstr "በመሻሻል ላይ...  "
 
-#: cmdline.py:89 gui.py:1193 kickstart.py:1214 kickstart.py:1222
-#: kickstart.py:1260 kickstart.py:1268 text.py:391
+#: cmdline.py:89 gui.py:1194 kickstart.py:1214 kickstart.py:1222
+#: kickstart.py:1260 kickstart.py:1268 text.py:392
 #, fuzzy, python-format
 msgid ""
 "The following error was found while parsing the kickstart configuration "
@@ -275,16 +275,16 @@ msgstr ""
 msgid " against anaconda at %s"
 msgstr "የተሻሻሉትን አናኮዳ በማንበብ ላይ...."
 
-#: gui.py:109
+#: gui.py:110
 #, fuzzy
 msgid "An error occurred saving screenshots to disk."
 msgstr "የሲኒማ ቅጂዎች ላይ ሲቀዱ ስሕተት ተከስቷ።"
 
-#: gui.py:120
+#: gui.py:121
 msgid "Screenshots Copied"
 msgstr "የሲኒማ ቅጂዎች ቅጂ"
 
-#: gui.py:121
+#: gui.py:122
 #, fuzzy
 msgid ""
 "The screenshots have been saved in the directory:\n"
@@ -299,20 +299,20 @@ msgstr ""
 "\n"
 "እንደዋናው እንደገና ሲያስጀምሩ እና ሲገቡ እነዚህን መተቀም ይችላሉ።"
 
-#: gui.py:164
+#: gui.py:165
 msgid "Saving Screenshot"
 msgstr "የሲኒማ ቅጂዎችን በማስቀመጥ ላይ"
 
-#: gui.py:165
+#: gui.py:166
 #, python-format
 msgid "A screenshot named '%s' has been saved."
 msgstr "‹%s› የተባለ የሲኒማ ቅጂ ተቀምጧል።"
 
-#: gui.py:168
+#: gui.py:169
 msgid "Error Saving Screenshot"
 msgstr "የሲኒማ ቅጂውን ለማስቀመጥ ስሕተት ተከስቷውል"
 
-#: gui.py:169
+#: gui.py:170
 msgid ""
 "An error occurred while saving the screenshot.  If this occurred during "
 "package installation, you may need to try several times for it to succeed."
@@ -320,51 +320,51 @@ msgstr ""
 "የሲኒማ ቅጂውን ሊያስቀምጥ ስሕተት ተከስቷል። ይህ የተከሰተው በጥቅሉ ማስገባቱ ወቅት ከሆነ እንዲሳካ ብዙ ጊዜ ደጋግመው "
 "መሞከር ሊኖርብዎት ይችላል።"
 
-#: gui.py:510
+#: gui.py:511
 #, fuzzy
 msgid "Installation Key"
 msgstr "የማስገባት ሥራ ዓይነት"
 
-#: gui.py:581 text.py:149
+#: gui.py:582 text.py:150
 msgid ""
 "Choose a passphrase for the encrypted devices. You will be prompted for this "
 "passphrase during system boot."
 msgstr ""
 
-#: gui.py:600 gui.py:608 text.py:187 text.py:197
+#: gui.py:601 gui.py:609 text.py:188 text.py:198
 #, fuzzy
 msgid "Error with passphrase"
 msgstr "ሚስጢራዊ ቃሉ ላይ ስሕተት"
 
-#: gui.py:601 text.py:188
+#: gui.py:602 text.py:189
 #, fuzzy
 msgid "The passphrases you entered were different.  Please try again."
 msgstr "ያስገቡት ሚስጢራዊ ቃል የተለየ ነበር። እባክዎን እንደገና ይሞክሩ።"
 
-#: gui.py:609
+#: gui.py:610
 #, fuzzy
 msgid "The passphrase must be at least eight characters long."
 msgstr "ሚስጢራዊ ቃሉ በትንሹ ስድስት አኃዞችን የያዘ መሆን አለበት።"
 
-#: gui.py:643 text.py:225
+#: gui.py:644 text.py:226
 #, python-format
 msgid ""
 "Device %s is encrypted. In order to access the device's contents during "
 "installation you must enter the device's passphrase below."
 msgstr ""
 
-#: gui.py:734 gui.py:1403 partIntfHelpers.py:157 partIntfHelpers.py:342
-#: text.py:100 text.py:101 iw/account_gui.py:130 loader/dirbrowser.c:129
+#: gui.py:735 gui.py:1406 partIntfHelpers.py:157 partIntfHelpers.py:342
+#: text.py:101 text.py:102 iw/account_gui.py:130 loader/dirbrowser.c:129
 #: loader/driverdisk.c:423 loader/kickstart.c:328 loader/loader.c:465
 #: loader/loader.c:577 textw/constants_text.py:48
 msgid "Cancel"
 msgstr "ተወው"
 
-#: gui.py:746 gui.py:747 gui.py:863 gui.py:864 ui/anaconda.glade.h:3
+#: gui.py:747 gui.py:748 gui.py:864 gui.py:865 ui/anaconda.glade.h:3
 msgid "_Debug"
 msgstr "አስተካክል (_D)"
 
-#: gui.py:1103 text.py:486
+#: gui.py:1104 text.py:487
 #, python-format
 msgid ""
 "Error processing drive:\n"
@@ -381,27 +381,27 @@ msgid ""
 "(details)s"
 msgstr ""
 
-#: gui.py:1112 gui.py:1170 text.py:495 text.py:553
+#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
 #, fuzzy
 msgid "_Ignore"
 msgstr "ተውት"
 
-#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
+#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
 #, fuzzy
 msgid "Ignore _all"
 msgstr "ተውት"
 
-#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
+#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
 #, fuzzy
 msgid "_Re-initialize"
 msgstr "መጀመሪያ በማድረግ ላይ"
 
-#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
+#: gui.py:1116 gui.py:1174 text.py:499 text.py:557
 #, fuzzy
 msgid "Re-ini_tialize all"
 msgstr "መጀመሪያ በማድረግ ላይ"
 
-#: gui.py:1163 text.py:546
+#: gui.py:1164 text.py:547
 #, python-format
 msgid ""
 "Error processing LVM.\n"
@@ -411,19 +411,19 @@ msgid ""
 "with inconsistent metadata."
 msgstr ""
 
-#: gui.py:1195 text.py:393
+#: gui.py:1196 text.py:394
 msgid "Error Parsing Kickstart Config"
 msgstr "ስሕተት፦ Parsing Kickstart Config"
 
-#: gui.py:1223
+#: gui.py:1224
 msgid "default:LTR"
 msgstr "ነባሩ፥LTR"
 
-#: gui.py:1303 text.py:621
+#: gui.py:1304 text.py:622
 msgid "Error!"
 msgstr "ስሕተት!"
 
-#: gui.py:1304 text.py:622
+#: gui.py:1305 text.py:623
 #, python-format
 msgid ""
 "An error occurred when attempting to load an installer interface component.\n"
@@ -434,50 +434,46 @@ msgstr ""
 "\n"
 "የክፍል ስም = %s"
 
-#: gui.py:1309 image.py:164 image.py:194 packages.py:328
-#: storage/__init__.py:1793
+#: gui.py:1310 gui.py:1314 image.py:164 image.py:194 packages.py:328
+#: storage/__init__.py:1784
 msgid "_Exit"
 msgstr "ውጣ (_E)"
 
-#: gui.py:1310 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
+#: gui.py:1311 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1446
 msgid "_Retry"
 msgstr "እንደገና ሞክር (_R)"
 
-#: gui.py:1312 storage/partitioning.py:276
+#: gui.py:1313
 #, fuzzy
-msgid "The system will now reboot."
-msgstr "ሲስተሙ አሁን እንደገና ይጀምራል።"
+msgid "The installer will now exit."
+msgstr "ማስገቢያው አሁን ይወጣል..."
 
-#: gui.py:1313 image.py:251 packages.py:332 yuminstall.py:1487
-msgid "_Reboot"
-msgstr "እንደገና አስጀምሩ"
-
-#: gui.py:1315
+#: gui.py:1316
 #, fuzzy
 msgid "Exiting"
 msgstr "ውጣ"
 
-#: gui.py:1400 livecd.py:126 text.py:270 upgrade.py:228 sabayon/livecd.py:67
+#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:68
 #, fuzzy
 msgid "Exit installer"
 msgstr "የ%s ማስገቢያ"
 
-#: gui.py:1401
+#: gui.py:1404
 #, fuzzy
 msgid "Are you sure you wish to exit the installer?"
 msgstr "የተገቢውን ድምጽ «%s» ለመሰረዝ እንደሚፈልጉ እርግጠና ነዎት?"
 
-#: gui.py:1410
+#: gui.py:1413
 #, python-format
 msgid "%s Installer"
 msgstr "የ%s ማስገቢያ"
 
-#: gui.py:1416
+#: gui.py:1419
 msgid "Unable to load title bar"
 msgstr "የአርዕስቱን ባር መጫን አልተቻለም"
 
-#: gui.py:1483
+#: gui.py:1486
 msgid "Install Window"
 msgstr "መስኮት አስገባ"
 
@@ -538,9 +534,13 @@ msgstr ""
 "እባክዎን የማስገባቱን ሥራ ከመቀጠልዎት በፊት ይህንን ዝግጁ ያድርጉ። የማስገባቱን ሥራ አቋርጠው እንደገና ማስጀመር "
 "ከፈለጉ «እንደገና ያስጀምሩ» የሚለውን ይምረጡ።"
 
+#: image.py:251 packages.py:332 yuminstall.py:1487
+msgid "_Reboot"
+msgstr "እንደገና አስጀምሩ"
+
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:388
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:417
 msgid "_Back"
 msgstr "ወደኋላ(_B)"
 
@@ -760,7 +760,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: livecd.py:121 sabayon/livecd.py:62
+#: livecd.py:121 sabayon/livecd.py:63
 #, fuzzy
 msgid "Unable to find image"
 msgstr "የገባ የ%s ገጽታን ማግኘት አልተቻለም"
@@ -798,7 +798,7 @@ msgid ""
 "minutes."
 msgstr "መነሻውን የማስገባት ሂደት፤ ይህ ድንገት ብዙ ደቂቃዎች ሊወስድ ይችላል..."
 
-#: livecd.py:401 sabayon/livecd.py:383
+#: livecd.py:401 sabayon/livecd.py:412
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -1252,12 +1252,12 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "የአውታሩን ወሰኖች በዚህ አሠራር ላይ መጀመር ይፈልጋሉ?"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:203 textw/constants_text.py:56 sabayon/utils.py:874
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:886
 msgid "Yes"
 msgstr "አዎ"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:874
+#: textw/constants_text.py:60 sabayon/utils.py:886
 msgid "No"
 msgstr "አይ"
 
@@ -1303,7 +1303,7 @@ msgid "Read-Only"
 msgstr "ለንባብ ብቻ"
 
 #: rescue.py:295 rescue.py:297 loader/cdinstall.c:248 loader/cdinstall.c:251
-#: loader/method.c:324 storage/__init__.py:1793 textw/upgrade_text.py:139
+#: loader/method.c:324 storage/__init__.py:1784 textw/upgrade_text.py:139
 msgid "Skip"
 msgstr "ዝለል"
 
@@ -1316,7 +1316,8 @@ msgstr "ሲስተም ለማዳን"
 msgid "Which device holds the root partition of your installation?"
 msgstr "የማስገቢያዎትን ዋን መከፋፈያ የያዘው የትኛው መከፋፈያ ነው?"
 
-#: rescue.py:332 rescue.py:336 text.py:626 text.py:628
+#: rescue.py:332 rescue.py:336 text.py:627 text.py:629
+#: textw/complete_text.py:31
 msgid "Exit"
 msgstr "ውጣ"
 
@@ -1384,60 +1385,60 @@ msgstr ""
 msgid "Your system is mounted under the %s directory."
 msgstr "ሲስተምዎት የተከማቸው በ%s ማውጫ ሥር ነው።"
 
-#: text.py:154
+#: text.py:155
 msgid "Passphrase for encrypted device"
 msgstr ""
 
-#: text.py:167
+#: text.py:168
 msgid "Also add this passphrase to all existing encrypted devices"
 msgstr ""
 
-#: text.py:198
+#: text.py:199
 #, fuzzy, python-format
 msgid "The passphrase must be at least %d character long."
 msgid_plural "The passphrase must be at least %d characters long."
 msgstr[0] "ሚስጢራዊ ቃሉ በትንሹ ስድስት አኃዞችን የያዘ መሆን አለበት።"
 msgstr[1] "ሚስጢራዊ ቃሉ በትንሹ ስድስት አኃዞችን የያዘ መሆን አለበት።"
 
-#: text.py:232 ui/lukspassphrase.glade.h:6
+#: text.py:233 ui/lukspassphrase.glade.h:6
 msgid "Passphrase"
 msgstr ""
 
-#: text.py:240 ui/lukspassphrase.glade.h:7
+#: text.py:241 ui/lukspassphrase.glade.h:7
 msgid "This is a global passphrase"
 msgstr ""
 
-#: text.py:355 text.py:359
+#: text.py:356 text.py:360
 #, fuzzy
 msgid "Repository editing is not available in text mode."
 msgstr "ንድፉን ለማስገባት አልተገኘም... የጽሑፍ አሠራሩ ዘዴ ተጀምሯል።"
 
-#: text.py:421
+#: text.py:422
 #, fuzzy, python-format
 msgid "Welcome to %(productName)s for %(productArch)s"
 msgstr "ወደ %s እንኳን ደህና መጡ"
 
-#: text.py:423
+#: text.py:424
 #, python-format
 msgid "Welcome to %s"
 msgstr "ወደ %s እንኳን ደህና መጡ"
 
-#: text.py:425
+#: text.py:426
 msgid ""
 "  <Tab>/<Alt-Tab> between elements   |  <Space> selects   |  <F12> next "
 "screen"
 msgstr "| በመሠረታዊ ነገሮች መሀከል | <ቦታ> ምርጫዎች |  <F12> የሚቀጥለው መመልከቻ"
 
-#: text.py:626 loader/net.c:109 loader/net.c:470 loader/net.c:525
+#: text.py:627 loader/net.c:109 loader/net.c:470 loader/net.c:525
 #: loader/net.c:667 loader/net.c:675 loader/net.c:1096 loader/net.c:1104
 msgid "Retry"
 msgstr "እንደገና ሞክር"
 
-#: text.py:652
+#: text.py:653
 msgid "Cancelled"
 msgstr "ተሰርዟል"
 
-#: text.py:653
+#: text.py:654
 msgid "I can't go to the previous step from here. You will have to try again."
 msgstr "ከዚህ ወደነበረው ደረጃ መሄድ አልችልም። እንደገና መሞከር ይኖርብዎታል።"
 
@@ -1626,23 +1627,23 @@ msgstr ""
 "የሚስጢር ቃል ህጋዊ ያልሆኑ አድማጮችን እንዳይገናኙ እና የማስገባት ሂደቶትን እንዳይቆጣጠሩ ይከላከላል። እባክዎን "
 "ለማስገባቱ ሥራ ለመጠቀም የሚስጢራዊ ቃል ያስገቡ።"
 
-#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47
+#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47 textw/userauth_text.py:134
 msgid "Password:"
 msgstr "ሚስጢራዊ ቃል"
 
-#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49
+#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49 textw/userauth_text.py:136
 msgid "Password (confirm):"
 msgstr "ሚስጢራዊ ቃል (አረጋግጥ):-"
 
-#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70
+#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70 textw/userauth_text.py:162
 msgid "Password Mismatch"
 msgstr "የማይመሳሰል ሚስጢራዊ ቃል"
 
-#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71
+#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71 textw/userauth_text.py:163
 msgid "The passwords you entered were different. Please try again."
 msgstr "ያስገቡት ሚስጢራዊ ቃል የተለየ ነበር። እባክዎን እንደገና ይሞክሩ።"
 
-#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66
+#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66 textw/userauth_text.py:158
 msgid "Password Length"
 msgstr "የሚስጢራዊው ቃል እርዝመት"
 
@@ -2093,7 +2094,7 @@ msgid "Caps Lock is on."
 msgstr ""
 
 #: iw/account_gui.py:102 iw/account_gui.py:110 iw/account_gui.py:117
-#: iw/account_gui.py:137 textw/userauth_text.py:74
+#: iw/account_gui.py:137 textw/userauth_text.py:74 textw/userauth_text.py:166
 msgid "Error with Password"
 msgstr "ሚስጢራዊ ቃሉ ላይ ስሕተት"
 
@@ -2111,7 +2112,7 @@ msgstr "ያስገቡት ሚስጢራዊ ቃል የተለየ ነበር። እባ�
 msgid "The root password must be at least six characters long."
 msgstr "የመነሻው ሚስጢራዊ ቃል በትንሹ ስድስት አኃዞች የያዘ መሆን አለበት።"
 
-#: iw/account_gui.py:127 textw/userauth_text.py:83
+#: iw/account_gui.py:127 textw/userauth_text.py:83 textw/userauth_text.py:190
 #, fuzzy
 msgid "Weak Password"
 msgstr "የሚስጢራዊ ቃል"
@@ -2126,7 +2127,7 @@ msgstr ""
 msgid "Use Anyway"
 msgstr "የተጠቃሚው ስም"
 
-#: iw/account_gui.py:138 textw/userauth_text.py:75
+#: iw/account_gui.py:138 textw/userauth_text.py:75 textw/userauth_text.py:167
 #, fuzzy
 msgid ""
 "Requested password contains non-ASCII characters, which are not allowed."
@@ -2378,7 +2379,7 @@ msgstr ""
 msgid "Congratulations"
 msgstr "እንኳን ደስ ያልዎት"
 
-#: iw/congrats_gui.py:74 textw/complete_text.py:38
+#: iw/congrats_gui.py:74 textw/complete_text.py:39
 #, fuzzy, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2388,27 +2389,27 @@ msgstr ""
 "\n"
 "%s%s"
 
-#: iw/congrats_gui.py:77 textw/complete_text.py:41
+#: iw/congrats_gui.py:77 textw/complete_text.py:42
 msgid "Shutdown"
 msgstr ""
 
-#: iw/congrats_gui.py:79 textw/complete_text.py:43
+#: iw/congrats_gui.py:79 textw/complete_text.py:44
 #, fuzzy
 msgid "Please shutdown to use the installed system.\n"
 msgstr "እባክዎን ማስገባት ለመጀመር ወደ %s አገናኙ..."
 
-#: iw/congrats_gui.py:81 textw/complete_text.py:45
+#: iw/congrats_gui.py:81 textw/complete_text.py:46
 #, fuzzy
 msgid "Please reboot to use the installed system.\n"
 msgstr "እባክዎን ማስገባት ለመጀመር ወደ %s አገናኙ..."
 
-#: iw/congrats_gui.py:86 textw/complete_text.py:50
+#: iw/congrats_gui.py:86 textw/complete_text.py:51
 msgid ""
 "Note that updates may be available to ensure the proper functioning of your "
 "system and installation of these updates is recommended after the reboot."
 msgstr ""
 
-#: iw/congrats_gui.py:90 textw/complete_text.py:54
+#: iw/congrats_gui.py:90 textw/complete_text.py:55
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2438,14 +2439,15 @@ msgstr ""
 
 #: iw/examine_gui.py:67
 #, fuzzy
-msgid "Upgrade an Existing Installation"
-msgstr "የሚገኘውን የማስገባት ሥራ አሻሽል"
+msgid "Bootloader Recovery"
+msgstr "የማስጀመሪያ ተሸካሚ"
 
 #: iw/examine_gui.py:69
 #, fuzzy, python-format
 msgid ""
-"Choose this option if you would like to upgrade your existing %s system.  "
-"This option will preserve the existing data on your storage device(s)."
+"Choose this option if you would like to recover your existing %s system "
+"bootloader. This option will preserve the existing data on your storage "
+"device(s)."
 msgstr ""
 "የሚገኘውን የ%sን አሠራር ለማሻሻል ከፈለጉ ይህንን አማራጭ ይምረጡ።  ይህ አማራጭ ዳታዎት ውስጥ የሚኙትን ድራይቮች "
 "ጠብቆ ያቆይልዎታል።"
@@ -2459,7 +2461,7 @@ msgstr "ምንም የመሥሪያ ድራይቨሮች ለሲስተምዎት አ�
 
 #: iw/examine_gui.py:128
 #, fuzzy, python-format
-msgid "<b>Which %s installation would you like to upgrade?</b>"
+msgid "<b>Which %s installation would you like to recover?</b>"
 msgstr "ምን ማድረግ ይፈልጋሉ?"
 
 #: iw/examine_gui.py:142
@@ -3086,7 +3088,7 @@ msgstr ""
 msgid "Type"
 msgstr "ዓይነት"
 
-#: iw/partition_gui.py:612 storage/__init__.py:1793
+#: iw/partition_gui.py:612 storage/__init__.py:1784
 msgid "Format"
 msgstr "ፎርማት"
 
@@ -3160,7 +3162,7 @@ msgstr "LVM የድምጽ ቡድኖች"
 msgid "RAID Devices"
 msgstr "የRAID መስሪያዎች"
 
-#: iw/partition_gui.py:1017 loader/hdinstall.c:203
+#: iw/partition_gui.py:1017 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "ሀርድ ድራይቮች"
 
@@ -3910,7 +3912,7 @@ msgstr "ሲዲ አልተገኘም"
 
 #: loader/cdinstall.c:431 loader/driverdisk.c:423 loader/driverdisk.c:461
 #: loader/driverdisk.c:542 loader/driverselect.c:79 loader/driverselect.c:153
-#: loader/driverselect.c:179 loader/hdinstall.c:203 loader/hdinstall.c:257
+#: loader/driverselect.c:179 loader/hdinstall.c:206 loader/hdinstall.c:260
 #: loader/kbd.c:119 loader/loader.c:506 loader/loader.c:523
 #: loader/loader.c:1375 loader/loader.c:1408 loader/net.c:578 loader/net.c:949
 #: loader/net.c:1848 loader/net.c:1867 loader/nfsinstall.c:91
@@ -4021,7 +4023,7 @@ msgstr "ተጨማሪ የድራይቨር መረጃ ማከማቻዎች?"
 msgid "Do you wish to load any more driver disks?"
 msgstr "ተጨማሪ የድራይቨር ማከማቻዎችን መጫን ይፈልጋሉ?"
 
-#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:349
+#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:352
 #: loader/kickstart.c:132 loader/kickstart.c:142 loader/kickstart.c:184
 #: loader/kickstart.c:189 loader/kickstart.c:510 loader/modules.c:382
 #: loader/modules.c:398 loader/net.c:1557 loader/net.c:1578
@@ -4095,13 +4097,13 @@ msgid ""
 msgstr ""
 "የገባውን ከISO ገጽታዎች ላይ በሚያነብበት ጊዜ ስሕተት ተከስቷል። እባክዎትን የISO ገጽታ ያጣሩና እንደገና ይሞክሩ።"
 
-#: loader/hdinstall.c:204
+#: loader/hdinstall.c:207
 msgid ""
 "You don't seem to have any hard drives on your system! Would you like to "
 "configure additional devices?"
 msgstr "በሲስተምዎት ላይ ምንም ሀርድ ድራይቭ ያለዎት አይመስልም። ተጨማሪ መሥሪያዎችን ማስተካከል ይፈልጋሉ?"
 
-#: loader/hdinstall.c:217
+#: loader/hdinstall.c:220
 #, fuzzy, c-format
 msgid ""
 "What partition and directory on that partition holds the installation image "
@@ -4111,30 +4113,30 @@ msgstr ""
 "ምን ዓይነት መከፋፈያና ማውጫ ነው በእዛ መከፋፈያ ላይ ያለውን የሲዲውን (iso9660) ገጽታ ለ%s የያዘው? እዚህ "
 "ከተዘረዘሩት የመረጃ ማከማቻ ድራይቭዎትን ካላዩት ተጨማሪ መሥሪያዎችን ለማስተካከል F2ን ይጫኑ"
 
-#: loader/hdinstall.c:241
+#: loader/hdinstall.c:244
 #, fuzzy
 msgid "Directory holding image:"
 msgstr "ማውጫው የያዛቸው ገጽታዎች፦"
 
-#: loader/hdinstall.c:269
+#: loader/hdinstall.c:272
 msgid "Select Partition"
 msgstr "መከፋፈያ ምረጥ"
 
-#: loader/hdinstall.c:316
+#: loader/hdinstall.c:319
 #, fuzzy, c-format
 msgid "Device %s does not appear to contain an installation image."
 msgstr "መስሪያው %s የ%s CDROMን ገጽታዎችን ይዞ አልተገኘም።"
 
-#: loader/hdinstall.c:350
+#: loader/hdinstall.c:353
 #, fuzzy, c-format
 msgid "Bad argument to HD kickstart method command: %s"
 msgstr "መጥፎ ክርክር ለኤችዲ ኪክስታርት የትእዛዝ ዘዴ %s፦ %s"
 
-#: loader/hdinstall.c:422 loader/hdinstall.c:478
+#: loader/hdinstall.c:425 loader/hdinstall.c:481
 msgid "Cannot find kickstart file on hard drive."
 msgstr "የኪክስታርትን ፋይ ሀርድ ድራይቩ ላይ አልተገኘም።"
 
-#: loader/hdinstall.c:465
+#: loader/hdinstall.c:468
 #, c-format
 msgid "Cannot find hard drive for BIOS disk %s"
 msgstr "ለBIOS መረጃ ማከማቻ %s ሀርድ ድራይቭ ማግኘት አልተቻለም"
@@ -4935,11 +4937,11 @@ msgstr ""
 "ስሕተት ተከስቷል - አዲስ የፋይል አሠራር ለመፍጠር ተቀባይነት ያላቸው መሣሪያዎች አልተገኙም። እባክዎን የችግሩን "
 "ምክንያት ለማግኘት ሀርድወሮችን የመርምሩ።"
 
-#: storage/__init__.py:1339 storage/__init__.py:1348
+#: storage/__init__.py:1330 storage/__init__.py:1339
 msgid "Dirty File Systems"
 msgstr "ንጹሕ ያልሆነ የፋይል ሲስተም"
 
-#: storage/__init__.py:1340
+#: storage/__init__.py:1331
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -4951,7 +4953,7 @@ msgstr ""
 "ሥራውን ያስጀምሩና የፋይል ሲስተሙ ተጣርቶ በትክክል ይዘጋ።\n"
 "%s"
 
-#: storage/__init__.py:1349
+#: storage/__init__.py:1340
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -4961,7 +4963,7 @@ msgstr ""
 "የሚከተሉት የፋይል ሲስትሞች በጥራት ያልተከማቹ የእርስዎ የሊኑክስ ሲስተም ነበሩ። ለማንኛውም እንዲከማቹ ይፈልጋሉ?\n"
 "%s"
 
-#: storage/__init__.py:1826
+#: storage/__init__.py:1817
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4972,7 +4974,7 @@ msgid ""
 "swap space, you must reformat as a new-style Linux swap partition."
 msgstr ""
 
-#: storage/__init__.py:1837
+#: storage/__init__.py:1828
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4984,7 +4986,7 @@ msgid ""
 "down your system rather than hibernating it."
 msgstr ""
 
-#: storage/__init__.py:1845
+#: storage/__init__.py:1836
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -4996,7 +4998,7 @@ msgid ""
 "make sure the installer is set to format all swap devices."
 msgstr ""
 
-#: storage/__init__.py:1857
+#: storage/__init__.py:1848
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5007,7 +5009,7 @@ msgid ""
 "installation, you will need to format the device or skip it."
 msgstr ""
 
-#: storage/__init__.py:1868
+#: storage/__init__.py:1859
 #, fuzzy, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -5023,7 +5025,7 @@ msgstr ""
 "\n"
 "ሲስተምዎትን እንደገና ለማስጀመር «እሺ»ን ይጫኑ።"
 
-#: storage/__init__.py:1875
+#: storage/__init__.py:1866
 #, fuzzy, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -5038,11 +5040,11 @@ msgstr ""
 "\n"
 "ሲስተምዎትን እንደገና ለማስጀመር «እሺ»ን ይጫኑ።"
 
-#: storage/__init__.py:1938 storage/__init__.py:1950
+#: storage/__init__.py:1929 storage/__init__.py:1941
 msgid "Invalid mount point"
 msgstr "ተቀባይነት የሌለው የማውጫ ነጥብ"
 
-#: storage/__init__.py:1939
+#: storage/__init__.py:1930
 #, fuzzy, python-format
 msgid ""
 "An error occurred when trying to create %s.  Some element of this path is "
@@ -5053,7 +5055,7 @@ msgstr ""
 "%sን ለመፍጠር በሚሞክርበት ጊዜ ስሕተት ተከስቷውል። አንዳንድ የዚህ መንገድ ክፍል ማውጫ አይደለም።\n"
 "ሲስተምዎትን እንደገና ለማስጀመር <አስገባ>ን ይጫኑ።"
 
-#: storage/__init__.py:1951
+#: storage/__init__.py:1942
 #, fuzzy, python-format
 msgid ""
 "An error occurred when trying to create %(mountpoint)s: %(msg)s.  This is a "
@@ -5065,19 +5067,19 @@ msgstr ""
 "አይቻልም።\n"
 "ሲስተምዎትን እንደገና ለማስጀመር <አስገባ>ን ይጫኑ።"
 
-#: storage/__init__.py:1967 storage/__init__.py:1991
+#: storage/__init__.py:1958 storage/__init__.py:1982
 #, fuzzy
 msgid "Unable to mount filesystem"
 msgstr "ፋይል መጫን አልተቻለም!"
 
-#: storage/__init__.py:1968
+#: storage/__init__.py:1959
 #, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s.  You may "
 "continue installation, but there may be problems."
 msgstr ""
 
-#: storage/__init__.py:1992
+#: storage/__init__.py:1983
 #, fuzzy, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s: %(msg)s. This "
@@ -5137,7 +5139,7 @@ msgid "lvs failed for %s"
 msgstr ""
 
 #: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3281
+#: storage/devices.py:2799 storage/devices.py:3289
 #, fuzzy
 msgid "Creating"
 msgstr "ክሮሽያንኛ"
@@ -5153,7 +5155,7 @@ msgstr "ሲዲሮሙን ለውጥ"
 msgid "A RAID%d set requires atleast %d members"
 msgstr ""
 
-#: storage/devices.py:3282
+#: storage/devices.py:3290
 #, fuzzy, python-format
 msgid "Creating file %s"
 msgstr "በ/dev/%s ላይ መጥፎ እክሎችን በማጣራት ላይ..."
@@ -5402,6 +5404,11 @@ msgstr ""
 "\n"
 "በቂ የሆነ ቦታ ለማስገባት ሥራው በሀርድ ድራይቭዎት ላይ ከሌለ ይህ ሊከሰት ይችላል።"
 
+#: storage/partitioning.py:276
+#, fuzzy
+msgid "The system will now reboot."
+msgstr "ሲስተሙ አሁን እንደገና ይጀምራል።"
+
 #: storage/zfcp.py:50
 msgid "You have not specified a device number or the number is invalid"
 msgstr "የመሥሪያ ቁጥር ወይንም ቁጥሩ ተገቢ እንዳልሆነ ለይተው አልጠቀሱም።"
@@ -5490,15 +5497,11 @@ msgstr ""
 msgid "Could not set zFCP device %(devnum)s offline (%(e)s)."
 msgstr ""
 
-#: textw/complete_text.py:31
-msgid "Reboot"
-msgstr "እንደገና አስጀምር"
-
 #: textw/complete_text.py:33
 msgid "<Enter> to exit"
 msgstr "<አስገባ>ን ለመውጣት ይጫኑ"
 
-#: textw/complete_text.py:61
+#: textw/complete_text.py:62
 msgid "Complete"
 msgstr "የተሟላ"
 
@@ -5777,13 +5780,53 @@ msgstr ""
 msgid "The root password must be at least 6 characters long."
 msgstr "ዋናው የሚስጢር ቃል በትንሹ 6 አኃዞችን የያዘ መሆን አለበት።"
 
-#: textw/userauth_text.py:84
+#: textw/userauth_text.py:84 textw/userauth_text.py:191
 #, fuzzy, python-format
 msgid ""
 "You have provided a weak password: %s\n"
 "\n"
 "Would you like to continue with this password?"
 msgstr "ማሻሻሉን መቀጥል ይፈልጋሉ?"
+
+#: textw/userauth_text.py:111
+#, fuzzy
+msgid "User configuration"
+msgstr "የቪኤንሲ አቀማመጥ"
+
+#: textw/userauth_text.py:114
+msgid "Setup a username for regular (non-administrative) use."
+msgstr ""
+
+#: textw/userauth_text.py:130
+#, fuzzy
+msgid "Username:"
+msgstr "የተጠቃሚው ስም"
+
+#: textw/userauth_text.py:132
+msgid "Full name:"
+msgstr ""
+
+#: textw/userauth_text.py:159
+#, fuzzy
+msgid "User password must be at least 6 characters long."
+msgstr "ዋናው የሚስጢር ቃል በትንሹ 6 አኃዞችን የያዘ መሆን አለበት።"
+
+#: textw/userauth_text.py:172 textw/userauth_text.py:178
+#, fuzzy
+msgid "Error with username"
+msgstr "ከዳታው ስሕተት"
+
+#: textw/userauth_text.py:173
+#, fuzzy
+msgid "Username too short"
+msgstr "የተጠቃሚው ስም"
+
+#: textw/userauth_text.py:179
+#, fuzzy
+msgid ""
+"Requested username contains non-ASCII characters or spaces, which are not "
+"allowed."
+msgstr "የተጠየቀው ሚስጢራዊ ቃል ለሚስጢራዊ ቃል የማይፈቀዱ የናን-አስኪ አኃዞችን ይዟል።"
 
 #: textw/welcome_text.py:29
 #, python-format
@@ -5829,6 +5872,11 @@ msgstr ""
 #: liveinst/liveinst.desktop.in.h:3
 #, fuzzy
 msgid "Install to Hard Drive"
+msgstr "መነሻውን አስገባ"
+
+#: liveinst:5
+#, fuzzy
+msgid "Starting Install to Hard Drive"
 msgstr "መነሻውን አስገባ"
 
 #: ui/GroupSelector.glade.h:1
@@ -6648,91 +6696,99 @@ msgstr "ወልሽ"
 msgid "Zulu"
 msgstr "ዙሉ"
 
-#: sabayon/livecd.py:63
+#: sabayon/livecd.py:64
 #, python-format
 msgid ""
 "The given location [%s] isn't a valid %s live CD to use as an installation "
 "source."
 msgstr ""
 
-#: sabayon/livecd.py:95
+#: sabayon/livecd.py:107
+#, fuzzy
+msgid "Recovering Sabayon."
+msgstr "የቪኤንሲ አቀማመጥ"
+
+#: sabayon/livecd.py:113
 #, fuzzy
 msgid "Installing Sabayon onto hard drive."
 msgstr "የማስጀመሪያው ተሸካሚን በመጫን ላይ..."
 
-#: sabayon/livecd.py:107
+#: sabayon/livecd.py:125
 #, fuzzy
 msgid "Configuring Sabayon"
 msgstr "የቪኤንሲ አቀማመጥ"
 
-#: sabayon/livecd.py:125
+#: sabayon/livecd.py:150
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:202
+#: sabayon/utils.py:214
 msgid "System Health Status Warning"
 msgstr ""
 
-#: sabayon/utils.py:348
+#: sabayon/utils.py:360
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "የታለሙት ድራይቮች በሚያፀዳበት ወቅት ስህተት ነበር። ቅጂው አልተሳካም።"
 
-#: sabayon/utils.py:609
+#: sabayon/utils.py:621
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:611
+#: sabayon/utils.py:623
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:612
+#: sabayon/utils.py:624
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "የማስገባት ሥራ ዓይነት"
 
-#: sabayon/utils.py:642
+#: sabayon/utils.py:654
 #, fuzzy
 msgid "System Installation"
 msgstr "ደብዳቤ ማስገባት"
 
-#: sabayon/utils.py:775
+#: sabayon/utils.py:787
 #, fuzzy
 msgid "Cleaning packages"
 msgstr "አማራጭ ጥቅሎች"
 
-#: sabayon/utils.py:800
+#: sabayon/utils.py:812
 #, fuzzy
 msgid "Cleaning package"
 msgstr "የጠፋ ጥቅል"
 
-#: sabayon/utils.py:840
+#: sabayon/utils.py:852
 #, fuzzy
 msgid "Installation complete"
 msgstr "የማስገባት ሥራ ዓይነት"
 
-#: sabayon/utils.py:872
+#: sabayon/utils.py:884
 #, fuzzy
 msgid ""
 "This DVD contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "በማስገባቱ ሂደት ወቅት የቱን ቋንቋ ነው መጠቀም የሚፈልጉት?"
 
-#: sabayon/utils.py:875
+#: sabayon/utils.py:887
 #, fuzzy
 msgid "Language packs installation"
 msgstr "የጥቅል ማስገባት ሥራ"
 
-#: sabayon/utils.py:886
+#: sabayon/utils.py:898
 msgid "Generating list of files to copy"
 msgstr ""
 
+#, fuzzy
+#~ msgid "Upgrade an Existing Installation"
+#~ msgstr "የሚገኘውን የማስገባት ሥራ አሻሽል"
+
+#~ msgid "Reboot"
+#~ msgstr "እንደገና አስጀምር"
+
 #~ msgid "Install class forcing text mode installation"
 #~ msgstr "የደረጃ ማስገደጃ የጽሑፍ አሠራር ዘዴ የማስገባት ሥራን አስገባ።"
-
-#, fuzzy
-#~ msgid "The installer will now exit."
-#~ msgstr "ማስገቢያው አሁን ይወጣል..."
 
 #, fuzzy
 #~ msgid ""

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: si\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-04-11 21:22+0200\n"
+"POT-Creation-Date: 2010-04-23 14:54+0200\n"
 "PO-Revision-Date: 2010-03-16 05:13+0530\n"
 "Last-Translator: Von_Richsthofen\n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
@@ -26,16 +26,16 @@ msgid "Press <enter> for a shell"
 msgstr " shell එකක් සඳහා <enter> ඔබන්න"
 
 #: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
-#: rescue.py:466 text.py:656 loader/cdinstall.c:228 loader/cdinstall.c:232
+#: rescue.py:466 text.py:657 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
 #: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
 #: loader/driverdisk.c:266 loader/driverdisk.c:422 loader/driverdisk.c:460
 #: loader/driverdisk.c:491 loader/driverdisk.c:526 loader/driverdisk.c:542
 #: loader/driverdisk.c:554 loader/driverdisk.c:562 loader/driverdisk.c:722
 #: loader/driverdisk.c:761 loader/driverselect.c:79 loader/driverselect.c:179
-#: loader/hdinstall.c:115 loader/hdinstall.c:257 loader/hdinstall.c:315
-#: loader/hdinstall.c:349 loader/hdinstall.c:421 loader/hdinstall.c:464
-#: loader/hdinstall.c:477 loader/kbd.c:119 loader/kickstart.c:132
+#: loader/hdinstall.c:115 loader/hdinstall.c:260 loader/hdinstall.c:318
+#: loader/hdinstall.c:352 loader/hdinstall.c:424 loader/hdinstall.c:467
+#: loader/hdinstall.c:480 loader/kbd.c:119 loader/kickstart.c:132
 #: loader/kickstart.c:142 loader/kickstart.c:184 loader/kickstart.c:189
 #: loader/kickstart.c:296 loader/kickstart.c:328 loader/kickstart.c:510
 #: loader/lang.c:114 loader/lang.c:373 loader/loader.c:429 loader/loader.c:465
@@ -138,7 +138,7 @@ msgstr ""
 "නොමැති විය හැක."
 
 #: backend.py:169 image.py:289 livecd.py:198 livecd.py:400
-#: partIntfHelpers.py:237 text.py:354 text.py:358 yuminstall.py:416
+#: partIntfHelpers.py:237 text.py:355 text.py:359 yuminstall.py:416
 #: yuminstall.py:805 yuminstall.py:923 yuminstall.py:928 yuminstall.py:1190
 #: yuminstall.py:1249 yuminstall.py:1440 yuminstall.py:1462
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
@@ -150,25 +150,25 @@ msgstr ""
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
 #: loader/cdinstall.c:504 loader/driverdisk.c:266 loader/driverdisk.c:491
 #: loader/driverdisk.c:526 loader/driverdisk.c:554 loader/driverdisk.c:562
-#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:315
-#: loader/hdinstall.c:421 loader/hdinstall.c:464 loader/hdinstall.c:477
+#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:318
+#: loader/hdinstall.c:424 loader/hdinstall.c:467 loader/hdinstall.c:480
 #: loader/kickstart.c:296 loader/lang.c:114 loader/loader.c:429
 #: loader/loader.c:540 loader/loader.c:1194 loader/mediacheck.c:47
 #: loader/mediacheck.c:86 loader/mediacheck.c:93 loader/mediacheck.c:97
 #: loader/method.c:277 loader/method.c:351 loader/nfsinstall.c:279
 #: loader/nfsinstall.c:296 loader/telnetd.c:93 loader/urlinstall.c:137
 #: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urls.c:330
-#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1794
-#: storage/__init__.py:1881 textw/netconfig_text.py:282
+#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1785
+#: storage/__init__.py:1872 textw/netconfig_text.py:282
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:382
+#: textw/upgrade_text.py:188 sabayon/livecd.py:411
 msgid "Error"
 msgstr "දෝශයකි"
 
-#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1102
-#: gui.py:1162 image.py:82 installinterfacebase.py:41 text.py:485 text.py:545
+#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1103
+#: gui.py:1163 image.py:82 installinterfacebase.py:41 text.py:486 text.py:546
 #: yuminstall.py:1418 yuminstall.py:1622 yuminstall.py:1657
 #: iw/blpasswidget.py:148 iw/upgrade_swap_gui.py:190
 #: iw/upgrade_swap_gui.py:198 iw/upgrade_swap_gui.py:205
@@ -187,19 +187,19 @@ msgstr ""
 "\n"
 "ඔබ ස්ථාපනය සමඟ ඉදිරියට යාමට කැමතිද?"
 
-#: bootloader.py:60 gui.py:1053 gui.py:1198 gui.py:1403 image.py:91
+#: bootloader.py:60 gui.py:1054 gui.py:1199 gui.py:1406 image.py:91
 #: kickstart.py:156 livecd.py:205 livecd.py:407 packages.py:130 upgrade.py:56
 #: upgrade.py:237 yuminstall.py:257 yuminstall.py:703 yuminstall.py:925
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1975 storage/dasd.py:139 sabayon/livecd.py:389
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:418
 msgid "_Exit installer"
 msgstr "ස්ථාපකයෙන් ඉවත්වන්න (_E)"
 
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1976
+#: iw/partition_gui.py:1598 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "කරගෙන යන්න(_C)"
 
@@ -232,8 +232,8 @@ msgstr "සම්පූර්ණයි"
 msgid "In progress"
 msgstr "සැකසෙමින් පවතී"
 
-#: cmdline.py:89 gui.py:1193 kickstart.py:1214 kickstart.py:1222
-#: kickstart.py:1260 kickstart.py:1268 text.py:391
+#: cmdline.py:89 gui.py:1194 kickstart.py:1214 kickstart.py:1222
+#: kickstart.py:1260 kickstart.py:1268 text.py:392
 #, python-format
 msgid ""
 "The following error was found while parsing the kickstart configuration "
@@ -272,15 +272,15 @@ msgstr " මෙම මෘදුකාංගයේ සම්පාදක සම�
 msgid " against anaconda at %s"
 msgstr " %s හීදී anaconda ට එරෙහිව"
 
-#: gui.py:109
+#: gui.py:110
 msgid "An error occurred saving screenshots to disk."
 msgstr "තිර රූප තැටියට පිටපත් කිරීමේදී දෝශයක් ඇතිවිය"
 
-#: gui.py:120
+#: gui.py:121
 msgid "Screenshots Copied"
 msgstr "රූපරාමු පිටපත් කර අවසන්"
 
-#: gui.py:121
+#: gui.py:122
 msgid ""
 "The screenshots have been saved in the directory:\n"
 "\n"
@@ -294,20 +294,20 @@ msgstr ""
 "\n"
 "පරිගණකය නැවත ක්‍රියාත්මක කර root ලෙස පද්ධතිය තුලට පිවිස මෙම රූපරාමු ලබාගත හැකිය."
 
-#: gui.py:164
+#: gui.py:165
 msgid "Saving Screenshot"
 msgstr "රූපරාමුව සුරක්‍ෂිත කරමින්"
 
-#: gui.py:165
+#: gui.py:166
 #, python-format
 msgid "A screenshot named '%s' has been saved."
 msgstr "'%s'ලෙස නම් කර තිබෙන රූපරාමුව සුරක්‍ෂිත කර ඇත."
 
-#: gui.py:168
+#: gui.py:169
 msgid "Error Saving Screenshot"
 msgstr "රූපරාමුව සුරැකීමේදී දෝශයක් ඇතිවිය"
 
-#: gui.py:169
+#: gui.py:170
 msgid ""
 "An error occurred while saving the screenshot.  If this occurred during "
 "package installation, you may need to try several times for it to succeed."
@@ -315,29 +315,29 @@ msgstr ""
 "රූපරාමුව සුරක්‍ෂිත කිරීමේදී දෝශයක් ඇතිවිය. මෙය හටගනු ලැබූයේ ඇසුරුම් ස්ථාපනය කරනවිටදී නම් මෙය "
 "සාර්ථක කරගැනීම සඳහා කිහිප වරක් උත්සහ කර බලන්න."
 
-#: gui.py:510
+#: gui.py:511
 msgid "Installation Key"
 msgstr "ස්ථාපන අංකය"
 
-#: gui.py:581 text.py:149
+#: gui.py:582 text.py:150
 msgid ""
 "Choose a passphrase for the encrypted devices. You will be prompted for this "
 "passphrase during system boot."
 msgstr "ගුප්තකේතනය කල උපකරණ සඳහා මුර වදන තෝරන්න. පද්ධති ආරම්භයේදි ඔබෙන් මෙය විමසනු ඇත."
 
-#: gui.py:600 gui.py:608 text.py:187 text.py:197
+#: gui.py:601 gui.py:609 text.py:188 text.py:198
 msgid "Error with passphrase"
 msgstr "මුර වදන සමඟ දෝශයක් හට ගැනුනි"
 
-#: gui.py:601 text.py:188
+#: gui.py:602 text.py:189
 msgid "The passphrases you entered were different.  Please try again."
 msgstr "ඔබ ඇතුළත් කල මුර වදන් එකිනෙකට වෙනස් විය. කරුණාකර නැවත උත්සාහ කරන්න."
 
-#: gui.py:609
+#: gui.py:610
 msgid "The passphrase must be at least eight characters long."
 msgstr "මුර වදනේ දිග අවම වශයෙන් අකුරු අටකින් වත් සමන්විය යුතු වේ."
 
-#: gui.py:643 text.py:225
+#: gui.py:644 text.py:226
 #, python-format
 msgid ""
 "Device %s is encrypted. In order to access the device's contents during "
@@ -346,18 +346,18 @@ msgstr ""
 "%s උපකරණය ගුප්තකේතිතයි. ස්ථාපනයේදී එහි අන්තර්ගතයන්ට ඇතුළු වීමට නම් උපකරණයේ මුරවදන පහත ඇතුළත් "
 "කරන්න"
 
-#: gui.py:734 gui.py:1403 partIntfHelpers.py:157 partIntfHelpers.py:342
-#: text.py:100 text.py:101 iw/account_gui.py:130 loader/dirbrowser.c:129
+#: gui.py:735 gui.py:1406 partIntfHelpers.py:157 partIntfHelpers.py:342
+#: text.py:101 text.py:102 iw/account_gui.py:130 loader/dirbrowser.c:129
 #: loader/driverdisk.c:423 loader/kickstart.c:328 loader/loader.c:465
 #: loader/loader.c:577 textw/constants_text.py:48
 msgid "Cancel"
 msgstr "අවලංගු කරන්න"
 
-#: gui.py:746 gui.py:747 gui.py:863 gui.py:864 ui/anaconda.glade.h:3
+#: gui.py:747 gui.py:748 gui.py:864 gui.py:865 ui/anaconda.glade.h:3
 msgid "_Debug"
 msgstr "දොස් හරණය(_D)"
 
-#: gui.py:1103 text.py:486
+#: gui.py:1104 text.py:487
 #, python-format
 msgid ""
 "Error processing drive:\n"
@@ -385,23 +385,23 @@ msgstr ""
 "\n"
 "මෙම ක්‍රියාව නැවත ආරම්භ කිරීමක් ඇවැසි අනෙක් තැටි සඳහාද ඇතුළත් වේ.%(details)s"
 
-#: gui.py:1112 gui.py:1170 text.py:495 text.py:553
+#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
 msgid "_Ignore"
 msgstr "නොසලකා හරින්න (_I)"
 
-#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
+#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
 msgid "Ignore _all"
 msgstr "සියල්ල නොසලකා හරින්න (_a)"
 
-#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
+#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
 msgid "_Re-initialize"
 msgstr "නැවත-ආරම්භ කරමින් (_R)"
 
-#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
+#: gui.py:1116 gui.py:1174 text.py:499 text.py:557
 msgid "Re-ini_tialize all"
 msgstr "සියල්ල නැවත-ආරම්භ කරමින් (_t)"
 
-#: gui.py:1163 text.py:546
+#: gui.py:1164 text.py:547
 #, python-format
 msgid ""
 "Error processing LVM.\n"
@@ -415,19 +415,19 @@ msgstr ""
 "LVM මෙටා දත්ත මකා දැමිය හැක, හෝ මඟ හැරීම අන්තර්ගතය සුරකියි. මෙම ක්‍රියාව සියළු වෙනත් "
 "දෝශසහිත මෙටාදත්ත ඇති PV සඳහා වලංගු වේ."
 
-#: gui.py:1195 text.py:393
+#: gui.py:1196 text.py:394
 msgid "Error Parsing Kickstart Config"
 msgstr "Kickstart මාණකරනය පරිශීලනය කරනවිට දෝශයක් ඇතිවිය"
 
-#: gui.py:1223
+#: gui.py:1224
 msgid "default:LTR"
 msgstr "විකල්පය:LTR"
 
-#: gui.py:1303 text.py:621
+#: gui.py:1304 text.py:622
 msgid "Error!"
 msgstr "දෝශයක්!"
 
-#: gui.py:1304 text.py:622
+#: gui.py:1305 text.py:623
 #, python-format
 msgid ""
 "An error occurred when attempting to load an installer interface component.\n"
@@ -438,46 +438,43 @@ msgstr ""
 "\n"
 "පන්තියේ නම = %s"
 
-#: gui.py:1309 image.py:164 image.py:194 packages.py:328
-#: storage/__init__.py:1793
+#: gui.py:1310 gui.py:1314 image.py:164 image.py:194 packages.py:328
+#: storage/__init__.py:1784
 msgid "_Exit"
 msgstr "පිටවෙනු"
 
-#: gui.py:1310 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
+#: gui.py:1311 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1446
 msgid "_Retry"
 msgstr "නැවත උත්සහ කරනු"
 
-#: gui.py:1312 storage/partitioning.py:276
-msgid "The system will now reboot."
-msgstr "පද්ධතිය දැන් නැවත ක්‍රියාත්මක වනු ඇත"
+#: gui.py:1313
+#, fuzzy
+msgid "The installer will now exit."
+msgstr "ස්ථාපකය දැන් පිටවෙනු ඇත..."
 
-#: gui.py:1313 image.py:251 packages.py:332 yuminstall.py:1487
-msgid "_Reboot"
-msgstr "නැවත ක්‍රියාත්මක කරන්න(_R)"
-
-#: gui.py:1315
+#: gui.py:1316
 msgid "Exiting"
 msgstr "පිටවන්න"
 
-#: gui.py:1400 livecd.py:126 text.py:270 upgrade.py:228 sabayon/livecd.py:67
+#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:68
 msgid "Exit installer"
 msgstr "ස්ථාපනයෙන් ඉවත්වන්න"
 
-#: gui.py:1401
+#: gui.py:1404
 msgid "Are you sure you wish to exit the installer?"
 msgstr "ඔබට ස්ථාපකයෙන් ඉවත්වීමට අවශ්‍ය බව විශ්වාසද ?"
 
-#: gui.py:1410
+#: gui.py:1413
 #, python-format
 msgid "%s Installer"
 msgstr "ස්ථාපනය කරන්නා %s"
 
-#: gui.py:1416
+#: gui.py:1419
 msgid "Unable to load title bar"
 msgstr "තොරතුරු තීරුව රුවීමට නොහැකි විය"
 
-#: gui.py:1483
+#: gui.py:1486
 msgid "Install Window"
 msgstr "ස්ථාපන කවුළුව"
 
@@ -550,9 +547,13 @@ msgstr ""
 "කරුණාකර ස්ථාපනයේ ඉදිරියට යාමට පෙර ඒවා ලබාගන්න. ඔබට ස්ථාපනයෙන් ඉවත් වීමට ඇවැසි නම් "
 "කරුණාකර \"නැවත අරඹන්න\" ක්ලික් කරන්න."
 
+#: image.py:251 packages.py:332 yuminstall.py:1487
+msgid "_Reboot"
+msgstr "නැවත ක්‍රියාත්මක කරන්න(_R)"
+
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:388
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:417
 msgid "_Back"
 msgstr "ආපසු(_B)"
 
@@ -781,7 +782,7 @@ msgstr ""
 "නැවත උත්සාහ කරන්න:\n"
 "%s"
 
-#: livecd.py:121 sabayon/livecd.py:62
+#: livecd.py:121 sabayon/livecd.py:63
 msgid "Unable to find image"
 msgstr "පිළිඹුව සොයාගත නොහැක"
 
@@ -814,7 +815,7 @@ msgid ""
 "minutes."
 msgstr "පසු-ස්ථාපන ගොනු පද්ධති වෙනස්කම් සිදු කරමින් පවතී. මෙයට මිනිත්තු කිහිපයක් ගතවිය හැක."
 
-#: livecd.py:401 sabayon/livecd.py:383
+#: livecd.py:401 sabayon/livecd.py:412
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -1263,12 +1264,12 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "පද්ධතිය තුල තිබෙන ජාල සම්බන්ධක අතුරු මුහුණත් ආරම්භ කිරීමට ඔබට අවශ්‍යද ?"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:203 textw/constants_text.py:56 sabayon/utils.py:874
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:886
 msgid "Yes"
 msgstr "හරි"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:874
+#: textw/constants_text.py:60 sabayon/utils.py:886
 msgid "No"
 msgstr "නැත"
 
@@ -1315,7 +1316,7 @@ msgid "Read-Only"
 msgstr "කියවීමට පමණි"
 
 #: rescue.py:295 rescue.py:297 loader/cdinstall.c:248 loader/cdinstall.c:251
-#: loader/method.c:324 storage/__init__.py:1793 textw/upgrade_text.py:139
+#: loader/method.c:324 storage/__init__.py:1784 textw/upgrade_text.py:139
 msgid "Skip"
 msgstr "මඟ හරින්න"
 
@@ -1327,7 +1328,8 @@ msgstr "මුදවා ගැනීමට තිබෙන පද්ධතිය
 msgid "Which device holds the root partition of your installation?"
 msgstr "ඔබේ ස්ථාපනයේ root කොටස් දරා සිටින්නේ කුමන උපාංගයද?"
 
-#: rescue.py:332 rescue.py:336 text.py:626 text.py:628
+#: rescue.py:332 rescue.py:336 text.py:627 text.py:629
+#: textw/complete_text.py:31
 msgid "Exit"
 msgstr "පිටවෙනු"
 
@@ -1398,60 +1400,60 @@ msgstr ""
 msgid "Your system is mounted under the %s directory."
 msgstr "ඔබේ පද්ධතිය %s බහලුම යටතේ සවිකරන ලදී"
 
-#: text.py:154
+#: text.py:155
 msgid "Passphrase for encrypted device"
 msgstr "ගුප්තකේතනය කල උපකරණය සඳහා මුරවදන"
 
-#: text.py:167
+#: text.py:168
 msgid "Also add this passphrase to all existing encrypted devices"
 msgstr "සියළු පවතින ගුප්තකේතන උපකරණයන් සඳහා මෙම මුරවදන ඇතුළත් කරන්න"
 
-#: text.py:198
+#: text.py:199
 #, fuzzy, python-format
 msgid "The passphrase must be at least %d character long."
 msgid_plural "The passphrase must be at least %d characters long."
 msgstr[0] "මුරපදයේ දිග අවම වශයෙන් අකුරු %d වත් විය යුතු වේ."
 msgstr[1] "මුරපදයේ දිග අවම වශයෙන් අකුරු %d වත් විය යුතු වේ."
 
-#: text.py:232 ui/lukspassphrase.glade.h:6
+#: text.py:233 ui/lukspassphrase.glade.h:6
 msgid "Passphrase"
 msgstr "මුරවදන"
 
-#: text.py:240 ui/lukspassphrase.glade.h:7
+#: text.py:241 ui/lukspassphrase.glade.h:7
 msgid "This is a global passphrase"
 msgstr "මෙය ගෝලීය මුරවදනකි"
 
-#: text.py:355 text.py:359
+#: text.py:356 text.py:360
 msgid "Repository editing is not available in text mode."
 msgstr "කෝෂ්ඨාගාර සැකසීම පෙළ ප්‍රකාරයේ නොපවතී."
 
-#: text.py:421
+#: text.py:422
 #, python-format
 msgid "Welcome to %(productName)s for %(productArch)s"
 msgstr "%(productArch)s සඳහා %(productName)s වෙත ආයුබෝවන්"
 
-#: text.py:423
+#: text.py:424
 #, python-format
 msgid "Welcome to %s"
 msgstr "%s වෙත සාදරයෙන් පිළිගනිමු"
 
-#: text.py:425
+#: text.py:426
 msgid ""
 "  <Tab>/<Alt-Tab> between elements   |  <Space> selects   |  <F12> next "
 "screen"
 msgstr ""
 "  <Tab>/<Alt-Tab> සංඝටකයන් අතර   |  <Space> තෝරාගැනීමට   |  <F12> මීලඟ තිරයට"
 
-#: text.py:626 loader/net.c:109 loader/net.c:470 loader/net.c:525
+#: text.py:627 loader/net.c:109 loader/net.c:470 loader/net.c:525
 #: loader/net.c:667 loader/net.c:675 loader/net.c:1096 loader/net.c:1104
 msgid "Retry"
 msgstr "නැවත උත්සහ කරන්න"
 
-#: text.py:652
+#: text.py:653
 msgid "Cancelled"
 msgstr "අවලංගු කරන ලදී"
 
-#: text.py:653
+#: text.py:654
 msgid "I can't go to the previous step from here. You will have to try again."
 msgstr "මාහට පෙර පියවරෙන් ඉදිරියට යා නොහැක. ඔබ විසින් මෙය නැවත උත්සහ කලයුතු වේ."
 
@@ -1655,23 +1657,23 @@ msgstr ""
 "ඔබේ ස්ථාපන ක්‍රියාවලියට අනවසර පිවිසුම්, සවන්දීම් මුරපදය මඟින් වලකාලනු ඇත. කරුණාකර ස්ථාපනය සඳහා "
 "භාවිත කිරීමට මුරපදයක් ඇතුල් කරන්න"
 
-#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47
+#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47 textw/userauth_text.py:134
 msgid "Password:"
 msgstr "මුරපදය:"
 
-#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49
+#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49 textw/userauth_text.py:136
 msgid "Password (confirm):"
 msgstr "මුරපදය (තහවුරු කරන්න):"
 
-#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70
+#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70 textw/userauth_text.py:162
 msgid "Password Mismatch"
 msgstr "මුරපදයන් සමාන නොවේ"
 
-#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71
+#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71 textw/userauth_text.py:163
 msgid "The passwords you entered were different. Please try again."
 msgstr "ඔබ විසින් ඇතුලත්කල මුරපදයන් අසමාන වේ, කරුණාකර නැවත උත්සහ කරන්න"
 
-#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66
+#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66 textw/userauth_text.py:158
 msgid "Password Length"
 msgstr "මුරපදයේප්‍රමාණය"
 
@@ -2109,7 +2111,7 @@ msgid "Caps Lock is on."
 msgstr "කැප්ස් යතුර යොදා ඇත"
 
 #: iw/account_gui.py:102 iw/account_gui.py:110 iw/account_gui.py:117
-#: iw/account_gui.py:137 textw/userauth_text.py:74
+#: iw/account_gui.py:137 textw/userauth_text.py:74 textw/userauth_text.py:166
 msgid "Error with Password"
 msgstr "මුරපදය සමඟ දෝශයක් හට ගැනුනි"
 
@@ -2129,7 +2131,7 @@ msgstr "ඔබ විසින් ඇතුල් කරන ලද ප්‍ර�
 msgid "The root password must be at least six characters long."
 msgstr "ප්‍රාධන පරිශීලකගේ මුරපදය අවම වශයෙන් අක්‍ෂර සයකින් සමන්විත යුතුය"
 
-#: iw/account_gui.py:127 textw/userauth_text.py:83
+#: iw/account_gui.py:127 textw/userauth_text.py:83 textw/userauth_text.py:190
 msgid "Weak Password"
 msgstr "දුර්වල මුරපදයක්"
 
@@ -2142,7 +2144,7 @@ msgstr "ඔබ දුර්වල මුරපදයක් යොදා ඇත: 
 msgid "Use Anyway"
 msgstr "කෙසේහෝ භාවිත කරන්න"
 
-#: iw/account_gui.py:138 textw/userauth_text.py:75
+#: iw/account_gui.py:138 textw/userauth_text.py:75 textw/userauth_text.py:167
 msgid ""
 "Requested password contains non-ASCII characters, which are not allowed."
 msgstr "විමසන ලද මුරපදය තුල ASCII නොවන අක්‍ෂර ඇති බැවින් මෙය භාවිත කල නොහැක."
@@ -2400,7 +2402,7 @@ msgstr ""
 msgid "Congratulations"
 msgstr "සුභපැතුම්"
 
-#: iw/congrats_gui.py:74 textw/complete_text.py:38
+#: iw/congrats_gui.py:74 textw/complete_text.py:39
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2409,19 +2411,19 @@ msgstr ""
 "සුබපැතුම්, ඔබේ %s ස්ථාපනය සම්පූර්ණයි.\n"
 "\n"
 
-#: iw/congrats_gui.py:77 textw/complete_text.py:41
+#: iw/congrats_gui.py:77 textw/complete_text.py:42
 msgid "Shutdown"
 msgstr "වසාදමන්න"
 
-#: iw/congrats_gui.py:79 textw/complete_text.py:43
+#: iw/congrats_gui.py:79 textw/complete_text.py:44
 msgid "Please shutdown to use the installed system.\n"
 msgstr "ස්ථාපිත පද්ධතිය භාවිත කිරීමට වසාදමන්න.\n"
 
-#: iw/congrats_gui.py:81 textw/complete_text.py:45
+#: iw/congrats_gui.py:81 textw/complete_text.py:46
 msgid "Please reboot to use the installed system.\n"
 msgstr "ස්ථාපිත පද්ධතිය භාවිත කිරීමට නැවත ආරම්භ කරන්න.\n"
 
-#: iw/congrats_gui.py:86 textw/complete_text.py:50
+#: iw/congrats_gui.py:86 textw/complete_text.py:51
 msgid ""
 "Note that updates may be available to ensure the proper functioning of your "
 "system and installation of these updates is recommended after the reboot."
@@ -2429,7 +2431,7 @@ msgstr ""
 "ඔබේ පද්ධතිය නිසිපරිදි ක්‍රියාත්මක වීම තහවුරු කිරීම සඳහා යාවත්කාලීන පවතින බව සලකන්න. නැවත "
 "ආරම්භයෙන් පසු යාවත්කාලීන ස්ථාපනය නිර්දේශිතයි."
 
-#: iw/congrats_gui.py:90 textw/complete_text.py:54
+#: iw/congrats_gui.py:90 textw/complete_text.py:55
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2461,14 +2463,16 @@ msgstr ""
 "මෘදුකාංග ප්‍රතිස්ථාපනය පදනම් වේ."
 
 #: iw/examine_gui.py:67
-msgid "Upgrade an Existing Installation"
-msgstr "පවතින ස්ථාපනයක් යාවත්කාලීන කරන්න"
+#, fuzzy
+msgid "Bootloader Recovery"
+msgstr "ඇරඹුම්පූරක උපකරණය"
 
 #: iw/examine_gui.py:69
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"Choose this option if you would like to upgrade your existing %s system.  "
-"This option will preserve the existing data on your storage device(s)."
+"Choose this option if you would like to recover your existing %s system "
+"bootloader. This option will preserve the existing data on your storage "
+"device(s)."
 msgstr ""
 "ඔබේ %s පද්ධතිය ප්‍රගමනය කරීම සඳහා මෙම විකල්පය තෝරා ගන්න. මෙහි ධාවකයන්ගේ තිබෙන දත්ත වලට "
 "හානියක් සිදු නොවේ"
@@ -2480,8 +2484,8 @@ msgid ""
 msgstr "ඔබේ පද්ධතියේ පවතින එක් ස්ථාපනයක් වත් හඳුනාගත නොහැකි විය. දැන් ඔබ කිරීමට කැමති කුමක්ද?"
 
 #: iw/examine_gui.py:128
-#, python-format
-msgid "<b>Which %s installation would you like to upgrade?</b>"
+#, fuzzy, python-format
+msgid "<b>Which %s installation would you like to recover?</b>"
 msgstr "<b>ඔබට යාවත්කාලීන කිරීමට ඇවැසි %s ස්ථාපනය කුමක්ද?</b>"
 
 #: iw/examine_gui.py:142
@@ -3105,7 +3109,7 @@ msgstr "MD RAID ARRAY %s (%-0.f MB)"
 msgid "Type"
 msgstr "ගණය"
 
-#: iw/partition_gui.py:612 storage/__init__.py:1793
+#: iw/partition_gui.py:612 storage/__init__.py:1784
 msgid "Format"
 msgstr "ව්‍යුහගත කරන්න"
 
@@ -3179,7 +3183,7 @@ msgstr "LVM පරිමා කණ්ඩායම්"
 msgid "RAID Devices"
 msgstr "RAID උපාංග"
 
-#: iw/partition_gui.py:1017 loader/hdinstall.c:203
+#: iw/partition_gui.py:1017 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "දෘඪාංග උපකරණ"
 
@@ -3945,7 +3949,7 @@ msgstr "තැටිය සොයාගත නොහැකි විය"
 
 #: loader/cdinstall.c:431 loader/driverdisk.c:423 loader/driverdisk.c:461
 #: loader/driverdisk.c:542 loader/driverselect.c:79 loader/driverselect.c:153
-#: loader/driverselect.c:179 loader/hdinstall.c:203 loader/hdinstall.c:257
+#: loader/driverselect.c:179 loader/hdinstall.c:206 loader/hdinstall.c:260
 #: loader/kbd.c:119 loader/loader.c:506 loader/loader.c:523
 #: loader/loader.c:1375 loader/loader.c:1408 loader/net.c:578 loader/net.c:949
 #: loader/net.c:1848 loader/net.c:1867 loader/nfsinstall.c:91
@@ -4059,7 +4063,7 @@ msgstr "තවත් ධාවක සඳහා තැටි ඔබ සතුව 
 msgid "Do you wish to load any more driver disks?"
 msgstr "තව ධාහක තැටි රුවීමට ඔබ කැමතිද?"
 
-#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:349
+#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:352
 #: loader/kickstart.c:132 loader/kickstart.c:142 loader/kickstart.c:184
 #: loader/kickstart.c:189 loader/kickstart.c:510 loader/modules.c:382
 #: loader/modules.c:398 loader/net.c:1557 loader/net.c:1578
@@ -4135,13 +4139,13 @@ msgstr ""
 "ඔබේ දෘඩ තැටියෙන් සථාපන පිළිබිඹු සොයාගැනීමේ දෝශයක්. කරුණාකර ඔබේ පිළිබිඹු පිරික්සා නැවත උත්සාහ "
 "කරන්න."
 
-#: loader/hdinstall.c:204
+#: loader/hdinstall.c:207
 msgid ""
 "You don't seem to have any hard drives on your system! Would you like to "
 "configure additional devices?"
 msgstr "ඔබේ පද්ධතිය තුල දෘඩ තැටියක් නොමැති බව පෙනී යයි! අමතර උපාංගයන් මානන්න ඔබට අවශ්‍යද?"
 
-#: loader/hdinstall.c:217
+#: loader/hdinstall.c:220
 #, c-format
 msgid ""
 "What partition and directory on that partition holds the installation image "
@@ -4151,29 +4155,29 @@ msgstr ""
 "%s සඳහා වන ස්ථාපන පිළිබිඹුව රඳවා තබාගන්නා කොටස හා බහාළුම කුමක්ද? ඔබ භාවිත කරන තැටි "
 "ධාවකය මෙහි ලැයිස්තුගත කර නොමැති නම්, අමතර උපකරණ සැකසීම සඳහා F2 ඔබන්න."
 
-#: loader/hdinstall.c:241
+#: loader/hdinstall.c:244
 msgid "Directory holding image:"
 msgstr "බහාළුම් රඳවන පිළිබිඹුව:"
 
-#: loader/hdinstall.c:269
+#: loader/hdinstall.c:272
 msgid "Select Partition"
 msgstr "කොටස තෝරන්න"
 
-#: loader/hdinstall.c:316
+#: loader/hdinstall.c:319
 #, c-format
 msgid "Device %s does not appear to contain an installation image."
 msgstr "%s උපාංගය සතුව ස්ථාපන පිළිබිඹුවක් පවතින බවක් නොපෙනේ."
 
-#: loader/hdinstall.c:350
+#: loader/hdinstall.c:353
 #, c-format
 msgid "Bad argument to HD kickstart method command: %s"
 msgstr "HD kickstart විධාන ක්‍රමය සඳහා වැරදි පරාමිතියන්: %s"
 
-#: loader/hdinstall.c:422 loader/hdinstall.c:478
+#: loader/hdinstall.c:425 loader/hdinstall.c:481
 msgid "Cannot find kickstart file on hard drive."
 msgstr "දෘඪ තැටිය තුල kickstart ගොනුව සොයා ගැනීමට නොහැක"
 
-#: loader/hdinstall.c:465
+#: loader/hdinstall.c:468
 #, c-format
 msgid "Cannot find hard drive for BIOS disk %s"
 msgstr "%s BIOS තැටිය සඳහා වන දෘඪ තැටිය සොයාගත නොහැකි විය"
@@ -4976,11 +4980,11 @@ msgstr ""
 "දෝශයක් ඇති විය - නව ගොනු පද්ධති සෑදීම සඳහා වලංගු ධාවකයක් සොයාගත නොහැකි විය. කරුණාකර ඔබේ "
 "දෘඪාංග පරීක්‍ෂා කර මෙම ගැටළුවට තුඩු දුන් හේතුව සොයාගන්න."
 
-#: storage/__init__.py:1339 storage/__init__.py:1348
+#: storage/__init__.py:1330 storage/__init__.py:1339
 msgid "Dirty File Systems"
 msgstr "කිළිටි ගොනු පද්ධති"
 
-#: storage/__init__.py:1340
+#: storage/__init__.py:1331
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -4993,7 +4997,7 @@ msgstr ""
 "ඉඩ හරින්න.\n"
 "%s"
 
-#: storage/__init__.py:1349
+#: storage/__init__.py:1340
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -5004,7 +5008,7 @@ msgstr ""
 "සවිකිරීමට ඔබට අවශ්‍යද?\n"
 "%s"
 
-#: storage/__init__.py:1826
+#: storage/__init__.py:1817
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5021,7 +5025,7 @@ msgstr ""
 "යනු පැරණි මාදිලියේ ලිනක්ස් ස්වැප් කොටසකි. ඔබට මෙය ස්වැප් ඉඩ ලෙස යොදාගැනීමට ඇවැසි නම් ඔබට එය "
 "නව-මාදිලියට අනුව නැවත හැඩසවි ගැන්වීමට සිදුවේ ."
 
-#: storage/__init__.py:1837
+#: storage/__init__.py:1828
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5039,7 +5043,7 @@ msgstr ""
 "ඔබේ /etc/fstab ගොනුව තුල මෘදුකාංග අත්හිටවීමේ කොටසක් භාවිතයේ ඇත, මින් ගම්‍ය වන්නේ ඔබේ "
 "පද්ධතිය නිද්‍රාශීලීව තිබෙන බවයි. ප්‍රගමනය සඳහා නිද්‍රාශීලිව මෙය තබනු වෙනුවට වසා දමන්න."
 
-#: storage/__init__.py:1845
+#: storage/__init__.py:1836
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5058,7 +5062,7 @@ msgstr ""
 "වන්නේ ඔබේ පද්ධතිය නිද්‍රාශීලී වෙමින් පවතින බවයි. ඔබ විසින් නව ස්ථාපනයක් සිදුකරන්නේ නම් සියළුම swap "
 "කොටස් සංයුති කිරීමට වග බලාගන්න."
 
-#: storage/__init__.py:1857
+#: storage/__init__.py:1848
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5075,7 +5079,7 @@ msgstr ""
 "සහාය දක්වන ස්වැප් වෙළුමක් නොදරයි, ඉදිරියට යාමට නම් ඔබට එය නැවත හැඩසවු ගැන්වීමට හෝ මඟහැර "
 "යාමට සිදුවේ."
 
-#: storage/__init__.py:1868
+#: storage/__init__.py:1859
 #, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -5091,7 +5095,7 @@ msgstr ""
 "\n"
 "පද්ධතිය නැවත ක්‍රියාත්මක කිරීම සඳහා <Enter> සූචකය ඔබන්න"
 
-#: storage/__init__.py:1875
+#: storage/__init__.py:1866
 #, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -5106,11 +5110,11 @@ msgstr ""
 "\n"
 "පද්ධතිය නැවත ක්‍රියාත්මක කිරීම සඳහා <Enter> සූචකය ඔබන්න"
 
-#: storage/__init__.py:1938 storage/__init__.py:1950
+#: storage/__init__.py:1929 storage/__init__.py:1941
 msgid "Invalid mount point"
 msgstr "සවිකල යුතු සාවද්‍යයි"
 
-#: storage/__init__.py:1939
+#: storage/__init__.py:1930
 #, python-format
 msgid ""
 "An error occurred when trying to create %s.  Some element of this path is "
@@ -5123,7 +5127,7 @@ msgstr ""
 "\n"
 "පද්ධතිය නැවත ක්‍රියාත්මක කිරීම සඳහා <Enter> සූචකය ඔබන්න."
 
-#: storage/__init__.py:1951
+#: storage/__init__.py:1942
 #, python-format
 msgid ""
 "An error occurred when trying to create %(mountpoint)s: %(msg)s.  This is a "
@@ -5136,11 +5140,11 @@ msgstr ""
 "\n"
 "ස්ථාපනයෙන් ඉවත් වීමට  <Enter> ඔබන්න."
 
-#: storage/__init__.py:1967 storage/__init__.py:1991
+#: storage/__init__.py:1958 storage/__init__.py:1982
 msgid "Unable to mount filesystem"
 msgstr "ගොනු පද්ධතිය සවි කිරීමට නොහැක"
 
-#: storage/__init__.py:1968
+#: storage/__init__.py:1959
 #, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s.  You may "
@@ -5149,7 +5153,7 @@ msgstr ""
 "%(path)s උපකරණය %(mountpoint)s ලෙස රැඳවීමේ දෝශ්‍යක් හට ගැණිනි. ඔබට ස්ථාපනය ඉදිරියට "
 "ගෙනයා හැක. එහෙත් එහි දෝශ පැවතිය හැක."
 
-#: storage/__init__.py:1992
+#: storage/__init__.py:1983
 #, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s: %(msg)s. This "
@@ -5210,7 +5214,7 @@ msgid "lvs failed for %s"
 msgstr "%s සඳහා lvs අසාර්ථකයි"
 
 #: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3281
+#: storage/devices.py:2799 storage/devices.py:3289
 msgid "Creating"
 msgstr "නිර්මාණය කරමින්"
 
@@ -5225,7 +5229,7 @@ msgstr "%s උපකරණය නිර්මාණය කරමින්"
 msgid "A RAID%d set requires atleast %d members"
 msgstr "RAID%d කට්ටලය අවම වශයෙන් සාමාජිකයන් %d ක්වත් ඉල්ලයි"
 
-#: storage/devices.py:3282
+#: storage/devices.py:3290
 #, python-format
 msgid "Creating file %s"
 msgstr "%s ගොනුව සාදමින්"
@@ -5477,6 +5481,10 @@ msgstr ""
 "\n"
 "ඔබේ දෘඪ තැටි මත ස්ථපනය කිරීම සඳහා ප්‍රමාණවත් ඉඩ නොතිබීම මෙයට හේතුවිය හැක. %(extra)s"
 
+#: storage/partitioning.py:276
+msgid "The system will now reboot."
+msgstr "පද්ධතිය දැන් නැවත ක්‍රියාත්මක වනු ඇත"
+
 #: storage/zfcp.py:50
 msgid "You have not specified a device number or the number is invalid"
 msgstr "ඔබ විසින් උපාංගය සඳහා අංකයක් නියම කර නොමැත නැතහොත් එම අංකය සාවද්‍ය වේ"
@@ -5577,15 +5585,11 @@ msgstr "%(devnum)s zFCP උපකරණයෙන් WWPN %(wwpn)s ඉවත්�
 msgid "Could not set zFCP device %(devnum)s offline (%(e)s)."
 msgstr "මාර්ගගත නොවී (%(e)s) %(devnum)s zFCP උපකරණය සැකසිය නොහැක."
 
-#: textw/complete_text.py:31
-msgid "Reboot"
-msgstr "නැවත ක්‍රියාත්මක කරන්න"
-
 #: textw/complete_text.py:33
 msgid "<Enter> to exit"
 msgstr "පිටවීම සඳහා <Enter> ඔබන්න"
 
-#: textw/complete_text.py:61
+#: textw/complete_text.py:62
 msgid "Complete"
 msgstr "සම්පූර්ණයි"
 
@@ -5847,7 +5851,7 @@ msgstr ""
 msgid "The root password must be at least 6 characters long."
 msgstr "root මුරපදය අවම වශයෙන් අක්‍ෂර සයකින් වත් යුතු වෙයි"
 
-#: textw/userauth_text.py:84
+#: textw/userauth_text.py:84 textw/userauth_text.py:191
 #, python-format
 msgid ""
 "You have provided a weak password: %s\n"
@@ -5857,6 +5861,46 @@ msgstr ""
 "ඔබ දුර්වල මුරපදයක් යොදා ඇත: %s\n"
 "\n"
 "ඔබට මෙම මුරපදය සමඟ ඉදිරියට යාමට කැමතිද?"
+
+#: textw/userauth_text.py:111
+#, fuzzy
+msgid "User configuration"
+msgstr "VNC මාණකරනය"
+
+#: textw/userauth_text.py:114
+msgid "Setup a username for regular (non-administrative) use."
+msgstr ""
+
+#: textw/userauth_text.py:130
+#, fuzzy
+msgid "Username:"
+msgstr "පරිශීලක නාමය"
+
+#: textw/userauth_text.py:132
+msgid "Full name:"
+msgstr ""
+
+#: textw/userauth_text.py:159
+#, fuzzy
+msgid "User password must be at least 6 characters long."
+msgstr "root මුරපදය අවම වශයෙන් අක්‍ෂර සයකින් වත් යුතු වෙයි"
+
+#: textw/userauth_text.py:172 textw/userauth_text.py:178
+#, fuzzy
+msgid "Error with username"
+msgstr "ධාරක නාමය සමඟ දෝශයක්"
+
+#: textw/userauth_text.py:173
+#, fuzzy
+msgid "Username too short"
+msgstr "පරිශීලක නාමය"
+
+#: textw/userauth_text.py:179
+#, fuzzy
+msgid ""
+"Requested username contains non-ASCII characters or spaces, which are not "
+"allowed."
+msgstr "විමසන ලද මුරපදය තුල ASCII නොවන අක්‍ෂර ඇති බැවින් මෙය භාවිත කල නොහැක."
 
 #: textw/welcome_text.py:29
 #, python-format
@@ -5899,6 +5943,11 @@ msgstr "සජීවී CD තැටිය ඔබේ දෘඩ තැටිය�
 
 #: liveinst/liveinst.desktop.in.h:3
 msgid "Install to Hard Drive"
+msgstr "දෘඩ තැටියට ස්ථාපනය කරන්න"
+
+#: liveinst:5
+#, fuzzy
+msgid "Starting Install to Hard Drive"
 msgstr "දෘඩ තැටියට ස්ථාපනය කරන්න"
 
 #: ui/GroupSelector.glade.h:1
@@ -6694,84 +6743,95 @@ msgstr "වෙල්ෂ්"
 msgid "Zulu"
 msgstr "සූලු"
 
-#: sabayon/livecd.py:63
+#: sabayon/livecd.py:64
 #, fuzzy, python-format
 msgid ""
 "The given location [%s] isn't a valid %s live CD to use as an installation "
 "source."
 msgstr "දෙනලද ස්ථානය ස්ථාපන මූලයක් ලෙස යොදාගත හැකි වලංගු %s සජීවී තැටියක් නොවේ."
 
-#: sabayon/livecd.py:95
+#: sabayon/livecd.py:107
+#, fuzzy
+msgid "Recovering Sabayon."
+msgstr "VNC මාණකරනය"
+
+#: sabayon/livecd.py:113
 #, fuzzy
 msgid "Installing Sabayon onto hard drive."
 msgstr "ආරම්භක පූරකය ස්ථාපනය කරමින්."
 
-#: sabayon/livecd.py:107
+#: sabayon/livecd.py:125
 #, fuzzy
 msgid "Configuring Sabayon"
 msgstr "VNC මාණකරනය"
 
-#: sabayon/livecd.py:125
+#: sabayon/livecd.py:150
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:202
+#: sabayon/utils.py:214
 msgid "System Health Status Warning"
 msgstr ""
 
-#: sabayon/utils.py:348
+#: sabayon/utils.py:360
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "ජාල අතුරු මුහුණත් සකසමින්"
 
-#: sabayon/utils.py:609
+#: sabayon/utils.py:621
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:611
+#: sabayon/utils.py:623
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:612
+#: sabayon/utils.py:624
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "නැවුම් ස්ථාපනයක්"
 
-#: sabayon/utils.py:642
+#: sabayon/utils.py:654
 #, fuzzy
 msgid "System Installation"
 msgstr "පශ්චාත් ස්ථාපනය"
 
-#: sabayon/utils.py:775
+#: sabayon/utils.py:787
 #, fuzzy
 msgid "Cleaning packages"
 msgstr "පැරණි ඇසුරුම(ම්)"
 
-#: sabayon/utils.py:800
+#: sabayon/utils.py:812
 #, fuzzy
 msgid "Cleaning package"
 msgstr "ඇසුරුම අස්ථාන ගත වී ඇත"
 
-#: sabayon/utils.py:840
+#: sabayon/utils.py:852
 #, fuzzy
 msgid "Installation complete"
 msgstr "ස්ථාපන අංකය"
 
-#: sabayon/utils.py:872
+#: sabayon/utils.py:884
 #, fuzzy
 msgid ""
 "This DVD contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "ස්ථාපනය කිරීමේදී භාවිතා කිරීමට ඔබ කැමති කිනම් භාශාවද?"
 
-#: sabayon/utils.py:875
+#: sabayon/utils.py:887
 #, fuzzy
 msgid "Language packs installation"
 msgstr "පැකේජ ස්ථාපනය"
 
-#: sabayon/utils.py:886
+#: sabayon/utils.py:898
 msgid "Generating list of files to copy"
 msgstr ""
+
+#~ msgid "Upgrade an Existing Installation"
+#~ msgstr "පවතින ස්ථාපනයක් යාවත්කාලීන කරන්න"
+
+#~ msgid "Reboot"
+#~ msgstr "නැවත ක්‍රියාත්මක කරන්න"
 
 #~ msgid "_Fedora"
 #~ msgstr "_Fedora"
@@ -6877,10 +6937,6 @@ msgstr ""
 
 #~ msgid "Install class forcing text mode installation"
 #~ msgstr "ස්ථාපන පන්තිය පාඪමය ස්ථාපනයක් සඳහා බලකරනු ලබයි"
-
-#, fuzzy
-#~ msgid "The installer will now exit."
-#~ msgstr "ස්ථාපකය දැන් පිටවෙනු ඇත..."
 
 #, fuzzy
 #~ msgid ""

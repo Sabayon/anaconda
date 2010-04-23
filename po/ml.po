@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda.master.ml\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-04-11 21:22+0200\n"
+"POT-Creation-Date: 2010-04-23 14:54+0200\n"
 "PO-Revision-Date: 2009-09-23 11:26+0530\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
@@ -28,16 +28,16 @@ msgid "Press <enter> for a shell"
 msgstr "ഒരു ഷെല്ലിനായി <enter> അമര്‍ത്തുക"
 
 #: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
-#: rescue.py:466 text.py:656 loader/cdinstall.c:228 loader/cdinstall.c:232
+#: rescue.py:466 text.py:657 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
 #: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
 #: loader/driverdisk.c:266 loader/driverdisk.c:422 loader/driverdisk.c:460
 #: loader/driverdisk.c:491 loader/driverdisk.c:526 loader/driverdisk.c:542
 #: loader/driverdisk.c:554 loader/driverdisk.c:562 loader/driverdisk.c:722
 #: loader/driverdisk.c:761 loader/driverselect.c:79 loader/driverselect.c:179
-#: loader/hdinstall.c:115 loader/hdinstall.c:257 loader/hdinstall.c:315
-#: loader/hdinstall.c:349 loader/hdinstall.c:421 loader/hdinstall.c:464
-#: loader/hdinstall.c:477 loader/kbd.c:119 loader/kickstart.c:132
+#: loader/hdinstall.c:115 loader/hdinstall.c:260 loader/hdinstall.c:318
+#: loader/hdinstall.c:352 loader/hdinstall.c:424 loader/hdinstall.c:467
+#: loader/hdinstall.c:480 loader/kbd.c:119 loader/kickstart.c:132
 #: loader/kickstart.c:142 loader/kickstart.c:184 loader/kickstart.c:189
 #: loader/kickstart.c:296 loader/kickstart.c:328 loader/kickstart.c:510
 #: loader/lang.c:114 loader/lang.c:373 loader/loader.c:429 loader/loader.c:465
@@ -143,7 +143,7 @@ msgstr ""
 "നിങ്ങള്‍ക്കു് ഡിസ്ക്കില്‍ മതിയായ സ്ഥലം ഉണ്ടാവില്ല."
 
 #: backend.py:169 image.py:289 livecd.py:198 livecd.py:400
-#: partIntfHelpers.py:237 text.py:354 text.py:358 yuminstall.py:416
+#: partIntfHelpers.py:237 text.py:355 text.py:359 yuminstall.py:416
 #: yuminstall.py:805 yuminstall.py:923 yuminstall.py:928 yuminstall.py:1190
 #: yuminstall.py:1249 yuminstall.py:1440 yuminstall.py:1462
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
@@ -155,25 +155,25 @@ msgstr ""
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
 #: loader/cdinstall.c:504 loader/driverdisk.c:266 loader/driverdisk.c:491
 #: loader/driverdisk.c:526 loader/driverdisk.c:554 loader/driverdisk.c:562
-#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:315
-#: loader/hdinstall.c:421 loader/hdinstall.c:464 loader/hdinstall.c:477
+#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:318
+#: loader/hdinstall.c:424 loader/hdinstall.c:467 loader/hdinstall.c:480
 #: loader/kickstart.c:296 loader/lang.c:114 loader/loader.c:429
 #: loader/loader.c:540 loader/loader.c:1194 loader/mediacheck.c:47
 #: loader/mediacheck.c:86 loader/mediacheck.c:93 loader/mediacheck.c:97
 #: loader/method.c:277 loader/method.c:351 loader/nfsinstall.c:279
 #: loader/nfsinstall.c:296 loader/telnetd.c:93 loader/urlinstall.c:137
 #: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urls.c:330
-#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1794
-#: storage/__init__.py:1881 textw/netconfig_text.py:282
+#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1785
+#: storage/__init__.py:1872 textw/netconfig_text.py:282
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:382
+#: textw/upgrade_text.py:188 sabayon/livecd.py:411
 msgid "Error"
 msgstr "പിശക്"
 
-#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1102
-#: gui.py:1162 image.py:82 installinterfacebase.py:41 text.py:485 text.py:545
+#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1103
+#: gui.py:1163 image.py:82 installinterfacebase.py:41 text.py:486 text.py:546
 #: yuminstall.py:1418 yuminstall.py:1622 yuminstall.py:1657
 #: iw/blpasswidget.py:148 iw/upgrade_swap_gui.py:190
 #: iw/upgrade_swap_gui.py:198 iw/upgrade_swap_gui.py:205
@@ -193,19 +193,19 @@ msgstr ""
 "\n"
 "നിങ്ങള്‍ക്കു് ഇന്‍സ്റ്റലേഷനുമായി മുമ്പോട്ട് പോകണമോ?"
 
-#: bootloader.py:60 gui.py:1053 gui.py:1198 gui.py:1403 image.py:91
+#: bootloader.py:60 gui.py:1054 gui.py:1199 gui.py:1406 image.py:91
 #: kickstart.py:156 livecd.py:205 livecd.py:407 packages.py:130 upgrade.py:56
 #: upgrade.py:237 yuminstall.py:257 yuminstall.py:703 yuminstall.py:925
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1975 storage/dasd.py:139 sabayon/livecd.py:389
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:418
 msgid "_Exit installer"
 msgstr "ഇന്‍സ്റ്റോളറില്‍ നിന്നും പുറത്ത് കടക്കുക (_E)"
 
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1976
+#: iw/partition_gui.py:1598 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "തുടരുക (_C)"
 
@@ -240,8 +240,8 @@ msgstr "പൂര്‍ണ്ണമായിരിക്കുന്നു"
 msgid "In progress"
 msgstr "പുരോഗമിക്കുന്നു"
 
-#: cmdline.py:89 gui.py:1193 kickstart.py:1214 kickstart.py:1222
-#: kickstart.py:1260 kickstart.py:1268 text.py:391
+#: cmdline.py:89 gui.py:1194 kickstart.py:1214 kickstart.py:1222
+#: kickstart.py:1260 kickstart.py:1268 text.py:392
 #, python-format
 msgid ""
 "The following error was found while parsing the kickstart configuration "
@@ -282,15 +282,15 @@ msgstr " ഈ സോഫ്റ്റ്‌വെയര്‍ ലഭ്യമാക
 msgid " against anaconda at %s"
 msgstr " %s-ല്‍ അനക്കോഡയ്ക്ക് എതിരെ"
 
-#: gui.py:109
+#: gui.py:110
 msgid "An error occurred saving screenshots to disk."
 msgstr "സ്ക്രീന്‍ ഷോട്ടുകള്‍ ഡിസ്കിലേക്ക് പകര്‍ത്തുന്നതില്‍ പിഴവ് സംഭവിച്ചിരിക്കുന്നു."
 
-#: gui.py:120
+#: gui.py:121
 msgid "Screenshots Copied"
 msgstr "സ്ക്രീന്‍ഷോട്ടുകള്‍ പകര്‍ത്തി കഴിഞ്ഞിരിക്കുന്നു"
 
-#: gui.py:121
+#: gui.py:122
 msgid ""
 "The screenshots have been saved in the directory:\n"
 "\n"
@@ -304,20 +304,20 @@ msgstr ""
 "\n"
 "റീബൂട്ട് ചെയ്ത് റൂട്ട് ആയി ലോഗിന്‍ ചെയ്താല്‍ ഇവ കാണാം."
 
-#: gui.py:164
+#: gui.py:165
 msgid "Saving Screenshot"
 msgstr "സ്ക്രീന്‍ഷോട്ട് സംരക്ഷിക്കുന്നു"
 
-#: gui.py:165
+#: gui.py:166
 #, python-format
 msgid "A screenshot named '%s' has been saved."
 msgstr "'%s' എന്ന് പേരുള്ള സ്ക്രീന്‍ഷോട്ട് സംരക്ഷിക്കപ്പെട്ടിരിക്കുന്നു."
 
-#: gui.py:168
+#: gui.py:169
 msgid "Error Saving Screenshot"
 msgstr "സ്ക്രീന്‍ഷോട്ട് സംരക്ഷിക്കുന്നതില്‍ പിഴവ്"
 
-#: gui.py:169
+#: gui.py:170
 msgid ""
 "An error occurred while saving the screenshot.  If this occurred during "
 "package installation, you may need to try several times for it to succeed."
@@ -325,11 +325,11 @@ msgstr ""
 "സ്ക്രീന്‍ഷോട്ട് സംരക്ഷിക്കുന്നതില്‍ പിഴവ് സംഭവിച്ചിരിക്കുന്നു.  പാക്കേജ് ഇന്‍സ്റ്റലേഷന്‍ ചെയ്യുമ്പോള്‍ ആണു്ഇതു് "
 "സംഭവിക്കുന്നത് എങ്കില്‍, ഇതു് ലഭിക്കുന്നതിനായി നിങ്ങള്‍ പല തവണ ശ്രമിക്കേണ്ടിയിരിക്കുന്നു."
 
-#: gui.py:510
+#: gui.py:511
 msgid "Installation Key"
 msgstr "ഇന്‍സ്റ്റലേഷന്‍ കീ"
 
-#: gui.py:581 text.py:149
+#: gui.py:582 text.py:150
 msgid ""
 "Choose a passphrase for the encrypted devices. You will be prompted for this "
 "passphrase during system boot."
@@ -337,19 +337,19 @@ msgstr ""
 "നിങ്ങളുടെ എന്‍ക്രിപ്റ്റഡ് ഡിവൈസുകള്‍ക്ക് ഒരു പാസ്ഫ്രെയിസ് തെരഞ്ഞെടുക്കുക. സിസ്റ്റം ബൂട്ട് ചെയ്യുമ്പോള്‍ "
 "നിങ്ങളോടു് പാസ്ഫ്രെയിസിനായി ആവശ്യപ്പെടുന്നു."
 
-#: gui.py:600 gui.py:608 text.py:187 text.py:197
+#: gui.py:601 gui.py:609 text.py:188 text.py:198
 msgid "Error with passphrase"
 msgstr "പാസ്ഫ്രെയിസില്‍ പിശക്"
 
-#: gui.py:601 text.py:188
+#: gui.py:602 text.py:189
 msgid "The passphrases you entered were different.  Please try again."
 msgstr "നിങ്ങള്‍ നല്‍കിയ പാസ്ഫ്രെയിസുകള്‍ തമ്മില്‍ വ്യത്യാസമുണ്ട്.  ദയവായി വീണ്ടും ശ്രമിക്കുക."
 
-#: gui.py:609
+#: gui.py:610
 msgid "The passphrase must be at least eight characters long."
 msgstr "പാസ്ഫ്രെയിസില്‍ കുറ‍ഞ്ഞത് എട്ട് അക്ഷരങ്ങളോ അക്കങ്ങളോ ഉണ്ടാവണം."
 
-#: gui.py:643 text.py:225
+#: gui.py:644 text.py:226
 #, python-format
 msgid ""
 "Device %s is encrypted. In order to access the device's contents during "
@@ -358,18 +358,18 @@ msgstr ""
 "%s എന്ന ഡിവൈസ് എന്‍ക്രിപ്റ്റഡ് ആണ്. ഇന്‍സ്റ്റലേഷന്‍ സമയത്ത് ഡിവൈസിന്റെ ഉള്ളടക്കം ലഭ്യമാകുന്നതിനായി, "
 "താഴെ നിങ്ങള്‍‌ ഡിവൈസിന്റെ പാസ്ഫ്രെയിസ് നല്‍കേണ്ടതാകുന്നു."
 
-#: gui.py:734 gui.py:1403 partIntfHelpers.py:157 partIntfHelpers.py:342
-#: text.py:100 text.py:101 iw/account_gui.py:130 loader/dirbrowser.c:129
+#: gui.py:735 gui.py:1406 partIntfHelpers.py:157 partIntfHelpers.py:342
+#: text.py:101 text.py:102 iw/account_gui.py:130 loader/dirbrowser.c:129
 #: loader/driverdisk.c:423 loader/kickstart.c:328 loader/loader.c:465
 #: loader/loader.c:577 textw/constants_text.py:48
 msgid "Cancel"
 msgstr "റദ്ദാക്കുക"
 
-#: gui.py:746 gui.py:747 gui.py:863 gui.py:864 ui/anaconda.glade.h:3
+#: gui.py:747 gui.py:748 gui.py:864 gui.py:865 ui/anaconda.glade.h:3
 msgid "_Debug"
 msgstr "ഡീബഗ് ചെയ്യുക(_D)"
 
-#: gui.py:1103 text.py:486
+#: gui.py:1104 text.py:487
 #, fuzzy, python-format
 msgid ""
 "Error processing drive:\n"
@@ -395,25 +395,25 @@ msgstr ""
 "\n"
 "നിങ്ങള്‍ക്കു് ഈ ഡ്രൈവിലുള്ള ഡേറ്റാ നഷ്ടമാകുന്നതാണു്!%s"
 
-#: gui.py:1112 gui.py:1170 text.py:495 text.py:553
+#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
 msgid "_Ignore"
 msgstr "_അവഗണിക്കുക"
 
-#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
+#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
 #, fuzzy
 msgid "Ignore _all"
 msgstr "എല്ലാം _അവഗണിക്കുക"
 
-#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
+#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
 msgid "_Re-initialize"
 msgstr "_വീണ്ടും സജ്ജമാക്കുക"
 
-#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
+#: gui.py:1116 gui.py:1174 text.py:499 text.py:557
 #, fuzzy
 msgid "Re-ini_tialize all"
 msgstr "_വീണ്ടും സജ്ജമാക്കുക"
 
-#: gui.py:1163 text.py:546
+#: gui.py:1164 text.py:547
 #, fuzzy, python-format
 msgid ""
 "Error processing LVM.\n"
@@ -427,19 +427,19 @@ msgstr ""
 "നിങ്ങള്‍ക്കു് വീണ്ടും ആരംഭിക്കാം. ഇതു് എല്ലാ LVM മെറ്റാഡേറ്റകളും മായിക്കുന്നു. അല്ലെങ്കില്‍ "
 "അവഗണിക്കുക, ഇതു് ഉള്ളടക്കം സൂക്ഷിക്കുന്നു."
 
-#: gui.py:1195 text.py:393
+#: gui.py:1196 text.py:394
 msgid "Error Parsing Kickstart Config"
 msgstr "കിക്ക്സ്റ്റാര്‍ട്ട് കോണ്‍ഫിഗ് പാഴ്സിങില്‍ പിഴവ്"
 
-#: gui.py:1223
+#: gui.py:1224
 msgid "default:LTR"
 msgstr "default:LTR"
 
-#: gui.py:1303 text.py:621
+#: gui.py:1304 text.py:622
 msgid "Error!"
 msgstr "പിഴവ്!"
 
-#: gui.py:1304 text.py:622
+#: gui.py:1305 text.py:623
 #, python-format
 msgid ""
 "An error occurred when attempting to load an installer interface component.\n"
@@ -451,46 +451,42 @@ msgstr ""
 "\n"
 "ക്ലാസിന്റെ പേര് = %s"
 
-#: gui.py:1309 image.py:164 image.py:194 packages.py:328
-#: storage/__init__.py:1793
+#: gui.py:1310 gui.py:1314 image.py:164 image.py:194 packages.py:328
+#: storage/__init__.py:1784
 msgid "_Exit"
 msgstr "പുറത്തേക്ക് പോവുക(_E)"
 
-#: gui.py:1310 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
+#: gui.py:1311 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1446
 msgid "_Retry"
 msgstr "വീണ്ടും ശ്രമിക്കുക(_R)"
 
-#: gui.py:1312 storage/partitioning.py:276
-msgid "The system will now reboot."
-msgstr "കംപ്യൂട്ടര്‍ ഇപ്പോള്‍ റീബൂട്ട് ചെയ്യപ്പെടും."
+#: gui.py:1313
+msgid "The installer will now exit."
+msgstr "ഇന്‍സ്റ്റോളര്‍ ഇപ്പോള്‍ നിര്‍ത്തുന്നതാണു്."
 
-#: gui.py:1313 image.py:251 packages.py:332 yuminstall.py:1487
-msgid "_Reboot"
-msgstr "വീണ്ടും കമ്പ്യൂട്ടര്‍ ഓണ്‍ ചെയ്യുക (_R)"
-
-#: gui.py:1315
+#: gui.py:1316
 msgid "Exiting"
 msgstr "പുറത്ത് പോകുന്നു"
 
-#: gui.py:1400 livecd.py:126 text.py:270 upgrade.py:228 sabayon/livecd.py:67
+#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:68
 msgid "Exit installer"
 msgstr "ഇന്‍സ്റ്റോളറില്‍ നിന്നും പുറത്ത് കടക്കുക"
 
-#: gui.py:1401
+#: gui.py:1404
 msgid "Are you sure you wish to exit the installer?"
 msgstr "ഇന്‍സ്റ്റോളറില്‍ നിന്നും പുറത്ത് കടക്കണമെന്നു് നിങ്ങള്‍ക്കുറപ്പാണോ?"
 
-#: gui.py:1410
+#: gui.py:1413
 #, python-format
 msgid "%s Installer"
 msgstr "%s ഇന്‍സ്റ്റോളര്‍"
 
-#: gui.py:1416
+#: gui.py:1419
 msgid "Unable to load title bar"
 msgstr "ടൈറ്റില്‍ ബാര്‍ ലോഡ് ചെയ്യുവാന്‍ സാധ്യമല്ല"
 
-#: gui.py:1483
+#: gui.py:1486
 msgid "Install Window"
 msgstr "വിന്‍ഡോ ഇന്‍സ്റ്റോള്‍ ചെയ്യുക"
 
@@ -566,9 +562,13 @@ msgstr ""
 "ഇന്‍സ്റ്റലേഷനുമായി മുന്നോട്ട് പോകുന്നതിനു് മുമ്പായി ഇവ ദയവായി തയ്യാറാക്കിവയ്ക്കുക. ഇന്‍സ്റ്റലേഷന്‍ "
 "നിര്‍ത്തലാക്കി പുറത്ത് കടക്കണമെങ്കില്‍ ദയവായി \"റീബൂട്ട് ചെയ്യുക\" തെരഞ്ഞെടുക്കുക."
 
+#: image.py:251 packages.py:332 yuminstall.py:1487
+msgid "_Reboot"
+msgstr "വീണ്ടും കമ്പ്യൂട്ടര്‍ ഓണ്‍ ചെയ്യുക (_R)"
+
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:388
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:417
 msgid "_Back"
 msgstr "പുറകോട്ട് പോവുക (_B)"
 
@@ -797,7 +797,7 @@ msgstr ""
 "ലഭ്യമല്ല.  ഈ വിഭാഗങ്ങള്‍ ചേര്‍ക്കുക, എന്നിട്ട് വീണ്ടും ശ്രമിക്കുക:\n"
 "%s"
 
-#: livecd.py:121 sabayon/livecd.py:62
+#: livecd.py:121 sabayon/livecd.py:63
 msgid "Unable to find image"
 msgstr "ഇമേജ് ലഭ്യമാക്കുവാന്‍ സാധ്യമല്ല"
 
@@ -833,7 +833,7 @@ msgid ""
 msgstr ""
 "പോസ്റ്റ്-ഇന്‍സ്റ്റലേഷന്‍ ഫയല്‍ സിസ്റ്റമില്‍ മാറ്റങ്ങള്‍ വരുത്തുന്നു.  ഇത് ഒരു പക്ഷേ അധികം സമയമെടുത്തേക്കാം."
 
-#: livecd.py:401 sabayon/livecd.py:383
+#: livecd.py:401 sabayon/livecd.py:412
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -1286,12 +1286,12 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "ഈ കംപ്യൂട്ടറില്‍ നിങ്ങള്‍ക്ക് നെറ്റ്‌വര്‍ക്ക് ഇന്റര്‍ഫെയിസുകള്‍ ആരംഭിക്കണമോ?"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:203 textw/constants_text.py:56 sabayon/utils.py:874
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:886
 msgid "Yes"
 msgstr "ഉവ്വ്"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:874
+#: textw/constants_text.py:60 sabayon/utils.py:886
 msgid "No"
 msgstr "ഇല്ല"
 
@@ -1340,7 +1340,7 @@ msgid "Read-Only"
 msgstr "റീഡ്-ഒണ്‍ലി"
 
 #: rescue.py:295 rescue.py:297 loader/cdinstall.c:248 loader/cdinstall.c:251
-#: loader/method.c:324 storage/__init__.py:1793 textw/upgrade_text.py:139
+#: loader/method.c:324 storage/__init__.py:1784 textw/upgrade_text.py:139
 msgid "Skip"
 msgstr "വിട്ടുകളയുക"
 
@@ -1352,7 +1352,8 @@ msgstr "കംപ്യൂട്ടര്‍ രക്ഷപ്പെടുത�
 msgid "Which device holds the root partition of your installation?"
 msgstr "നിങ്ങളുടെ ഇന്‍സ്റ്റലേഷന്റെ റൂട്ട് പാര്‍ട്ടീഷന്‍ ഏത് പാര്‍ട്ടീഷനിലാണ്?"
 
-#: rescue.py:332 rescue.py:336 text.py:626 text.py:628
+#: rescue.py:332 rescue.py:336 text.py:627 text.py:629
+#: textw/complete_text.py:31
 msgid "Exit"
 msgstr "പുറത്ത് പോവുക"
 
@@ -1424,44 +1425,44 @@ msgstr ""
 msgid "Your system is mounted under the %s directory."
 msgstr "നിങ്ങളുടെ സിസ്റ്റം %s എന്ന ഡയറക്ടറിയില്‍ മൌണ്ട് ചെയ്തിരിക്കുന്നു."
 
-#: text.py:154
+#: text.py:155
 msgid "Passphrase for encrypted device"
 msgstr "എന്‍ക്രിപ്റ്റഡ് ഡിവൈസിനുള്ള പാസ്ഫ്രെയിസ് നല്‍കുക"
 
-#: text.py:167
+#: text.py:168
 msgid "Also add this passphrase to all existing encrypted devices"
 msgstr "എല്ലാ പുതിയ എന്‍ക്രിപ്റ്റഡ് ഡിവൈസുകള്‍ക്കും ഈ പാസ്ഫ്രെയിസ് ഉപയോഗിക്കുക"
 
-#: text.py:198
+#: text.py:199
 #, fuzzy, python-format
 msgid "The passphrase must be at least %d character long."
 msgid_plural "The passphrase must be at least %d characters long."
 msgstr[0] "പാസ്ഫ്രെയിസില്‍ കുറ‍ഞ്ഞത് എട്ട് അക്ഷരങ്ങളോ അക്കങ്ങളോ ഉണ്ടാവണം."
 msgstr[1] "പാസ്ഫ്രെയിസില്‍ കുറ‍ഞ്ഞത് എട്ട് അക്ഷരങ്ങളോ അക്കങ്ങളോ ഉണ്ടാവണം."
 
-#: text.py:232 ui/lukspassphrase.glade.h:6
+#: text.py:233 ui/lukspassphrase.glade.h:6
 msgid "Passphrase"
 msgstr "പാസ്ഫ്രെയിസ്"
 
-#: text.py:240 ui/lukspassphrase.glade.h:7
+#: text.py:241 ui/lukspassphrase.glade.h:7
 msgid "This is a global passphrase"
 msgstr "ഇതൊരു ഗ്ലോബല്‍ പാസ്ഫ്രെയിസ് ആകുന്നു"
 
-#: text.py:355 text.py:359
+#: text.py:356 text.py:360
 msgid "Repository editing is not available in text mode."
 msgstr "ടെക്സ്റ്റ് മോഡില്‍ സംഭരണിയില്‍ മാറ്റം വരുത്തുവാന്‍ സാധ്യമല്ല."
 
-#: text.py:421
+#: text.py:422
 #, fuzzy, python-format
 msgid "Welcome to %(productName)s for %(productArch)s"
 msgstr "%s ലേക്ക് സ്വാഗതം, %s-നായി"
 
-#: text.py:423
+#: text.py:424
 #, python-format
 msgid "Welcome to %s"
 msgstr "%s ലേക്ക് സ്വാഗതം"
 
-#: text.py:425
+#: text.py:426
 msgid ""
 "  <Tab>/<Alt-Tab> between elements   |  <Space> selects   |  <F12> next "
 "screen"
@@ -1469,16 +1470,16 @@ msgstr ""
 "  <Tab>/<Alt-Tab> എലമെന്റുകളുടെ ഇടയ്ക്ക്   |  <Space> selects   |  <F12> അടുത്ത "
 "സ്ക്രീനിനായി"
 
-#: text.py:626 loader/net.c:109 loader/net.c:470 loader/net.c:525
+#: text.py:627 loader/net.c:109 loader/net.c:470 loader/net.c:525
 #: loader/net.c:667 loader/net.c:675 loader/net.c:1096 loader/net.c:1104
 msgid "Retry"
 msgstr "വിണ്ടും ശ്രമിക്കുക"
 
-#: text.py:652
+#: text.py:653
 msgid "Cancelled"
 msgstr "റദ്ദാക്കപ്പെട്ടു"
 
-#: text.py:653
+#: text.py:654
 msgid "I can't go to the previous step from here. You will have to try again."
 msgstr ""
 "ഇവിടെ നിന്നും മുമ്പുള്ള സ്റ്റെപ്പിലേക്ക് പോകുവാന്‍ സാധിക്കില്ല. നിങ്ങള്‍ വീണ്ടും ശ്രമിക്കേണ്ടതാണ്."
@@ -1687,23 +1688,23 @@ msgstr ""
 "നിങ്ങളുടെ ഇന്‍സ്റ്റലേഷന്‍ പ്രൊസസ്സ് സുരക്ഷിതമാക്കുന്നതിന് ഒരു പാസ്‌വേര്‍ഡ് ആവശ്യമാണ്. ദയവായി "
 "ഇന്‍സ്റ്റലേഷന്‍ പ്രൊസസ്സിനായി ഒരു പാസ്‌വേര്‍ഡ് നല്‍കുക."
 
-#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47
+#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47 textw/userauth_text.py:134
 msgid "Password:"
 msgstr "പാസ്‌വേര്‍ഡ്:"
 
-#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49
+#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49 textw/userauth_text.py:136
 msgid "Password (confirm):"
 msgstr "പാസ്‌വേര്‍ഡ് (ഉറപ്പാക്കുക):"
 
-#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70
+#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70 textw/userauth_text.py:162
 msgid "Password Mismatch"
 msgstr "പാസ്‌വേര്‍ഡുകള്‍ തമ്മില്‍ ചേരുന്നില്ല"
 
-#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71
+#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71 textw/userauth_text.py:163
 msgid "The passwords you entered were different. Please try again."
 msgstr "നിങ്ങള്‍ നല്‍കിയ പാസ്‌വേര്‍ഡുകള്‍ തമ്മില്‍ വ്യത്യാസമുണ്ട്. ദയവായി വീണ്ടും ശ്രമിക്കുക."
 
-#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66
+#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66 textw/userauth_text.py:158
 msgid "Password Length"
 msgstr "പാസ്‌വേര്‍ഡിന്റെ നീളം"
 
@@ -2141,7 +2142,7 @@ msgid "Caps Lock is on."
 msgstr "Caps Lock ഓണ്‍ ആണ്."
 
 #: iw/account_gui.py:102 iw/account_gui.py:110 iw/account_gui.py:117
-#: iw/account_gui.py:137 textw/userauth_text.py:74
+#: iw/account_gui.py:137 textw/userauth_text.py:74 textw/userauth_text.py:166
 msgid "Error with Password"
 msgstr "പാസ്‌വേര്‍ഡില്‍ പിഴവ്"
 
@@ -2160,7 +2161,7 @@ msgstr "നിങ്ങള്‍ നല്‍കിയ പാസ്‌വേര�
 msgid "The root password must be at least six characters long."
 msgstr "റൂട്ട് പാസ്‌വേര്‍ഡില്‍ കുറഞ്ഞത് ആറ് അക്ഷരങ്ങളോ അക്കങ്ങളോ വേണം."
 
-#: iw/account_gui.py:127 textw/userauth_text.py:83
+#: iw/account_gui.py:127 textw/userauth_text.py:83 textw/userauth_text.py:190
 msgid "Weak Password"
 msgstr "പാസ്‌വേര്‍ഡ് സുരക്ഷിതമല്ല"
 
@@ -2173,7 +2174,7 @@ msgstr "നിങ്ങള്‍ നല്‍കിയ അടയാളവാക�
 msgid "Use Anyway"
 msgstr "എങ്ങനെയാണെങ്കിലും ഉപയോഗിക്കുക"
 
-#: iw/account_gui.py:138 textw/userauth_text.py:75
+#: iw/account_gui.py:138 textw/userauth_text.py:75 textw/userauth_text.py:167
 msgid ""
 "Requested password contains non-ASCII characters, which are not allowed."
 msgstr ""
@@ -2422,7 +2423,7 @@ msgstr ""
 msgid "Congratulations"
 msgstr "അഭിനന്ദനങ്ങള്‍"
 
-#: iw/congrats_gui.py:74 textw/complete_text.py:38
+#: iw/congrats_gui.py:74 textw/complete_text.py:39
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2431,19 +2432,19 @@ msgstr ""
 "അഭിനന്ദനങ്ങള്‍, നിങ്ങളുടെ %s ഇന്‍സ്റ്റലേഷന്‍ പൂര്‍ത്തിയായിരിക്കുന്നു.\n"
 "\n"
 
-#: iw/congrats_gui.py:77 textw/complete_text.py:41
+#: iw/congrats_gui.py:77 textw/complete_text.py:42
 msgid "Shutdown"
 msgstr "അടച്ചുപൂട്ടുക"
 
-#: iw/congrats_gui.py:79 textw/complete_text.py:43
+#: iw/congrats_gui.py:79 textw/complete_text.py:44
 msgid "Please shutdown to use the installed system.\n"
 msgstr "ഇന്‍സ്റ്റോള്‍ ചെയ്ത സിസ്റ്റം ഉപയോഗിക്കുന്നതിനായി ദയവായി സിസ്റ്റം അടച്ചുപൂട്ടുക.\n"
 
-#: iw/congrats_gui.py:81 textw/complete_text.py:45
+#: iw/congrats_gui.py:81 textw/complete_text.py:46
 msgid "Please reboot to use the installed system.\n"
 msgstr "ഇന്‍സ്റ്റോള്‍ ചെയ്ത സിസ്റ്റം ഉപയോഗിക്കുന്നതിനായി ദയവായി സിസ്റ്റം റീബൂട്ട് ചെയ്യുക.\n"
 
-#: iw/congrats_gui.py:86 textw/complete_text.py:50
+#: iw/congrats_gui.py:86 textw/complete_text.py:51
 msgid ""
 "Note that updates may be available to ensure the proper functioning of your "
 "system and installation of these updates is recommended after the reboot."
@@ -2451,7 +2452,7 @@ msgstr ""
 "ശ്രദ്ധിക്കുക:നിങ്ങളുടെ സിസ്റ്റമിന്റെ ശരിയായ പ്രവര്‍ത്തനം ഉറപ്പിക്കുന്നതിനായി പരിഷ്കരണങ്ങള്‍ "
 "ലഭ്യമാണു്. റീബൂട്ടിനു് ശേഷം ഈ പരിഷ്കരണങ്ങള്‍ക്കുള്ള ഇന്‍സ്റ്റലേഷന്‍ ഉത്തമമാണു്."
 
-#: iw/congrats_gui.py:90 textw/complete_text.py:54
+#: iw/congrats_gui.py:90 textw/complete_text.py:55
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2486,14 +2487,15 @@ msgstr ""
 
 #: iw/examine_gui.py:67
 #, fuzzy
-msgid "Upgrade an Existing Installation"
-msgstr "നിലവിലുളള ഒരു കംപ്യൂട്ടര്‍ അപ്ഗ്രേഡ്(_U) ചെയ്യുക"
+msgid "Bootloader Recovery"
+msgstr "ബൂട്ട് ലോഡര്‍ ഡിവൈസ്"
 
 #: iw/examine_gui.py:69
 #, fuzzy, python-format
 msgid ""
-"Choose this option if you would like to upgrade your existing %s system.  "
-"This option will preserve the existing data on your storage device(s)."
+"Choose this option if you would like to recover your existing %s system "
+"bootloader. This option will preserve the existing data on your storage "
+"device(s)."
 msgstr ""
 "നിലവിലുളള നിങ്ങളുടെ %s എന്ന സിസ്റ്റം അപ്ഗ്രേഡ് ചെയ്യണമെങ്കില്‍ ഈ ഉപാധി തിരഞ്ഞെടുക്കുക.  ഈ "
 "ഉപാധി നിങ്ങളുടെ ഡ്രൈവുകളിലുളള വിവരങ്ങള്‍ കാത്തുകൊള്ളും."
@@ -2509,7 +2511,7 @@ msgstr ""
 
 #: iw/examine_gui.py:128
 #, fuzzy, python-format
-msgid "<b>Which %s installation would you like to upgrade?</b>"
+msgid "<b>Which %s installation would you like to recover?</b>"
 msgstr "നിങ്ങള്‍ എന്താണ് ചെയ്യേണ്ടത്?"
 
 #: iw/examine_gui.py:142
@@ -3144,7 +3146,7 @@ msgstr ""
 msgid "Type"
 msgstr "ടൈപ്പ്"
 
-#: iw/partition_gui.py:612 storage/__init__.py:1793
+#: iw/partition_gui.py:612 storage/__init__.py:1784
 msgid "Format"
 msgstr "ഫോര്‍മാറ്റ് ചെയ്യുക"
 
@@ -3220,7 +3222,7 @@ msgstr "LVM വോള്യം ഗ്രൂപ്പുകള്‍"
 msgid "RAID Devices"
 msgstr "RAID ഡിവൈസുകള്‍"
 
-#: iw/partition_gui.py:1017 loader/hdinstall.c:203
+#: iw/partition_gui.py:1017 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "ഹാര്‍ഡ് ഡ്രൈവുകള്‍"
 
@@ -3986,7 +3988,7 @@ msgstr "ഡിസ്ക് കണ്ടുകിട്ടിയില്ല"
 
 #: loader/cdinstall.c:431 loader/driverdisk.c:423 loader/driverdisk.c:461
 #: loader/driverdisk.c:542 loader/driverselect.c:79 loader/driverselect.c:153
-#: loader/driverselect.c:179 loader/hdinstall.c:203 loader/hdinstall.c:257
+#: loader/driverselect.c:179 loader/hdinstall.c:206 loader/hdinstall.c:260
 #: loader/kbd.c:119 loader/loader.c:506 loader/loader.c:523
 #: loader/loader.c:1375 loader/loader.c:1408 loader/net.c:578 loader/net.c:949
 #: loader/net.c:1848 loader/net.c:1867 loader/nfsinstall.c:91
@@ -4098,7 +4100,7 @@ msgstr "കൂടുതല്‍ ഡ്രൈവര്‍ ഡിസ്ക്ക�
 msgid "Do you wish to load any more driver disks?"
 msgstr "നിങ്ങള്‍ ഇനിയും ഡ്രൈവര്‍ ഡിസ്ക്കുകള്‍ ലോഡ് ചെയ്യണമോ?"
 
-#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:349
+#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:352
 #: loader/kickstart.c:132 loader/kickstart.c:142 loader/kickstart.c:184
 #: loader/kickstart.c:189 loader/kickstart.c:510 loader/modules.c:382
 #: loader/modules.c:398 loader/net.c:1557 loader/net.c:1578
@@ -4174,14 +4176,14 @@ msgstr ""
 "നിങ്ങളുടെ ഹാര്‍ഡ് ഡ്രൈവില്‍ ഇന്‍സ്റ്റലേഷന്‍ ഇമേജ് ലഭ്യമാക്കുന്നതില്‍ പിഴവുണ്ടായിരിക്കുന്നു. ദയവായി "
 "നിങ്ങളുടെ ഇമേജുകള്‍ പരിശോധിച്ചു് വീണ്ടും ശ്രമിക്കുക."
 
-#: loader/hdinstall.c:204
+#: loader/hdinstall.c:207
 msgid ""
 "You don't seem to have any hard drives on your system! Would you like to "
 "configure additional devices?"
 msgstr ""
 "നിങ്ങളുടെ സിസ്റ്റമില്‍ ഹാര്‍ഡ് ഡ്രൈവുകള്‍ ലഭ്യമല്ല! നിങ്ങള്‍ക്ക് അഡീഷണല്‍ ഡിവൈസുകള്‍ ക്രമീകരിക്കണമോ?"
 
-#: loader/hdinstall.c:217
+#: loader/hdinstall.c:220
 #, c-format
 msgid ""
 "What partition and directory on that partition holds the installation image "
@@ -4192,29 +4194,29 @@ msgstr ""
 "കാണിച്ചിരിക്കുന്ന ഡിസ്ക് ഡ്രൈവുകളില്‍ നിങ്ങള്‍ ഉപയോഗിക്കുന്നത് ലഭ്യമല്ലെങ്കില്‍, കൂടുതല്‍ ഡിവൈസുകള്‍ "
 "ക്രമീകരിക്കുന്നതിനായി F2 അമര്‍ത്തുക."
 
-#: loader/hdinstall.c:241
+#: loader/hdinstall.c:244
 msgid "Directory holding image:"
 msgstr "ഇമേജ് അടങ്ങുന്ന ഡയറക്ടറി: "
 
-#: loader/hdinstall.c:269
+#: loader/hdinstall.c:272
 msgid "Select Partition"
 msgstr "പാര്‍ട്ടീഷന്‍ തിരഞ്ഞെടുക്കുക"
 
-#: loader/hdinstall.c:316
+#: loader/hdinstall.c:319
 #, c-format
 msgid "Device %s does not appear to contain an installation image."
 msgstr "%s ഡിവൈസില്‍ ഇന്‍സ്റ്റലേഷന്‍ ഇമേജ് ലഭ്യമല്ല."
 
-#: loader/hdinstall.c:350
+#: loader/hdinstall.c:353
 #, fuzzy, c-format
 msgid "Bad argument to HD kickstart method command: %s"
 msgstr "HD കിക്ക് സ്റ്റാര്‍ട്ട് മാര്‍ഗ്ഗത്തിലുളള കമാന്‍ഡ് %s-ന് തെറ്റായ ആര്‍ഗ്യുമെന്റ്: %s"
 
-#: loader/hdinstall.c:422 loader/hdinstall.c:478
+#: loader/hdinstall.c:425 loader/hdinstall.c:481
 msgid "Cannot find kickstart file on hard drive."
 msgstr "ഹാര്‍ഡ് ഡ്രൈവില്‍ കിക്ക് സ്റ്റാര്‍ട്ട് ഫയല്‍ ലഭ്യമല്ല."
 
-#: loader/hdinstall.c:465
+#: loader/hdinstall.c:468
 #, c-format
 msgid "Cannot find hard drive for BIOS disk %s"
 msgstr "BIOS ഡിസ്ക് %s-നുളള ഹാര്‍ഡ് ഡ്രൈവ് ലഭ്യമല്ല"
@@ -5028,11 +5030,11 @@ msgstr ""
 "ഒന്നും ലഭ്യമല്ല. ദയവായി ഈ പ്രശ്നത്തിന്റെ കാരണം കണ്ടുപിടിക്കുന്നതിനായി നിങ്ങളുടെ ഹാര്‍ഡ്വയര്‍ "
 "പരിശോധിക്കുക."
 
-#: storage/__init__.py:1339 storage/__init__.py:1348
+#: storage/__init__.py:1330 storage/__init__.py:1339
 msgid "Dirty File Systems"
 msgstr "ഡേര്‍ട്ടി ഫൈല്‍ സിസ്റ്റമുകള്‍"
 
-#: storage/__init__.py:1340
+#: storage/__init__.py:1331
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -5045,7 +5047,7 @@ msgstr ""
 "സിസ്റ്റമുകള്‍ എല്ലാം പരിശോധനയ്ക്ക് ശേഷം ഷട്ട് ഡൌണ്‍ ചെയ്യപ്പെടട്ടെ.\n"
 "%s"
 
-#: storage/__init__.py:1349
+#: storage/__init__.py:1340
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -5056,7 +5058,7 @@ msgstr ""
 "ചെയ്തിരുന്നില്ല.  അവ മൌണ്ട് ചെയ്യുവാന്‍ നിങ്ങള്‍ ആഗ്രഹിക്കുന്നുവോ?\n"
 "%s"
 
-#: storage/__init__.py:1826
+#: storage/__init__.py:1817
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5073,7 +5075,7 @@ msgstr ""
 "പഴയ രീതിയിലുള്ള ഒരു ലിനക്സ് സ്വാപ്പ് പാര്‍ട്ടീഷനാണു്.  നിങ്ങള്‍ക്കീ ഡിവൈസ് സ്വാപ്പ് സ്പെയിസായി "
 "ഉപയോഗിക്കണമെങ്കില്‍, പുതിയ രീതിയിലുള്ള ലിനക്സ് സ്വാപ്പ് പാര്‍ട്ടീഷനായി മാറ്റേണം."
 
-#: storage/__init__.py:1837
+#: storage/__init__.py:1828
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5092,7 +5094,7 @@ msgstr ""
 "ഉപയോഗിക്കുന്നു. ഇതിനര്‍ത്ഥം നിങ്ങളുടെ സിസ്റ്റം ഹൈബര്‍ണേറ്റ് ചെയ്യുന്നു എന്നാണു്. പുതുക്കണമെങ്കില്‍, "
 "സിസ്റ്റം അടച്ചു പൂട്ടുന്നതാണു് ഉചിതം."
 
-#: storage/__init__.py:1845
+#: storage/__init__.py:1836
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5112,7 +5114,7 @@ msgstr ""
 "ഇന്‍സ്റ്റോള്‍ ചെയ്യുകയാണു് എങ്കില്‍, എല്ലാ swap പാര്‍ട്ടീഷനുകളും ഫോര്‍മാറ്റ് ചെയ്യുന്നതിനു് ഇന്‍സ്റ്റോളര്‍  "
 "ക്രമീകരിച്ചിട്ടുണ്ടു് എന്നുറപ്പ് വരുത്തുക."
 
-#: storage/__init__.py:1857
+#: storage/__init__.py:1848
 #, fuzzy, python-format
 msgid ""
 "The swap device:\n"
@@ -5129,7 +5131,7 @@ msgstr ""
 "പിന്തുണയ്ക്കുന്ന ഒരു സ്വാപ്പ് വോള്യം ലഭ്യമല്ല.  ഇന്‍സ്റ്റലേഷന്‍ തുടരുന്നതിനായി, നിങ്ങള്‍ ഡിവൈസ് "
 "ഫോര്‍മാറ്റ് ചെയ്യണം അല്ലെങ്കില്‍ ഇതു് ഉപേക്ഷിക്കുക."
 
-#: storage/__init__.py:1868
+#: storage/__init__.py:1859
 #, fuzzy, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -5146,7 +5148,7 @@ msgstr ""
 "\n"
 "ഇന്‍സ്റ്റോളറില്‍ നിന്നും പുറത്ത് കടക്കുന്നതിനായി ശരി അമര്‍ത്തുക."
 
-#: storage/__init__.py:1875
+#: storage/__init__.py:1866
 #, fuzzy, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -5161,11 +5163,11 @@ msgstr ""
 "\n"
 "ഇന്‍സ്റ്റോളറില്‍ നിന്നും പുറത്ത് കടക്കുന്നതിനായി <Enter> അമര്‍ത്തുക."
 
-#: storage/__init__.py:1938 storage/__init__.py:1950
+#: storage/__init__.py:1929 storage/__init__.py:1941
 msgid "Invalid mount point"
 msgstr "തെറ്റായ മൌണ്ട് പോയിന്റ്"
 
-#: storage/__init__.py:1939
+#: storage/__init__.py:1930
 #, python-format
 msgid ""
 "An error occurred when trying to create %s.  Some element of this path is "
@@ -5178,7 +5180,7 @@ msgstr ""
 "\n"
 "ഇന്‍സ്റ്റോളറില്‍ നിന്നും പുറത്ത് കടക്കുന്നതിനായി <Enter> അമര്‍ത്തുക."
 
-#: storage/__init__.py:1951
+#: storage/__init__.py:1942
 #, fuzzy, python-format
 msgid ""
 "An error occurred when trying to create %(mountpoint)s: %(msg)s.  This is a "
@@ -5191,11 +5193,11 @@ msgstr ""
 "\n"
 "ഇന്‍സ്റ്റോളറില്‍ നിന്നും പുറത്ത് കടക്കുന്നതിനായി <Enter> അമര്‍ത്തുക."
 
-#: storage/__init__.py:1967 storage/__init__.py:1991
+#: storage/__init__.py:1958 storage/__init__.py:1982
 msgid "Unable to mount filesystem"
 msgstr "ഫൈല്‍ സിസ്റ്റം മൌണ്ട് ചെയ്യുവാന്‍ സാധ്യമല്ല"
 
-#: storage/__init__.py:1968
+#: storage/__init__.py:1959
 #, fuzzy, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s.  You may "
@@ -5204,7 +5206,7 @@ msgstr ""
 "%s എന്ന ഡിവൈസ് %s ആയി മൌണ്ട് ചെയ്യുന്നതില്‍ പിശക്.  നിങ്ങള്‍ക്കു് ഇന്‍സ്റ്റലേഷന്‍ തുടരാം, പക്ഷേ "
 "പ്രശ്നങ്ങള്‍ ഉണ്ടാകാന്‍ സാധ്യതയുണ്ട്."
 
-#: storage/__init__.py:1992
+#: storage/__init__.py:1983
 #, fuzzy, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s: %(msg)s. This "
@@ -5265,7 +5267,7 @@ msgid "lvs failed for %s"
 msgstr "%s-ല്‍ lvs പരാജയപ്പെട്ടു"
 
 #: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3281
+#: storage/devices.py:2799 storage/devices.py:3289
 #, fuzzy
 msgid "Creating"
 msgstr "ക്രൊയേഷ്യന്‍"
@@ -5281,7 +5283,7 @@ msgstr "ഡിവൈസ് _മാറ്റുക"
 msgid "A RAID%d set requires atleast %d members"
 msgstr ""
 
-#: storage/devices.py:3282
+#: storage/devices.py:3290
 #, fuzzy, python-format
 msgid "Creating file %s"
 msgstr "%s-ല്‍ ഫയല്‍സിസ്റ്റം ഉണ്ടാക്കുന്നു"
@@ -5532,6 +5534,10 @@ msgstr ""
 "ഇന്‍സ്റ്റലേഷനായി നിങ്ങളുടെ ഹാര്‍ഡ് ഡ്രൈവുകളില്‍ ആവശ്യത്തിനുളള സ്ഥലം ലഭ്യമല്ലെങ്കില്‍ ഇങ്ങനെ "
 "സംഭവിക്കാവുന്നതാണ്.%s"
 
+#: storage/partitioning.py:276
+msgid "The system will now reboot."
+msgstr "കംപ്യൂട്ടര്‍ ഇപ്പോള്‍ റീബൂട്ട് ചെയ്യപ്പെടും."
+
 #: storage/zfcp.py:50
 msgid "You have not specified a device number or the number is invalid"
 msgstr "നിങ്ങള്‍ ഡിവൈസിന്റെ നംബര്‍ നിര്‍ദ്ദേശിച്ചിട്ടില്ല അല്ലെങ്കില്‍ നംബര്‍ അസാധുവാണ്"
@@ -5622,15 +5628,11 @@ msgstr "zFCP ഡിവൈസ് %s-ല്‍ നിന്നും WWPN %s ന�
 msgid "Could not set zFCP device %(devnum)s offline (%(e)s)."
 msgstr "zFCP ഡിവൈസ് %s ഓഫ്‌ലൈനായി സജ്ജമാക്കുവാന്‍ സാധ്യമായില്ല (%s)."
 
-#: textw/complete_text.py:31
-msgid "Reboot"
-msgstr "റീബൂട്ട് ചെയ്യുക"
-
 #: textw/complete_text.py:33
 msgid "<Enter> to exit"
 msgstr "പുറത്തേക്ക് പോകുന്നതിനായി<Enter> "
 
-#: textw/complete_text.py:61
+#: textw/complete_text.py:62
 msgid "Complete"
 msgstr "പൂര്‍ത്തിയാക്കി"
 
@@ -5893,7 +5895,7 @@ msgstr ""
 msgid "The root password must be at least 6 characters long."
 msgstr "റൂട്ട് പാസ്‌വേര്‍ഡ് കു്‍ഡ്കുറഞ്ഞത് 6 അക്കങ്ങളോ അക്ഷരങ്ങളോ ആയിരിക്കണം. "
 
-#: textw/userauth_text.py:84
+#: textw/userauth_text.py:84 textw/userauth_text.py:191
 #, python-format
 msgid ""
 "You have provided a weak password: %s\n"
@@ -5903,6 +5905,47 @@ msgstr ""
 "നിങ്ങള്‍ നല്‍കിയിരിക്കുന്ന പാസ്‌വേര്‍ഡ് സുരക്ഷിതമല്ല: %s\n"
 "\n"
 "നിങ്ങള്‍ക്ക് ഇതുമായി മുമ്പോട്ട് പോകണമോ?"
+
+#: textw/userauth_text.py:111
+#, fuzzy
+msgid "User configuration"
+msgstr "VNC കോണ്‍ഫിഗറേഷന്‍"
+
+#: textw/userauth_text.py:114
+msgid "Setup a username for regular (non-administrative) use."
+msgstr ""
+
+#: textw/userauth_text.py:130
+#, fuzzy
+msgid "Username:"
+msgstr "CHAP ഉപയോക്തൃനാമം"
+
+#: textw/userauth_text.py:132
+msgid "Full name:"
+msgstr ""
+
+#: textw/userauth_text.py:159
+#, fuzzy
+msgid "User password must be at least 6 characters long."
+msgstr "റൂട്ട് പാസ്‌വേര്‍ഡ് കു്‍ഡ്കുറഞ്ഞത് 6 അക്കങ്ങളോ അക്ഷരങ്ങളോ ആയിരിക്കണം. "
+
+#: textw/userauth_text.py:172 textw/userauth_text.py:178
+#, fuzzy
+msgid "Error with username"
+msgstr "ഹോസ്റ്റ്നെയിമില്‍ പിഴവ്"
+
+#: textw/userauth_text.py:173
+#, fuzzy
+msgid "Username too short"
+msgstr "CHAP ഉപയോക്തൃനാമം"
+
+#: textw/userauth_text.py:179
+#, fuzzy
+msgid ""
+"Requested username contains non-ASCII characters or spaces, which are not "
+"allowed."
+msgstr ""
+"പാസ്‌വേര്‍ഡില്‍ ഉപയോഗിക്കുവാന്‍ പാടില്ലാത്ത non-ascii അക്ഷരങ്ങള്‍ നല്‍കിയിരിക്കുന്ന പാസ്‌വേര്‍ഡില്‍ ഉണ്ട്."
 
 #: textw/welcome_text.py:29
 #, python-format
@@ -5946,6 +5989,11 @@ msgstr "നിങ്ങളുടെ ഹാര്‍ഡ് ഡിസ്കില�
 
 #: liveinst/liveinst.desktop.in.h:3
 msgid "Install to Hard Drive"
+msgstr "ഹാര്‍ഡ് ഡ്റൈവിലേക്ക് ഇന്‍സ്റ്റോള്‍ ചെയ്യുക"
+
+#: liveinst:5
+#, fuzzy
+msgid "Starting Install to Hard Drive"
 msgstr "ഹാര്‍ഡ് ഡ്റൈവിലേക്ക് ഇന്‍സ്റ്റോള്‍ ചെയ്യുക"
 
 #: ui/GroupSelector.glade.h:1
@@ -6739,7 +6787,7 @@ msgstr "വെല്‍ഷ്"
 msgid "Zulu"
 msgstr "സുളു"
 
-#: sabayon/livecd.py:63
+#: sabayon/livecd.py:64
 #, fuzzy, python-format
 msgid ""
 "The given location [%s] isn't a valid %s live CD to use as an installation "
@@ -6747,77 +6795,89 @@ msgid ""
 msgstr ""
 "നല്‍കിയിരിക്കുന്ന സ്ഥാനം, ഇന്‍സ്റ്റലേഷനായി ഉപയോഗിക്കുവാന്‍ സാധിക്കുന്ന ഒരു %s live CD അല്ല."
 
-#: sabayon/livecd.py:95
+#: sabayon/livecd.py:107
+#, fuzzy
+msgid "Recovering Sabayon."
+msgstr "VNC കോണ്‍ഫിഗറേഷന്‍"
+
+#: sabayon/livecd.py:113
 #, fuzzy
 msgid "Installing Sabayon onto hard drive."
 msgstr "ബൂട്ട് ലോഡര്‍ ഇന്‍സ്റ്റോള്‍ ചെയ്യുന്നു."
 
-#: sabayon/livecd.py:107
+#: sabayon/livecd.py:125
 #, fuzzy
 msgid "Configuring Sabayon"
 msgstr "VNC കോണ്‍ഫിഗറേഷന്‍"
 
-#: sabayon/livecd.py:125
+#: sabayon/livecd.py:150
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:202
+#: sabayon/utils.py:214
 msgid "System Health Status Warning"
 msgstr ""
 
-#: sabayon/utils.py:348
+#: sabayon/utils.py:360
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "നെറ്റ്‌വര്‍ക്കിനുള്ള സംയോജക ഘടകം സജ്ജമാക്കുന്നു"
 
-#: sabayon/utils.py:609
+#: sabayon/utils.py:621
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:611
+#: sabayon/utils.py:623
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:612
+#: sabayon/utils.py:624
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "ഇന്‍സ്റ്റലേഷന്‍ പ്രക്രിയ ആരംഭിക്കുന്നു"
 
-#: sabayon/utils.py:642
+#: sabayon/utils.py:654
 #, fuzzy
 msgid "System Installation"
 msgstr "പോസ്റ്റ് ഇന്‍സ്റ്റലേഷന്‍"
 
-#: sabayon/utils.py:775
+#: sabayon/utils.py:787
 #, fuzzy
 msgid "Cleaning packages"
 msgstr "പഴയ പാക്കേജുകള്‍"
 
-#: sabayon/utils.py:800
+#: sabayon/utils.py:812
 #, fuzzy
 msgid "Cleaning package"
 msgstr "പാക്കേജ് ലഭ്യമല്ല"
 
-#: sabayon/utils.py:840
+#: sabayon/utils.py:852
 #, fuzzy
 msgid "Installation complete"
 msgstr "ഇന്‍സ്റ്റലേഷന്‍ കീ"
 
-#: sabayon/utils.py:872
+#: sabayon/utils.py:884
 #, fuzzy
 msgid ""
 "This DVD contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "ഇന്‍സ്റ്റലേഷനുവേണ്ടി നിങ്ങള്‍ ആഗ്രഹിക്കുന്ന ഭാഷ ഏത്?"
 
-#: sabayon/utils.py:875
+#: sabayon/utils.py:887
 #, fuzzy
 msgid "Language packs installation"
 msgstr "പാക്കേജിന്റെ ഇന്‍സ്റ്റലേഷന്‍"
 
-#: sabayon/utils.py:886
+#: sabayon/utils.py:898
 msgid "Generating list of files to copy"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Upgrade an Existing Installation"
+#~ msgstr "നിലവിലുളള ഒരു കംപ്യൂട്ടര്‍ അപ്ഗ്രേഡ്(_U) ചെയ്യുക"
+
+#~ msgid "Reboot"
+#~ msgstr "റീബൂട്ട് ചെയ്യുക"
 
 #~ msgid "Install class forcing text mode installation"
 #~ msgstr "ടെസ്റ്റ് മോഡ് ഇന്‍സ്റ്റലേഷന്‍ നിര്‍ബന്ധിക്കുന്ന ക്ലാസ്സ് ഇന്‍സ്റ്റോള്‍ ചെയ്യുക"
@@ -6827,9 +6887,6 @@ msgstr ""
 
 #~ msgid "reipl configuration failed => halt"
 #~ msgstr "reipl ക്രമീകരണം പരാജയപ്പെട്ടു => നിര്‍ത്തുക"
-
-#~ msgid "The installer will now exit."
-#~ msgstr "ഇന്‍സ്റ്റോളര്‍ ഇപ്പോള്‍ നിര്‍ത്തുന്നതാണു്."
 
 #~ msgid "Device Resize Failed"
 #~ msgstr "ഡിവൈസിന്റെ വ്യാപ്തി മാറ്റുന്നതു് പരാജയപ്പെട്ടു"

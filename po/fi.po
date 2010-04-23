@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-04-11 21:22+0200\n"
+"POT-Creation-Date: 2010-04-23 14:54+0200\n"
 "PO-Revision-Date: 2010-02-25 15:09+0200\n"
 "Last-Translator: Ville-Pekka Vainio <vpivaini@cs.helsinki.fi>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -51,16 +51,16 @@ msgstr "Paina <enter> päästäksesi komentoriville"
 # ../textw/silo_text.py:110 ../textw/silo_text.py:147
 # ../textw/silo_text.py:160 ../xserver.py:51
 #: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
-#: rescue.py:466 text.py:656 loader/cdinstall.c:228 loader/cdinstall.c:232
+#: rescue.py:466 text.py:657 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
 #: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
 #: loader/driverdisk.c:266 loader/driverdisk.c:422 loader/driverdisk.c:460
 #: loader/driverdisk.c:491 loader/driverdisk.c:526 loader/driverdisk.c:542
 #: loader/driverdisk.c:554 loader/driverdisk.c:562 loader/driverdisk.c:722
 #: loader/driverdisk.c:761 loader/driverselect.c:79 loader/driverselect.c:179
-#: loader/hdinstall.c:115 loader/hdinstall.c:257 loader/hdinstall.c:315
-#: loader/hdinstall.c:349 loader/hdinstall.c:421 loader/hdinstall.c:464
-#: loader/hdinstall.c:477 loader/kbd.c:119 loader/kickstart.c:132
+#: loader/hdinstall.c:115 loader/hdinstall.c:260 loader/hdinstall.c:318
+#: loader/hdinstall.c:352 loader/hdinstall.c:424 loader/hdinstall.c:467
+#: loader/hdinstall.c:480 loader/kbd.c:119 loader/kickstart.c:132
 #: loader/kickstart.c:142 loader/kickstart.c:184 loader/kickstart.c:189
 #: loader/kickstart.c:296 loader/kickstart.c:328 loader/kickstart.c:510
 #: loader/lang.c:114 loader/lang.c:373 loader/loader.c:429 loader/loader.c:465
@@ -192,7 +192,7 @@ msgstr ""
 # ../textw/upgrade_text.py:190 ../textw/xconfig_text.py:422 ../upgrade.py:292
 # ../upgrade.py:304
 #: backend.py:169 image.py:289 livecd.py:198 livecd.py:400
-#: partIntfHelpers.py:237 text.py:354 text.py:358 yuminstall.py:416
+#: partIntfHelpers.py:237 text.py:355 text.py:359 yuminstall.py:416
 #: yuminstall.py:805 yuminstall.py:923 yuminstall.py:928 yuminstall.py:1190
 #: yuminstall.py:1249 yuminstall.py:1440 yuminstall.py:1462
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
@@ -204,20 +204,20 @@ msgstr ""
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
 #: loader/cdinstall.c:504 loader/driverdisk.c:266 loader/driverdisk.c:491
 #: loader/driverdisk.c:526 loader/driverdisk.c:554 loader/driverdisk.c:562
-#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:315
-#: loader/hdinstall.c:421 loader/hdinstall.c:464 loader/hdinstall.c:477
+#: loader/driverdisk.c:626 loader/hdinstall.c:115 loader/hdinstall.c:318
+#: loader/hdinstall.c:424 loader/hdinstall.c:467 loader/hdinstall.c:480
 #: loader/kickstart.c:296 loader/lang.c:114 loader/loader.c:429
 #: loader/loader.c:540 loader/loader.c:1194 loader/mediacheck.c:47
 #: loader/mediacheck.c:86 loader/mediacheck.c:93 loader/mediacheck.c:97
 #: loader/method.c:277 loader/method.c:351 loader/nfsinstall.c:279
 #: loader/nfsinstall.c:296 loader/telnetd.c:93 loader/urlinstall.c:137
 #: loader/urlinstall.c:159 loader/urlinstall.c:221 loader/urls.c:330
-#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1794
-#: storage/__init__.py:1881 textw/netconfig_text.py:282
+#: loader/urls.c:336 storage/__init__.py:215 storage/__init__.py:1785
+#: storage/__init__.py:1872 textw/netconfig_text.py:282
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:382
+#: textw/upgrade_text.py:188 sabayon/livecd.py:411
 msgid "Error"
 msgstr "Virhe"
 
@@ -230,8 +230,8 @@ msgstr "Virhe"
 # ../textw/bootloader_text.py:434 ../textw/partition_text.py:167
 # ../textw/upgrade_text.py:172 ../upgrade.py:239 ../upgrade.py:357
 # ../upgrade.py:376
-#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1102
-#: gui.py:1162 image.py:82 installinterfacebase.py:41 text.py:485 text.py:545
+#: bootloader.py:55 bootloader.py:221 bootloader.py:227 gui.py:1103
+#: gui.py:1163 image.py:82 installinterfacebase.py:41 text.py:486 text.py:546
 #: yuminstall.py:1418 yuminstall.py:1622 yuminstall.py:1657
 #: iw/blpasswidget.py:148 iw/upgrade_swap_gui.py:190
 #: iw/upgrade_swap_gui.py:198 iw/upgrade_swap_gui.py:205
@@ -253,20 +253,20 @@ msgstr ""
 "Haluatko jatkaa asennusta?"
 
 # ../packages.py:653
-#: bootloader.py:60 gui.py:1053 gui.py:1198 gui.py:1403 image.py:91
+#: bootloader.py:60 gui.py:1054 gui.py:1199 gui.py:1406 image.py:91
 #: kickstart.py:156 livecd.py:205 livecd.py:407 packages.py:130 upgrade.py:56
 #: upgrade.py:237 yuminstall.py:257 yuminstall.py:703 yuminstall.py:925
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1975 storage/dasd.py:139 sabayon/livecd.py:389
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:418
 msgid "_Exit installer"
 msgstr "_Lopeta asennusohjelma"
 
 # ../rescue.py:99
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1976
+#: iw/partition_gui.py:1598 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "_Jatka"
 
@@ -307,8 +307,8 @@ msgstr "Valmiina"
 msgid "In progress"
 msgstr "Kesken"
 
-#: cmdline.py:89 gui.py:1193 kickstart.py:1214 kickstart.py:1222
-#: kickstart.py:1260 kickstart.py:1268 text.py:391
+#: cmdline.py:89 gui.py:1194 kickstart.py:1214 kickstart.py:1222
+#: kickstart.py:1260 kickstart.py:1268 text.py:392
 #, python-format
 msgid ""
 "The following error was found while parsing the kickstart configuration "
@@ -353,15 +353,15 @@ msgstr " tämän ohjelmiston tekijälle."
 msgid " against anaconda at %s"
 msgstr " anacondasta osoitteessa %s"
 
-#: gui.py:109
+#: gui.py:110
 msgid "An error occurred saving screenshots to disk."
 msgstr "Näyttökaappauksia tallennettaessa tapahtui virhe."
 
-#: gui.py:120
+#: gui.py:121
 msgid "Screenshots Copied"
 msgstr "Kopioidut näyttökaappaukset"
 
-#: gui.py:121
+#: gui.py:122
 msgid ""
 "The screenshots have been saved in the directory:\n"
 "\n"
@@ -375,20 +375,20 @@ msgstr ""
 "\n"
 "Voit katsoa niitä käynnistämisen jälkeen pääkäyttäjänä."
 
-#: gui.py:164
+#: gui.py:165
 msgid "Saving Screenshot"
 msgstr "Tallennetaan näyttökaappausta"
 
-#: gui.py:165
+#: gui.py:166
 #, python-format
 msgid "A screenshot named '%s' has been saved."
 msgstr "Kuvakaappaus tallennettiin nimellä \"%s\"."
 
-#: gui.py:168
+#: gui.py:169
 msgid "Error Saving Screenshot"
 msgstr "Virhe tallennettaessa näyttökaappausta"
 
-#: gui.py:169
+#: gui.py:170
 msgid ""
 "An error occurred while saving the screenshot.  If this occurred during "
 "package installation, you may need to try several times for it to succeed."
@@ -398,11 +398,11 @@ msgstr ""
 "onnistuu."
 
 # ../loader/loader.c:1483
-#: gui.py:510
+#: gui.py:511
 msgid "Installation Key"
 msgstr "Asennusavain"
 
-#: gui.py:581 text.py:149
+#: gui.py:582 text.py:150
 msgid ""
 "Choose a passphrase for the encrypted devices. You will be prompted for this "
 "passphrase during system boot."
@@ -411,21 +411,21 @@ msgstr ""
 "aikana."
 
 # ../textw/userauth_text.py:22
-#: gui.py:600 gui.py:608 text.py:187 text.py:197
+#: gui.py:601 gui.py:609 text.py:188 text.py:198
 msgid "Error with passphrase"
 msgstr "Salalausevirhe"
 
 # ../textw/userauth_text.py:60 ../textw/userauth_text.py:137
-#: gui.py:601 text.py:188
+#: gui.py:602 text.py:189
 msgid "The passphrases you entered were different.  Please try again."
 msgstr "Syötetyt salalauseet olivat erilaisia. Yritä uudelleen."
 
 # ../textw/userauth_text.py:129
-#: gui.py:609
+#: gui.py:610
 msgid "The passphrase must be at least eight characters long."
 msgstr "Salalauseen on oltava vähintään kahdeksan merkkiä pitkä."
 
-#: gui.py:643 text.py:225
+#: gui.py:644 text.py:226
 #, python-format
 msgid ""
 "Device %s is encrypted. In order to access the device's contents during "
@@ -442,19 +442,19 @@ msgstr ""
 # ../textw/constants_text.py:24 ../textw/silo_text.py:147
 # ../textw/silo_text.py:165 ../textw/userauth_text.py:76
 # ../textw/welcome_text.py:48 ../textw/welcome_text.py:51
-#: gui.py:734 gui.py:1403 partIntfHelpers.py:157 partIntfHelpers.py:342
-#: text.py:100 text.py:101 iw/account_gui.py:130 loader/dirbrowser.c:129
+#: gui.py:735 gui.py:1406 partIntfHelpers.py:157 partIntfHelpers.py:342
+#: text.py:101 text.py:102 iw/account_gui.py:130 loader/dirbrowser.c:129
 #: loader/driverdisk.c:423 loader/kickstart.c:328 loader/loader.c:465
 #: loader/loader.c:577 textw/constants_text.py:48
 msgid "Cancel"
 msgstr "Peru"
 
 # ../text.py:266 ../text.py:267
-#: gui.py:746 gui.py:747 gui.py:863 gui.py:864 ui/anaconda.glade.h:3
+#: gui.py:747 gui.py:748 gui.py:864 gui.py:865 ui/anaconda.glade.h:3
 msgid "_Debug"
 msgstr "_Vianjäljitys"
 
-#: gui.py:1103 text.py:486
+#: gui.py:1104 text.py:487
 #, python-format
 msgid ""
 "Error processing drive:\n"
@@ -483,24 +483,24 @@ msgstr ""
 "levyille.%(details)s"
 
 # ../gui.py:113 ../text.py:285
-#: gui.py:1112 gui.py:1170 text.py:495 text.py:553
+#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
 msgid "_Ignore"
 msgstr "_Ohita"
 
 # ../gui.py:113 ../text.py:285
-#: gui.py:1113 gui.py:1171 text.py:496 text.py:554
+#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
 msgid "Ignore _all"
 msgstr "Ohita _kaikki"
 
-#: gui.py:1114 gui.py:1172 text.py:497 text.py:555
+#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
 msgid "_Re-initialize"
 msgstr "_Alusta"
 
-#: gui.py:1115 gui.py:1173 text.py:498 text.py:556
+#: gui.py:1116 gui.py:1174 text.py:499 text.py:557
 msgid "Re-ini_tialize all"
 msgstr "A_lusta kaikki"
 
-#: gui.py:1163 text.py:546
+#: gui.py:1164 text.py:547
 #, python-format
 msgid ""
 "Error processing LVM.\n"
@@ -515,7 +515,7 @@ msgstr ""
 "LVM-metadata, tai voit ohittaa tämän, jolloin LVM:n sisältö säilytetään."
 
 # ../loader/kickstart.c:59
-#: gui.py:1195 text.py:393
+#: gui.py:1196 text.py:394
 msgid "Error Parsing Kickstart Config"
 msgstr "Virhe jäsennettäessä kickstart-asetuksia"
 
@@ -524,7 +524,7 @@ msgstr "Virhe jäsennettäessä kickstart-asetuksia"
 # ../textw/xconfig_text.py:377 ../textw/xconfig_text.py:384
 # ../textw/xconfig_text.py:480 ../textw/xconfig_text.py:481
 # ../textw/xconfig_text.py:500 ../textw/xconfig_text.py:501
-#: gui.py:1223
+#: gui.py:1224
 msgid "default:LTR"
 msgstr "oletus:LTR"
 
@@ -544,11 +544,11 @@ msgstr "oletus:LTR"
 # ../textw/upgrade_text.py:160 ../textw/upgrade_text.py:167
 # ../textw/upgrade_text.py:190 ../textw/xconfig_text.py:422 ../upgrade.py:292
 # ../upgrade.py:304
-#: gui.py:1303 text.py:621
+#: gui.py:1304 text.py:622
 msgid "Error!"
 msgstr "Virhe!"
 
-#: gui.py:1304 text.py:622
+#: gui.py:1305 text.py:623
 #, python-format
 msgid ""
 "An error occurred when attempting to load an installer interface component.\n"
@@ -561,55 +561,50 @@ msgstr ""
 
 # ../iw/congrats_gui.py:28 ../iw/congrats_gui.py:85 ../rescue.py:130
 # ../rescue.py:134
-#: gui.py:1309 image.py:164 image.py:194 packages.py:328
-#: storage/__init__.py:1793
+#: gui.py:1310 gui.py:1314 image.py:164 image.py:194 packages.py:328
+#: storage/__init__.py:1784
 msgid "_Exit"
 msgstr "_Poistu"
 
 # ../gui.py:112 ../loader/net.c:277 ../loader/net.c:404 ../text.py:284
-#: gui.py:1310 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
+#: gui.py:1311 image.py:164 image.py:194 livecd.py:205 yuminstall.py:802
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1446
 msgid "_Retry"
 msgstr "_Uudelleen"
 
-#: gui.py:1312 storage/partitioning.py:276
-msgid "The system will now reboot."
-msgstr "Järjestelmä käynnistyy uudelleen."
-
-# ../iw/partition_gui.py:1528
-#: gui.py:1313 image.py:251 packages.py:332 yuminstall.py:1487
-msgid "_Reboot"
-msgstr "_Käynnistä uudelleen"
+#: gui.py:1313
+msgid "The installer will now exit."
+msgstr "Asennusohjelma suljetaan."
 
 # ../iw/congrats_gui.py:28 ../iw/congrats_gui.py:85 ../rescue.py:130
 # ../rescue.py:134
-#: gui.py:1315
+#: gui.py:1316
 msgid "Exiting"
 msgstr "Poistutaan"
 
 # ../packages.py:653
-#: gui.py:1400 livecd.py:126 text.py:270 upgrade.py:228 sabayon/livecd.py:67
+#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:68
 msgid "Exit installer"
 msgstr "Lopeta asennusohjelma"
 
 # ../partitioning.py:1588
-#: gui.py:1401
+#: gui.py:1404
 msgid "Are you sure you wish to exit the installer?"
 msgstr "Haluatko varmasti poistua asennusohjelmasta?"
 
 # ../packages.py:653
-#: gui.py:1410
+#: gui.py:1413
 #, python-format
 msgid "%s Installer"
 msgstr "%s -asennusohjelma"
 
 # ../gui.py:706
-#: gui.py:1416
+#: gui.py:1419
 msgid "Unable to load title bar"
 msgstr "Otsikkopalkin lataus epäonnistui"
 
 # ../gui.py:791
-#: gui.py:1483
+#: gui.py:1486
 msgid "Install Window"
 msgstr "Asennuksen ikkuna"
 
@@ -685,6 +680,11 @@ msgstr ""
 "Jatka asennusta vasta kun nämä levyt ovat saatavilla. Jos haluat keskeyttää "
 "asennuksen ja poistua asennusohjelmasta, valitse \"Käynnistä uudelleen\"."
 
+# ../iw/partition_gui.py:1528
+#: image.py:251 packages.py:332 yuminstall.py:1487
+msgid "_Reboot"
+msgstr "_Käynnistä uudelleen"
+
 # ../gui.py:603 ../loader/cdrom.c:34 ../loader/devices.c:93
 # ../loader/devices.c:238 ../loader/devices.c:335 ../loader/lang.c:608
 # ../loader/loader.c:323 ../loader/loader.c:816 ../loader/loader.c:853
@@ -696,7 +696,7 @@ msgstr ""
 # ../textw/silo_text.py:110 ../textw/userauth_text.py:185
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:388
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:417
 msgid "_Back"
 msgstr "_Takaisin"
 
@@ -940,7 +940,7 @@ msgstr ""
 "kysellä. Lisää seuraavat osiot ja yritä uudelleen:\n"
 "%s"
 
-#: livecd.py:121 sabayon/livecd.py:62
+#: livecd.py:121 sabayon/livecd.py:63
 msgid "Unable to find image"
 msgstr "Levykuvaa ei löydy"
 
@@ -978,7 +978,7 @@ msgstr ""
 "Tehdään asennuksen jälkeisiä tiedostojärjestelmämuutoksia. Aikaa voi kulua "
 "useita minuutteja."
 
-#: livecd.py:401 sabayon/livecd.py:383
+#: livecd.py:401 sabayon/livecd.py:412
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -1483,7 +1483,7 @@ msgstr "Haluatko käynnistää lähiverkon järjestelmälle?"
 # ../textw/bootdisk_text.py:26 ../textw/bootloader_text.py:78
 # ../textw/constants_text.py:32 ../textw/upgrade_text.py:252
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:203 textw/constants_text.py:56 sabayon/utils.py:874
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:886
 msgid "Yes"
 msgstr "Kyllä"
 
@@ -1494,7 +1494,7 @@ msgstr "Kyllä"
 # ../textw/constants_text.py:36 ../textw/upgrade_text.py:252
 # ../textw/upgrade_text.py:259
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:874
+#: textw/constants_text.py:60 sabayon/utils.py:886
 msgid "No"
 msgstr "Ei"
 
@@ -1550,7 +1550,7 @@ msgstr "Vain luku"
 # ../textw/bootdisk_text.py:90 ../textw/silo_text.py:36
 # ../textw/upgrade_text.py:118
 #: rescue.py:295 rescue.py:297 loader/cdinstall.c:248 loader/cdinstall.c:251
-#: loader/method.c:324 storage/__init__.py:1793 textw/upgrade_text.py:139
+#: loader/method.c:324 storage/__init__.py:1784 textw/upgrade_text.py:139
 msgid "Skip"
 msgstr "Ohita"
 
@@ -1566,7 +1566,8 @@ msgstr "Millä laitteella on asennuksen juuriosio?"
 
 # ../iw/congrats_gui.py:28 ../iw/congrats_gui.py:85 ../rescue.py:130
 # ../rescue.py:134
-#: rescue.py:332 rescue.py:336 text.py:626 text.py:628
+#: rescue.py:332 rescue.py:336 text.py:627 text.py:629
+#: textw/complete_text.py:31
 msgid "Exit"
 msgstr "Poistu"
 
@@ -1646,50 +1647,50 @@ msgstr ""
 msgid "Your system is mounted under the %s directory."
 msgstr "Järjestelmäsi on liitetty %s-hakemistoon."
 
-#: text.py:154
+#: text.py:155
 msgid "Passphrase for encrypted device"
 msgstr "Salalause salattua laitetta varten"
 
-#: text.py:167
+#: text.py:168
 msgid "Also add this passphrase to all existing encrypted devices"
 msgstr ""
 "Lisää tämä salalause myös kaikkiin olemassa oleviin salattuihin laitteisiin"
 
 # ../textw/userauth_text.py:129
-#: text.py:198
+#: text.py:199
 #, fuzzy, python-format
 msgid "The passphrase must be at least %d character long."
 msgid_plural "The passphrase must be at least %d characters long."
 msgstr[0] "Salalauseen on oltava vähintään %d merkkiä pitkä."
 msgstr[1] "Salalauseen on oltava vähintään %d merkkiä pitkä."
 
-#: text.py:232 ui/lukspassphrase.glade.h:6
+#: text.py:233 ui/lukspassphrase.glade.h:6
 msgid "Passphrase"
 msgstr "Salalause"
 
-#: text.py:240 ui/lukspassphrase.glade.h:7
+#: text.py:241 ui/lukspassphrase.glade.h:7
 msgid "This is a global passphrase"
 msgstr "Tämä on globaali salalause"
 
 # ../anaconda:410
-#: text.py:355 text.py:359
+#: text.py:356 text.py:360
 msgid "Repository editing is not available in text mode."
 msgstr "Asennuslähteiden muokkaus ei ole käytettävissä tekstitilassa."
 
 # ../iw/welcome_gui.py:21 ../iw/welcome_gui.py:48
-#: text.py:421
+#: text.py:422
 #, python-format
 msgid "Welcome to %(productName)s for %(productArch)s"
 msgstr "%(productName)s %(productArch)s - tervetuloa"
 
 # ../iw/welcome_gui.py:21 ../iw/welcome_gui.py:48
-#: text.py:423
+#: text.py:424
 #, python-format
 msgid "Welcome to %s"
 msgstr "%s - tervetuloa"
 
 # ../text.py:306
-#: text.py:425
+#: text.py:426
 msgid ""
 "  <Tab>/<Alt-Tab> between elements   |  <Space> selects   |  <F12> next "
 "screen"
@@ -1697,18 +1698,18 @@ msgstr ""
 "  <Tab>/<Alt-Tab> vaihtaa elementtiä | <Välil.> valitsee | <F12> seuraava "
 
 # ../gui.py:112 ../loader/net.c:277 ../loader/net.c:404 ../text.py:284
-#: text.py:626 loader/net.c:109 loader/net.c:470 loader/net.c:525
+#: text.py:627 loader/net.c:109 loader/net.c:470 loader/net.c:525
 #: loader/net.c:667 loader/net.c:675 loader/net.c:1096 loader/net.c:1104
 msgid "Retry"
 msgstr "Uudelleen"
 
 # ../text.py:396
-#: text.py:652
+#: text.py:653
 msgid "Cancelled"
 msgstr "Peruutettu"
 
 # ../text.py:397
-#: text.py:653
+#: text.py:654
 msgid "I can't go to the previous step from here. You will have to try again."
 msgstr "Ei voida siirtyä tästä aikaisempaan vaiheeseen. Yritä uudelleen."
 
@@ -1932,27 +1933,27 @@ msgstr ""
 
 # ../iw/account_gui.py:187 ../iw/bootloaderpassword_gui.py:87
 # ../loader/urls.c:357 ../textw/userauth_text.py:37
-#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47
+#: vnc.py:295 vnc.py:390 textw/userauth_text.py:47 textw/userauth_text.py:134
 msgid "Password:"
 msgstr "Salasana:"
 
 # ../textw/userauth_text.py:102
-#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49
+#: vnc.py:296 vnc.py:391 textw/userauth_text.py:49 textw/userauth_text.py:136
 msgid "Password (confirm):"
 msgstr "Salasana (vahvistus):"
 
 # ../textw/userauth_text.py:59 ../textw/userauth_text.py:136
-#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70
+#: vnc.py:314 vnc.py:413 textw/userauth_text.py:70 textw/userauth_text.py:162
 msgid "Password Mismatch"
 msgstr "Salasanat eivät täsmää"
 
 # ../textw/userauth_text.py:60 ../textw/userauth_text.py:137
-#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71
+#: vnc.py:315 vnc.py:414 textw/userauth_text.py:71 textw/userauth_text.py:163
 msgid "The passwords you entered were different. Please try again."
 msgstr "Syötetyt salasanat olivat erilaisia. Yritä uudelleen."
 
 # ../textw/userauth_text.py:54 ../textw/userauth_text.py:128
-#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66
+#: vnc.py:320 vnc.py:419 textw/userauth_text.py:66 textw/userauth_text.py:158
 msgid "Password Length"
 msgstr "Salasanan pituus"
 
@@ -2433,7 +2434,7 @@ msgstr "Caps Lock on käytössä."
 
 # ../textw/userauth_text.py:22
 #: iw/account_gui.py:102 iw/account_gui.py:110 iw/account_gui.py:117
-#: iw/account_gui.py:137 textw/userauth_text.py:74
+#: iw/account_gui.py:137 textw/userauth_text.py:74 textw/userauth_text.py:166
 msgid "Error with Password"
 msgstr "Virhe salasanan määrityksessä"
 
@@ -2454,7 +2455,7 @@ msgid "The root password must be at least six characters long."
 msgstr "Pääkäyttäjän salasanan pitää olla vähintään kuusi merkkiä pitkä."
 
 # ../textw/userauth_text.py:101
-#: iw/account_gui.py:127 textw/userauth_text.py:83
+#: iw/account_gui.py:127 textw/userauth_text.py:83 textw/userauth_text.py:190
 msgid "Weak Password"
 msgstr "Heikko salasana"
 
@@ -2468,7 +2469,7 @@ msgstr "Annettu salasana on heikko: %s"
 msgid "Use Anyway"
 msgstr "Käytä silti"
 
-#: iw/account_gui.py:138 textw/userauth_text.py:75
+#: iw/account_gui.py:138 textw/userauth_text.py:75 textw/userauth_text.py:167
 msgid ""
 "Requested password contains non-ASCII characters, which are not allowed."
 msgstr ""
@@ -2767,7 +2768,7 @@ msgstr ""
 msgid "Congratulations"
 msgstr "Onnittelut"
 
-#: iw/congrats_gui.py:74 textw/complete_text.py:38
+#: iw/congrats_gui.py:74 textw/complete_text.py:39
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2776,19 +2777,19 @@ msgstr ""
 "Onnittelut, %s -asennus on valmis.\n"
 "\n"
 
-#: iw/congrats_gui.py:77 textw/complete_text.py:41
+#: iw/congrats_gui.py:77 textw/complete_text.py:42
 msgid "Shutdown"
 msgstr "Sammuta"
 
-#: iw/congrats_gui.py:79 textw/complete_text.py:43
+#: iw/congrats_gui.py:79 textw/complete_text.py:44
 msgid "Please shutdown to use the installed system.\n"
 msgstr "Sammuta käyttääksesi asennettua järjestelmää.\n"
 
-#: iw/congrats_gui.py:81 textw/complete_text.py:45
+#: iw/congrats_gui.py:81 textw/complete_text.py:46
 msgid "Please reboot to use the installed system.\n"
 msgstr "Käynnistä uudelleen käyttääksesi asennettua järjestelmää.\n"
 
-#: iw/congrats_gui.py:86 textw/complete_text.py:50
+#: iw/congrats_gui.py:86 textw/complete_text.py:51
 msgid ""
 "Note that updates may be available to ensure the proper functioning of your "
 "system and installation of these updates is recommended after the reboot."
@@ -2797,7 +2798,7 @@ msgstr ""
 "saatavilla ja niiden asentaminen uudelleenkäynnistyksen jälkeen on "
 "suositeltavaa."
 
-#: iw/congrats_gui.py:90 textw/complete_text.py:54
+#: iw/congrats_gui.py:90 textw/complete_text.py:55
 #, python-format
 msgid ""
 "Congratulations, your %s installation is complete.\n"
@@ -2831,15 +2832,18 @@ msgstr ""
 "Valitse tämä puhtaan %s -asennuksen tekemiseksi. Olemassa olevat ohjelmat ja "
 "tiedot saatetaan ylikirjoittaa riippuen asetusvalinnoista."
 
+# ../bootloader.py:737
 #: iw/examine_gui.py:67
-msgid "Upgrade an Existing Installation"
-msgstr "Päivitä olemassa oleva asennus"
+#, fuzzy
+msgid "Bootloader Recovery"
+msgstr "Käynnistyslatainlaite"
 
 #: iw/examine_gui.py:69
-#, python-format
+#, fuzzy, python-format
 msgid ""
-"Choose this option if you would like to upgrade your existing %s system.  "
-"This option will preserve the existing data on your storage device(s)."
+"Choose this option if you would like to recover your existing %s system "
+"bootloader. This option will preserve the existing data on your storage "
+"device(s)."
 msgstr ""
 "Valitse tämä, jos haluat päivittää vanhan %s -asennuksen. Tämä valinta "
 "säilyttää vanhat tiedot."
@@ -2855,8 +2859,8 @@ msgstr ""
 
 # ../loader/loader.c:322
 #: iw/examine_gui.py:128
-#, python-format
-msgid "<b>Which %s installation would you like to upgrade?</b>"
+#, fuzzy, python-format
+msgid "<b>Which %s installation would you like to recover?</b>"
 msgstr "<b>Minkä %s -asennuksen haluat päivittää?</b>"
 
 # ../loader/urls.c:247
@@ -3585,7 +3589,7 @@ msgid "Type"
 msgstr "Tyyppi"
 
 # ../iw/partition_gui.py:1545
-#: iw/partition_gui.py:612 storage/__init__.py:1793
+#: iw/partition_gui.py:612 storage/__init__.py:1784
 msgid "Format"
 msgstr "Alusta"
 
@@ -3674,7 +3678,7 @@ msgid "RAID Devices"
 msgstr "RAID-laitteet"
 
 # ../loader/loader.c:816
-#: iw/partition_gui.py:1017 loader/hdinstall.c:203
+#: iw/partition_gui.py:1017 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "Kiintolevyt"
 
@@ -4558,7 +4562,7 @@ msgstr "Levyä ei löytynyt"
 # ../textw/silo_text.py:110 ../textw/userauth_text.py:185
 #: loader/cdinstall.c:431 loader/driverdisk.c:423 loader/driverdisk.c:461
 #: loader/driverdisk.c:542 loader/driverselect.c:79 loader/driverselect.c:153
-#: loader/driverselect.c:179 loader/hdinstall.c:203 loader/hdinstall.c:257
+#: loader/driverselect.c:179 loader/hdinstall.c:206 loader/hdinstall.c:260
 #: loader/kbd.c:119 loader/loader.c:506 loader/loader.c:523
 #: loader/loader.c:1375 loader/loader.c:1408 loader/net.c:578 loader/net.c:949
 #: loader/net.c:1848 loader/net.c:1867 loader/nfsinstall.c:91
@@ -4688,7 +4692,7 @@ msgid "Do you wish to load any more driver disks?"
 msgstr "Haluatko ladata lisää ajurilevykkeitä?"
 
 # ../loader/kickstart.c:58 ../loader/kickstart.c:68 ../loader/kickstart.c:107
-#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:349
+#: loader/driverdisk.c:722 loader/driverdisk.c:761 loader/hdinstall.c:352
 #: loader/kickstart.c:132 loader/kickstart.c:142 loader/kickstart.c:184
 #: loader/kickstart.c:189 loader/kickstart.c:510 loader/modules.c:382
 #: loader/modules.c:398 loader/net.c:1557 loader/net.c:1578
@@ -4774,7 +4778,7 @@ msgstr ""
 "uudelleen."
 
 # ../loader/loader.c:817
-#: loader/hdinstall.c:204
+#: loader/hdinstall.c:207
 msgid ""
 "You don't seem to have any hard drives on your system! Would you like to "
 "configure additional devices?"
@@ -4783,7 +4787,7 @@ msgstr ""
 "ylimääräisiä laitteita?"
 
 # ../loader/loader.c:831
-#: loader/hdinstall.c:217
+#: loader/hdinstall.c:220
 #, c-format
 msgid ""
 "What partition and directory on that partition holds the installation image "
@@ -4794,33 +4798,33 @@ msgstr ""
 "levyasema ei näy tässä luettelossa, määrittele lisää laitteita painamalla F2."
 
 # ../loader/loader.c:845
-#: loader/hdinstall.c:241
+#: loader/hdinstall.c:244
 msgid "Directory holding image:"
 msgstr "Levykuvan sisältävä hakemisto:"
 
 # ../loader/loader.c:865
-#: loader/hdinstall.c:269
+#: loader/hdinstall.c:272
 msgid "Select Partition"
 msgstr "Valitse osio"
 
 # ../loader/loader.c:913
-#: loader/hdinstall.c:316
+#: loader/hdinstall.c:319
 #, c-format
 msgid "Device %s does not appear to contain an installation image."
 msgstr "Laite %s ei näytä sisältävän asennuskuvatiedostoa."
 
 # ../loader/net.c:723
-#: loader/hdinstall.c:350
+#: loader/hdinstall.c:353
 #, c-format
 msgid "Bad argument to HD kickstart method command: %s"
 msgstr "Virheellinen parametri kiintolevy-kickstartin komennolle: %s"
 
 # ../image.py:63
-#: loader/hdinstall.c:422 loader/hdinstall.c:478
+#: loader/hdinstall.c:425 loader/hdinstall.c:481
 msgid "Cannot find kickstart file on hard drive."
 msgstr "Kickstart-tiedostoa ei löydy kiintolevyltä."
 
-#: loader/hdinstall.c:465
+#: loader/hdinstall.c:468
 #, c-format
 msgid "Cannot find hard drive for BIOS disk %s"
 msgstr "BIOS-levylle %s ei löydy kiintolevyä"
@@ -5746,12 +5750,12 @@ msgstr ""
 "tiedostojärjestelmiä. Tarkista laitteistosi."
 
 # ../upgrade.py:76
-#: storage/__init__.py:1339 storage/__init__.py:1348
+#: storage/__init__.py:1330 storage/__init__.py:1339
 msgid "Dirty File Systems"
 msgstr "Likaiset tiedostojärjestelmät"
 
 # ../upgrade.py:77
-#: storage/__init__.py:1340
+#: storage/__init__.py:1331
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -5765,7 +5769,7 @@ msgstr ""
 "%s"
 
 # ../upgrade.py:77
-#: storage/__init__.py:1349
+#: storage/__init__.py:1340
 #, python-format
 msgid ""
 "The following file systems for your Linux system were not unmounted "
@@ -5776,7 +5780,7 @@ msgstr ""
 "Haluaisitko silti liittää ne?\n"
 "%s"
 
-#: storage/__init__.py:1826
+#: storage/__init__.py:1817
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5793,7 +5797,7 @@ msgstr ""
 "on vanhantyyppinen Linux-sivutusosio. Jos tätä laitetta halutaan käyttää "
 "sivutustilana, se on alustettava uudentyyppiseksi Linux-sivutusosioksi."
 
-#: storage/__init__.py:1837
+#: storage/__init__.py:1828
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5812,7 +5816,7 @@ msgstr ""
 "järjestelmä on lepotilassa. Tehdäksesi päivityksen, sammuta järjestelmä, älä "
 "jätä sitä lepotilaan."
 
-#: storage/__init__.py:1845
+#: storage/__init__.py:1836
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5831,7 +5835,7 @@ msgstr ""
 "järjestelmä on lepotilassa. Jos olet tekemässä uutta asennusta, varmista "
 "että asennusohjelma on asetettu alustamaan kaikki sivutusosiot."
 
-#: storage/__init__.py:1857
+#: storage/__init__.py:1848
 #, python-format
 msgid ""
 "The swap device:\n"
@@ -5849,7 +5853,7 @@ msgstr ""
 "alustettava tai laitteen käsittely on ohitettava."
 
 # ../fsset.py:810
-#: storage/__init__.py:1868
+#: storage/__init__.py:1859
 #, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -5867,7 +5871,7 @@ msgstr ""
 "Poistu asennusohjelmasta painamalla OK."
 
 # ../fsset.py:810
-#: storage/__init__.py:1875
+#: storage/__init__.py:1866
 #, python-format
 msgid ""
 "Error enabling swap device %(name)s: %(msg)s\n"
@@ -5883,12 +5887,12 @@ msgstr ""
 "Poistu asennusohjelmasta painamalla OK."
 
 # ../fsset.py:929 ../fsset.py:938
-#: storage/__init__.py:1938 storage/__init__.py:1950
+#: storage/__init__.py:1929 storage/__init__.py:1941
 msgid "Invalid mount point"
 msgstr "Virheellinen liitospiste"
 
 # ../fsset.py:930
-#: storage/__init__.py:1939
+#: storage/__init__.py:1930
 #, python-format
 msgid ""
 "An error occurred when trying to create %s.  Some element of this path is "
@@ -5902,7 +5906,7 @@ msgstr ""
 "Poistu asennusohjelmasta painamalla Enteriä."
 
 # ../fsset.py:939
-#: storage/__init__.py:1951
+#: storage/__init__.py:1942
 #, python-format
 msgid ""
 "An error occurred when trying to create %(mountpoint)s: %(msg)s.  This is a "
@@ -5916,11 +5920,11 @@ msgstr ""
 "Poistu asennusohjelmasta painamalla Enteriä."
 
 # ../gui.py:476
-#: storage/__init__.py:1967 storage/__init__.py:1991
+#: storage/__init__.py:1958 storage/__init__.py:1982
 msgid "Unable to mount filesystem"
 msgstr "Tiedostojärjestelmän liittäminen epäonnistui"
 
-#: storage/__init__.py:1968
+#: storage/__init__.py:1959
 #, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s.  You may "
@@ -5930,7 +5934,7 @@ msgstr ""
 "jatkaa asennusta, mutta siinä saattaa olla ongelmia."
 
 # ../fsset.py:939
-#: storage/__init__.py:1992
+#: storage/__init__.py:1983
 #, python-format
 msgid ""
 "An error occurred mounting device %(path)s as %(mountpoint)s: %(msg)s. This "
@@ -5993,7 +5997,7 @@ msgstr "lvs-komento epäonnistui taltioryhmälle %s"
 
 # ../floppy.py:73
 #: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3281
+#: storage/devices.py:2799 storage/devices.py:3289
 msgid "Creating"
 msgstr "Luodaan"
 
@@ -6010,7 +6014,7 @@ msgid "A RAID%d set requires atleast %d members"
 msgstr "RAID%d-pakka vaatii vähintään %d jäsentä"
 
 # ../fsset.py:146
-#: storage/devices.py:3282
+#: storage/devices.py:3290
 #, python-format
 msgid "Creating file %s"
 msgstr "Luodaan tiedostoa %s"
@@ -6299,6 +6303,10 @@ msgstr ""
 "Tämä voi johtua siitä, että kiintolevyillä ei ole riittävästi tilaa "
 "asennukseen. %(extra)s"
 
+#: storage/partitioning.py:276
+msgid "The system will now reboot."
+msgstr "Järjestelmä käynnistyy uudelleen."
+
 #: storage/zfcp.py:50
 msgid "You have not specified a device number or the number is invalid"
 msgstr "Et ole määritellyt laitenumeroa tai numero on virheellinen"
@@ -6401,11 +6409,6 @@ msgstr "WWPN:ää %(wwpn)s ei voitu poistaa zFCP-laitteelta %(devnum)s (%(e)s)."
 msgid "Could not set zFCP device %(devnum)s offline (%(e)s)."
 msgstr "zFCP-laitetta %(devnum)s ei voitu asettaa offline-tilaan (%(e)s)."
 
-# ../iw/partition_gui.py:1528
-#: textw/complete_text.py:31
-msgid "Reboot"
-msgstr "Käynnistä uudelleen"
-
 # ../textw/complete_text.py:68
 #: textw/complete_text.py:33
 msgid "<Enter> to exit"
@@ -6413,7 +6416,7 @@ msgstr "Poistu painamalla <Enter>"
 
 # ../textw/complete_text.py:35 ../textw/complete_text.py:56
 # ../textw/complete_text.py:71
-#: textw/complete_text.py:61
+#: textw/complete_text.py:62
 msgid "Complete"
 msgstr "Valmis"
 
@@ -6721,7 +6724,7 @@ msgid "The root password must be at least 6 characters long."
 msgstr "Pääkäyttäjän salasanan on oltava vähintään kuusi merkkiä pitkä."
 
 # ../iw/package_gui.py:35 ../packages.py:43
-#: textw/userauth_text.py:84
+#: textw/userauth_text.py:84 textw/userauth_text.py:191
 #, python-format
 msgid ""
 "You have provided a weak password: %s\n"
@@ -6731,6 +6734,56 @@ msgstr ""
 "Annettiin heikko salasana: %s\n"
 "\n"
 "Haluatko jatkaa tällä salasanalla?"
+
+# ../iw/silo_gui.py:28
+#: textw/userauth_text.py:111
+#, fuzzy
+msgid "User configuration"
+msgstr "VNC-asetukset"
+
+#: textw/userauth_text.py:114
+msgid "Setup a username for regular (non-administrative) use."
+msgstr ""
+
+# ../textw/userauth_text.py:204
+#: textw/userauth_text.py:130
+#, fuzzy
+msgid "Username:"
+msgstr "Käyttäjätunnus"
+
+#: textw/userauth_text.py:132
+msgid "Full name:"
+msgstr ""
+
+# ../textw/userauth_text.py:55
+#: textw/userauth_text.py:159
+#, fuzzy
+msgid "User password must be at least 6 characters long."
+msgstr "Pääkäyttäjän salasanan on oltava vähintään kuusi merkkiä pitkä."
+
+# ../iw/partition_gui.py:1162 ../iw/partition_gui.py:1171
+# ../iw/partition_gui.py:1209 ../iw/partition_gui.py:1479
+# ../textw/partition_text.py:750 ../textw/partition_text.py:772
+# ../textw/partition_text.py:901
+#: textw/userauth_text.py:172 textw/userauth_text.py:178
+#, fuzzy
+msgid "Error with username"
+msgstr "Virheellinen konenimi"
+
+# ../textw/userauth_text.py:204
+#: textw/userauth_text.py:173
+#, fuzzy
+msgid "Username too short"
+msgstr "Käyttäjätunnus"
+
+#: textw/userauth_text.py:179
+#, fuzzy
+msgid ""
+"Requested username contains non-ASCII characters or spaces, which are not "
+"allowed."
+msgstr ""
+"Haluttu salasana sisältää merkkejä, jotka eivät ole ASCII:ta. Niitä ei "
+"sallita."
 
 #: textw/welcome_text.py:29
 #, python-format
@@ -6778,6 +6831,11 @@ msgstr "Asenna live-CD kiintolevylle"
 
 #: liveinst/liveinst.desktop.in.h:3
 msgid "Install to Hard Drive"
+msgstr "Asenna kiintolevylle"
+
+#: liveinst:5
+#, fuzzy
+msgid "Starting Install to Hard Drive"
 msgstr "Asenna kiintolevylle"
 
 #: ui/GroupSelector.glade.h:1
@@ -7636,7 +7694,7 @@ msgstr "kymri"
 msgid "Zulu"
 msgstr "zulu"
 
-#: sabayon/livecd.py:63
+#: sabayon/livecd.py:64
 #, fuzzy, python-format
 msgid ""
 "The given location [%s] isn't a valid %s live CD to use as an installation "
@@ -7644,71 +7702,77 @@ msgid ""
 msgstr ""
 "Annettu sijainti ei ole kelvollinen %s-live-CD asennuslähteenä käytettäväksi."
 
+# ../iw/silo_gui.py:28
+#: sabayon/livecd.py:107
+#, fuzzy
+msgid "Recovering Sabayon."
+msgstr "VNC-asetukset"
+
 # ../bootloader.py:737
-#: sabayon/livecd.py:95
+#: sabayon/livecd.py:113
 #, fuzzy
 msgid "Installing Sabayon onto hard drive."
 msgstr "Asennetaan käynnistyslatainta."
 
 # ../iw/silo_gui.py:28
-#: sabayon/livecd.py:107
+#: sabayon/livecd.py:125
 #, fuzzy
 msgid "Configuring Sabayon"
 msgstr "VNC-asetukset"
 
-#: sabayon/livecd.py:125
+#: sabayon/livecd.py:150
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:202
+#: sabayon/utils.py:214
 msgid "System Health Status Warning"
 msgstr ""
 
-#: sabayon/utils.py:348
+#: sabayon/utils.py:360
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "Asetetaan verkkoliitäntöjä"
 
-#: sabayon/utils.py:609
+#: sabayon/utils.py:621
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:611
+#: sabayon/utils.py:623
 msgid "Meh."
 msgstr ""
 
 # ../textw/progress_text.py:79
-#: sabayon/utils.py:612
+#: sabayon/utils.py:624
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "Puhdas asennus"
 
 # ../packages.py:653
-#: sabayon/utils.py:642
+#: sabayon/utils.py:654
 #, fuzzy
 msgid "System Installation"
 msgstr "Asennusta täydentävät toimet"
 
 # ../iw/progress_gui.py:28
-#: sabayon/utils.py:775
+#: sabayon/utils.py:787
 #, fuzzy
 msgid "Cleaning packages"
 msgstr "Vanhemmat paketit"
 
 # ../iw/progress_gui.py:28
-#: sabayon/utils.py:800
+#: sabayon/utils.py:812
 #, fuzzy
 msgid "Cleaning package"
 msgstr "Puuttuva paketti"
 
 # ../loader/loader.c:1483
-#: sabayon/utils.py:840
+#: sabayon/utils.py:852
 #, fuzzy
 msgid "Installation complete"
 msgstr "Asennusavain"
 
 # ../iw/language_gui.py:49 ../textw/language_text.py:39
-#: sabayon/utils.py:872
+#: sabayon/utils.py:884
 #, fuzzy
 msgid ""
 "This DVD contains many extra languages, would you like to keep them "
@@ -7716,14 +7780,21 @@ msgid ""
 msgstr "Mitä kieltä asennuksen aikana käytetään?"
 
 # ../textw/progress_text.py:79
-#: sabayon/utils.py:875
+#: sabayon/utils.py:887
 #, fuzzy
 msgid "Language packs installation"
 msgstr "Pakettien asennus"
 
-#: sabayon/utils.py:886
+#: sabayon/utils.py:898
 msgid "Generating list of files to copy"
 msgstr ""
+
+#~ msgid "Upgrade an Existing Installation"
+#~ msgstr "Päivitä olemassa oleva asennus"
+
+# ../iw/partition_gui.py:1528
+#~ msgid "Reboot"
+#~ msgstr "Käynnistä uudelleen"
 
 # ../iw/partition_gui.py:1545
 #~ msgid "_Fedora"
@@ -7861,9 +7932,6 @@ msgstr ""
 
 #~ msgid "reipl configuration failed => halt"
 #~ msgstr "reipl-asetusten teko epäonnistui => sammutetaan"
-
-#~ msgid "The installer will now exit."
-#~ msgstr "Asennusohjelma suljetaan."
 
 # ../loader/urls.c:103
 #~ msgid "Device Resize Failed"
