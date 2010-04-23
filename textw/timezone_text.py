@@ -84,7 +84,7 @@ class TimezoneWindow:
 	self.l = Listbox(5, scroll = 1, returnExit = 0)
 
         for tz in timezones:
-	    self.l.append(gettext.ldgettext("system-config-date", tz).decode("raw_unicode_escape"), tz)
+	    self.l.append(gettext.ldgettext("system-config-date", tz), tz)
 
 	self.l.setCurrent(default.replace("_", " "))
 #	self.l.setCallback(self.updateClock)
