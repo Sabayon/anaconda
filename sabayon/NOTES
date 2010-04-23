@@ -1,6 +1,4 @@
 Welcome to the Sabayon Linux Anaconda porting project.
 
 TODO:
-    - [FUTURE] grub reinstall?
-    - [FUTURE] integrate with entropy error report (python-report)
     - [FUTURE] iscsi/dasd stuff untested
