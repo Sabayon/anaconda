@@ -1229,21 +1229,12 @@ def getReleaseString(mountpoint):
     relName = None
     relVer = None
 
-    filename = "%s/etc/redhat-release" % mountpoint
+    filename = "%s/etc/system-release" % mountpoint
     if os.access(filename, os.R_OK):
         with open(filename) as f:
-            try:
-                relstr = f.readline().strip()
-            except (IOError, AttributeError):
-                relstr = ""
-
-        # get the release name and version
-        # assumes that form is something
-        # like "Red Hat Linux release 6.2 (Zoot)"
-        (product, sep, version) = relstr.partition(" release ")
-        if sep:
-            relName = product
-            relVer = version.split()[0]
+            relstr = f.readline().strip()
+            relName = ' '.join(relstr.split(" ")[:2])
+            relVer = relstr.split()[-1]
 
     return (relName, relVer)
 
