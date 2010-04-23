@@ -83,6 +83,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         except Exception, e:
             log.error("Unable to unmount filesystems: %s" % e) 
 
+    def checkSupportedUpgrade(self, anaconda):
+        if anaconda.dir == DISPATCH_BACK:
+            return
+
     def doPreInstall(self, anaconda):
         self._progress = sabayon.utils.SabayonProgress(anaconda)
         self._progress.start()
