@@ -1418,7 +1418,8 @@ class InstallControlWindow:
         if p is None:
             print(_("Unable to load title bar"))
         if (gtk.gdk.screen_height() < 600) or \
-                (gtk.gdk.screen_height() <= 675 and flags.livecdInstall):
+                (gtk.gdk.screen_height() <= 675 and flags.livecdInstall) or \
+                flags.fullScreen:
             i.hide()
             self.window.set_resizable(True)
             self.window.set_size_request(-1, -1)
