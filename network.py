@@ -542,31 +542,6 @@ class Network:
             if domainname:
                 self.domains = [domainname]
 
-        name_servers = []
-        net_domains = []
-        # /etc/resolv.conf
-        if (not instPath) or (not os.path.isfile(instPath + '/etc/resolv.conf')) or flags.livecdInstall:
-            if os.path.isfile('/etc/resolv.conf') and instPath != '':
-                destresolv = "%s/etc/resolv.conf" % (instPath,)
-                shutil.copy('/etc/resolv.conf', destresolv)
-            elif (self.domains != ['localdomain'] and self.domains) or \
-                self.hasNameServers(dev.info):
-                resolv = "%s/etc/resolv.conf" % (instPath,)
-
-                f = open(resolv, "w")
-
-                if self.domains != ['localdomain'] and self.domains:
-                    _netdoms = string.joinfields(self.domains, ' ')
-                    f.write("search %s\n" % (_netdoms,))
-                    net_domains.extend(_netdoms.split())
-
-                for key in dev.info.keys():
-                    if key.upper().startswith('DNS'):
-                        f.write("nameserver %s\n" % (dev.get(key),))
-                        name_servers.append(dev.get(key))
-
-                f.close()
-
         # /etc/udev/rules.d/70-persistent-net.rules
         rules = "/etc/udev/rules.d/70-persistent-net.rules"
         destRules = instPath + rules
@@ -643,15 +618,6 @@ class Network:
                         )
                     )
 
-                # DNS
-                ns_string = ' '.join(name_servers)
-                if ns_string:
-                    # add dns string
-                    net_conf.append('dns_servers_%s=" %s "\n' % (
-                            device,
-                            ns_string,
-                        )
-                    )
             # add new dns_domain_device nis_domain_device management
             net_conf.append('dns_domain_%s="localdomain"\n' % (
                     device,
@@ -661,10 +627,6 @@ class Network:
                     device,
                 )
             )
-
-            # added dns search stuff?
-            if net_domains:
-                net_conf.append('dns_search_%s="%s"\n' % (device, net_domains,))
 
             for line in net_conf:
                 f.write(line)
