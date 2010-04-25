@@ -1160,6 +1160,7 @@ class JFS(FS):
     _formattable = True
     _linuxNative = True
     _supported = True
+    _bootable = True
     _dump = True
     _check = True
     _infofs = "jfs_tune"
@@ -1193,6 +1194,7 @@ class ReiserFS(FS):
     _formattable = True
     _linuxNative = True
     _supported = True
+    _bootable = True
     _dump = True
     _check = True
     _packages = ["reiserfs-utils"]
@@ -1231,6 +1233,7 @@ class XFS(FS):
     _formattable = True
     _linuxNative = True
     _supported = True
+    _bootable = True
     _dump = True
     _check = True
     _packages = ["xfsprogs"]
