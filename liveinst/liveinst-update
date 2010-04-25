@@ -8,6 +8,7 @@ FETCH_FN="anaconda-${FETCH_VER}-$(uname -m).tar.bz2"
 FETCH_URL=${FETCH_URL:-"http://www.sabayon.org/sabayon/installer/${FETCH_FN}"}
 
 cd /tmp
+rm -rf "/tmp/${FETCH_FN}"*
 echo "Fetching Sabayon Anaconda Installer from ${FETCH_URL}..."
 wget ${FETCH_WGET_ARGS} "${FETCH_URL}" "${FETCH_URL}.md5"
 if [ "${?}" = "0" ]; then
