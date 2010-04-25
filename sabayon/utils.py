@@ -269,6 +269,9 @@ class SabayonInstall:
 
     def remove_package(self, atom, match = None, silent = False):
 
+        if silent and os.getenv('SABAYON_DEBUG'):
+            silent = False
+
         chroot = self._root
         root = etpSys['rootdir']
         if chroot != root:
