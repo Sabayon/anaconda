@@ -353,6 +353,13 @@ class SabayonInstall:
         if os.path.isfile(installer_desk):
             os.remove(installer_desk)
 
+        # also remove from live /etc/skel, so it won't be picked up by
+        # anaconda.users.write()
+        installer_desk = "/etc/skel/Desktop/liveinst.desktop"
+        if os.path.isfile(installer_desk):
+            os.remove(installer_desk)
+
+
     def _is_encrypted(self):
         if self._anaconda.storage.encryptionPassphrase:
             return True
