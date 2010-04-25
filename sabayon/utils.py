@@ -287,7 +287,7 @@ class SabayonInstall:
             if match[0] != -1:
                 Package = self._entropy.Package()
                 Package.prepare((match[0],), "remove")
-                if not Package.pkgmeta.has_key('remove_installed_vanished'):
+                if 'remove_installed_vanished' in Package.pkgmeta:
                     rc = Package.run()
                     Package.kill()
         finally:
@@ -652,7 +652,6 @@ class SabayonInstall:
             self._setup_packages_to_remove()
 
         action = _("System Installation")
-        client_repo = self._entropy.installed_repository()
         copy_update_interval = 300
         copy_update_counter = 299
         # get file counters
@@ -774,6 +773,8 @@ class SabayonInstall:
         self._progress.set_fraction(1)
 
         self._change_entropy_chroot(self._root)
+        # doing here, because client_repo should point to self._root chroot
+        client_repo = self._entropy.installed_repository()
         # Removing Unwanted Packages
         if self._package_identifiers_to_remove:
 
