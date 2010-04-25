@@ -488,7 +488,7 @@ class Sparc(Platform):
         return start+1
 
 class X86(EFI):
-    _bootFSTypes = ["ext4", "ext3", "ext2"]
+    _bootFSTypes = ["ext4", "ext3", "ext2", "reiserfs", "xfs", "jfs"]
     _packages = ["grub"]
     _supportsMdRaidBoot = True
 
