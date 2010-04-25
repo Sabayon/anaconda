@@ -2037,6 +2037,9 @@ class FSSet(object):
             instPath = self.rootpath
 
         root = self.rootDevice
+        if root is None:
+            # cannot create root device !
+            return
         dev = "%s/%s" % (instPath, root.path)
         if not os.path.exists("%s/dev/root" %(instPath,)) and os.path.exists(dev):
             rdev = os.stat(dev).st_rdev
