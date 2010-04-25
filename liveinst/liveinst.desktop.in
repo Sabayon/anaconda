@@ -9,4 +9,3 @@ Type=Application
 Icon=media-optical
 Encoding=UTF-8
 StartupNotify=true
-NoDisplay=true
