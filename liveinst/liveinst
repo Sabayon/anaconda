@@ -26,6 +26,13 @@ for i in raid0 raid1 raid5 raid6 raid456 raid10 dm-mod dm-zero dm-mirror dm-snap
 # --cmdline => cmdline based installer
 # <no arguments> => autodetection
 
+for arg in $*; do
+    if [ "${arg}" = "--text" ]; then
+        DO_TEXT="1"
+    fi
+done
+[[ -z "${DISPLAY}" ]] && DO_TEXT="1"
+
 export ANACONDA_PRODUCTNAME="Sabayon"
 export ANACONDA_PRODUCTVERSION="$(cat /etc/sabayon-release | cut -d' ' -f 4)"
 export ANACONDA_PRODUCTPATH="/mnt/livecd"
@@ -80,10 +87,8 @@ if [ -x /usr/sbin/setenforce -a -e /selinux/enforce ]; then
 fi
 
 ANACONDA="anaconda --liveinst --method=hd://://${ANACONDA_PRODUCTPATH}"
-
-if [ ! -e /selinux/load ]; then
-    ANACONDA="$ANACONDA --noselinux"
-fi
+[[ -n "${DO_TEXT}" ]] && ANACONDA="${ANACONDA} --text"
+[[ ! -e /selinux/load ]] && ANACONDA="$ANACONDA --noselinux"
 
 kill_mounts
 
@@ -105,11 +110,7 @@ fi
 
 kill_mounts
 
-for arg in $*; do
-    if [ "${arg}" = "--text" ]; then
-        reset
-    fi
-done
+[[ -n "${DO_TEXT}" ]] && reset
 
 if [ "${ANACONDA_RC}" = "100" ] || [ -f "/tmp/__anaconda_reboot__" ]; then
     # reboot
