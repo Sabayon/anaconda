@@ -29,6 +29,7 @@ for i in raid0 raid1 raid5 raid6 raid456 raid10 dm-mod dm-zero dm-mirror dm-snap
 for arg in $*; do
     if [ "${arg}" = "--text" ]; then
         DO_TEXT="1"
+        TEXT_OPT_PASSED="1"
     fi
 done
 [[ -z "${DISPLAY}" ]] && DO_TEXT="1"
@@ -87,7 +88,8 @@ if [ -x /usr/sbin/setenforce -a -e /selinux/enforce ]; then
 fi
 
 ANACONDA="anaconda --liveinst --method=hd://://${ANACONDA_PRODUCTPATH}"
-[[ -n "${DO_TEXT}" ]] && ANACONDA="${ANACONDA} --text"
+[[ -n "${DO_TEXT}" ]] && [[ -z "${TEXT_OPT_PASSED}" ]] && \
+    ANACONDA="${ANACONDA} --text"
 [[ ! -e /selinux/load ]] && ANACONDA="$ANACONDA --noselinux"
 
 kill_mounts
