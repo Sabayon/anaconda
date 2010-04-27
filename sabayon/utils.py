@@ -290,7 +290,7 @@ class SabayonInstall:
             if match[0] != -1:
                 Package = self._entropy.Package()
                 Package.prepare((match[0],), "remove")
-                if 'remove_installed_vanished' in Package.pkgmeta:
+                if 'remove_installed_vanished' not in Package.pkgmeta:
                     rc = Package.run()
                     Package.kill()
         finally:
