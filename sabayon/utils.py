@@ -886,9 +886,11 @@ class SabayonInstall:
 
         # remove anaconda if installed
         client_repo = self._entropy.installed_repository()
-        pkg_id, pkg_rc = client_repo.atomMatch("anaconda")
-        if pkg_id != -1:
-            self._package_identifiers_to_remove.add(pkg_id)
+        pkgs_rm = ["anaconda", "anaconda-runtime", "libselinux"]
+        for pkg_name in pkgs_rm:
+            pkg_id, pkg_rc = client_repo.atomMatch(pkg_name)
+            if pkg_id != -1:
+                self._package_identifiers_to_remove.add(pkg_id)
 
         localized_pkgs = self._get_removable_localized_packages()
         if localized_pkgs:
