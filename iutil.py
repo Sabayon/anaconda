@@ -112,7 +112,7 @@ def execWithRedirect(command, argv, stdin = None, stdout = None,
     perrout, perrin = os.pipe()
    
     env = os.environ.copy()
-    env.update({"LC_ALL": "C"})
+    env.update({"LC_ALL": "C", "LANGUAGE": "C", "LANG": "C"})
 
     try:
         #prepare tee proceses
