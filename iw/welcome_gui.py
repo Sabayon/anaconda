@@ -39,7 +39,7 @@ class WelcomeWindow (InstallWindow):
     def getScreen (self, anaconda):
         self.anaconda = anaconda
         # this is a bit ugly... but scale the image if we're not at 800x600
-        (w, h) = self.ics.cw.window.get_size_request()
+        (w, h) = self.ics.cw.window.get_size()
         if w >= 800:
             height = None
             width = None
