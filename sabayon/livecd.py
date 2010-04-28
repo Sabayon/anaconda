@@ -176,7 +176,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # Write critical configuration not automatically written
         self.anaconda.storage.fsset.write()
 
-        if not self.anaconda.dispatch.stepInSkipList("bootloader"):
+        grub_has_to_run = self.anaconda.dispatch.stepInSkipList("bootloader")
+        log.info("Do we need to run GRUB2 setup? => %s" % (grub_has_to_run,))
+
+        if not grub_has_to_run:
 
             # HACK: since Anaconda doesn't support grub2 yet
             # Grub configuration is disabled
@@ -312,6 +315,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         cmdline_args, root_crypted, swap_crypted = self._get_bootloader_args()
 
+        log.info("_setup_grub2, cmdline_args: %s | "
+            "root_crypted: %s | swap_crypted: %s" % (cmdline_args,
+            root_crypted, swap_crypted,))
+
         # "sda" <string>
         grub_target = self.anaconda.bootloader.getDevice()
         try:
@@ -325,6 +332,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # if root_device or swap encrypted, replace splash=silent
         if root_crypted or swap_crypted:
             cmdline_str = cmdline_str.replace('splash=silent', 'splash=verbose')
+
+        log.info("_setup_grub2, grub_target: %s | "
+            "boot_device: %s | cmdline_str: %s" % (grub_target,
+            boot_device, cmdline_str,))
 
         self._write_grub2(cmdline_str, grub_target)
         # disable Anaconda bootloader code
