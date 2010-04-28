@@ -32,7 +32,8 @@ from anaconda_i18n import _
 # Anaconda imports
 import storage
 import flags
-from constants import productPath as PRODUCT_PATH, DISPATCH_BACK
+from constants import productPath as PRODUCT_PATH, productName as PRODUCT_NAME, \
+    DISPATCH_BACK
 import backend
 import isys
 import iutil
@@ -63,7 +64,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             anaconda.intf.messageWindow(_("Unable to find image"),
                _("The given location [%s] isn't a valid %s "
                  "live CD to use as an installation source.")
-               %(self.osimg, productName), type = "custom",
+               %(self.osimg, PRODUCT_NAME), type = "custom",
                custom_icon="error",
                custom_buttons=[_("Exit installer")])
             raise SystemExit(1)
