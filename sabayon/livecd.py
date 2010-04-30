@@ -96,6 +96,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._sabayon_install = sabayon.utils.SabayonInstall(anaconda)
         # We use anaconda.upgrade as bootloader recovery step
         self._bootloader_recovery = anaconda.upgrade
+        self._install_grub = not self.anaconda.dispatch.stepInSkipList("instbootloader")
 
     def doInstall(self, anaconda):
         log.info("Preparing to install Sabayon")
@@ -177,10 +178,9 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # Write critical configuration not automatically written
         self.anaconda.storage.fsset.write()
 
-        grub_has_to_run = self.anaconda.dispatch.stepInSkipList("bootloader")
-        log.info("Do we need to run GRUB2 setup? => %s" % (grub_has_to_run,))
+        log.info("Do we need to run GRUB2 setup? => %s" % (self._install_grub,))
 
-        if not grub_has_to_run:
+        if self._install_grub:
 
             # HACK: since Anaconda doesn't support grub2 yet
             # Grub configuration is disabled
