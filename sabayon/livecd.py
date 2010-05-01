@@ -99,7 +99,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._install_grub = not self.anaconda.dispatch.stepInSkipList("instbootloader")
 
     def doInstall(self, anaconda):
-        log.info("Preparing to install Sabayon")
 
         # Disable internal Anaconda bootloader setup, doesn't support GRUB2
         anaconda.dispatch.skipStep("instbootloader", skip = 1)

@@ -327,6 +327,7 @@ def setSteps(anaconda):
                 "preinstallconfig",
                 "installpackages",
                 "postinstallconfig",
+                "writeconfig",
                 "instbootloader",
                 "dopostaction",
                 "methodcomplete",
@@ -335,8 +336,7 @@ def setSteps(anaconda):
                 "complete"
             )
 
-    if not iutil.isX86():
-        dispatch.skipStep("bootloader")
+    dispatch.skipStep("bootloader", permanent=1)
 
     if not iutil.isX86():
         dispatch.skipStep("upgbootloader")            

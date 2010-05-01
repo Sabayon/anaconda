@@ -225,7 +225,7 @@ class UpgradeExamineWindow:
 
         (button, choice) =  ListboxChoiceWindow(screen, _("System to Upgrade"),
                             _("There seem to be one or more existing Linux installations "
-                              "on your system.\n\nPlease choose one to upgrade, "
+                              "on your system.\n\nPlease choose one to rescue, "
 			      "or select 'Reinstall System' to freshly install "
 			      "your system."), partList,
                                                 [ TEXT_OK_BUTTON,
