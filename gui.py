@@ -1525,6 +1525,3 @@ class InstallControlState:
 
     def getICW (self):
         return self.cw
-
-# module loaded, switch to unicode gettext
-os.environ['ANACONDA_UNICODE'] = "1"
