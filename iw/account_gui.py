@@ -29,7 +29,7 @@ import cracklib
 import _isys
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 class AccountWindow (InstallWindow):
     def getScreen(self, anaconda):

@@ -40,7 +40,7 @@ from .storage_log import log_method_call
 import iutil
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 import logging
 log = logging.getLogger("storage")

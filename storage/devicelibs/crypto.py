@@ -27,7 +27,7 @@ import iutil
 from ..errors import *
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 # Keep the character set size a power of two to make sure all characters are
 # equally likely

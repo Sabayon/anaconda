@@ -23,7 +23,7 @@ import gtk.glade
 import gui
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 # The column that holds a python object containing information about the
 # device in each row.  This value really shouldn't be overridden.

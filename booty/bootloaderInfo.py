@@ -25,7 +25,7 @@ import struct
 from copy import copy
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 N_ = lambda x: x
 
 from lilo import LiloConfigFile

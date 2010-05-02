@@ -27,7 +27,7 @@ from iw_gui import *
 from storage.udev import *
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 class ClearDisksWindow (InstallWindow):
     windowTitle = N_("Clear Disks Selector")

@@ -27,7 +27,7 @@ import time
 import shutil
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 # Anaconda imports
 import storage

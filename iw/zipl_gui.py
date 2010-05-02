@@ -25,7 +25,7 @@ from iw_gui import *
 from constants import *
 from storage.dasd import getDasdPorts
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 class ZiplWindow (InstallWindow):
     checkMark = None

@@ -22,7 +22,7 @@ from constants_text import *
 from constants import *
 import sys
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 class WelcomeWindow:
     def __call__(self, screen, anaconda):

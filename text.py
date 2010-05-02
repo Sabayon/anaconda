@@ -40,7 +40,7 @@ from installinterfacebase import InstallInterfaceBase
 import imputil
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 P_ = lambda x, y, z: gettext.ldngettext("anaconda", x, y, z)
 
 import logging

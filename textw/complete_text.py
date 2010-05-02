@@ -22,7 +22,7 @@ from snack import *
 from constants_text import *
 from constants import *
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 class FinishedWindow:
   

@@ -31,7 +31,7 @@ import random
 log = logging.getLogger("anaconda")
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 has_libiscsi = True
 try:

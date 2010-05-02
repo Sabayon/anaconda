@@ -113,7 +113,7 @@ from udev import *
 from formats import get_device_format_class, getFormat, DeviceFormat
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 import logging
 log = logging.getLogger("storage")

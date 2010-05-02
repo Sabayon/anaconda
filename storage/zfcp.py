@@ -25,7 +25,7 @@ from constants import *
 from udev import udev_settle
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 import logging
 log = logging.getLogger("anaconda")

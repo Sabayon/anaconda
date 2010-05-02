@@ -29,7 +29,7 @@ from ..errors import *
 from . import DeviceFormat, register_device_format
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 import logging
 log = logging.getLogger("storage")

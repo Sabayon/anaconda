@@ -33,7 +33,7 @@ from flags import flags
 from storage.deviceaction import *
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 def whichToShrink(storage, intf):
     def getActive(combo):

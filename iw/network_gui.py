@@ -31,7 +31,7 @@ import subprocess
 
 from constants import *
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 class NetworkWindow(InstallWindow):
     def getScreen(self, anaconda):

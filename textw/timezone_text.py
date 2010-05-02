@@ -29,7 +29,7 @@ from scdate.core import zonetab
 
 from constants import *
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 sys.path.append("/usr/share/system-config-date")
 

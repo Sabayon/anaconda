@@ -23,7 +23,7 @@ import cracklib
 
 from constants import *
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 class RootPasswordWindow:
     def __call__ (self, screen, anaconda):

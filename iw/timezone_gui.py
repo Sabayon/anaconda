@@ -34,7 +34,7 @@ from bootloader import hasWindows
 
 from constants import *
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 try:
     import gnomecanvas

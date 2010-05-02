@@ -31,7 +31,7 @@ import iutil
 from storage.formats import getFormat
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 def sanityCheckVolumeGroupName(volname):
     """Make sure that the volume group name doesn't contain invalid chars."""

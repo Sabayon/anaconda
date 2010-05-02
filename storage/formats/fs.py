@@ -45,7 +45,7 @@ import logging
 log = logging.getLogger("storage")
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 try:
     lost_and_found_context = selinux.matchpathcon("/lost+found", 0)[1]

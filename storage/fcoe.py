@@ -26,7 +26,7 @@ from flags import flags
 log = logging.getLogger("anaconda")
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 _fcoe_module_loaded = False
 

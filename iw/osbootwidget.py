@@ -29,7 +29,7 @@ from constants import *
 from storage.devices import devicePathToName
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 class OSBootWidget:
     """Widget to display OSes to boot and allow adding new ones."""

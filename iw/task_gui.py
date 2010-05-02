@@ -29,7 +29,7 @@ import isys
 import shutil
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 import network
 import iutil

@@ -16,7 +16,7 @@
 #
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 # UI methods for supporting adding advanced storage devices.
 import gobject

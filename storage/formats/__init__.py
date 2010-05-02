@@ -28,7 +28,7 @@ from ..errors import *
 from ..devicelibs.dm import dm_node_from_name
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 import logging
 log = logging.getLogger("storage")

@@ -32,7 +32,7 @@ from partIntfHelpers import *
 from storage.formats import *
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 FLAG_FORMAT = 1
 FLAG_MIGRATE = 2

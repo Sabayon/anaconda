@@ -38,7 +38,7 @@ import storage.fcoe
 import storage.zfcp
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 DEVICE_COL = 4
 MODEL_COL = 5

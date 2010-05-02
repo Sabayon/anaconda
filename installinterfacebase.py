@@ -19,7 +19,7 @@
 # Author(s): Hans de Goede <hdegoede@redhat.com>
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 P_ = lambda x, y, z: gettext.ldngettext("anaconda", x, y, z)
 
 class InstallInterfaceBase(object):

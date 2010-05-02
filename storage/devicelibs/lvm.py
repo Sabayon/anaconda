@@ -30,7 +30,7 @@ from ..errors import *
 from constants import *
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 MAX_LV_SLOTS = 256
 

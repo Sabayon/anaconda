@@ -45,7 +45,7 @@ from sabayon import Entropy
 from sabayon.const import LIVE_USER, LANGUAGE_PACKS
 
 import gettext
-from anaconda_i18n import _
+_ = lambda x: gettext.ldgettext("anaconda", x)
 
 STDERR_LOG = open("/tmp/anaconda.log","aw")
 log = logging.getLogger("anaconda")
