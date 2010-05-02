@@ -215,7 +215,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             "pci=routeirq", "irqpoll", "nohdparm", "pci=", "floppy.floppy=",
             "all-generic-ide", "gentoo=", "res=", "hsync=", "refresh=", "noddc",
             "xdriver=", "onlyvesa", "nvidia=", "dodmraid", "dmraid",
-            "sabayonmce", "quiet", "scandelay=", "gentoo=", "docrypt" ]
+            "sabayonmce", "quiet", "scandelay=", "docrypt" ]
         usb_storage_dir = "/sys/bus/usb/drivers/usb-storage"
         if os.path.isdir(usb_storage_dir):
             for cdir, subdirs, files in os.walk(usb_storage_dir):
