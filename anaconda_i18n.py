@@ -20,5 +20,5 @@ import os
 import gettext
 
 def _(x):
-    tr_x = gettext.dgettext("anaconda", x)
+    tr_x = gettext.ldgettext("anaconda", x)
     return tr_x
