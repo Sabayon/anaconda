@@ -20,7 +20,7 @@ import os
 import gettext
 
 def _(x):
-    tr_x = gettext.ldgettext("anaconda", x)
+    tr_x = gettext.dgettext("anaconda", x)
     if os.getenv("ANACONDA_UNICODE"):
         return tr_x.decode("raw_unicode_escape")
     return tr_x
