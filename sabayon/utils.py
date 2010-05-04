@@ -1051,8 +1051,36 @@ class SabayonInstall:
                 new_langpacks.add(langpack)
         langpacks = new_langpacks
 
-        packs = []
+        # filter out unwanted packages
+        # see sabayon.const
+
         client_repo = self._entropy.installed_repository()
+
+        # KDE
+        matches, m_rc = client_repo.atomMatch("kdelibs")
+        if m_rc != 0:
+            # remove kde* packages
+            langpacks = [x for x in langpacks if x.find("kde") == -1]
+
+        # Openoffice
+        matches, m_rc = client_repo.atomMatch("openoffice")
+        if m_rc != 0:
+            # remove openoffice* packages
+            langpacks = [x for x in langpacks if x.find("openoffice") == -1]
+
+        # aspell
+        matches, m_rc = client_repo.atomMatch("aspell")
+        if m_rc != 0:
+            # remove aspell* packages
+            langpacks = [x for x in langpacks if x.find("aspell") == -1]
+
+        # man-pages
+        matches, m_rc = client_repo.atomMatch("man-pages")
+        if m_rc != 0:
+            # remove man-pages* packages
+            langpacks = [x for x in langpacks if x.find("man-pages") == -1]
+
+        packs = []
         for langpack in langpacks:
             matches, m_rc = client_repo.atomMatch(langpack)
             if m_rc != 0:
