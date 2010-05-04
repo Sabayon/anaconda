@@ -391,11 +391,15 @@ class SabayonInstall:
         if os.path.isfile(installer_desk):
             os.remove(installer_desk)
 
-        # also remove from live /etc/skel, so it won't be picked up by
-        # anaconda.users.write()
-        installer_desk = "/etc/skel/Desktop/liveinst.desktop"
-        if os.path.isfile(installer_desk):
-            os.remove(installer_desk)
+        # install welcome loader
+        orig_welcome_desk = self._root+"/etc/sabayon/sabayon-welcome-loader.desktop"
+        if os.path.isfile(orig_welcome_desk):
+            autostart_dir = self._root+"/etc/skel/.config/autostart"
+            if not os.path.isdir(autostart_dir):
+                os.makedirs(autostart_dir)
+            desk_name = os.path.basename(orig_welcome_desk)
+            desk_path = os.path.join(autostart_dir, desk_name)
+            shutil.copy2(orig_welcome_desk, desk_path)
 
 
     def _is_encrypted(self):
