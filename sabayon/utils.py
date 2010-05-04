@@ -897,8 +897,8 @@ class SabayonInstall:
         self._progress.set_fraction(1)
         self._progress.set_text(_("Installation complete"))
 
-    def localization_packages_install(self):
-        langpacks = self._get_installable_localized_packages()
+    def language_packs_install(self):
+        langpacks = self._get_installable_language_packs()
         if not langpacks:
             # all fine already
             return
@@ -963,8 +963,10 @@ class SabayonInstall:
             self._change_entropy_chroot(chroot)
 
         try:
+            # fetch_security = False => avoid spamming stdout
             try:
-                repo_intf = self._entropy.Repositories()
+                repo_intf = self._entropy.Repositories(fetch_security = False,
+                    entropy_updates_alert = False)
             except AttributeError:
                 msg = "%s: %s" % (_('No repositories specified in'),
                     etpConst['repositoriesconf'],)
@@ -986,6 +988,8 @@ class SabayonInstall:
             return True
 
         finally:
+            self._entropy.close_repositories()
+            self._settings.clear()
             if chroot != root:
                 self._change_entropy_chroot(root)
 
@@ -993,13 +997,28 @@ class SabayonInstall:
         return [x.strip() for x in LANGUAGE_PACKS.split("\n") if \
             (not x.strip().startswith("#")) and x.strip()]
 
+    def __get_langs(self):
+        def_lang = self._anaconda.instLanguage.instLang
+        def_lang = def_lang.split(".")[0] # remove .UTF-8
+        def_lang_2 = def_lang.split("_")[0]
+        langs = [def_lang, def_lang_2]
+        return set(langs)
+
     def _get_removable_localized_packages(self):
         langpacks = self._get_langpacks()
-
         # get cur lang
-        def_lang = self._anaconda.instLanguage.instLang
-        langpacks = set([x for x in langpacks if not \
-            x.endswith("-%s" % (def_lang,))])
+        langs = self.__get_langs()
+
+        new_langpacks = set()
+        for langpack in langpacks:
+            found = False
+            for lang in langs:
+                if langpack.endswith("-%s" % (lang,)):
+                    found = True
+                    break
+            if not found:
+                new_langpacks.add(langpack)
+        langpacks = new_langpacks
 
         client_repo = self._entropy.installed_repository()
         for langpack in langpacks:
@@ -1012,21 +1031,33 @@ class SabayonInstall:
                     continue
                 yield pkg_id
 
-    def _get_installable_localized_packages(self):
+    def _get_installable_language_packs(self):
         """
-        Return a list (iterator) of packages not available on the CD/DVD that
+        Return a list of packages not available on the CD/DVD that
         could be downloaded and installed.
         """
         langpacks = self._get_langpacks()
-        def_lang = self._anaconda.instLanguage.instLang
-        langpacks = set([x for x in langpacks if \
-            x.endswith("-%s" % (def_lang,))])
+        # get cur lang
+        langs = self.__get_langs()
 
+        new_langpacks = set()
+        for langpack in langpacks:
+            found = False
+            for lang in langs:
+                if langpack.endswith("-%s" % (lang,)):
+                    found = True
+                    break
+            if found:
+                new_langpacks.add(langpack)
+        langpacks = new_langpacks
+
+        packs = []
         client_repo = self._entropy.installed_repository()
         for langpack in langpacks:
             matches, m_rc = client_repo.atomMatch(langpack)
             if m_rc != 0:
-                yield langpack
+                packs.append(langpack)
+        return packs
 
     def _setup_packages_to_remove(self):
 

@@ -154,7 +154,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
     def doPostInstall(self, anaconda):
 
-        self._sabayon_install.localization_packages_install()
+        self._sabayon_install.language_packs_install()
         self._sabayon_install.emit_install_done()
 
         storage.writeEscrowPackets(anaconda)
