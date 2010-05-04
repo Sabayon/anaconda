@@ -267,7 +267,7 @@ class SabayonInstall:
         sys_settings_plg_id = etpConst['system_settings_plugins_ids']['client_plugin']
         del self._settings[sys_settings_plg_id]['misc']['configprotectskip'][:]
 
-    def install_package(self, atom, match = None, silent = False):
+    def install_package(self, atom, match = None, silent = False, fetch = False):
 
         if silent and os.getenv('SABAYON_DEBUG'):
             silent = False
@@ -289,7 +289,10 @@ class SabayonInstall:
             rc = 0
             if match[0] != -1:
                 Package = self._entropy.Package()
-                Package.prepare(match, "install")
+                action = "install"
+                if fetch:
+                    action = "fetch"
+                Package.prepare(match, action)
                 rc = Package.run()
                 Package.kill()
         finally:
@@ -942,6 +945,15 @@ class SabayonInstall:
                 self._intf.messageWindow(_("Language packs"), msg,
                     custom_icon="warning")
                 return
+
+            # fetch packages
+            for match in install_queue:
+                dbc = self._entropy.open_repository(match[1])
+                langpack = dbc.retrieveAtom(match[0])
+                self._progress.set_text("%s: %s" % (
+                    _("Downloading package"), langpack,))
+                self.install_package(None, match = match, silent = True,
+                    fetch = True)
 
             # install packages
             for match in install_queue:
