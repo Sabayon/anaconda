@@ -929,7 +929,8 @@ class SabayonInstall:
             lang_matches = [x for x in lang_matches if x[1] != -1]
             if not lang_matches:
                 msg = _("No language packs are available for download, sorry!")
-                self._intf.messageWindow(msg, custom_icon="warning")
+                self._intf.messageWindow(_("Language packs"), msg,
+                    custom_icon="warning")
                 return
 
             # calculate deps, use relaxed algo
@@ -938,7 +939,8 @@ class SabayonInstall:
                     relaxed = True)
             if status != 0:
                 msg = _("No language packs are available for install, sorry!")
-                self._intf.messageWindow(msg, custom_icon="warning")
+                self._intf.messageWindow(_("Language packs"), msg,
+                    custom_icon="warning")
                 return
 
             # install packages
@@ -966,17 +968,20 @@ class SabayonInstall:
             except AttributeError:
                 msg = "%s: %s" % (_('No repositories specified in'),
                     etpConst['repositoriesconf'],)
-                self._intf.messageWindow(msg, custom_icon="warning")
+                self._intf.messageWindow(_("Repositories update"), msg,
+                    custom_icon="warning")
                 return False
             except Exception as e:
                 msg = "%s: %s" % (_('Unhandled exception'), e,)
-                self._intf.messageWindow(msg, custom_icon="warning")
+                self._intf.messageWindow(_("Repositories update"), msg,
+                    custom_icon="warning")
                 return False
 
             update_rc = repo_intf.sync()
             if repo_intf.sync_errors or (update_rc != 0):
                 msg = _("Cannot download language packs right now, no big deal")
-                self._intf.messageWindow(msg, custom_icon="warning")
+                self._intf.messageWindow(_("Repositories update"), msg,
+                    custom_icon="warning")
                 return False
             return True
 

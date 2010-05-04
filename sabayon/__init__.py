@@ -27,6 +27,8 @@ sys.path.insert(0, '/usr/lib/entropy/libraries')
 # Entropy Interface
 from entropy.client.interfaces import Client
 from entropy.output import nocolor
+from entropy.fetchers import UrlFetcher
+import entropy.tools
 
 class Entropy(Client):
 
@@ -39,6 +41,7 @@ class Entropy(Client):
 
     def connect_progress(self, progress):
         self._progress = progress
+        self.urlFetcher = InstallerUrlFetcher
 
     def output(self, text, header = "", footer = "", back = False,
         importance = 0, level = "info", count = None, percent = False):
@@ -88,3 +91,36 @@ class Entropy(Client):
                 if tstr in args:
                     return True
             return False
+
+class InstallerUrlFetcher(UrlFetcher):
+
+    gui_last_avg = 0
+
+    def handle_statistics(self, th_id, downloaded_size, total_size,
+            average, old_average, update_step, show_speed, data_transfer,
+            time_remaining, time_remaining_secs):
+        self.__average = average
+        self.__downloadedsize = downloaded_size
+        self.__remotesize = total_size
+        self.__datatransfer = data_transfer
+
+    def output(self):
+
+        myavg = abs(int(round(float(self.__average), 1)))
+        if abs((myavg - InstallerUrlFetcher.gui_last_avg)) < 1:
+            return
+
+        if (myavg > InstallerUrlFetcher.gui_last_avg) or (myavg < 2) or \
+            (myavg > 97):
+
+            cur_prog = float(self.__average)/100
+            cur_prog_str = str(int(self.__average))
+
+            human_dt = entropy.tools.bytes_into_human(self.__datatransfer)
+            prog_str = "%s/%s kB @ %s" % (
+                    str(round(float(self.__downloadedsize)/1024, 1)),
+                    str(round(self.__remotesize, 1)),
+                    str(human_dt) + "/sec",
+                )
+            Entropy().output(prog_str)
+            InstallerUrlFetcher.gui_last_avg = myavg
