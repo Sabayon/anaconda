@@ -267,6 +267,41 @@ class SabayonInstall:
         sys_settings_plg_id = etpConst['system_settings_plugins_ids']['client_plugin']
         del self._settings[sys_settings_plg_id]['misc']['configprotectskip'][:]
 
+    def install_package(self, atom, match = None, silent = False):
+
+        if silent and os.getenv('SABAYON_DEBUG'):
+            silent = False
+
+        chroot = self._root
+        root = etpSys['rootdir']
+        if chroot != root:
+            self._change_entropy_chroot(chroot)
+
+        if match is None:
+            match = self._entropy.atom_match(atom)
+
+        oldstdout = sys.stdout
+        if silent:
+            sys.stdout = STDERR_LOG
+            etpUi['mute'] = True
+
+        try:
+            rc = 0
+            if match[0] != -1:
+                Package = self._entropy.Package()
+                Package.prepare(match, "install")
+                rc = Package.run()
+                Package.kill()
+        finally:
+            if silent:
+                sys.stdout = oldstdout
+                etpUi['mute'] = False
+
+        if chroot != root:
+            self._change_entropy_chroot(root)
+
+        return rc
+
     def remove_package(self, atom, match = None, silent = False):
 
         if silent and os.getenv('SABAYON_DEBUG'):
@@ -862,9 +897,98 @@ class SabayonInstall:
         self._progress.set_fraction(1)
         self._progress.set_text(_("Installation complete"))
 
-    def _get_removable_localized_packages(self):
-        langpacks = [x.strip() for x in LANGUAGE_PACKS.split("\n") if \
+    def localization_packages_install(self):
+        langpacks = self._get_installable_localized_packages()
+        if not langpacks:
+            # all fine already
+            return
+
+        question_text = _("The following language packs are available for "
+            "download (you need Internet), would you like to install them?")
+        buttons = [_("Yes"), _("No")]
+        answer = self._intf.messageWindow(_("Language packs download"),
+            question_text, custom_icon="question", type="custom",
+            custom_buttons = buttons)
+        if answer == 1: # No
+            return
+
+        chroot = self._root
+        root = etpSys['rootdir']
+        if chroot != root:
+            self._change_entropy_chroot(chroot)
+
+        try:
+
+            # update repos
+            done = self.update_entropy_repositories()
+            if not done:
+                return
+
+            lang_matches = [self._entropy.atom_match(x) for x in langpacks]
+            lang_matches = [x for x in lang_matches if x[1] != -1]
+            if not lang_matches:
+                msg = _("No language packs are available for download, sorry!")
+                self._intf.messageWindow(msg, custom_icon="warning")
+                return
+
+            # calculate deps, use relaxed algo
+            install_queue, conflicts_queue, status = \
+                self._entropy.get_install_queue(lang_matches, False, False,
+                    relaxed = True)
+            if status != 0:
+                msg = _("No language packs are available for install, sorry!")
+                self._intf.messageWindow(msg, custom_icon="warning")
+                return
+
+            # install packages
+            for match in install_queue:
+                dbc = self._entropy.open_repository(match[1])
+                langpack = dbc.retrieveAtom(match[0])
+                self._progress.set_text("%s: %s" % (
+                    _("Installing package"), langpack,))
+                self.install_package(None, match = match, silent = True)
+
+        finally:
+            if chroot != root:
+                self._change_entropy_chroot(root)
+
+    def update_entropy_repositories(self):
+
+        chroot = self._root
+        root = etpSys['rootdir']
+        if chroot != root:
+            self._change_entropy_chroot(chroot)
+
+        try:
+            try:
+                repo_intf = self._entropy.Repositories()
+            except AttributeError:
+                msg = "%s: %s" % (_('No repositories specified in'),
+                    etpConst['repositoriesconf'],)
+                self._intf.messageWindow(msg, custom_icon="warning")
+                return False
+            except Exception as e:
+                msg = "%s: %s" % (_('Unhandled exception'), e,)
+                self._intf.messageWindow(msg, custom_icon="warning")
+                return False
+
+            update_rc = repo_intf.sync()
+            if repo_intf.sync_errors or (update_rc != 0):
+                msg = _("Cannot download language packs right now, no big deal")
+                self._intf.messageWindow(msg, custom_icon="warning")
+                return False
+            return True
+
+        finally:
+            if chroot != root:
+                self._change_entropy_chroot(root)
+
+    def _get_langpacks(self):
+        return [x.strip() for x in LANGUAGE_PACKS.split("\n") if \
             (not x.strip().startswith("#")) and x.strip()]
+
+    def _get_removable_localized_packages(self):
+        langpacks = self._get_langpacks()
 
         # get cur lang
         def_lang = self._anaconda.instLanguage.instLang
@@ -882,6 +1006,22 @@ class SabayonInstall:
                     continue
                 yield pkg_id
 
+    def _get_installable_localized_packages(self):
+        """
+        Return a list (iterator) of packages not available on the CD/DVD that
+        could be downloaded and installed.
+        """
+        langpacks = self._get_langpacks()
+        def_lang = self._anaconda.instLanguage.instLang
+        langpacks = set([x for x in langpacks if \
+            x.endswith("-%s" % (def_lang,))])
+
+        client_repo = self._entropy.installed_repository()
+        for langpack in langpacks:
+            matches, m_rc = client_repo.atomMatch(langpack)
+            if m_rc != 0:
+                yield langpack
+
     def _setup_packages_to_remove(self):
 
         # remove anaconda if installed
@@ -894,7 +1034,7 @@ class SabayonInstall:
 
         localized_pkgs = self._get_removable_localized_packages()
         if localized_pkgs:
-            question_text = _("This DVD contains many extra languages, "
+            question_text = _("This medium contains many extra languages, "
                 "would you like to keep them installed?")
             buttons = [_("Yes"), _("No")]
             answer = self._intf.messageWindow(_("Language packs installation"),
