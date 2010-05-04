@@ -904,7 +904,8 @@ class SabayonInstall:
             return
 
         question_text = _("The following language packs are available for "
-            "download (you need Internet), would you like to install them?")
+            "download (you need Internet), would you like to install them?") + \
+            " [" + ', '.join(sorted(langpacks)) + "]"
         buttons = [_("Yes"), _("No")]
         answer = self._intf.messageWindow(_("Language packs download"),
             question_text, custom_icon="question", type="custom",
@@ -1026,7 +1027,8 @@ class SabayonInstall:
 
         # remove anaconda if installed
         client_repo = self._entropy.installed_repository()
-        pkgs_rm = ["anaconda", "anaconda-runtime", "libselinux"]
+        pkgs_rm = ["app-admin/anaconda", "app-misc/anaconda-runtime",
+            "libselinux"]
         for pkg_name in pkgs_rm:
             pkg_id, pkg_rc = client_repo.atomMatch(pkg_name)
             if pkg_id != -1:
