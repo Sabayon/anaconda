@@ -35,13 +35,13 @@ class Entropy(Client):
     def init_singleton(self):
         self._progress = None
         self.oldcount = []
-        Client.init_singleton(self, indexing = False, xcache = False)
+        Client.init_singleton(self, indexing = False, xcache = False,
+            url_fetcher = InstallerUrlFetcher)
         nocolor()
         self.indexing = False
 
     def connect_progress(self, progress):
         self._progress = progress
-        self.urlFetcher = InstallerUrlFetcher
 
     def output(self, text, header = "", footer = "", back = False,
         importance = 0, level = "info", count = None, percent = False):
@@ -91,6 +91,10 @@ class Entropy(Client):
                 if tstr in args:
                     return True
             return False
+
+# in this way, any singleton class that tries to directly load Client
+# gets Entropy in change
+Client.__singleton_class__ = Entropy
 
 class InstallerUrlFetcher(UrlFetcher):
 
