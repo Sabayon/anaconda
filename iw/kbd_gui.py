@@ -25,6 +25,9 @@ sys.path.append("/usr/share/system-config-keyboard")
 
 from keyboard_gui import childWindow as installKeyboardWindow
 
+import gtk
+_ = lambda x: gettext.ldgettext("anaconda", x)
+
 class KeyboardWindow(InstallWindow, installKeyboardWindow):
     def __init__(self, ics):
         InstallWindow.__init__(self, ics)
@@ -33,7 +36,24 @@ class KeyboardWindow(InstallWindow, installKeyboardWindow):
     def getNext(self):
         installKeyboardWindow.getNext(self)
 
+    def _set_keyboard(self, widget):
+        self.getNext()
+
     def getScreen(self, anaconda):
         default = anaconda.instLanguage.getDefaultKeyboard(anaconda.rootPath)
         anaconda.keyboard.set(default)
-        return installKeyboardWindow.getScreen(self, default, anaconda.keyboard)
+        gs_rc = installKeyboardWindow.getScreen(self, default, anaconda.keyboard)
+
+        # add keyboard test widgets
+        hbox = gtk.HBox()
+        entry = gtk.Entry()
+        button = gtk.Button(_("_Set keyboard"))
+        button.connect("clicked", self._set_keyboard)
+        tlabel = gtk.Label(_("Keyboard test:"))
+        hbox.pack_start(tlabel, False, padding=5)
+        hbox.pack_start(entry, True)
+        hbox.pack_start(button, False)
+        hbox.show_all()
+        self.vbox.pack_start(hbox, False)
+
+        return gs_rc
