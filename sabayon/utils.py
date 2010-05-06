@@ -978,6 +978,15 @@ class SabayonInstall:
         if chroot != root:
             self._change_entropy_chroot(chroot)
 
+        silent = True
+        if os.getenv('SABAYON_DEBUG'):
+            silent = False
+        # XXX add stdout silence
+        oldstdout = sys.stdout
+        if silent:
+            sys.stdout = STDERR_LOG
+            etpUi['mute'] = True
+
         try:
             # fetch_security = False => avoid spamming stdout
             try:
@@ -1004,6 +1013,10 @@ class SabayonInstall:
             return True
 
         finally:
+
+            if silent:
+                sys.stdout = oldstdout
+                etpUi['mute'] = False
             self._entropy.close_repositories()
             self._settings.clear()
             if chroot != root:
