@@ -518,6 +518,14 @@ class SabayonInstall:
         """
         self.spawn_chroot(mn_script, silent = True)
 
+    def setup_networkmanager_networking(self):
+        # our NM hook already mounts network shares
+        nm_script = """
+            rc-update del netmount default
+            rc-update del nfsmount default
+        """
+        self.spawn_chroot(nm_script, silent = True)
+
     def setup_keyboard(self):
         console_kbd = self._anaconda.keyboard.get()
         kbd = self._anaconda.keyboard.modelDict[console_kbd]
