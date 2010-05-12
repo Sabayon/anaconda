@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-04-23 14:54+0200\n"
+"POT-Creation-Date: 2010-05-12 15:29+0200\n"
 "PO-Revision-Date: 2010-04-06 15:47\n"
 "Last-Translator: Yulia <ypoyarko@redhat.com>\n"
 "Language-Team: Russian\n"
@@ -25,11 +25,11 @@ msgstr ""
 "Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: anaconda:341
+#: anaconda:342
 msgid "Press <enter> for a shell"
 msgstr "Для перехода в командную оболочку нажмите <Enter>"
 
-#: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
+#: anaconda:357 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
 #: rescue.py:466 text.py:657 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
 #: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
@@ -58,11 +58,11 @@ msgstr "Для перехода в командную оболочку нажм�
 msgid "OK"
 msgstr "OК"
 
-#: anaconda:363
+#: anaconda:364
 msgid "You do not have enough RAM to use the graphical installer."
 msgstr "Недостаточно ОЗУ для запуска графической установки."
 
-#: anaconda:367
+#: anaconda:368
 msgid ""
 "Try the text mode installer by running:\n"
 "\n"
@@ -75,23 +75,23 @@ msgstr ""
 "\n"
 "'/usr/bin/liveinst -T'"
 
-#: anaconda:370
+#: anaconda:371
 msgid "Not enough RAM"
 msgstr "Недостаточно ОЗУ"
 
-#: anaconda:380
+#: anaconda:381
 msgid "Starting text mode."
 msgstr "Запуск текстового режима."
 
-#: anaconda:636
+#: anaconda:638
 msgid "Starting graphical installation."
 msgstr "Запуск графической установки"
 
-#: anaconda:1056
+#: anaconda:1059
 msgid "Would you like to use VNC?"
 msgstr "Хотите использовать VNC?"
 
-#: anaconda:1057
+#: anaconda:1060
 msgid ""
 "Text mode provides a limited set of installation options.  It does not allow "
 "you to specify your own partitioning layout or package selections.  Would "
@@ -101,11 +101,11 @@ msgstr ""
 "позволяет создать собственное разбиение диска или сделать выбор набора "
 "пакетов. Использовать режим VNC вместо него?"
 
-#: anaconda:1083
+#: anaconda:1086
 msgid "Graphical installation is not available. Starting text mode."
 msgstr "Графическая установка невозможна. Запускается текстовый режим."
 
-#: anaconda:1091
+#: anaconda:1094
 msgid "DISPLAY variable not set. Starting text mode."
 msgstr "Переменная DISPLAY не определена. Запускается текстовый режим."
 
@@ -169,7 +169,7 @@ msgstr ""
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:411
+#: textw/upgrade_text.py:188 sabayon/livecd.py:425
 msgid "Error"
 msgstr "Ошибка"
 
@@ -199,7 +199,7 @@ msgstr ""
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:418
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:432
 msgid "_Exit installer"
 msgstr "В_ыход из программы установки"
 
@@ -475,7 +475,7 @@ msgstr "Система сейчас будет перезагружена."
 msgid "Exiting"
 msgstr "Завершение работы"
 
-#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:68
+#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:69
 msgid "Exit installer"
 msgstr "Прервать установку"
 
@@ -492,7 +492,7 @@ msgstr "Программа установки %s"
 msgid "Unable to load title bar"
 msgstr "Невозможно загрузить заголовок"
 
-#: gui.py:1486
+#: gui.py:1487
 msgid "Install Window"
 msgstr "Окно установки"
 
@@ -573,7 +573,7 @@ msgstr "_Перезагрузка"
 
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:417
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:431
 msgid "_Back"
 msgstr "_Назад"
 
@@ -817,7 +817,7 @@ msgstr ""
 "повторите попытку:\n"
 "%s"
 
-#: livecd.py:121 sabayon/livecd.py:63
+#: livecd.py:121 sabayon/livecd.py:64
 msgid "Unable to find image"
 msgstr "Не удается найти образ"
 
@@ -854,7 +854,7 @@ msgstr ""
 "Выполнение заключительных операций с файловой системой. Это может занять "
 "несколько минут."
 
-#: livecd.py:401 sabayon/livecd.py:412
+#: livecd.py:401 sabayon/livecd.py:426
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -1307,12 +1307,13 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "Активировать сетевые интерфейсы этой системы?"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:886
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:924
+#: sabayon/utils.py:1142
 msgid "Yes"
 msgstr "Да"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:886
+#: textw/constants_text.py:60 sabayon/utils.py:924 sabayon/utils.py:1142
 msgid "No"
 msgstr "Нет"
 
@@ -6002,11 +6003,12 @@ msgid "System to Upgrade"
 msgstr "Система для обновления"
 
 #: textw/upgrade_text.py:227
+#, fuzzy
 msgid ""
 "There seem to be one or more existing Linux installations on your system.\n"
 "\n"
-"Please choose one to upgrade, or select 'Reinstall System' to freshly "
-"install your system."
+"Please choose one to rescue, or select 'Reinstall System' to freshly install "
+"your system."
 msgstr ""
 "В Вашей системе найдена одна или несколько установок Linux.\n"
 "\n"
@@ -6928,29 +6930,29 @@ msgstr "Валлийский"
 msgid "Zulu"
 msgstr "Зулу"
 
-#: sabayon/livecd.py:64
+#: sabayon/livecd.py:65
 #, fuzzy, python-format
 msgid ""
 "The given location [%s] isn't a valid %s live CD to use as an installation "
 "source."
 msgstr "Указанный путь не является корректным %s Live CD для установки."
 
-#: sabayon/livecd.py:107
+#: sabayon/livecd.py:108
 #, fuzzy
 msgid "Recovering Sabayon."
 msgstr "Настройка VNC"
 
-#: sabayon/livecd.py:113
+#: sabayon/livecd.py:114
 #, fuzzy
 msgid "Installing Sabayon onto hard drive."
 msgstr "Установка загрузчика"
 
-#: sabayon/livecd.py:125
+#: sabayon/livecd.py:128
 #, fuzzy
 msgid "Configuring Sabayon"
 msgstr "Настройка VNC"
 
-#: sabayon/livecd.py:150
+#: sabayon/livecd.py:153
 msgid "Sabayon configuration complete"
 msgstr ""
 
@@ -6958,57 +6960,107 @@ msgstr ""
 msgid "System Health Status Warning"
 msgstr ""
 
-#: sabayon/utils.py:360
+#: sabayon/utils.py:412
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "Настройка сетевых интерфейсов"
 
-#: sabayon/utils.py:621
+#: sabayon/utils.py:681
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:623
+#: sabayon/utils.py:683
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:624
+#: sabayon/utils.py:684
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "Новая установка"
 
-#: sabayon/utils.py:654
+#: sabayon/utils.py:714
 #, fuzzy
 msgid "System Installation"
 msgstr "После установки"
 
-#: sabayon/utils.py:787
+#: sabayon/utils.py:848
 #, fuzzy
 msgid "Cleaning packages"
 msgstr "старые пакеты"
 
-#: sabayon/utils.py:812
+#: sabayon/utils.py:873
 #, fuzzy
 msgid "Cleaning package"
 msgstr "Отсутствующий пакет"
 
-#: sabayon/utils.py:852
+#: sabayon/utils.py:913
 #, fuzzy
 msgid "Installation complete"
 msgstr "Код установки"
 
-#: sabayon/utils.py:884
+#: sabayon/utils.py:921
+msgid ""
+"The following language packs are available for download (you need Internet), "
+"would you like to install them?"
+msgstr ""
+
+#: sabayon/utils.py:925
+#, fuzzy
+msgid "Language packs download"
+msgstr "Установка пакета"
+
+#: sabayon/utils.py:946
+msgid "No language packs are available for download, sorry!"
+msgstr ""
+
+#: sabayon/utils.py:947 sabayon/utils.py:957
+#, fuzzy
+msgid "Language packs"
+msgstr "Установка пакета"
+
+#: sabayon/utils.py:956
+msgid "No language packs are available for install, sorry!"
+msgstr ""
+
+#: sabayon/utils.py:966
+#, fuzzy
+msgid "Downloading package"
+msgstr "Отсутствующий пакет"
+
+#: sabayon/utils.py:975
+#, fuzzy
+msgid "Installing package"
+msgstr "Ошибка установки пакета"
+
+#: sabayon/utils.py:1004
+msgid "No repositories specified in"
+msgstr ""
+
+#: sabayon/utils.py:1006 sabayon/utils.py:1011 sabayon/utils.py:1018
+msgid "Repositories update"
+msgstr ""
+
+#: sabayon/utils.py:1010
+msgid "Unhandled exception"
+msgstr ""
+
+#: sabayon/utils.py:1017
+msgid "Cannot download language packs right now, no big deal"
+msgstr ""
+
+#: sabayon/utils.py:1140
 #, fuzzy
 msgid ""
-"This DVD contains many extra languages, would you like to keep them "
+"This medium contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "Какой язык вы хотите использовать в процессе установки?"
 
-#: sabayon/utils.py:887
+#: sabayon/utils.py:1143
 #, fuzzy
 msgid "Language packs installation"
 msgstr "Установка пакета"
 
-#: sabayon/utils.py:898
+#: sabayon/utils.py:1154
 msgid "Generating list of files to copy"
 msgstr ""
 

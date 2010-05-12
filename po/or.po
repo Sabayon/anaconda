@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda.master.or\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-04-23 14:54+0200\n"
+"POT-Creation-Date: 2010-05-12 15:29+0200\n"
 "PO-Revision-Date: 2009-09-25 17:47+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
@@ -58,11 +58,11 @@ msgstr ""
 "\n"
 "\n"
 
-#: anaconda:341
+#: anaconda:342
 msgid "Press <enter> for a shell"
 msgstr "ଗୋଟିଏ ସେଲ ପାଇଁ <enter> ଦବାନ୍ତୁ"
 
-#: anaconda:356 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
+#: anaconda:357 rescue.py:332 rescue.py:358 rescue.py:371 rescue.py:454
 #: rescue.py:466 text.py:657 loader/cdinstall.c:228 loader/cdinstall.c:232
 #: loader/cdinstall.c:248 loader/cdinstall.c:251 loader/cdinstall.c:427
 #: loader/cdinstall.c:431 loader/cdinstall.c:504 loader/dirbrowser.c:129
@@ -91,13 +91,13 @@ msgstr "ଗୋଟିଏ ସେଲ ପାଇଁ <enter> ଦବାନ୍ତୁ"
 msgid "OK"
 msgstr "ଠିକ ଅଛି"
 
-#: anaconda:363
+#: anaconda:364
 #, fuzzy
 msgid "You do not have enough RAM to use the graphical installer."
 msgstr ""
 "ଆଲେଖୀ ସ୍ଥାପନକୁ ବ୍ଯବହାର କରିବା ପାଇଁ ଆପଣଙ୍କ ପାଖରେ ଯଥେଷ୍ଟ RAM ନାହିଁ। ଅକ୍ଷରାବସ୍ଥାକୁ ଆରମ୍ଭ କରୁଅଛି।"
 
-#: anaconda:367
+#: anaconda:368
 msgid ""
 "Try the text mode installer by running:\n"
 "\n"
@@ -106,25 +106,25 @@ msgid ""
 " from a root terminal."
 msgstr ""
 
-#: anaconda:370
+#: anaconda:371
 #, fuzzy
 msgid "Not enough RAM"
 msgstr "ଯଥେଷ୍ଟ ଖାଲି ସ୍ଥାନ ନାହିଁ"
 
-#: anaconda:380
+#: anaconda:381
 #, fuzzy
 msgid "Starting text mode."
 msgstr "ପାଠ୍ଯ ଧାରାକୁ ବ୍ଯବହାର କରନ୍ତୁ"
 
-#: anaconda:636
+#: anaconda:638
 msgid "Starting graphical installation."
 msgstr "ଆଲେଖୀକ ସ୍ଥାପନ ଆରମ୍ଭ କରୁଅଛି।"
 
-#: anaconda:1056
+#: anaconda:1059
 msgid "Would you like to use VNC?"
 msgstr "ଆପଣ VNC ବ୍ୟବହାର କରିବା ପାଇଁ ଚାହାଁନ୍ତି କି?"
 
-#: anaconda:1057
+#: anaconda:1060
 msgid ""
 "Text mode provides a limited set of installation options.  It does not allow "
 "you to specify your own partitioning layout or package selections.  Would "
@@ -134,11 +134,11 @@ msgstr ""
 "ବିନ୍ୟାସକୁ ଉଲ୍ଲେଖ କରିବା ପାଇଁ ଅନୁମତି ଦେଇନଥାଏ।  ଆପଣ ଏହା ପରିବର୍ତ୍ତେ VNC ଧାରାକୁ ବ୍ୟବହାର କରିବା "
 "ପାଇଁ ପସନ୍ଦ କରିବେ କି?"
 
-#: anaconda:1083
+#: anaconda:1086
 msgid "Graphical installation is not available. Starting text mode."
 msgstr "ଆଲେଖୀକ ସ୍ଥାପନ ଉପଲବ୍ଧ ନାହିଁ। ଅକ୍ଷରାବସ୍ଥାକୁ ଆରମ୍ଭ କରୁଅଛି।"
 
-#: anaconda:1091
+#: anaconda:1094
 msgid "DISPLAY variable not set. Starting text mode."
 msgstr "DISPLAY ପ୍ରାଚଳ ସେଟ ହୋଇନାହିଁ। ଅକ୍ଷରାବସ୍ଥାକୁ ଆରମ୍ଭ କରୁଅଛି।"
 
@@ -202,7 +202,7 @@ msgstr ""
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:411
+#: textw/upgrade_text.py:188 sabayon/livecd.py:425
 msgid "Error"
 msgstr "ତୃଟି"
 
@@ -232,7 +232,7 @@ msgstr ""
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:418
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:432
 msgid "_Exit installer"
 msgstr "ସ୍ଥାପକକୁ ବନ୍ଦ କରନ୍ତୁ (_E)"
 
@@ -502,7 +502,7 @@ msgstr "ସ୍ଥାପକଟି ବର୍ତମାନ ପ୍ରସ୍ଥାନ 
 msgid "Exiting"
 msgstr "ବନ୍ଦ ହେଉଅଛି"
 
-#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:68
+#: gui.py:1403 livecd.py:126 text.py:271 upgrade.py:228 sabayon/livecd.py:69
 msgid "Exit installer"
 msgstr "ସ୍ଥାପକକୁ ବନ୍ଦ କରନ୍ତୁ"
 
@@ -519,7 +519,7 @@ msgstr "%s ସ୍ଥାପକ"
 msgid "Unable to load title bar"
 msgstr "ଶୀର୍ଷକ ଦଣ୍ଡକୁ ଧାରଣ କରିବାରେ ଅସମର୍ଥ"
 
-#: gui.py:1486
+#: gui.py:1487
 msgid "Install Window"
 msgstr "ୱିଣ୍ଡୋକୁ ସ୍ଥାପନ କରନ୍ତୁ"
 
@@ -600,7 +600,7 @@ msgstr "ପୁନର୍ଚାଳିତ କରନ୍ତୁ (_R)"
 
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:417
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:431
 msgid "_Back"
 msgstr "ପଛକୁ (_B)"
 
@@ -827,7 +827,7 @@ msgstr ""
 "ନିମ୍ନଲିଖିତ ବିଭାଗଗୁଡ଼ିକୁ ଯୋଗ କରି ପୁଣିଥରେ ଚେଷ୍ଟାକରନ୍ତୁ:\n"
 "%s"
 
-#: livecd.py:121 sabayon/livecd.py:63
+#: livecd.py:121 sabayon/livecd.py:64
 msgid "Unable to find image"
 msgstr "ପ୍ରତିଛବିକୁ ଖୋଜିବାରେ ଅସମର୍ଥ"
 
@@ -862,7 +862,7 @@ msgid ""
 "minutes."
 msgstr "ସ୍ଥାପନ ପରେ ଫାଇଲ ତନ୍ତ୍ର ମାନଙ୍କୁ ପରିବର୍ତ୍ତନ କରୁଅଛି।  ଏହା କିଛି ମିନିଟ ସମୟ ନେଇପାରେ।"
 
-#: livecd.py:401 sabayon/livecd.py:412
+#: livecd.py:401 sabayon/livecd.py:426
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -1311,12 +1311,13 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "ଆପଣ ନେଟୱାର୍କ ଅନ୍ତରାପୃଷ୍ଠକୁ ଏହି ତନ୍ତ୍ରରେ ପ୍ରାରମ୍ଭ କରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି କି?"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:886
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:924
+#: sabayon/utils.py:1142
 msgid "Yes"
 msgstr "ହଁ"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:886
+#: textw/constants_text.py:60 sabayon/utils.py:924 sabayon/utils.py:1142
 msgid "No"
 msgstr "ନାଁ"
 
@@ -5873,11 +5874,12 @@ msgid "System to Upgrade"
 msgstr "ତନ୍ତ୍ରକୁ ଉନ୍ନୟନ କରାଯିବ"
 
 #: textw/upgrade_text.py:227
+#, fuzzy
 msgid ""
 "There seem to be one or more existing Linux installations on your system.\n"
 "\n"
-"Please choose one to upgrade, or select 'Reinstall System' to freshly "
-"install your system."
+"Please choose one to rescue, or select 'Reinstall System' to freshly install "
+"your system."
 msgstr ""
 "ଆପଣଙ୍କ ତନ୍ତ୍ରରେ ଏକ କିମ୍ବା ଏକାଧିକ ପୂର୍ବରୁ ଅବସ୍ଥିତ LInux ସ୍ଥାପନ ଥିବା ପରି ଜଣାପଡୁଛି।\n"
 "\n"
@@ -6790,7 +6792,7 @@ msgstr "ୱେଲ୍ସ"
 msgid "Zulu"
 msgstr "ଜୁଲୁ"
 
-#: sabayon/livecd.py:64
+#: sabayon/livecd.py:65
 #, fuzzy, python-format
 msgid ""
 "The given location [%s] isn't a valid %s live CD to use as an installation "
@@ -6798,22 +6800,22 @@ msgid ""
 msgstr ""
 "ଗୋଟିଏ ସ୍ଥାପନ ଉତ୍ସ ଭାବରେ ବ୍ଯବହାର କରିବା ପାଇଁ ପ୍ରଦତ୍ତ ଗୋଟିଏ ବୈଧ %s ପ୍ରତ୍ଯେକ୍ଷ ସି.ଡି. ନୁହେଁ।"
 
-#: sabayon/livecd.py:107
+#: sabayon/livecd.py:108
 #, fuzzy
 msgid "Recovering Sabayon."
 msgstr "VNC ବିନ୍ଯାସ"
 
-#: sabayon/livecd.py:113
+#: sabayon/livecd.py:114
 #, fuzzy
 msgid "Installing Sabayon onto hard drive."
 msgstr "ବୁଟ-ଲୋଡରକୁ ସ୍ଥାପନ କରୁଅଛି।"
 
-#: sabayon/livecd.py:125
+#: sabayon/livecd.py:128
 #, fuzzy
 msgid "Configuring Sabayon"
 msgstr "VNC ବିନ୍ଯାସ"
 
-#: sabayon/livecd.py:150
+#: sabayon/livecd.py:153
 msgid "Sabayon configuration complete"
 msgstr ""
 
@@ -6821,57 +6823,107 @@ msgstr ""
 msgid "System Health Status Warning"
 msgstr ""
 
-#: sabayon/utils.py:360
+#: sabayon/utils.py:412
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "ନେଟୱାର୍କ ଅନ୍ତରାପୃଷ୍ଠକୁ ବିନ୍ଯାସ କରନ୍ତୁ"
 
-#: sabayon/utils.py:621
+#: sabayon/utils.py:681
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:623
+#: sabayon/utils.py:683
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:624
+#: sabayon/utils.py:684
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "ସ୍ଥାପନ ପ୍ରକ୍ରିୟା ଆରମ୍ଭକରୁଅଛି"
 
-#: sabayon/utils.py:654
+#: sabayon/utils.py:714
 #, fuzzy
 msgid "System Installation"
 msgstr "ପଶ୍ଚାତ ସ୍ଥାପନ"
 
-#: sabayon/utils.py:787
+#: sabayon/utils.py:848
 #, fuzzy
 msgid "Cleaning packages"
 msgstr "ପୁରୁଣା ପ୍ଯାକେଜ(ମାନ)"
 
-#: sabayon/utils.py:812
+#: sabayon/utils.py:873
 #, fuzzy
 msgid "Cleaning package"
 msgstr "ଅନୁପସ୍ଥିତ ପ୍ଯାକେଜ"
 
-#: sabayon/utils.py:852
+#: sabayon/utils.py:913
 #, fuzzy
 msgid "Installation complete"
 msgstr "ସ୍ଥାପନ ଚାବି"
 
-#: sabayon/utils.py:884
+#: sabayon/utils.py:921
+msgid ""
+"The following language packs are available for download (you need Internet), "
+"would you like to install them?"
+msgstr ""
+
+#: sabayon/utils.py:925
+#, fuzzy
+msgid "Language packs download"
+msgstr "ପ୍ଯାକେଜ ସ୍ଥାପନ"
+
+#: sabayon/utils.py:946
+msgid "No language packs are available for download, sorry!"
+msgstr ""
+
+#: sabayon/utils.py:947 sabayon/utils.py:957
+#, fuzzy
+msgid "Language packs"
+msgstr "ପ୍ଯାକେଜ ସ୍ଥାପନ"
+
+#: sabayon/utils.py:956
+msgid "No language packs are available for install, sorry!"
+msgstr ""
+
+#: sabayon/utils.py:966
+#, fuzzy
+msgid "Downloading package"
+msgstr "ଅନୁପସ୍ଥିତ ପ୍ଯାକେଜ"
+
+#: sabayon/utils.py:975
+#, fuzzy
+msgid "Installing package"
+msgstr "ପ୍ଯାକେଜ ମାନଙ୍କୁ ସ୍ଥାପିତ କରୁଅଛି"
+
+#: sabayon/utils.py:1004
+msgid "No repositories specified in"
+msgstr ""
+
+#: sabayon/utils.py:1006 sabayon/utils.py:1011 sabayon/utils.py:1018
+msgid "Repositories update"
+msgstr ""
+
+#: sabayon/utils.py:1010
+msgid "Unhandled exception"
+msgstr ""
+
+#: sabayon/utils.py:1017
+msgid "Cannot download language packs right now, no big deal"
+msgstr ""
+
+#: sabayon/utils.py:1140
 #, fuzzy
 msgid ""
-"This DVD contains many extra languages, would you like to keep them "
+"This medium contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "ଏହି ସ୍ଥାପନ ପ୍ରକ୍ରିୟା ସମୟରେ ଆପଣ କେଉଁ ଭାଷା ର ପ୍ରୟୋଗ କରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି?"
 
-#: sabayon/utils.py:887
+#: sabayon/utils.py:1143
 #, fuzzy
 msgid "Language packs installation"
 msgstr "ପ୍ଯାକେଜ ସ୍ଥାପନ"
 
-#: sabayon/utils.py:898
+#: sabayon/utils.py:1154
 msgid "Generating list of files to copy"
 msgstr ""
 
@@ -7025,9 +7077,6 @@ msgstr ""
 
 #~ msgid "Hide RAID device/LVM Volume _Group members"
 #~ msgstr "RAID ଉପକରଣ/LVM ଘନଫଳ ସମୂହ ସଦସ୍ଯ ମାନଙ୍କୁ ଲୁଚାଇ ରଖନ୍ତୁ (_G)"
-
-#~ msgid "Installing Packages"
-#~ msgstr "ପ୍ଯାକେଜ ମାନଙ୍କୁ ସ୍ଥାପିତ କରୁଅଛି"
 
 #~ msgid ""
 #~ "Clone Drive Tool\n"
