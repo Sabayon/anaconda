@@ -55,5 +55,8 @@ class KeyboardWindow(InstallWindow, installKeyboardWindow):
         hbox.pack_start(button, False)
         hbox.show_all()
         self.vbox.pack_start(hbox, False)
+        hint_label = gtk.Label()
+        hint_label.set_markup(_("<b>Note</b>: to switch layout (from Cyrillic to English, for instance) press <b>both</b> SHIFT keys"))
+        self.vbox.pack_start(hint_label, False)
 
         return gs_rc
