@@ -574,6 +574,8 @@ class SabayonInstall:
     def setup_xorg(self):
         # Copy current xorg.conf
         live_xorg_conf = "/etc/X11/xorg.conf"
+        if not os.path.isfile(live_xorg_conf):
+            return
         xorg_conf = self._root + live_xorg_conf
         shutil.copy2(live_xorg_conf, xorg_conf)
         shutil.copy2(live_xorg_conf, xorg_conf+".original")
