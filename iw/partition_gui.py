@@ -835,6 +835,9 @@ class PartitionWindow(InstallWindow):
         win.vbox.pack_start(hbox)
         win.set_position(gtk.WIN_POS_CENTER)
         win.set_default_response(defaultchoice)
+        # lxnay, otherwise it will be hidden behind the main window
+        if self.parent:
+            win.set_transient_for(self.parent)
         win.show_all()
         rc = win.run()
         win.destroy()
@@ -1367,6 +1370,8 @@ class PartitionWindow(InstallWindow):
         create_storage_xml = gtk.glade.XML(
                 gui.findGladeFile("create-storage.glade"), domain="anaconda")
         self.dialog = create_storage_xml.get_widget("create_storage_dialog")
+        # lxnay, otherwise it will be hidden behind the main window
+        self.dialog.set_transient_for(self.intf.icw.window)
 
         # Activate the partition radio buttons if needed.
         # sp_rb -> standard partition
