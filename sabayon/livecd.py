@@ -231,7 +231,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             for cdir, subdirs, files in os.walk(usb_storage_dir):
                 if subdirs:
                     cmdline.append("doslowusb")
-                    cmdline.append("scandelay=3")
+                    cmdline.append("scandelay=10")
                     break
 
         final_cmdline = []
