@@ -218,20 +218,21 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             "pci=routeirq", "irqpoll", "nohdparm", "pci=", "floppy.floppy=",
             "all-generic-ide", "gentoo=", "res=", "hsync=", "refresh=", "noddc",
             "xdriver=", "onlyvesa", "nvidia=", "dodmraid", "dmraid",
-            "sabayonmce", "quiet", "scandelay=", "docrypt" ]
-        usb_storage_dir = "/sys/bus/usb/drivers/usb-storage"
-        if os.path.isdir(usb_storage_dir):
-            for cdir, subdirs, files in os.walk(usb_storage_dir):
-                if subdirs:
-                    ourargs.append("doslowusb")
-                    ourargs.append("scandelay=3")
-                    break
+            "sabayonmce", "quiet", "scandelay=", "doslowusb", "docrypt" ]
 
         # Sabayon MCE install -> MCE support
         # use reference, yeah
         cmdline = self._sabayon_install.cmdline
         if Entropy.is_sabayon_mce() and ("sabayonmce" not in cmdline):
             cmdline.append("sabayonmce")
+
+        usb_storage_dir = "/sys/bus/usb/drivers/usb-storage"
+        if os.path.isdir(usb_storage_dir):
+            for cdir, subdirs, files in os.walk(usb_storage_dir):
+                if subdirs:
+                    cmdline.append("doslowusb")
+                    cmdline.append("scandelay=3")
+                    break
 
         final_cmdline = []
         for arg in cmdline:
