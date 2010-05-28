@@ -229,6 +229,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         usb_storage_dir = "/sys/bus/usb/drivers/usb-storage"
         if os.path.isdir(usb_storage_dir):
             for cdir, subdirs, files in os.walk(usb_storage_dir):
+                subdirs = set(subdirs)
+                subdirs.discard("module")
                 if subdirs:
                     cmdline.append("doslowusb")
                     cmdline.append("scandelay=10")
