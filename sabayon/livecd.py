@@ -255,6 +255,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # device.format.options, device.path, device.fstabSpec
         root_crypted = False
         swap_crypted = False
+        delayed_crypt_swap = None
 
         if swap_devices:
             log.info("Found swap devices: %s" % (swap_devices,))
@@ -276,7 +277,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 final_cmdline.append("real_resume=%s" % (swap_dev.path,))
                 # NOTE: cannot use swap_crypto_dev.fstabSpec because
                 # genkernel doesn't support UUID= on crypto
-                final_cmdline.append("crypt_swap=%s" % (swap_crypto_dev.path,))
+                delayed_crypt_swap = swap_crypto_dev.path
             else:
                 final_cmdline.append("resume=swap:%s" % (swap_dev.fstabSpec,))
                 final_cmdline.append("real_resume=%s" % (swap_dev.fstabSpec,))
@@ -300,6 +301,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 return root_device.path
             return root_device.fstabSpec
 
+        crypt_root = None
         if root_crypted:
             log.info("Root crypted? %s, %s, crypto_dev: %s" % (root_crypted,
                 root_device.path, crypto_dev.path))
@@ -308,6 +310,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             # genkernel doesn't support UUID= on crypto
             final_cmdline.append("real_root=%s crypt_root=%s" % (
                 translate_real_root(root_device), crypto_dev.path,))
+            # due to genkernel initramfs stupidity, when crypt_root = crypt_swap
+            # do not add crypt_swap.
+            if delayed_crypt_swap == crypto_dev.path:
+                delayed_crypt_swap = None
 
         else:
             log.info("Root crypted? Nope!")
@@ -317,6 +323,9 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # always add docrypt, loads kernel mods required by cryptsetup devices
         if "docrypt" not in final_cmdline:
             final_cmdline.append("docrypt")
+
+        if delayed_crypt_swap:
+            final_cmdline.append("crypt_swap=%s" % (delayed_crypt_swap,))
 
         log.info("Generated boot cmdline: %s" % (final_cmdline,))
 
