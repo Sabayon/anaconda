@@ -234,11 +234,16 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                     cmdline.append("scandelay=10")
                     break
 
+        previous_vga = None
         final_cmdline = []
         for arg in cmdline:
             for check in ourargs:
                 if arg.startswith(check):
                     final_cmdline.append(arg)
+                    if arg.startswith("vga="):
+                        if previous_vga in final_cmdline:
+                            final_cmdline.remove(previous_vga)
+                        previous_vga = arg
 
         fsset = self.anaconda.storage.fsset
         swap_devices = fsset.swapDevices
@@ -358,8 +363,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # this file must exist
 
         # drop vga= from cmdline
-        cmdline = ' '.join([x for x in cmdline.split() if \
-            not x.startswith("vga=")])
+        #cmdline = ' '.join([x for x in cmdline.split() if \
+        #    not x.startswith("vga=")])
 
         f_r = open(self._root + default_file_noroot, "r")
         default_cont = f_r.readlines()
