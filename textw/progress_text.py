@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+import sys
 
 from constants import *
 from snack import *
@@ -28,6 +29,16 @@ _ = lambda x: gettext.ldgettext("anaconda", x)
 
 import logging
 log = logging.getLogger("anaconda")
+
+def deunicode_str(txt):
+    """ messages from Entropy are pushed as unicode, but here
+        we can only accept bytestring """
+    if sys.hexversion < 0x3000000:
+        if isinstance(txt, unicode):
+            return txt.encode('raw_unicode_escape')
+        return txt
+    else:
+        return bytes(str(txt), 'raw_unicode_escape')
 
 class InstallProgressWindow:
     def __init__(self, screen):
@@ -86,7 +97,7 @@ class InstallProgressWindow:
         if not self.drawn:
             self._setupScreen()
         
-        self.info.setText(strip_markup(txt))
+        self.info.setText(deunicode_str(strip_markup(txt)))
         self.processEvents()
 
     def set_text(self, txt):
@@ -99,7 +110,7 @@ class InstallProgressWindow:
             spaces = (self.width - len(txt)) / 2
             txt = (" " * spaces) + txt
         
-        self.label.setText(strip_markup(txt))
+        self.label.setText(deunicode_str(strip_markup(txt)))
         self.processEvents()
 
 class setupForInstall:
