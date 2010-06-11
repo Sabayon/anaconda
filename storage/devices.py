@@ -1340,7 +1340,11 @@ class PartitionDevice(StorageDevice):
 
         self.setupParents(orig=True)
         self.disk.format.removePartition(self.partedPartition)
-        self.disk.format.commit()
+        try:
+            self.disk.format.commit()
+        except DiskLabelCommitError:
+            # lxnay: catch commit errors here and cross fingers
+            pass
 
         self.exists = False
 
