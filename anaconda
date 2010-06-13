@@ -717,7 +717,10 @@ class Anaconda(object):
         self.network.write(instPath=self.rootPath, anaconda=self)
         self.desktop.write(self.rootPath)
         self.users.write(self.rootPath)
-        self.security.write(self.rootPath)
+        # Sabayon doesn't ship with authconfig
+        # authconfig causes massive breakage to Gentoo's pambase file
+        # layout renaming files around without notification
+        # self.security.write(self.rootPath)
         self.firewall.write(self.rootPath)
 
         if self.ksdata:
