@@ -77,7 +77,9 @@ class TimezoneWindow(InstallWindow):
 
         wp_width = 480
         x_size = self.ics.cw.window.get_size()[0]
-        if x_size >= 800:
+        if x_size > 1024:
+            wp_width = x_size - int(x_size/6.5)
+        elif x_size >= 800:
             wp_width = x_size - 80
 
         self.tz = AnacondaTZMap(self.zonetab, self.default, map=mappath,
