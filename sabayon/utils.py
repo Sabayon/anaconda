@@ -748,6 +748,8 @@ class SabayonInstall:
 
         def copy_lnk(fromfile, tofile):
             source_link = os.readlink(fromfile)
+            if os.path.lexists(tofile):
+                os.remove(tofile)
             os.symlink(source_link, tofile)
 
         current_counter = 0
