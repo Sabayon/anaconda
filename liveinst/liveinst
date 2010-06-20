@@ -41,7 +41,6 @@ export ANACONDA_CHROOTPATH="/mnt/sysimage"
 export ANACONDA_PRODUCTARCH="$(cat /etc/sabayon-release | cut -d' ' -f 3)"
 export ANACONDA_BUGURL="http://bugs.sabayon.org"
 export PIXMAPPATH="/usr/share/anaconda/pixmaps"
-export LD_LIBRARY_PATH="/usr/lib/anaconda-runtime ${LD_LIBRARY_PATH}"
 
 function kill_mounts() {
     # devkit-disks is now mounting lots of stuff.  for now, let's just try to unmount it all
