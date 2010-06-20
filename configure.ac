@@ -136,7 +136,7 @@ PKG_CHECK_MODULES([GTK_X11], [gtk+-x11-2.0 >= 2.16.1])
 PKG_CHECK_MODULES([GDK], [gdk-2.0 >= 2.16.1])
 PKG_CHECK_MODULES([NETWORKMANAGER], [NetworkManager >= 0.7.1])
 PKG_CHECK_MODULES([LIBNL], [libnl-1 >= 1.0])
-PKG_CHECK_MODULES([LIBNM_GLIB], [libnm-glib >= 0.8 libnm-util >= 0.8], ,
+PKG_CHECK_MODULES([LIBNM_GLIB], [libnm-glib >= 0.8 libnm-util >= 0.8], , \
 	PKG_CHECK_MODULES([LIBNM_GLIB], [libnm_glib >= 0.7.2 libnm-util >= 0.7.2]))
 PKG_CHECK_MODULES([DEVMAPPER], [devmapper >= 1.02.17])
 PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.19.5])
