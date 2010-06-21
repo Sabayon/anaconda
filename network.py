@@ -94,7 +94,11 @@ def getDefaultHostname(anaconda):
             ip4_config_props = dbus.Interface(ip4_config_obj, isys.DBUS_PROPS_IFACE)
 
             # addresses (3-element list:  ipaddr, netmask, gateway)
-            addrs = ip4_config_props.Get(isys.NM_MANAGER_IFACE, "Addresses")[0]
+            try:
+                addrs = ip4_config_props.Get(isys.NM_MANAGER_IFACE, "Addresses")[0]
+            except:
+                # DBusException
+                continue
             try:
                 tmp = struct.pack('I', addrs[0])
                 ipaddr = socket.inet_ntop(socket.AF_INET, tmp)
