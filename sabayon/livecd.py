@@ -82,7 +82,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             anaconda.storage.umountFilesystems(swapoff = False)
             os.rmdir(self._root)
         except Exception, e:
-            log.error("Unable to unmount filesystems: %s" % e) 
+            log.error("Unable to unmount filesystems: %s" % e)
 
     def checkSupportedUpgrade(self, anaconda):
         if anaconda.dir == DISPATCH_BACK:
@@ -133,7 +133,12 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._sabayon_install.setup_audio()
         self._sabayon_install.setup_xorg()
         self._sabayon_install.remove_proprietary_drivers()
-        self._sabayon_install.setup_nvidia_legacy()
+        try:
+            self._sabayon_install.setup_nvidia_legacy()
+        except Exception as e:
+            # caused by Entropy bug <0.99.47.2, remove in future
+            log.error("Unable to install legacy nvidia drivers: %s" % e)
+
         self._progress.set_fraction(0.95)
         self._sabayon_install.configure_services()
         self._sabayon_install.copy_udev()
