@@ -341,7 +341,7 @@ class SabayonInstall:
 
         return rc
 
-    def insall_package_file(self, package_file):
+    def install_package_file(self, package_file):
         chroot = self._root
         root = etpSys['rootdir']
         if chroot != root:
@@ -355,7 +355,7 @@ class SabayonInstall:
         for match in atomsfound:
             repo = match[1]
             Package = self._entropy.Package()
-            Package.prepare(match,"install")
+            Package.prepare(match, "install")
             rc2 = Package.run()
             if rc2 != 0:
                 if chroot != root:
@@ -660,7 +660,7 @@ class SabayonInstall:
             except:
                 continue
 
-            rc = self.insall_package_file(self._root+'/'+pkg_file)
+            rc = self.install_package_file(self._root+'/'+pkg_file)
 
             # mask all the nvidia-drivers, this avoids having people
             # updating their drivers resulting in a non working system
