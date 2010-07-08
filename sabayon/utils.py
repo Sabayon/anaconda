@@ -30,11 +30,11 @@ import commands
 import shutil
 import statvfs
 import tempfile
+import time
 
 # Entropy imports
 from entropy.const import etpUi, etpConst, etpSys
 import entropy.tools
-from entropy.misc import TimeScheduled
 from entropy.core.settings.base import SystemSettings
 from entropy.core import Singleton
 
@@ -57,31 +57,32 @@ class SabayonProgress(Singleton):
         self._display_mode = anaconda.displayMode
         self._prog = self._intf.instProgress
         self.__updater = None
-        self.__shot_adbox = None
         self._pix_count = 0
+        self.__alive = False
+        self.__adbox_running = False
+        self.__image_t = time.time()
+
+    def _process_events(self):
+        self._prog.processEvents()
+        self._spawn_adimage()
+        return self.__alive
 
     def start(self):
+        self.__alive = True
         if (self.__updater is None) and (self._display_mode == "g"):
-            self.__updater = TimeScheduled(2, self._prog.processEvents)
-            self.__updater.start()
-        if (self.__shot_adbox is None) and (self._display_mode == "g"):
-            self.__shot_adbox = TimeScheduled(20, self._spawn_adimage)
-            self.__shot_adbox.start()
-
-    def __kill_adbox(self):
-        if self.__shot_adbox is not None:
-            self.__shot_adbox.kill()
-            self.__shot_adbox = None
+            self.__updater = glib.timeout_add(2000, self._process_events,
+                priority = glib.PRIORITY_HIGH + 10)
+        if self._display_mode == "g":
+            self.__adbox_running = True
 
     def __kill_updater(self):
         if self.__updater is not None:
-            self.__updater.kill()
-            self.__updater.join()
+            glib.source_remove(self.__updater)
             self.__updater = None
 
     def stop(self):
         self.__kill_updater()
-        self.__kill_adbox()
+        self.__alive = False
 
     def progress(self):
         return self._prog
@@ -91,7 +92,8 @@ class SabayonProgress(Singleton):
             def do_it():
                 self._prog.set_label(label)
                 return False
-            glib.timeout_add(0, do_it)
+            glib.idle_add(do_it)
+            self._process_events()
         else:
             self._prog.set_label(label)
 
@@ -100,7 +102,8 @@ class SabayonProgress(Singleton):
             def do_it():
                 self._prog.set_text(text)
                 return False
-            glib.timeout_add(0, do_it)
+            glib.idle_add(do_it)
+            self._process_events()
         else:
             self._prog.set_text(text)
 
@@ -115,21 +118,31 @@ class SabayonProgress(Singleton):
             def do_it(pct):
                 self._prog.set_fraction(pct)
                 return False
-            glib.timeout_add(0, do_it, pct)
+            glib.idle_add(do_it, pct)
+            self._process_events()
         else:
             self._prog.set_fraction(pct)
 
     def _spawn_adimage(self):
+
+        if not self.__adbox_running:
+            return
+
+        cur_t = time.time()
+        if cur_t <= (self.__image_t + 20):
+            return
+        self.__image_t = cur_t
+
         pixmaps = getattr(self._prog, 'pixmaps', [])
         pix_len = len(pixmaps)
         if pix_len == 0:
             log.warning("Shutting down _spawn_adimage, no images")
-            self.__kill_adbox()
+            self.__adbox_running = False
             return
 
         if not self._prog.adpix:
             log.warning("Shutting down _spawn_adimage, no adpix")
-            self.__kill_adbox()
+            self.__adbox_running = False
             return
 
         try:
@@ -170,8 +183,6 @@ class SabayonInstall:
             self.cmdline = cmd_f.readline().strip().split()
         #sys.stderr = STDERR_LOG
 
-        self.__start_system_health_check()
-
         self._files_db_path = self._root+"/files.db"
         self._files_db = self._entropy.open_generic_repository(
              self._files_db_path, dbname = "filesdb",
@@ -188,34 +199,7 @@ class SabayonInstall:
         except OSError:
             pass
 
-        if self.__sys_health_checker != None:
-            self.__sys_health_checker.kill()
-            self.__sys_health_checker.join()
         self._progress.stop()
-
-    def __start_system_health_check(self):
-        self.__health_msg = ''
-        self.__sys_health_warn_shown = False
-        self.__sys_health_checker = TimeScheduled(30, self.__health_check)
-        self.__sys_health_checker.start()
-
-    def __health_check(self):
-        if self.__sys_health_warn_shown:
-            self.__sys_health_checker.kill()
-            return
-
-        kern_msg_out = commands.getoutput("dmesg -s 1024000")
-        data = [x for x in kern_msg_out.split("\n") if \
-            x.find("SQUASHFS error") != -1]
-
-        if data:
-            self.__health_msg = data[0].strip()
-            self._intf.messageWindow(
-                _("System Health Status Warning"),
-                "Your system is having HARDWARE issues, "
-                "continue at your risk, error: %s" % (self.__health_msg,),
-                custom_icon="error")
-            self.__sys_health_warn_shown = True
 
     def spawn_chroot(self, args, silent = False):
 
