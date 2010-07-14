@@ -386,9 +386,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         f_r.close()
         f_w = open(self._root + default_file_noroot, "w")
         for line in default_cont:
-            if line.strip().startswith("GRUB_CMDLINE_LINUX="):
-                line = 'GRUB_CMDLINE_LINUX="%s"\n' % (cmdline,)
-            elif line.strip().startswith("GRUB_TIMEOUT="):
+            # @deprecated
+            # if line.strip().startswith("GRUB_CMDLINE_LINUX="):
+            #    line = 'GRUB_CMDLINE_LINUX="%s"\n' % (cmdline,)
+            if line.strip().startswith("GRUB_TIMEOUT="):
                 line = 'GRUB_TIMEOUT=%s\n' % (timeout,)
             elif line.find("/proc/cmdline") != -1:
                 # otherwise grub-mkconfig won't work
@@ -397,6 +398,19 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             f_w.write(line)
         f_w.flush()
         f_w.close()
+
+        # Since Sabayon 5.4, we also write to /etc/default/grub-sabayon
+        grub_sabayon_file = self._root + "/etc/default/grub-sabayon"
+        grub_sabayon_dir = os.path.dirname(grub_sabayon_file)
+        if not os.path.isdir(grub_sabayon_dir):
+            os.makedirs(grub_sabayon_dir)
+        with open(grub_sabayon_file, "w") as f_w:
+            f_w.write("# this file has been added by the Anaconda Installer\n")
+            f_w.write("# containing default installer bootloader arguments.\n")
+            f_w.write("# DO NOT EDIT NOR REMOVE THIS FILE DIRECTLY !!!\n")
+            f_w.write('GRUB_CMDLINE_LINUX="${GRUB_CMDLINE_LINUX} %s"\n' % (
+                cmdline,))
+            f_w.flush()
 
         if self.anaconda.bootloader.password and self.anaconda.bootloader.pure:
             # still no proper support, so implement what can be implemented
