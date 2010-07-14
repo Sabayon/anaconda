@@ -224,3 +224,4 @@ app-i18n/man-pages-zh_CN
 """
 
 LIVE_USER = "sabayonuser"
+REPO_NAME = "sabayonlinux.org"

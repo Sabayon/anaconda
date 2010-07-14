@@ -42,7 +42,7 @@ from entropy.core import Singleton
 import logging
 from constants import productPath
 from sabayon import Entropy
-from sabayon.const import LIVE_USER, LANGUAGE_PACKS
+from sabayon.const import LIVE_USER, LANGUAGE_PACKS, REPO_NAME
 
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
@@ -283,9 +283,8 @@ class SabayonInstall:
             if silent:
                 sys.stdout = oldstdout
                 etpUi['mute'] = False
-
-        if chroot != root:
-            self._change_entropy_chroot(root)
+            if chroot != root:
+                self._change_entropy_chroot(root)
 
         return rc
 
@@ -684,8 +683,7 @@ class SabayonInstall:
     def emit_install_done(self):
         # user installed Sabayon, w00hooh!
         try:
-            self._entropy.UGC.add_download_stats("sabayonlinux.org",
-                ["installer"])
+            self._entropy.UGC.add_download_stats(REPO_NAME, ["installer"])
         except Exception as err:
             log.error("Unable to emit_install_done(): %s" % err)
 
@@ -963,6 +961,32 @@ class SabayonInstall:
                     _("Installing package"), langpack,))
                 self.install_package(None, match = match, silent = True)
 
+        finally:
+            if chroot != root:
+                self._change_entropy_chroot(root)
+
+    def setup_entropy_mirrors(self):
+
+        if not hasattr(self._entropy, 'reorder_mirrors'):
+            # Entropy version does not support it
+            return
+        # make possible to disable it via env
+        if os.getenv('SABAYON_DISABLE_MIRROR_SORTING'):
+            return
+
+        self._progress.set_text("%s: %s" % (
+            _("Reordering Entropy mirrors"), _("can take some time..."),))
+
+        chroot = self._root
+        root = etpSys['rootdir']
+        if chroot != root:
+            self._change_entropy_chroot(chroot)
+        try:
+            self._entropy.reorder_mirrors(REPO_NAME)
+        except Exception as err:
+            msg = "%s: %s" % (_("Error"), err)
+            self._intf.messageWindow(_("Reordering Entropy mirrors"), msg,
+                custom_icon="warning")
         finally:
             if chroot != root:
                 self._change_entropy_chroot(root)
