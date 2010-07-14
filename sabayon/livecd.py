@@ -292,8 +292,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         lvscan_out = commands.getoutput("LANG=C LC_ALL=C lvscan").split("\n")[0].strip()
         if not lvscan_out.startswith("No volume groups found"):
             final_cmdline.append("dolvm")
-        # Device.fstabSpec => UUID= stuff automatically handled
-        final_cmdline.extend(["root=/dev/ram0", "ramdisk=8192"])
 
         crypto_dev = None
         for name in fsset.cryptTab.mappings.keys():
@@ -314,7 +312,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
             # NOTE: cannot use crypto_dev.fstabSpec because
             # genkernel doesn't support UUID= on crypto
-            final_cmdline.append("real_root=%s crypt_root=%s" % (
+            final_cmdline.append("root=%s crypt_root=%s" % (
                 translate_real_root(root_device), crypto_dev.path,))
             # due to genkernel initramfs stupidity, when crypt_root = crypt_swap
             # do not add crypt_swap.
@@ -323,7 +321,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         else:
             log.info("Root crypted? Nope!")
-            final_cmdline.append("real_root=%s" % (
+            final_cmdline.append("root=%s" % (
                 translate_real_root(root_device),))
 
         # always add docrypt, loads kernel mods required by cryptsetup devices
