@@ -1026,7 +1026,7 @@ class SabayonInstall:
 
             update_rc = repo_intf.sync()
             if repo_intf.sync_errors or (update_rc != 0):
-                msg = _("Cannot download language packs right now, no big deal")
+                msg = _("Cannot download repositories right now, no big deal")
                 self._intf.messageWindow(_("Repositories update"), msg,
                     custom_icon="warning")
                 return False
@@ -1106,7 +1106,7 @@ class SabayonInstall:
         client_repo = self._entropy.installed_repository()
 
         # KDE
-        matches, m_rc = client_repo.atomMatch("kdelibs")
+        matches, m_rc = client_repo.atomMatch("kde-base/kdebase-startkde")
         if m_rc != 0:
             # remove kde* packages
             langpacks = [x for x in langpacks if x.find("kde") == -1]
