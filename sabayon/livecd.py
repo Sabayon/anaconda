@@ -368,7 +368,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
     def _write_grub2(self, cmdline, grub_target):
 
-        timeout = 5
         default_file_noroot = "/etc/default/grub"
         grub_cfg_noroot = "/boot/grub/grub.cfg"
 
@@ -381,26 +380,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         #cmdline = ' '.join([x for x in cmdline.split() if \
         #    not x.startswith("vga=")])
 
-        f_r = open(self._root + default_file_noroot, "r")
-        default_cont = f_r.readlines()
-        f_r.close()
-        f_w = open(self._root + default_file_noroot, "w")
-        for line in default_cont:
-            # @deprecated
-            # if line.strip().startswith("GRUB_CMDLINE_LINUX="):
-            #    line = 'GRUB_CMDLINE_LINUX="%s"\n' % (cmdline,)
-            if line.strip().startswith("GRUB_TIMEOUT="):
-                line = 'GRUB_TIMEOUT=%s\n' % (timeout,)
-            elif line.find("/proc/cmdline") != -1:
-                # otherwise grub-mkconfig won't work
-                continue
-
-            f_w.write(line)
-        f_w.flush()
-        f_w.close()
-
-        # Since Sabayon 5.4, we also write to /etc/default/grub-sabayon
-        grub_sabayon_file = self._root + "/etc/default/grub-sabayon"
+        # Since Sabayon 5.4, we also write to /etc/default/sabayon-grub
+        grub_sabayon_file = self._root + "/etc/default/sabayon-grub"
         grub_sabayon_dir = os.path.dirname(grub_sabayon_file)
         if not os.path.isdir(grub_sabayon_dir):
             os.makedirs(grub_sabayon_dir)
