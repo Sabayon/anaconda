@@ -974,7 +974,7 @@ class SabayonInstall:
         if os.getenv('SABAYON_DISABLE_MIRROR_SORTING'):
             return
 
-        self._progress.set_text("%s: %s" % (
+        self._progress.set_label("%s: %s" % (
             _("Reordering Entropy mirrors"), _("can take some time..."),))
 
         chroot = self._root
