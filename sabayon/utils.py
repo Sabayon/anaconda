@@ -785,10 +785,6 @@ class SabayonInstall:
 
                 if currentfile.startswith("/dev/"):
                     continue
-                elif currentfile == "/boot/grub/grub.conf":
-                    continue
-                elif currentfile == "/boot/grub/grub.cfg":
-                    continue
 
                 try:
                     # if file is in the ignore list
