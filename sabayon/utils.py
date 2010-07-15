@@ -129,7 +129,7 @@ class SabayonProgress(Singleton):
             return
 
         cur_t = time.time()
-        if cur_t <= (self.__image_t + 20):
+        if cur_t <= (self.__image_t + 10):
             return
         self.__image_t = cur_t
 
