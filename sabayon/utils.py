@@ -26,7 +26,6 @@ import sys
 import stat
 import sys
 import subprocess
-import commands
 import shutil
 import statvfs
 import tempfile
@@ -384,6 +383,13 @@ class SabayonInstall:
             desk_path = os.path.join(autostart_dir, desk_name)
             shutil.copy2(orig_welcome_desk, desk_path)
 
+    def _is_virtualbox(self):
+        if not os.path.isfile("/etc/init.d/virtualbox-guest-additions"):
+            return False
+        sts = os.system("/usr/sbin/lspci -n | grep \" 80ee:\"")
+        if sts == 0:
+            return True
+        return False
 
     def _is_encrypted(self):
         if self._anaconda.storage.encryptionPassphrase:
@@ -418,6 +424,10 @@ class SabayonInstall:
         # setup dmcrypt service if user enabled encryption
         if self._is_encrypted():
             self.spawn_chroot("rc-update add dmcrypt boot", silent = True)
+
+        if self._is_virtualbox():
+            self.spawn_chroot("rc-update add virtualbox-guest-additions boot",
+                silent = True)
 
         # Copy the kernel modules blacklist configuration file
         if os.access("/etc/modules.d/blacklist",os.F_OK):
