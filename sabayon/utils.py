@@ -386,7 +386,7 @@ class SabayonInstall:
     def _is_virtualbox(self):
         if not os.path.isfile("/etc/init.d/virtualbox-guest-additions"):
             return False
-        sts = os.system("/usr/sbin/lspci -n | grep \" 80ee:\"")
+        sts = os.system("/usr/sbin/lspci -n | grep \" 80ee:\" &> /dev/null")
         if sts == 0:
             return True
         return False
