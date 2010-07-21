@@ -240,10 +240,8 @@ class SabayonInstall:
     def _change_entropy_chroot(self, chroot = None):
         if not chroot:
             self._entropy.noclientdb = False
-            etpUi['nolog'] = True
         else:
             self._entropy.noclientdb = True
-            etpUi['nolog'] = False
         if chroot is None:
             chroot = ""
         self._entropy.switch_chroot(chroot)
@@ -495,6 +493,7 @@ class SabayonInstall:
             os.waitpid(pid, 0)
         else:
             os.chroot(self._root)
+            # backward compat
             proc = subprocess.Popen(("userdel", "-f", "-r", LIVE_USER),
                 stdout = subprocess.PIPE, stderr = subprocess.PIPE)
             os._exit(proc.wait())
