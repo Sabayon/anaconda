@@ -300,9 +300,11 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 root_crypted = True
                 break
 
-        def translate_real_root(root_device):
+        def translate_real_root(root_device, crypted):
             if isinstance(root_device, storage.devices.MDRaidArrayDevice):
                 return root_device.path
+            if crypted and isinstance(root_device, storage.devices.LVMLogicalVolumeDevice):
+                return "/dev/mapper/root"
             return root_device.fstabSpec
 
         crypt_root = None
@@ -313,7 +315,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             # NOTE: cannot use crypto_dev.fstabSpec because
             # genkernel doesn't support UUID= on crypto
             final_cmdline.append("root=%s crypt_root=%s" % (
-                translate_real_root(root_device), crypto_dev.path,))
+                translate_real_root(root_device, True), crypto_dev.path,))
             # due to genkernel initramfs stupidity, when crypt_root = crypt_swap
             # do not add crypt_swap.
             if delayed_crypt_swap == crypto_dev.path:
@@ -322,7 +324,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         else:
             log.info("Root crypted? Nope!")
             final_cmdline.append("root=%s" % (
-                translate_real_root(root_device),))
+                translate_real_root(root_device, False),))
 
         # always add docrypt, loads kernel mods required by cryptsetup devices
         if "docrypt" not in final_cmdline:
