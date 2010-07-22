@@ -202,7 +202,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 if root_crypted:
                     root_name, root_dev = root_crypted
                     old_root_name = root_dev._name
-                    root_dev._name = root_name
+                    if root_name == "root": # comes from /dev/mapper/root
+                        root_dev._name = root_name
                 # HACK: since swap device path value is potentially changed
                 # it is required to rewrite the fstab (circular dependency, sigh)
                 self.anaconda.storage.fsset.write()
