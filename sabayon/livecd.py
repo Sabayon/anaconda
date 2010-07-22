@@ -193,11 +193,23 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             # HACK: since Anaconda doesn't support grub2 yet
             # Grub configuration is disabled
             # and this code overrides it
-            encrypted = self._setup_grub2()
+            encrypted, root_crypted, swap_crypted = self._setup_grub2()
             if encrypted:
+                if swap_crypted:
+                    swap_name, swap_dev = swap_crypted
+                    old_swap_name = swap_dev._name
+                    swap_dev._name = swap_name
+                if root_crypted:
+                    root_name, root_dev = root_crypted
+                    old_root_name = root_dev._name
+                    root_dev._name = root_name
                 # HACK: since swap device path value is potentially changed
                 # it is required to rewrite the fstab (circular dependency, sigh)
                 self.anaconda.storage.fsset.write()
+                if swap_crypted:
+                    swap_dev._name = old_swap_name
+                if root_crypted:
+                    root_dev._name = old_root_name
 
         self._copy_logs()
 
@@ -278,7 +290,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             if swap_crypted:
                 # genkernel hardcoded bullshit, cannot change /dev/mapper/swap
                 # change inside swap_dev, fstabSpec should return /dev/mapper/swap
-                swap_dev._name = "swap"
+                swap_crypted = ("swap", swap_dev)
                 final_cmdline.append("resume=swap:%s" % (swap_dev.path,))
                 final_cmdline.append("real_resume=%s" % (swap_dev.path,))
                 # NOTE: cannot use swap_crypto_dev.fstabSpec because
@@ -300,11 +312,29 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 root_crypted = True
                 break
 
+        def is_parent_a_simple_device(root_device):
+            if not hasattr(root_device, 'parents'):
+                return False
+            for parent in root_device.parents:
+                if not isinstance(parent, storage.devices.PartitionDevice):
+                    return False
+            return True
+
+        def is_parent_a_md_device(root_device):
+            if not hasattr(root_device, 'parents'):
+                return False
+            for parent in root_device.parents:
+                if not isinstance(parent, storage.devices.MDRaidArrayDevice):
+                    return False
+            return True
+
         def translate_real_root(root_device, crypted):
+            if crypted and is_parent_a_md_device(root_device):
+                return "/dev/mapper/root"
+            if crypted and is_parent_a_simple_device(root_device):
+                return "/dev/mapper/root"
             if isinstance(root_device, storage.devices.MDRaidArrayDevice):
                 return root_device.path
-            if crypted and isinstance(root_device, storage.devices.PartitionDevice):
-                return "/dev/mapper/root"
             return root_device.fstabSpec
 
         crypt_root = None
@@ -314,8 +344,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
             # NOTE: cannot use crypto_dev.fstabSpec because
             # genkernel doesn't support UUID= on crypto
+            translated_real_root = translate_real_root(root_device, True)
+            root_crypted = (os.path.basename(translated_real_root), root_device)
             final_cmdline.append("root=%s crypt_root=%s" % (
-                translate_real_root(root_device, True), crypto_dev.path,))
+                translated_real_root, crypto_dev.path,))
             # due to genkernel initramfs stupidity, when crypt_root = crypt_swap
             # do not add crypt_swap.
             if delayed_crypt_swap == crypto_dev.path:
@@ -366,7 +398,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._write_grub2(cmdline_str, grub_target)
         # disable Anaconda bootloader code
         self.anaconda.bootloader.defaultDevice = -1
-        return root_crypted or swap_crypted
+        return root_crypted or swap_crypted, root_crypted, swap_crypted
 
     def _write_grub2(self, cmdline, grub_target):
 
