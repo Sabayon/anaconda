@@ -303,7 +303,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         def translate_real_root(root_device, crypted):
             if isinstance(root_device, storage.devices.MDRaidArrayDevice):
                 return root_device.path
-            if crypted and isinstance(root_device, storage.devices.LVMLogicalVolumeDevice):
+            if crypted and isinstance(root_device, storage.devices.PartitionDevice):
                 return "/dev/mapper/root"
             return root_device.fstabSpec
 
