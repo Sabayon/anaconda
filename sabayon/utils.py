@@ -232,9 +232,15 @@ class SabayonInstall:
 
     def _open_live_installed_repository(self):
         dbpath = self._prod_root + etpConst['etpdatabaseclientfilepath']
-        dbconn = self._entropy.open_generic_repository(
-            dbfile = dbpath, xcache = False, read_only = True,
-            dbname = "live_client", indexing_override = False)
+        try:
+            dbconn = self._entropy.open_generic_repository(
+                dbfile = dbpath, xcache = False, read_only = True,
+                dbname = "live_client", indexing_override = False)
+        except TypeError:
+            # backward compat
+            dbconn = self._entropy.open_generic_repository(
+                dbfile = dbpath, xcache = False, readOnly = True,
+                dbname = "live_client", indexing_override = False)
         return dbconn
 
     def _change_entropy_chroot(self, chroot = None):
