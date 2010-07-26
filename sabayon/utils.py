@@ -432,6 +432,9 @@ class SabayonInstall:
         if self._is_virtualbox():
             self.spawn_chroot("rc-update add virtualbox-guest-additions boot",
                 silent = True)
+        else:
+            self.spawn_chroot("rc-update del virtualbox-guest-additions boot",
+                silent = True)
 
         # Copy the kernel modules blacklist configuration file
         if os.access("/etc/modules.d/blacklist",os.F_OK):
