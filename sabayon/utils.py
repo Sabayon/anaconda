@@ -876,7 +876,11 @@ class SabayonInstall:
         while 1:
             change = False
             mydirs = set()
-            mydirs = self._files_db.retrieveContent(None, contentType = "dir")
+            try:
+                mydirs = self._files_db.retrieveContent(None, contentType = "dir")
+            except TypeError:
+                mydirs = set([x for x, y in self._files_db.retrieveContent(None,
+                    extended = True) if y == "dir"])
             for mydir in mydirs:
                 mytree = os.path.join(self._root,mydir)
                 if os.path.isdir(mytree) and not client_repo.isFileAvailable(
