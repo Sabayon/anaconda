@@ -78,6 +78,12 @@ function kill_mounts() {
 
 }
 
+function setup_vbox() {
+	if [ -x /usr/bin/VBoxClient-all ]; then
+		/usr/bin/VBoxClient-all &> /dev/null
+	fi
+}
+
 if [ -n "$DISPLAY" -a -n "$LANG" ]; then
     INSTLANG="--lang $LANG"
 fi
@@ -93,6 +99,7 @@ ANACONDA="anaconda --liveinst --method=hd://://${ANACONDA_PRODUCTPATH}"
 [[ ! -e /selinux/load ]] && ANACONDA="$ANACONDA --noselinux"
 
 kill_mounts
+setup_vbox
 
 /sbin/udevadm control --env=ANACONDA=1
 
