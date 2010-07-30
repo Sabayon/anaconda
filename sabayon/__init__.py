@@ -109,6 +109,10 @@ class InstallerUrlFetcher(UrlFetcher):
         self.__datatransfer = data_transfer
 
     def output(self):
+        """ backward compatibility """
+        return self.update()
+
+    def update(self):
 
         myavg = abs(int(round(float(self.__average), 1)))
         if abs((myavg - InstallerUrlFetcher.gui_last_avg)) < 1:
