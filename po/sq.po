@@ -9,10 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-05-12 15:29+0200\n"
+"POT-Creation-Date: 2010-08-07 10:23+0200\n"
 "PO-Revision-Date: 2010-01-25 00:25+0200\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -82,22 +83,22 @@ msgstr "Përdor mënyrë tekst"
 msgid "Starting graphical installation."
 msgstr "Po fillohet instalimi grafik."
 
-#: anaconda:1059
+#: anaconda:1062
 msgid "Would you like to use VNC?"
 msgstr "Do të donit të përdorej VNC-ja?"
 
-#: anaconda:1060
+#: anaconda:1063
 msgid ""
 "Text mode provides a limited set of installation options.  It does not allow "
 "you to specify your own partitioning layout or package selections.  Would "
 "you like to use VNC mode instead?"
 msgstr ""
 
-#: anaconda:1086
+#: anaconda:1089
 msgid "Graphical installation is not available. Starting text mode."
 msgstr "Nuk kapet dot instalimi grafik. Po fillohet me mënyrën tekst."
 
-#: anaconda:1094
+#: anaconda:1097
 #, fuzzy
 msgid "DISPLAY variable not set. Starting text mode."
 msgstr "Ndryshorja DISPLAY nuk është caktuar. Po filloj nën mënyrën tekst!"
@@ -144,7 +145,7 @@ msgstr ""
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
 #: iw/advanced_storage.py:176 iw/advanced_storage.py:179
 #: iw/advanced_storage.py:207 iw/autopart_type.py:96 iw/cleardisks_gui.py:43
-#: iw/cleardisks_gui.py:53 iw/filter_gui.py:411 iw/osbootwidget.py:211
+#: iw/cleardisks_gui.py:53 iw/filter_gui.py:408 iw/osbootwidget.py:211
 #: iw/osbootwidget.py:220 iw/raid_dialog_gui.py:215 iw/raid_dialog_gui.py:766
 #: iw/raid_dialog_gui.py:805 iw/task_gui.py:54 iw/task_gui.py:155
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
@@ -163,7 +164,7 @@ msgstr ""
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:425
+#: textw/upgrade_text.py:188 sabayon/livecd.py:476 sabayon/utils.py:1005
 msgid "Error"
 msgstr "Gabim"
 
@@ -195,13 +196,13 @@ msgstr ""
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:432
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:483
 msgid "_Exit installer"
 msgstr "_Dil prej instaluesit"
 
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1967
+#: iw/partition_gui.py:1603 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "_Vazhdo"
 
@@ -383,8 +384,8 @@ msgid ""
 "\n"
 "REINITIALIZING WILL CAUSE ALL DATA TO BE LOST!\n"
 "\n"
-"This action may also be applied to all other disks needing reinitialization.%"
-"(details)s"
+"This action may also be applied to all other disks needing reinitialization."
+"%(details)s"
 msgstr ""
 
 #: gui.py:1113 gui.py:1171 text.py:496 text.py:554
@@ -537,8 +538,8 @@ msgstr "Media e Domosdoshme për Instalim"
 #: image.py:242
 #, fuzzy, python-format
 msgid ""
-"The software you have selected to install will require the following %"
-"(productName)s %(productVersion)s discs:\n"
+"The software you have selected to install will require the following "
+"%(productName)s %(productVersion)s discs:\n"
 "\n"
 "%(reqcdstr)s\n"
 "Please have these ready before proceeding with the installation.  If you "
@@ -557,7 +558,7 @@ msgstr "_Rinise"
 
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:431
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:482
 msgid "_Back"
 msgstr "_Prapa"
 
@@ -588,22 +589,22 @@ msgstr[1] ""
 #: iutil.py:816
 #, python-format
 msgid ""
-"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: %(e)"
-"s)"
+"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr ""
 
 #: iutil.py:827
 #, python-format
 msgid ""
-"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr ""
 
 #: iutil.py:836
 #, python-format
 msgid ""
-"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr ""
 
 #: iutil.py:855
@@ -647,8 +648,8 @@ msgstr "Shpejtësia parazgjedhje për t'u përdorur për shkrim."
 #: iutil.py:954
 #, python-format
 msgid ""
-"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN %"
-"(wwpn)s and LUN %(lun)s to continue installation"
+"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN "
+"%(wwpn)s and LUN %(lun)s to continue installation"
 msgstr ""
 
 #: iutil.py:971
@@ -813,7 +814,7 @@ msgstr ""
 "Po kryej ndryshime pasinstalimi në sistemin e kartelave. Ky mund të hajë ca "
 "minuta..."
 
-#: livecd.py:401 sabayon/livecd.py:426
+#: livecd.py:401 sabayon/livecd.py:477
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -828,8 +829,8 @@ msgstr "Emërstreha duhet të jetë 255 ose më pak shenja e gjatë."
 
 #: network.py:62
 msgid ""
-"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or '0-"
-"9'"
+"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or "
+"'0-9'"
 msgstr ""
 "Emërstreha duhet të fillojë me një shenjë të vlefshme brenda intervalit 'a-"
 "z' ose 'A-Z' ose '0-9'"
@@ -840,11 +841,11 @@ msgid ""
 msgstr ""
 "Emërstrehët mund të përmbajnë vetëm shenjat 'a-z', 'A-Z', '0-9', '-', ose '.'"
 
-#: network.py:176
+#: network.py:180
 msgid "IP address is missing."
 msgstr "Vendndodhja IP mungon."
 
-#: network.py:180
+#: network.py:184
 msgid ""
 "IPv4 addresses must contain four numbers between 0 and 255, separated by "
 "periods."
@@ -852,12 +853,12 @@ msgstr ""
 "Vendndodhjet IP duhet të përmbajnë numra nga 0 deri në 255, të ndarë nga "
 "presje."
 
-#: network.py:183
+#: network.py:187
 #, python-format
 msgid "'%s' is not a valid IPv6 address."
 msgstr "'%s' nuk është vendndodhje IPv6 e vlefshme."
 
-#: network.py:185
+#: network.py:189
 #, python-format
 msgid "'%s' is an invalid IP address."
 msgstr "'%s' është vendndodhje IP e pavlefshme."
@@ -999,8 +1000,8 @@ msgid "You are about to delete all partitions on the device '%s'."
 msgstr "Jeni një hap larg nga fshirja e tërë ndarjeve në pajisjen '/dev/%s'."
 
 #: partIntfHelpers.py:157 partIntfHelpers.py:342 iw/lvm_dialog_gui.py:865
-#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1811
-#: iw/partition_gui.py:1823
+#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1816
+#: iw/partition_gui.py:1828
 msgid "_Delete"
 msgstr "_Fshiji"
 
@@ -1062,7 +1063,7 @@ msgstr ""
 msgid "Format?"
 msgstr "Ta formatoj?"
 
-#: partIntfHelpers.py:249 iw/partition_gui.py:1596
+#: partIntfHelpers.py:249 iw/partition_gui.py:1601
 msgid "_Modify Partition"
 msgstr "_Ndrysho Ndarje"
 
@@ -1078,8 +1079,8 @@ msgstr "Gabim në Pjesëzim"
 #, fuzzy, python-format
 msgid ""
 "The following critical errors exist with your requested partitioning scheme. "
-"These errors must be corrected prior to continuing with your install of %"
-"(productName)s.\n"
+"These errors must be corrected prior to continuing with your install of "
+"%(productName)s.\n"
 "\n"
 "%(errorstr)s"
 msgstr ""
@@ -1273,13 +1274,13 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "Doni të nisen ndërfaqet e rrjetit për këtë sistem?"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:924
-#: sabayon/utils.py:1142
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:928
+#: sabayon/utils.py:1172
 msgid "Yes"
 msgstr "Po"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:924 sabayon/utils.py:1142
+#: textw/constants_text.py:60 sabayon/utils.py:928 sabayon/utils.py:1172
 msgid "No"
 msgstr "Jo"
 
@@ -1926,11 +1927,11 @@ msgstr ""
 #: yuminstall.py:1001
 #, python-format
 msgid ""
-"There was an error running your transaction for the following reason(s): %"
-"s.\n"
+"There was an error running your transaction for the following reason(s): "
+"%s.\n"
 msgstr ""
-"Pati një gabim gjatë xhirimit të ndërveprimit tuaj, për arsyen(t) vijuese: %"
-"s.\n"
+"Pati një gabim gjatë xhirimit të ndërveprimit tuaj, për arsyen(t) vijuese: "
+"%s.\n"
 
 #: yuminstall.py:1008 yuminstall.py:1013
 msgid "Error Running Transaction"
@@ -2018,9 +2019,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid ""
 "The arch of the release of %(productName)s you are upgrading to appears to "
-"be %(myarch)s which does not match your previously installed arch of %(arch)"
-"s.  This is likely to not succeed.  Are you sure you wish to continue the "
-"upgrade process?"
+"be %(myarch)s which does not match your previously installed arch of "
+"%(arch)s.  This is likely to not succeed.  Are you sure you wish to continue "
+"the upgrade process?"
 msgstr ""
 "Arkitektura e versionit të %ss që po përmirësoni duket se është %s, e kjo "
 "nuk përputhet me atë %s të instalimit të mëparshëm.  Ka gjasa që kjo të mos "
@@ -2349,7 +2350,7 @@ msgstr "_Ndrysho pajisje"
 msgid "Clear Disks Selector"
 msgstr ""
 
-#: iw/cleardisks_gui.py:44 iw/filter_gui.py:412
+#: iw/cleardisks_gui.py:44 iw/filter_gui.py:409
 #, fuzzy
 msgid "You must select at least one drive to be used for installation."
 msgstr ""
@@ -2360,30 +2361,30 @@ msgstr ""
 msgid "You must select one drive to boot from."
 msgstr "Duhet të zgjidhni një ndarje për përpunim"
 
-#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:447
-#: iw/filter_gui.py:458 iw/filter_gui.py:488
+#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:444
+#: iw/filter_gui.py:455 iw/filter_gui.py:485
 msgid "Model"
 msgstr ""
 
-#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:448
-#: iw/filter_gui.py:459 iw/filter_gui.py:467 iw/filter_gui.py:478
-#: iw/filter_gui.py:489
+#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:445
+#: iw/filter_gui.py:456 iw/filter_gui.py:464 iw/filter_gui.py:475
+#: iw/filter_gui.py:486
 msgid "Capacity"
 msgstr ""
 
-#: iw/cleardisks_gui.py:123 iw/filter_gui.py:449 iw/filter_gui.py:468
-#: iw/filter_gui.py:479 iw/filter_gui.py:490
+#: iw/cleardisks_gui.py:123 iw/filter_gui.py:446 iw/filter_gui.py:465
+#: iw/filter_gui.py:476 iw/filter_gui.py:487
 #, fuzzy
 msgid "Vendor"
 msgstr "_Fedora"
 
-#: iw/cleardisks_gui.py:124 iw/filter_gui.py:450 iw/filter_gui.py:469
-#: iw/filter_gui.py:480 iw/filter_gui.py:491
+#: iw/cleardisks_gui.py:124 iw/filter_gui.py:447 iw/filter_gui.py:466
+#: iw/filter_gui.py:477 iw/filter_gui.py:488
 msgid "Interconnect"
 msgstr ""
 
-#: iw/cleardisks_gui.py:125 iw/filter_gui.py:451 iw/filter_gui.py:481
-#: iw/filter_gui.py:492
+#: iw/cleardisks_gui.py:125 iw/filter_gui.py:448 iw/filter_gui.py:478
+#: iw/filter_gui.py:489
 msgid "Serial Number"
 msgstr ""
 
@@ -2512,33 +2513,33 @@ msgstr ""
 msgid "Device Filter"
 msgstr "Rregullimi i Pajisjes Dështoi"
 
-#: iw/filter_gui.py:452 iw/filter_gui.py:460 iw/filter_gui.py:471
-#: iw/filter_gui.py:482 iw/filter_gui.py:497 iw/osbootwidget.py:66
+#: iw/filter_gui.py:449 iw/filter_gui.py:457 iw/filter_gui.py:468
+#: iw/filter_gui.py:479 iw/filter_gui.py:494 iw/osbootwidget.py:66
 #: iw/partition_gui.py:607
 msgid "Device"
 msgstr "Pajisje"
 
-#: iw/filter_gui.py:466 iw/filter_gui.py:477 iw/filter_gui.py:493
+#: iw/filter_gui.py:463 iw/filter_gui.py:474 iw/filter_gui.py:490
 #, fuzzy
 msgid "Identifier"
 msgstr "Identifikojeni"
 
-#: iw/filter_gui.py:470
+#: iw/filter_gui.py:467
 #, fuzzy
 msgid "Paths"
 msgstr "_Shteg"
 
-#: iw/filter_gui.py:494
+#: iw/filter_gui.py:491
 #, fuzzy
 msgid "Port"
 msgstr "Portë"
 
-#: iw/filter_gui.py:495
+#: iw/filter_gui.py:492
 #, fuzzy
 msgid "Target"
 msgstr "Provo"
 
-#: iw/filter_gui.py:496
+#: iw/filter_gui.py:493
 msgid "LUN"
 msgstr ""
 
@@ -2618,9 +2619,9 @@ msgstr "_Vazhdo"
 #: iw/lvm_dialog_gui.py:172
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is larger than the smallest physical volume (%(maxpvsize)"
-"10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is larger than the smallest physical volume "
+"(%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "Madhësia e shtrirjes fizike nuk mund të ndryshohet ngaqë vlera e përzgjedhur "
 "(%10.2f MB) është shumë më e madhe krahasuar me madhësinë e vëllimit më i "
@@ -2629,9 +2630,9 @@ msgstr ""
 #: iw/lvm_dialog_gui.py:186
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is too large compared to the size of the smallest physical "
-"volume (%(maxpvsize)10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is too large compared to the size of the smallest "
+"physical volume (%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "Madhësia e shtrirjes fizike nuk mund të ndryshohet ngaqë vlera e përzgjedhur "
 "(%10.2f MB) është shumë më e madhe krahasuar me madhësinë e vëllimit më i "
@@ -2911,8 +2912,8 @@ msgstr "Madhësi (MB)"
 msgid "_Add"
 msgstr "_Shto"
 
-#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1810
-#: iw/partition_gui.py:1820
+#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1815
+#: iw/partition_gui.py:1825
 msgid "_Edit"
 msgstr "_Përpunoni"
 
@@ -3119,7 +3120,7 @@ msgid "Drive %(drive)s (%(size)-0.f MB) (Model: %(model)s)"
 msgstr "(Madhësia më e madhe është %s MB)"
 
 #: iw/partition_gui.py:396 iw/partition_gui.py:442 iw/partition_gui.py:509
-#: iw/partition_gui.py:996 iw/partition_gui.py:1063
+#: iw/partition_gui.py:999 iw/partition_gui.py:1066
 msgid "Free"
 msgstr "E lirë"
 
@@ -3161,35 +3162,35 @@ msgstr ""
 msgid "Partitioning"
 msgstr "Pjesëzim"
 
-#: iw/partition_gui.py:846
+#: iw/partition_gui.py:849
 msgid ""
 "The partitioning scheme you requested caused the following critical errors."
 msgstr "Skema e pjesëzimit që kërkuat shkaktoi gabimet kritike vijuese."
 
-#: iw/partition_gui.py:848
+#: iw/partition_gui.py:851
 #, python-format
 msgid ""
 "You must correct these errors before you continue your installation of %s."
 msgstr ""
 "Këto gabime duhen ndrequr përpara se të vazhdohet me instalimin tuaj të %s."
 
-#: iw/partition_gui.py:854
+#: iw/partition_gui.py:857
 msgid "Partitioning Errors"
 msgstr "Gabime Pjesëzimi"
 
-#: iw/partition_gui.py:861
+#: iw/partition_gui.py:864
 msgid "The partitioning scheme you requested generated the following warnings."
 msgstr "Skema e pjesëzimit që kërkuar prodhoi sinjalizimet vijuese. "
 
-#: iw/partition_gui.py:863
+#: iw/partition_gui.py:866
 msgid "Would you like to continue with your requested partitioning scheme?"
 msgstr "Do të donit të vazhdohet me skemën tuaj të kërkuar për pjesëzimin?"
 
-#: iw/partition_gui.py:868
+#: iw/partition_gui.py:871
 msgid "Partitioning Warnings"
 msgstr "Sinjalizime Pjesëzimi"
 
-#: iw/partition_gui.py:877
+#: iw/partition_gui.py:880
 #, fuzzy
 msgid ""
 "The following pre-existing devices have been selected to be formatted, "
@@ -3198,36 +3199,36 @@ msgstr ""
 "Janë përzgjedhur ndarjet e dikurshme vijuese për t'i formatuar, duke "
 "shkatërruar tërë të dhënat."
 
-#: iw/partition_gui.py:889
+#: iw/partition_gui.py:892
 msgid "Format Warnings"
 msgstr "Sinjalizime Formatimi"
 
-#: iw/partition_gui.py:894 storage/dasd.py:139
+#: iw/partition_gui.py:897 storage/dasd.py:139
 msgid "_Format"
 msgstr "_Formato"
 
-#: iw/partition_gui.py:984
+#: iw/partition_gui.py:987
 msgid "LVM Volume Groups"
 msgstr "Grupe Vëllimesh LVM"
 
-#: iw/partition_gui.py:1006
+#: iw/partition_gui.py:1009
 msgid "RAID Devices"
 msgstr "Pajisje RAID"
 
-#: iw/partition_gui.py:1017 loader/hdinstall.c:206
+#: iw/partition_gui.py:1020 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "Hard \"Drive\"-e"
 
-#: iw/partition_gui.py:1067
+#: iw/partition_gui.py:1070
 msgid "Extended"
 msgstr "E zgjeruar"
 
-#: iw/partition_gui.py:1346
+#: iw/partition_gui.py:1349
 #, fuzzy
 msgid "Cannot perform any creation action"
 msgstr "veprim &lt;veprim për t'u kryer&gt;:  Kryej një veprim."
 
-#: iw/partition_gui.py:1347
+#: iw/partition_gui.py:1350
 msgid ""
 "Note that the creation action requires one of the following:\n"
 "\n"
@@ -3237,7 +3238,7 @@ msgid ""
 "* At least one Volume Group with free space."
 msgstr ""
 
-#: iw/partition_gui.py:1455
+#: iw/partition_gui.py:1460
 #, fuzzy, python-format
 msgid ""
 "Software RAID allows you to combine several disks into a larger RAID "
@@ -3254,7 +3255,7 @@ msgstr ""
 "Për çastin keni %s ndarje software RAID të lira për përdorim.\n"
 "\n"
 
-#: iw/partition_gui.py:1461
+#: iw/partition_gui.py:1466
 msgid ""
 "To use RAID you must first create at least two partitions of type 'software "
 "RAID'.  Then you can create a RAID device that can be formatted and "
@@ -3266,7 +3267,7 @@ msgstr ""
 "formatohet dhe montohet.\n"
 "\n"
 
-#: iw/partition_gui.py:1465
+#: iw/partition_gui.py:1470
 #, fuzzy, python-format
 msgid "You currently have %d software RAID partition free to use."
 msgid_plural "You currently have %d software RAID partitions free to use."
@@ -3279,11 +3280,11 @@ msgstr[1] ""
 "\n"
 "Shtypni 'OK' për të rinisur sistemin tuaj."
 
-#: iw/partition_gui.py:1469
+#: iw/partition_gui.py:1474
 msgid "About RAID"
 msgstr "Rreth RAID-it"
 
-#: iw/partition_gui.py:1475
+#: iw/partition_gui.py:1480
 #, python-format
 msgid ""
 "Logical Volume Manager (LVM) is a 3 level construct. The first level is made "
@@ -3294,7 +3295,7 @@ msgid ""
 "information on using LVM please consult the %s documentation\n"
 msgstr ""
 
-#: iw/partition_gui.py:1483
+#: iw/partition_gui.py:1488
 msgid ""
 "To create a PV you need a partition with free space.  To create a VG you "
 "need a PV that is not part of any existing VG.  To create an LV you need a "
@@ -3302,50 +3303,50 @@ msgid ""
 "\n"
 msgstr ""
 
-#: iw/partition_gui.py:1487
+#: iw/partition_gui.py:1492
 #, fuzzy, python-format
 msgid "You currently have %d available PV free to use.\n"
 msgid_plural "You currently have %d available PVs free to use.\n"
 msgstr[0] "Tani për tani keni %d hapësirë PV të lirë për përdorim.\n"
 msgstr[1] "Tani për tani keni %d hapësirë PV të lirë për përdorim.\n"
 
-#: iw/partition_gui.py:1491
+#: iw/partition_gui.py:1496
 msgid "You currently have free space to create PVs."
 msgstr "Keni tani për tani hapësirë të lirë për krijim PVs."
 
-#: iw/partition_gui.py:1494
+#: iw/partition_gui.py:1499
 msgid "About LVM"
 msgstr "Rreth LVM-së"
 
-#: iw/partition_gui.py:1525
+#: iw/partition_gui.py:1530
 msgid "Couldn't Create Drive Clone Editor"
 msgstr "S'u Krijua Dot Përpunues Klonimi \"Drive\"-esh"
 
-#: iw/partition_gui.py:1526
+#: iw/partition_gui.py:1531
 msgid "The drive clone editor could not be created for some reason."
 msgstr ""
 "Për ndonjë arsye nuk qe e mundur të krijohej përpunues klonimi \"drive\"-esh."
 
-#: iw/partition_gui.py:1584 storage/partitioning.py:196
+#: iw/partition_gui.py:1589 storage/partitioning.py:196
 #: storage/partitioning.py:239
 msgid "Error Partitioning"
 msgstr "Gabim Pjesëzimi"
 
-#: iw/partition_gui.py:1585
+#: iw/partition_gui.py:1590
 #, python-format
 msgid "Could not allocate requested partitions: %s."
 msgstr "Nuk arrita do të siguroj ndarjet kërkuara: %s."
 
-#: iw/partition_gui.py:1594
+#: iw/partition_gui.py:1599
 #, python-format
 msgid "Warning: %s."
 msgstr "Sinjalizim: %s."
 
-#: iw/partition_gui.py:1625
+#: iw/partition_gui.py:1630
 msgid "Unable To Edit"
 msgstr "I pazoti Të Përpunoj"
 
-#: iw/partition_gui.py:1626
+#: iw/partition_gui.py:1631
 #, python-format
 msgid ""
 "You cannot edit this device:\n"
@@ -3356,15 +3357,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: iw/partition_gui.py:1809
+#: iw/partition_gui.py:1814
 msgid "_Create"
 msgstr "_Krijoje"
 
-#: iw/partition_gui.py:1812
+#: iw/partition_gui.py:1817
 msgid "Re_set"
 msgstr "Riktheje"
 
-#: iw/partition_gui.py:1835
+#: iw/partition_gui.py:1840
 msgid "Please Select A Device"
 msgstr "Ju lutem, Përzgjidhni Një Pajisje"
 
@@ -3707,8 +3708,8 @@ msgstr ""
 #: iw/upgrade_bootloader_gui.py:138 textw/upgrade_bootloader_text.py:121
 #, fuzzy, python-format
 msgid ""
-"The installer has detected the %(type)s boot loader currently installed on %"
-"(bootDev)s."
+"The installer has detected the %(type)s boot loader currently installed on "
+"%(bootDev)s."
 msgstr ""
 "Instaluesi ka zbuluar ngarkuesin e nisjeve %s të instaluar për çastin në %s."
 
@@ -3752,9 +3753,9 @@ msgstr "Migro Sisteme Kartelash"
 #, fuzzy, python-format
 msgid ""
 "This release of %(productName)s supports an updated file system, which has "
-"several benefits over the file system traditionally shipped in %(productName)"
-"s.  This installation program can migrate formatted partitions without data "
-"loss.\n"
+"several benefits over the file system traditionally shipped in "
+"%(productName)s.  This installation program can migrate formatted partitions "
+"without data loss.\n"
 "\n"
 "Which of these partitions would you like to migrate?"
 msgstr ""
@@ -3773,8 +3774,8 @@ msgstr "Përditëso Ndarjet \"Swap\""
 #, python-format
 msgid ""
 "Recent kernels (2.4 or newer) need significantly more swap than older "
-"kernels, up to twice the amount of RAM on the system.  You currently have %"
-"dMB of swap configured, but you may create additional swap space on one of "
+"kernels, up to twice the amount of RAM on the system.  You currently have "
+"%dMB of swap configured, but you may create additional swap space on one of "
 "your file systems now."
 msgstr ""
 "Kernelat e rinj (2.4 ose më i ri) kërkojnë dukshëm më shumë swap se sa "
@@ -3952,8 +3953,8 @@ msgid ""
 "The %s disc was not found in any of your drives. Please insert the %s disc "
 "and press %s to retry."
 msgstr ""
-"Disku %s nuk u gjet në ndonjë nga \"drive\"-et tuaj. Ju lutem fusni diskun %"
-"s dhe shtypni %s për të riprovuar."
+"Disku %s nuk u gjet në ndonjë nga \"drive\"-et tuaj. Ju lutem fusni diskun "
+"%s dhe shtypni %s për të riprovuar."
 
 #: loader/cdinstall.c:248
 msgid "Disc Found"
@@ -5305,24 +5306,24 @@ msgstr "gethostbyname dështoi për %s\n"
 msgid "lvs failed for %s"
 msgstr "gethostbyname dështoi për %s\n"
 
-#: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3289
+#: storage/devices.py:1258 storage/devices.py:1929 storage/devices.py:2332
+#: storage/devices.py:2803 storage/devices.py:3293
 #, fuzzy
 msgid "Creating"
 msgstr "Po krijoj dosjen '%s'..."
 
-#: storage/devices.py:1259 storage/devices.py:1926 storage/devices.py:2329
-#: storage/devices.py:2800
+#: storage/devices.py:1259 storage/devices.py:1930 storage/devices.py:2333
+#: storage/devices.py:2804
 #, fuzzy, python-format
 msgid "Creating device %s"
 msgstr "Pajisje Seriale:"
 
-#: storage/devices.py:2422
+#: storage/devices.py:2426
 #, fuzzy, python-format
 msgid "A RAID%d set requires atleast %d members"
 msgstr "Një pajisje RAID e tipit %s kërkon të paktën %s anëtarë."
 
-#: storage/devices.py:3290
+#: storage/devices.py:3294
 #, fuzzy, python-format
 msgid "Creating file %s"
 msgstr "kartelë"
@@ -5339,8 +5340,8 @@ msgid ""
 "If you skip this step the device's contents will not be available during "
 "installation."
 msgstr ""
-"Jeni i sigurt se doni të anashkalohet dhënia e një fjalëkalimi për pajisjen %"
-"s?\n"
+"Jeni i sigurt se doni të anashkalohet dhënia e një fjalëkalimi për pajisjen "
+"%s?\n"
 "\n"
 "Nëse anashkalohet ky hap, lënda e pajisjes nuk do të jetë e passhme gjatë "
 "instalimit."
@@ -5626,8 +5627,8 @@ msgstr ""
 #: storage/zfcp.py:182
 #, python-format
 msgid ""
-"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s (%(e)"
-"s)."
+"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr ""
 
 #: storage/zfcp.py:188
@@ -5653,15 +5654,15 @@ msgstr ""
 #: storage/zfcp.py:266
 #, python-format
 msgid ""
-"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s %(fcplun)"
-"s (%(e)s)."
+"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s "
+"%(fcplun)s (%(e)s)."
 msgstr ""
 
 #: storage/zfcp.py:275
 #, python-format
 msgid ""
-"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s (%"
-"(e)s)."
+"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr ""
 
 #: storage/zfcp.py:293
@@ -5862,7 +5863,7 @@ msgstr "Emër përdoruesi \"firewall\""
 msgid "Reverse CHAP password"
 msgstr "Jepni fjalëkalim për %s@%s: "
 
-#: textw/progress_text.py:46
+#: textw/progress_text.py:57
 msgid "Package Installation"
 msgstr "Instalim Paketash"
 
@@ -6867,33 +6868,29 @@ msgstr "Po instalohet nisjengarkuesi."
 msgid "Configuring Sabayon"
 msgstr "Formësim VNC-je"
 
-#: sabayon/livecd.py:153
+#: sabayon/livecd.py:158
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:214
-msgid "System Health Status Warning"
-msgstr ""
-
-#: sabayon/utils.py:412
+#: sabayon/utils.py:405
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "Formësim Ndërfaqesh Rrjeti"
 
-#: sabayon/utils.py:681
+#: sabayon/utils.py:684
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:683
+#: sabayon/utils.py:686
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:684
+#: sabayon/utils.py:687
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "Instalim Nga e Para"
 
-#: sabayon/utils.py:714
+#: sabayon/utils.py:716
 #, fuzzy
 msgid "System Installation"
 msgstr "Pasinstalim"
@@ -6908,74 +6905,82 @@ msgstr "paketë(a) e vjetër"
 msgid "Cleaning package"
 msgstr "Paketë që Mungon"
 
-#: sabayon/utils.py:913
+#: sabayon/utils.py:917
 #, fuzzy
 msgid "Installation complete"
 msgstr "Kyç Instalimi"
 
-#: sabayon/utils.py:921
+#: sabayon/utils.py:925
 msgid ""
 "The following language packs are available for download (you need Internet), "
 "would you like to install them?"
 msgstr ""
 
-#: sabayon/utils.py:925
+#: sabayon/utils.py:929
 #, fuzzy
 msgid "Language packs download"
 msgstr "Instalim Paketash"
 
-#: sabayon/utils.py:946
+#: sabayon/utils.py:950
 msgid "No language packs are available for download, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:947 sabayon/utils.py:957
+#: sabayon/utils.py:951 sabayon/utils.py:961
 #, fuzzy
 msgid "Language packs"
 msgstr "Instalim Paketash"
 
-#: sabayon/utils.py:956
+#: sabayon/utils.py:960
 msgid "No language packs are available for install, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:966
+#: sabayon/utils.py:970
 #, fuzzy
 msgid "Downloading package"
 msgstr "Paketë që Mungon"
 
-#: sabayon/utils.py:975
+#: sabayon/utils.py:979
 #, fuzzy
 msgid "Installing package"
 msgstr "Po instalohen Paketa"
 
-#: sabayon/utils.py:1004
+#: sabayon/utils.py:996 sabayon/utils.py:1006
+msgid "Reordering Entropy mirrors"
+msgstr ""
+
+#: sabayon/utils.py:996
+msgid "can take some time..."
+msgstr ""
+
+#: sabayon/utils.py:1034
 msgid "No repositories specified in"
 msgstr ""
 
-#: sabayon/utils.py:1006 sabayon/utils.py:1011 sabayon/utils.py:1018
+#: sabayon/utils.py:1036 sabayon/utils.py:1041 sabayon/utils.py:1048
 msgid "Repositories update"
 msgstr ""
 
-#: sabayon/utils.py:1010
+#: sabayon/utils.py:1040
 msgid "Unhandled exception"
 msgstr ""
 
-#: sabayon/utils.py:1017
-msgid "Cannot download language packs right now, no big deal"
+#: sabayon/utils.py:1047
+msgid "Cannot download repositories right now, no big deal"
 msgstr ""
 
-#: sabayon/utils.py:1140
+#: sabayon/utils.py:1170
 #, fuzzy
 msgid ""
 "This medium contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "Çfarë gjuhe do të donit të përdorej gjatë procesit të instalimit?"
 
-#: sabayon/utils.py:1143
+#: sabayon/utils.py:1173
 #, fuzzy
 msgid "Language packs installation"
 msgstr "Instalim Paketash"
 
-#: sabayon/utils.py:1154
+#: sabayon/utils.py:1184
 msgid "Generating list of files to copy"
 msgstr ""
 
@@ -7075,8 +7080,8 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "This release of %(productName)s supports the an updated file system, "
-#~ "which has several benefits over the file system traditionally shipped in %"
-#~ "(productName)s.  This installation program can migrate formatted "
+#~ "which has several benefits over the file system traditionally shipped in "
+#~ "%(productName)s.  This installation program can migrate formatted "
 #~ "partitions without data loss.\n"
 #~ "\n"
 #~ "Which of these partitions would you like to migrate?"
@@ -7215,8 +7220,8 @@ msgstr ""
 
 #~ msgid "Clone a _drive to create a RAID device [default=/dev/md%s]."
 #~ msgstr ""
-#~ "Klono një \"drive\" për të krijuar një pajisje RAID [parazgjedhje=/dev/md%"
-#~ "s]."
+#~ "Klono një \"drive\" për të krijuar një pajisje RAID [parazgjedhje=/dev/md"
+#~ "%s]."
 
 #~ msgid "Ne_w"
 #~ msgstr "E _re"
@@ -7516,8 +7521,8 @@ msgstr ""
 #~ "Would you like to reformat this DASD using CDL format?"
 #~ msgstr ""
 #~ "Pajisja %s është e formatuar në LDL në vend të formatimit CDL.  DASD-ra "
-#~ "të formatuara në LDL nuk mbulohen për përdorim gjatë një instalimi të %"
-#~ "s.  Nëse dëshironi të përdoret ky disk për instalim, ai duhet rigatitur "
+#~ "të formatuara në LDL nuk mbulohen për përdorim gjatë një instalimi të "
+#~ "%s.  Nëse dëshironi të përdoret ky disk për instalim, ai duhet rigatitur "
 #~ "duke shkaktuar kështu humbjen e TËRË TË DHËNAVE në këtë disk.\n"
 #~ "\n"
 #~ "Doni të riformatohet ky DASD duke përdorur formatin CDL?"

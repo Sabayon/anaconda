@@ -14,10 +14,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-05-12 15:29+0200\n"
+"POT-Creation-Date: 2010-08-07 10:23+0200\n"
 "PO-Revision-Date: 2006-05-13 15:09+0330\n"
 "Last-Translator: Meelad Zakaria <meelad@farsiweb.info>\n"
 "Language-Team: Persian\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -86,24 +87,24 @@ msgstr "استفاده از حالت متنی"
 msgid "Starting graphical installation."
 msgstr "نصب گرافیکی آغاز می‌شود..."
 
-#: anaconda:1059
+#: anaconda:1062
 #, fuzzy
 msgid "Would you like to use VNC?"
 msgstr "می‌خواهید چه‌کار کنید؟"
 
-#: anaconda:1060
+#: anaconda:1063
 msgid ""
 "Text mode provides a limited set of installation options.  It does not allow "
 "you to specify your own partitioning layout or package selections.  Would "
 "you like to use VNC mode instead?"
 msgstr ""
 
-#: anaconda:1086
+#: anaconda:1089
 #, fuzzy
 msgid "Graphical installation is not available. Starting text mode."
 msgstr "نصب گرافیکی ممکن نیست...  حالت متنی آغاز می‌شود."
 
-#: anaconda:1094
+#: anaconda:1097
 msgid "DISPLAY variable not set. Starting text mode."
 msgstr ""
 
@@ -148,7 +149,7 @@ msgstr ""
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
 #: iw/advanced_storage.py:176 iw/advanced_storage.py:179
 #: iw/advanced_storage.py:207 iw/autopart_type.py:96 iw/cleardisks_gui.py:43
-#: iw/cleardisks_gui.py:53 iw/filter_gui.py:411 iw/osbootwidget.py:211
+#: iw/cleardisks_gui.py:53 iw/filter_gui.py:408 iw/osbootwidget.py:211
 #: iw/osbootwidget.py:220 iw/raid_dialog_gui.py:215 iw/raid_dialog_gui.py:766
 #: iw/raid_dialog_gui.py:805 iw/task_gui.py:54 iw/task_gui.py:155
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
@@ -167,7 +168,7 @@ msgstr ""
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:425
+#: textw/upgrade_text.py:188 sabayon/livecd.py:476 sabayon/utils.py:1005
 msgid "Error"
 msgstr "خطا"
 
@@ -197,14 +198,14 @@ msgstr ""
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:432
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:483
 #, fuzzy
 msgid "_Exit installer"
 msgstr "نصب کنندهٔ %s"
 
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1967
+#: iw/partition_gui.py:1603 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "_ادامه"
 
@@ -382,8 +383,8 @@ msgid ""
 "\n"
 "REINITIALIZING WILL CAUSE ALL DATA TO BE LOST!\n"
 "\n"
-"This action may also be applied to all other disks needing reinitialization.%"
-"(details)s"
+"This action may also be applied to all other disks needing reinitialization."
+"%(details)s"
 msgstr ""
 
 #: gui.py:1113 gui.py:1171 text.py:496 text.py:554
@@ -526,8 +527,8 @@ msgstr "رسانهٔ نصب مورد نیاز"
 #: image.py:242
 #, fuzzy, python-format
 msgid ""
-"The software you have selected to install will require the following %"
-"(productName)s %(productVersion)s discs:\n"
+"The software you have selected to install will require the following "
+"%(productName)s %(productVersion)s discs:\n"
 "\n"
 "%(reqcdstr)s\n"
 "Please have these ready before proceeding with the installation.  If you "
@@ -546,7 +547,7 @@ msgstr "_راه‌اندازی مجدد"
 
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:431
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:482
 msgid "_Back"
 msgstr "_عقب"
 
@@ -577,22 +578,22 @@ msgstr[1] ""
 #: iutil.py:816
 #, python-format
 msgid ""
-"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: %(e)"
-"s)"
+"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr ""
 
 #: iutil.py:827
 #, python-format
 msgid ""
-"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr ""
 
 #: iutil.py:836
 #, python-format
 msgid ""
-"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr ""
 
 #: iutil.py:855
@@ -636,8 +637,8 @@ msgstr ""
 #: iutil.py:954
 #, python-format
 msgid ""
-"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN %"
-"(wwpn)s and LUN %(lun)s to continue installation"
+"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN "
+"%(wwpn)s and LUN %(lun)s to continue installation"
 msgstr ""
 
 #: iutil.py:971
@@ -734,8 +735,8 @@ msgid ""
 "You have specified that the package '%s' should be installed.  This package "
 "does not exist. Would you like to continue or abort this installation?"
 msgstr ""
-"شما مشخص کرده‌اید که بستهٔ «%s» نصب شود. این بسته وجود ندارد. مایلید ادامه دهید "
-"یا نصب خود را قطع می‌کنید؟"
+"شما مشخص کرده‌اید که بستهٔ «%s» نصب شود. این بسته وجود ندارد. مایلید ادامه "
+"دهید یا نصب خود را قطع می‌کنید؟"
 
 #: kickstart.py:1348 kickstart.py:1387
 msgid "_Abort"
@@ -756,8 +757,8 @@ msgid ""
 "You have specified that the group '%s' should be installed. This group does "
 "not exist. Would you like to continue or abort this installation?"
 msgstr ""
-"شما مشخص کرده‌اید که بستهٔ «%s» نصب شود. این بسته وجود ندارد. مایلید ادامه دهید "
-"یا نصب خود را قطع می‌کنید؟"
+"شما مشخص کرده‌اید که بستهٔ «%s» نصب شود. این بسته وجود ندارد. مایلید ادامه "
+"دهید یا نصب خود را قطع می‌کنید؟"
 
 #: kickstart.py:1495
 #, python-format
@@ -799,7 +800,7 @@ msgid ""
 "minutes."
 msgstr ""
 
-#: livecd.py:401 sabayon/livecd.py:426
+#: livecd.py:401 sabayon/livecd.py:477
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -814,8 +815,8 @@ msgstr "نام‌میزبان باید ۶۴ نویسه یا کوتاه‌تر ب
 #: network.py:62
 #, fuzzy
 msgid ""
-"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or '0-"
-"9'"
+"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or "
+"'0-9'"
 msgstr "نام‌میزبان باید با نویسه‌ایی معتبر در محدودهٔ «a-z» یا «A-Z» آغاز شود"
 
 #: network.py:67
@@ -824,24 +825,24 @@ msgid ""
 "Hostnames can only contain the characters 'a-z', 'A-Z', '0-9', '-', or '.'"
 msgstr "نام‌میزبان فقط می‌تواند شامل نویسه‌های «a‐z»، «A‐Z»، '-' یا «.» باشد"
 
-#: network.py:176
+#: network.py:180
 #, fuzzy
 msgid "IP address is missing."
 msgstr "نشانی IP وجود ندارد"
 
-#: network.py:180
+#: network.py:184
 #, fuzzy
 msgid ""
 "IPv4 addresses must contain four numbers between 0 and 255, separated by "
 "periods."
 msgstr "نشانی‌های IP باید حاوی اعداد بین ۰ و ۲۵۵ باشند"
 
-#: network.py:183
+#: network.py:187
 #, fuzzy, python-format
 msgid "'%s' is not a valid IPv6 address."
 msgstr "%s نام میزبان معتبری نیست."
 
-#: network.py:185
+#: network.py:189
 #, fuzzy, python-format
 msgid "'%s' is an invalid IP address."
 msgstr "%s نام میزبان معتبری نیست."
@@ -980,8 +981,8 @@ msgid "You are about to delete all partitions on the device '%s'."
 msgstr "شما در آستانهٔ حذف همهٔ افرازهای روی دستگاه «‎/dev/%s» هستید."
 
 #: partIntfHelpers.py:157 partIntfHelpers.py:342 iw/lvm_dialog_gui.py:865
-#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1811
-#: iw/partition_gui.py:1823
+#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1816
+#: iw/partition_gui.py:1828
 msgid "_Delete"
 msgstr "_حذف"
 
@@ -1042,7 +1043,7 @@ msgstr ""
 msgid "Format?"
 msgstr "قالب‌بندی شود؟"
 
-#: partIntfHelpers.py:249 iw/partition_gui.py:1596
+#: partIntfHelpers.py:249 iw/partition_gui.py:1601
 msgid "_Modify Partition"
 msgstr "_تغییر افراز"
 
@@ -1058,8 +1059,8 @@ msgstr "خطا در افرازبندی"
 #, fuzzy, python-format
 msgid ""
 "The following critical errors exist with your requested partitioning scheme. "
-"These errors must be corrected prior to continuing with your install of %"
-"(productName)s.\n"
+"These errors must be corrected prior to continuing with your install of "
+"%(productName)s.\n"
 "\n"
 "%(errorstr)s"
 msgstr ""
@@ -1256,13 +1257,13 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "آیا می‌خواهید واسط‌های شبکه را روی این سیستم آغاز کنید؟"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:924
-#: sabayon/utils.py:1142
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:928
+#: sabayon/utils.py:1172
 msgid "Yes"
 msgstr "بله"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:924 sabayon/utils.py:1142
+#: textw/constants_text.py:60 sabayon/utils.py:928 sabayon/utils.py:1172
 msgid "No"
 msgstr "خیر"
 
@@ -1295,8 +1296,8 @@ msgstr ""
 "با کلیک کردن روی دکمهٔ «فقط‌خواندنی»، سیستم‌های پرونده‌ای‌تان را به جای "
 "خواندنی‌نوشتنی، فقط‌خواندنی سوار کنید.\n"
 "\n"
-"اگر به دلیلی این روند شکست خورد می‌توانید روی دکمهٔ «پرش» کلیک کنید و این مرحله "
-"نادیده گرفته خواهد شد و شما مستقیماً به پوستهٔ سطر فرمان خواهید رفت.\n"
+"اگر به دلیلی این روند شکست خورد می‌توانید روی دکمهٔ «پرش» کلیک کنید و این "
+"مرحله نادیده گرفته خواهد شد و شما مستقیماً به پوستهٔ سطر فرمان خواهید رفت.\n"
 "\n"
 
 #: rescue.py:295 iw/partition_gui.py:781 loader/cdinstall.c:206
@@ -1887,8 +1888,8 @@ msgstr "چه نوع رسانه‌ای حاوی بسته‌هایی است که �
 #: yuminstall.py:1001
 #, fuzzy, python-format
 msgid ""
-"There was an error running your transaction for the following reason(s): %"
-"s.\n"
+"There was an error running your transaction for the following reason(s): "
+"%s.\n"
 msgstr ""
 "نام میزبان «%s» به دلایل زیر معتبر نیست:\n"
 "\n"
@@ -1970,9 +1971,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid ""
 "The arch of the release of %(productName)s you are upgrading to appears to "
-"be %(myarch)s which does not match your previously installed arch of %(arch)"
-"s.  This is likely to not succeed.  Are you sure you wish to continue the "
-"upgrade process?"
+"be %(myarch)s which does not match your previously installed arch of "
+"%(arch)s.  This is likely to not succeed.  Are you sure you wish to continue "
+"the upgrade process?"
 msgstr ""
 "به نظر می‌رسد سیستم شما قدیمی‌تر از آن است که بتوان آن را به این نسخهٔ %s "
 "ارتقاء داد. مطمئنید که می‌خواهید روند ارتقاء را ادامه دهید؟"
@@ -2318,7 +2319,7 @@ msgstr "تعویض سی‌دی"
 msgid "Clear Disks Selector"
 msgstr ""
 
-#: iw/cleardisks_gui.py:44 iw/filter_gui.py:412
+#: iw/cleardisks_gui.py:44 iw/filter_gui.py:409
 #, fuzzy
 msgid "You must select at least one drive to be used for installation."
 msgstr "باید حداقل یک دیسک‌سخت انتخاب کنید تا %s روی آن نصب شود."
@@ -2328,29 +2329,29 @@ msgstr "باید حداقل یک دیسک‌سخت انتخاب کنید تا %s
 msgid "You must select one drive to boot from."
 msgstr "باید افرازی را برای ویرایش انتخاب کنید"
 
-#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:447
-#: iw/filter_gui.py:458 iw/filter_gui.py:488
+#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:444
+#: iw/filter_gui.py:455 iw/filter_gui.py:485
 msgid "Model"
 msgstr ""
 
-#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:448
-#: iw/filter_gui.py:459 iw/filter_gui.py:467 iw/filter_gui.py:478
-#: iw/filter_gui.py:489
+#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:445
+#: iw/filter_gui.py:456 iw/filter_gui.py:464 iw/filter_gui.py:475
+#: iw/filter_gui.py:486
 msgid "Capacity"
 msgstr ""
 
-#: iw/cleardisks_gui.py:123 iw/filter_gui.py:449 iw/filter_gui.py:468
-#: iw/filter_gui.py:479 iw/filter_gui.py:490
+#: iw/cleardisks_gui.py:123 iw/filter_gui.py:446 iw/filter_gui.py:465
+#: iw/filter_gui.py:476 iw/filter_gui.py:487
 msgid "Vendor"
 msgstr ""
 
-#: iw/cleardisks_gui.py:124 iw/filter_gui.py:450 iw/filter_gui.py:469
-#: iw/filter_gui.py:480 iw/filter_gui.py:491
+#: iw/cleardisks_gui.py:124 iw/filter_gui.py:447 iw/filter_gui.py:466
+#: iw/filter_gui.py:477 iw/filter_gui.py:488
 msgid "Interconnect"
 msgstr ""
 
-#: iw/cleardisks_gui.py:125 iw/filter_gui.py:451 iw/filter_gui.py:481
-#: iw/filter_gui.py:492
+#: iw/cleardisks_gui.py:125 iw/filter_gui.py:448 iw/filter_gui.py:478
+#: iw/filter_gui.py:489
 msgid "Serial Number"
 msgstr ""
 
@@ -2482,31 +2483,31 @@ msgstr ""
 msgid "Device Filter"
 msgstr "در حال بازیابی"
 
-#: iw/filter_gui.py:452 iw/filter_gui.py:460 iw/filter_gui.py:471
-#: iw/filter_gui.py:482 iw/filter_gui.py:497 iw/osbootwidget.py:66
+#: iw/filter_gui.py:449 iw/filter_gui.py:457 iw/filter_gui.py:468
+#: iw/filter_gui.py:479 iw/filter_gui.py:494 iw/osbootwidget.py:66
 #: iw/partition_gui.py:607
 msgid "Device"
 msgstr "دستگاه"
 
-#: iw/filter_gui.py:466 iw/filter_gui.py:477 iw/filter_gui.py:493
+#: iw/filter_gui.py:463 iw/filter_gui.py:474 iw/filter_gui.py:490
 msgid "Identifier"
 msgstr ""
 
-#: iw/filter_gui.py:470
+#: iw/filter_gui.py:467
 msgid "Paths"
 msgstr ""
 
-#: iw/filter_gui.py:494
+#: iw/filter_gui.py:491
 #, fuzzy
 msgid "Port"
 msgstr "_قطع شود"
 
-#: iw/filter_gui.py:495
+#: iw/filter_gui.py:492
 #, fuzzy
 msgid "Target"
 msgstr "آزمایش"
 
-#: iw/filter_gui.py:496
+#: iw/filter_gui.py:493
 msgid "LUN"
 msgstr ""
 
@@ -2586,9 +2587,9 @@ msgstr "ا_دامه"
 #: iw/lvm_dialog_gui.py:172
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is larger than the smallest physical volume (%(maxpvsize)"
-"10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is larger than the smallest physical volume "
+"(%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "نمی‌توان اندازهٔ گسترهٔ فیزیکی را تغییر داد چون مقدار انتخاب شده (%10.2f "
 "مگابایت) بزرگتر از کوچکترین جلد فیزیکی در گروه جلدی (%10.2f مگابایت) است."
@@ -2596,9 +2597,9 @@ msgstr ""
 #: iw/lvm_dialog_gui.py:186
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is too large compared to the size of the smallest physical "
-"volume (%(maxpvsize)10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is too large compared to the size of the smallest "
+"physical volume (%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "نمی‌توان اندازهٔ گسترهٔ فیزیکی را تغییر داد چون مقدار انتخاب شده (%10.2f "
 "مگابایت) در مقایسه با اندازهٔ کوچکترین جلد فیزیکی در گروه جلدی (%10.2f "
@@ -2623,8 +2624,8 @@ msgid ""
 "logical volume size (%10.2f MB) is smaller than one or more of the currently "
 "defined logical volumes."
 msgstr ""
-"نمی‌توان اندازهٔ گسترهٔ فیزیکی را تغییر داد چون حداکثر جلد منطقی نتیجه شده (%"
-"10.2f مگابایت) از یک یا چند جلد فیزیکی تعیین شدهٔ فعلی کوچکتر خواهد شد."
+"نمی‌توان اندازهٔ گسترهٔ فیزیکی را تغییر داد چون حداکثر جلد منطقی نتیجه شده "
+"(%10.2f مگابایت) از یک یا چند جلد فیزیکی تعیین شدهٔ فعلی کوچکتر خواهد شد."
 
 #: iw/lvm_dialog_gui.py:302
 msgid ""
@@ -2864,8 +2865,8 @@ msgstr "اندازه (مگابایت)"
 msgid "_Add"
 msgstr "ا_ضافه کردن"
 
-#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1810
-#: iw/partition_gui.py:1820
+#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1815
+#: iw/partition_gui.py:1825
 msgid "_Edit"
 msgstr "_ویرایش"
 
@@ -3083,7 +3084,7 @@ msgid "Drive %(drive)s (%(size)-0.f MB) (Model: %(model)s)"
 msgstr ""
 
 #: iw/partition_gui.py:396 iw/partition_gui.py:442 iw/partition_gui.py:509
-#: iw/partition_gui.py:996 iw/partition_gui.py:1063
+#: iw/partition_gui.py:999 iw/partition_gui.py:1066
 msgid "Free"
 msgstr "آزاد"
 
@@ -3125,34 +3126,34 @@ msgstr ""
 msgid "Partitioning"
 msgstr "افرازبندی"
 
-#: iw/partition_gui.py:846
+#: iw/partition_gui.py:849
 msgid ""
 "The partitioning scheme you requested caused the following critical errors."
 msgstr ""
 
-#: iw/partition_gui.py:848
+#: iw/partition_gui.py:851
 #, fuzzy, python-format
 msgid ""
 "You must correct these errors before you continue your installation of %s."
 msgstr "پیش از ادامهٔ نصب %s این خطاها باید برطرف شوند."
 
-#: iw/partition_gui.py:854
+#: iw/partition_gui.py:857
 msgid "Partitioning Errors"
 msgstr "خطاهای افرازبندی"
 
-#: iw/partition_gui.py:861
+#: iw/partition_gui.py:864
 msgid "The partitioning scheme you requested generated the following warnings."
 msgstr ""
 
-#: iw/partition_gui.py:863
+#: iw/partition_gui.py:866
 msgid "Would you like to continue with your requested partitioning scheme?"
 msgstr "آیا می‌خواهید با همین شِمای افرازبندی درخواست شده ادامه دهید؟"
 
-#: iw/partition_gui.py:868
+#: iw/partition_gui.py:871
 msgid "Partitioning Warnings"
 msgstr "اخطارهای افرازبندی"
 
-#: iw/partition_gui.py:877
+#: iw/partition_gui.py:880
 #, fuzzy
 msgid ""
 "The following pre-existing devices have been selected to be formatted, "
@@ -3161,35 +3162,35 @@ msgstr ""
 "افرازهای از پیش موجود زیر برای قالب‌بندی انتخاب شده‌اند، همهٔ داده‌ها از بین "
 "خواهد رفت."
 
-#: iw/partition_gui.py:889
+#: iw/partition_gui.py:892
 msgid "Format Warnings"
 msgstr "اخطارهای قالب‌بندی"
 
-#: iw/partition_gui.py:894 storage/dasd.py:139
+#: iw/partition_gui.py:897 storage/dasd.py:139
 msgid "_Format"
 msgstr "_قالب‌بندی"
 
-#: iw/partition_gui.py:984
+#: iw/partition_gui.py:987
 msgid "LVM Volume Groups"
 msgstr "گروه‌های جلد LVM"
 
-#: iw/partition_gui.py:1006
+#: iw/partition_gui.py:1009
 msgid "RAID Devices"
 msgstr "دستگاه‌های RAID"
 
-#: iw/partition_gui.py:1017 loader/hdinstall.c:206
+#: iw/partition_gui.py:1020 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "‌دیسک‌گردان‌های سخت"
 
-#: iw/partition_gui.py:1067
+#: iw/partition_gui.py:1070
 msgid "Extended"
 msgstr "گسترش یافته"
 
-#: iw/partition_gui.py:1346
+#: iw/partition_gui.py:1349
 msgid "Cannot perform any creation action"
 msgstr ""
 
-#: iw/partition_gui.py:1347
+#: iw/partition_gui.py:1350
 msgid ""
 "Note that the creation action requires one of the following:\n"
 "\n"
@@ -3199,7 +3200,7 @@ msgid ""
 "* At least one Volume Group with free space."
 msgstr ""
 
-#: iw/partition_gui.py:1455
+#: iw/partition_gui.py:1460
 #, fuzzy, python-format
 msgid ""
 "Software RAID allows you to combine several disks into a larger RAID "
@@ -3216,7 +3217,7 @@ msgstr ""
 "شما در حال حاضر %s افراز RAID نرم‌افزاری قابل استفاده دارید.\n"
 "\n"
 
-#: iw/partition_gui.py:1461
+#: iw/partition_gui.py:1466
 #, fuzzy
 msgid ""
 "To use RAID you must first create at least two partitions of type 'software "
@@ -3229,19 +3230,19 @@ msgstr ""
 "شود.\n"
 "\n"
 
-#: iw/partition_gui.py:1465
+#: iw/partition_gui.py:1470
 #, fuzzy, python-format
 msgid "You currently have %d software RAID partition free to use."
 msgid_plural "You currently have %d software RAID partitions free to use."
 msgstr[0] "ایجاد یک ا_فراز RAID نرم‌افزاری."
 msgstr[1] "ایجاد یک ا_فراز RAID نرم‌افزاری."
 
-#: iw/partition_gui.py:1469
+#: iw/partition_gui.py:1474
 #, fuzzy
 msgid "About RAID"
 msgstr "‏RAID نرم‌افزاری"
 
-#: iw/partition_gui.py:1475
+#: iw/partition_gui.py:1480
 #, python-format
 msgid ""
 "Logical Volume Manager (LVM) is a 3 level construct. The first level is made "
@@ -3252,7 +3253,7 @@ msgid ""
 "information on using LVM please consult the %s documentation\n"
 msgstr ""
 
-#: iw/partition_gui.py:1483
+#: iw/partition_gui.py:1488
 msgid ""
 "To create a PV you need a partition with free space.  To create a VG you "
 "need a PV that is not part of any existing VG.  To create an LV you need a "
@@ -3260,49 +3261,49 @@ msgid ""
 "\n"
 msgstr ""
 
-#: iw/partition_gui.py:1487
+#: iw/partition_gui.py:1492
 #, python-format
 msgid "You currently have %d available PV free to use.\n"
 msgid_plural "You currently have %d available PVs free to use.\n"
 msgstr[0] ""
 msgstr[1] ""
 
-#: iw/partition_gui.py:1491
+#: iw/partition_gui.py:1496
 msgid "You currently have free space to create PVs."
 msgstr ""
 
-#: iw/partition_gui.py:1494
+#: iw/partition_gui.py:1499
 msgid "About LVM"
 msgstr ""
 
-#: iw/partition_gui.py:1525
+#: iw/partition_gui.py:1530
 msgid "Couldn't Create Drive Clone Editor"
 msgstr "ویرایشگر همانندسازی دیسک‌گردان ایجاد نشد"
 
-#: iw/partition_gui.py:1526
+#: iw/partition_gui.py:1531
 msgid "The drive clone editor could not be created for some reason."
 msgstr "ویرایشگر همانندسازی دیسک‌گردان به دلیلی ایجاد نشد."
 
-#: iw/partition_gui.py:1584 storage/partitioning.py:196
+#: iw/partition_gui.py:1589 storage/partitioning.py:196
 #: storage/partitioning.py:239
 msgid "Error Partitioning"
 msgstr "خطا در افرازبندی"
 
-#: iw/partition_gui.py:1585
+#: iw/partition_gui.py:1590
 #, python-format
 msgid "Could not allocate requested partitions: %s."
 msgstr "نمی‌توان افرازهای درخواست شده را تخصیص داد: %s."
 
-#: iw/partition_gui.py:1594
+#: iw/partition_gui.py:1599
 #, python-format
 msgid "Warning: %s."
 msgstr "اخطار: %s."
 
-#: iw/partition_gui.py:1625
+#: iw/partition_gui.py:1630
 msgid "Unable To Edit"
 msgstr "ویرایش ممکن نیست"
 
-#: iw/partition_gui.py:1626
+#: iw/partition_gui.py:1631
 #, fuzzy, python-format
 msgid ""
 "You cannot edit this device:\n"
@@ -3312,15 +3313,15 @@ msgstr ""
 "نمی‌توانید این افراز را ویرایش کنید:\n"
 "\n"
 
-#: iw/partition_gui.py:1809
+#: iw/partition_gui.py:1814
 msgid "_Create"
 msgstr ""
 
-#: iw/partition_gui.py:1812
+#: iw/partition_gui.py:1817
 msgid "Re_set"
 msgstr "_مقادیر اولیه"
 
-#: iw/partition_gui.py:1835
+#: iw/partition_gui.py:1840
 #, fuzzy
 msgid "Please Select A Device"
 msgstr "لطفاً دیسک‌گردان مبدأ را انتخاب کنید."
@@ -3564,8 +3565,8 @@ msgid ""
 "The repository %s has already been added.  Please choose a different "
 "repository name and URL."
 msgstr ""
-"نقطهٔ سوار کردن «%s» از قبل مورد استفاده است، لطفاً نقطهٔ سوار کردن دیگری انتخاب "
-"کنید."
+"نقطهٔ سوار کردن «%s» از قبل مورد استفاده است، لطفاً نقطهٔ سوار کردن دیگری "
+"انتخاب کنید."
 
 #: iw/task_gui.py:236
 #, fuzzy
@@ -3670,8 +3671,8 @@ msgstr ""
 #: iw/upgrade_bootloader_gui.py:138 textw/upgrade_bootloader_text.py:121
 #, fuzzy, python-format
 msgid ""
-"The installer has detected the %(type)s boot loader currently installed on %"
-"(bootDev)s."
+"The installer has detected the %(type)s boot loader currently installed on "
+"%(bootDev)s."
 msgstr "برنامهٔ نصب، بارکنندهٔ راه‌انداز %s را که اکنون بر %s نصب شده تشخیص داد."
 
 #: iw/upgrade_bootloader_gui.py:142
@@ -3717,9 +3718,9 @@ msgstr "کوچ‌دادن سیستم پرونده‌ای"
 #, fuzzy, python-format
 msgid ""
 "This release of %(productName)s supports an updated file system, which has "
-"several benefits over the file system traditionally shipped in %(productName)"
-"s.  This installation program can migrate formatted partitions without data "
-"loss.\n"
+"several benefits over the file system traditionally shipped in "
+"%(productName)s.  This installation program can migrate formatted partitions "
+"without data loss.\n"
 "\n"
 "Which of these partitions would you like to migrate?"
 msgstr ""
@@ -3738,8 +3739,8 @@ msgstr "ارتقاء دادن افراز حافظهٔ مبادله"
 #, fuzzy, python-format
 msgid ""
 "Recent kernels (2.4 or newer) need significantly more swap than older "
-"kernels, up to twice the amount of RAM on the system.  You currently have %"
-"dMB of swap configured, but you may create additional swap space on one of "
+"kernels, up to twice the amount of RAM on the system.  You currently have "
+"%dMB of swap configured, but you may create additional swap space on one of "
 "your file systems now."
 msgstr ""
 "هستهٔ ‎2.4 به حافظهٔ مبادلهٔ بسیار بیشتری از هسته‌های قدیمی‌تر نیاز دارد، تقریباً "
@@ -4028,8 +4029,8 @@ msgstr "بار کردن تصویر دیسک گرداننده از پرونده �
 #, c-format
 msgid "Insert your driver disk into /dev/%s and press \"OK\" to continue."
 msgstr ""
-"دیسک گردانندهٔ خود را در ‎/dev/%s وارد کنید و  برای ادامه روی دکمهٔ «تأیید» کلیک "
-"کنید."
+"دیسک گردانندهٔ خود را در ‎/dev/%s وارد کنید و  برای ادامه روی دکمهٔ «تأیید» "
+"کلیک کنید."
 
 #: loader/driverdisk.c:542
 msgid "Insert Driver Disk"
@@ -5220,24 +5221,24 @@ msgstr ""
 msgid "lvs failed for %s"
 msgstr ""
 
-#: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3289
+#: storage/devices.py:1258 storage/devices.py:1929 storage/devices.py:2332
+#: storage/devices.py:2803 storage/devices.py:3293
 #, fuzzy
 msgid "Creating"
 msgstr "کرواتی"
 
-#: storage/devices.py:1259 storage/devices.py:1926 storage/devices.py:2329
-#: storage/devices.py:2800
+#: storage/devices.py:1259 storage/devices.py:1930 storage/devices.py:2333
+#: storage/devices.py:2804
 #, fuzzy, python-format
 msgid "Creating device %s"
 msgstr "تعویض سی‌دی"
 
-#: storage/devices.py:2422
+#: storage/devices.py:2426
 #, python-format
 msgid "A RAID%d set requires atleast %d members"
 msgstr ""
 
-#: storage/devices.py:3290
+#: storage/devices.py:3294
 #, fuzzy, python-format
 msgid "Creating file %s"
 msgstr "بررسی برای بلوک‌های خراب روی ‎/dev/%s‎..."
@@ -5532,8 +5533,8 @@ msgstr ""
 #: storage/zfcp.py:182
 #, python-format
 msgid ""
-"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s (%(e)"
-"s)."
+"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr ""
 
 #: storage/zfcp.py:188
@@ -5559,15 +5560,15 @@ msgstr ""
 #: storage/zfcp.py:266
 #, python-format
 msgid ""
-"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s %(fcplun)"
-"s (%(e)s)."
+"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s "
+"%(fcplun)s (%(e)s)."
 msgstr ""
 
 #: storage/zfcp.py:275
 #, python-format
 msgid ""
-"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s (%"
-"(e)s)."
+"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr ""
 
 #: storage/zfcp.py:293
@@ -5719,8 +5720,8 @@ msgid ""
 msgstr ""
 "رایانه‌های سری z می‌توانند از طریق کانال فیبری (FCP) به دستگاه‌های SCSI صنعتی‐"
 "استاندارد دسترسی داشته باشند. برای هر دستگاه ۵ پارامتر باید داده شود: شمارهٔ "
-"دستگاه ۱۶ بیتی، شناسهٔ SCSI ‏۱۶ بیتی، نام درگاه جهانی (WWPN) ‏۶۴ بیتی، "
-"LUN ‏SCSI ‏۱۶ بیتی و LUN ‏FCP ‏۶۴ بیتی."
+"دستگاه ۱۶ بیتی، شناسهٔ SCSI ‏۱۶ بیتی، نام درگاه جهانی (WWPN) ‏۶۴ بیتی، LUN ‏SCSI ‏"
+"۱۶ بیتی و LUN ‏FCP ‏۶۴ بیتی."
 
 #: textw/partition_text.py:228
 msgid "No network cards present."
@@ -5778,7 +5779,7 @@ msgstr ""
 msgid "Reverse CHAP password"
 msgstr ""
 
-#: textw/progress_text.py:46
+#: textw/progress_text.py:57
 msgid "Package Installation"
 msgstr "نصب بسته"
 
@@ -6806,33 +6807,29 @@ msgstr "در حال نصب بارکنندهٔ راه‌انداز..."
 msgid "Configuring Sabayon"
 msgstr "پیکربندی VNC"
 
-#: sabayon/livecd.py:153
+#: sabayon/livecd.py:158
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:214
-msgid "System Health Status Warning"
-msgstr ""
-
-#: sabayon/utils.py:412
+#: sabayon/utils.py:405
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "هنگام پاک کردن دیسک‌گردان‌های هدف خطایی پیش آمد. همانندسازی شکست خورد."
 
-#: sabayon/utils.py:681
+#: sabayon/utils.py:684
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:683
+#: sabayon/utils.py:686
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:684
+#: sabayon/utils.py:687
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "نصب گرافیکی آغاز می‌شود..."
 
-#: sabayon/utils.py:714
+#: sabayon/utils.py:716
 #, fuzzy
 msgid "System Installation"
 msgstr "پس از نصب"
@@ -6847,74 +6844,82 @@ msgstr "در حال نصب بسته‌ها"
 msgid "Cleaning package"
 msgstr "بستهٔ ناموجود"
 
-#: sabayon/utils.py:913
+#: sabayon/utils.py:917
 #, fuzzy
 msgid "Installation complete"
 msgstr "روش نصب"
 
-#: sabayon/utils.py:921
+#: sabayon/utils.py:925
 msgid ""
 "The following language packs are available for download (you need Internet), "
 "would you like to install them?"
 msgstr ""
 
-#: sabayon/utils.py:925
+#: sabayon/utils.py:929
 #, fuzzy
 msgid "Language packs download"
 msgstr "نصب بسته"
 
-#: sabayon/utils.py:946
+#: sabayon/utils.py:950
 msgid "No language packs are available for download, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:947 sabayon/utils.py:957
+#: sabayon/utils.py:951 sabayon/utils.py:961
 #, fuzzy
 msgid "Language packs"
 msgstr "نصب بسته"
 
-#: sabayon/utils.py:956
+#: sabayon/utils.py:960
 msgid "No language packs are available for install, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:966
+#: sabayon/utils.py:970
 #, fuzzy
 msgid "Downloading package"
 msgstr "بستهٔ ناموجود"
 
-#: sabayon/utils.py:975
+#: sabayon/utils.py:979
 #, fuzzy
 msgid "Installing package"
 msgstr "در حال نصب بسته‌ها"
 
-#: sabayon/utils.py:1004
+#: sabayon/utils.py:996 sabayon/utils.py:1006
+msgid "Reordering Entropy mirrors"
+msgstr ""
+
+#: sabayon/utils.py:996
+msgid "can take some time..."
+msgstr ""
+
+#: sabayon/utils.py:1034
 msgid "No repositories specified in"
 msgstr ""
 
-#: sabayon/utils.py:1006 sabayon/utils.py:1011 sabayon/utils.py:1018
+#: sabayon/utils.py:1036 sabayon/utils.py:1041 sabayon/utils.py:1048
 msgid "Repositories update"
 msgstr ""
 
-#: sabayon/utils.py:1010
+#: sabayon/utils.py:1040
 msgid "Unhandled exception"
 msgstr ""
 
-#: sabayon/utils.py:1017
-msgid "Cannot download language packs right now, no big deal"
+#: sabayon/utils.py:1047
+msgid "Cannot download repositories right now, no big deal"
 msgstr ""
 
-#: sabayon/utils.py:1140
+#: sabayon/utils.py:1170
 #, fuzzy
 msgid ""
 "This medium contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "در طی روند نصب می‌خواهید از چه زبانی استفاده کنید؟"
 
-#: sabayon/utils.py:1143
+#: sabayon/utils.py:1173
 #, fuzzy
 msgid "Language packs installation"
 msgstr "نصب بسته"
 
-#: sabayon/utils.py:1154
+#: sabayon/utils.py:1184
 msgid "Generating list of files to copy"
 msgstr ""
 

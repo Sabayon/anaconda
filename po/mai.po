@@ -9,10 +9,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda.master.mai\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-05-12 15:29+0200\n"
+"POT-Creation-Date: 2010-08-07 10:23+0200\n"
 "PO-Revision-Date: 2009-09-23 22:25+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
+"Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -98,11 +99,11 @@ msgstr "पाठ मोडक उपयोग करू"
 msgid "Starting graphical installation."
 msgstr "आलेखी संस्थापन आरंभ कए रहल अछि."
 
-#: anaconda:1059
+#: anaconda:1062
 msgid "Would you like to use VNC?"
 msgstr "की अहाँ वीएनसीक प्रयोग करब चाहैत छी?"
 
-#: anaconda:1060
+#: anaconda:1063
 msgid ""
 "Text mode provides a limited set of installation options.  It does not allow "
 "you to specify your own partitioning layout or package selections.  Would "
@@ -112,11 +113,11 @@ msgstr ""
 "अथवा संकुल चयन निर्दिष्ट करब नहि देत अछि.  की अहाँ VNC विधि केँ बदलामे प्रयोग करबा "
 "चाहब?"
 
-#: anaconda:1086
+#: anaconda:1089
 msgid "Graphical installation is not available. Starting text mode."
 msgstr "आलेखी संस्थापन मोजुद नहि अछि.  पाठ प्रकार प्रारंभ कए रहल अछि."
 
-#: anaconda:1094
+#: anaconda:1097
 msgid "DISPLAY variable not set. Starting text mode."
 msgstr "प्रदर्शक मोड चर सेट नहि अछि. पाठ मोड शुरू कए रहल अछि."
 
@@ -161,7 +162,7 @@ msgstr ""
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
 #: iw/advanced_storage.py:176 iw/advanced_storage.py:179
 #: iw/advanced_storage.py:207 iw/autopart_type.py:96 iw/cleardisks_gui.py:43
-#: iw/cleardisks_gui.py:53 iw/filter_gui.py:411 iw/osbootwidget.py:211
+#: iw/cleardisks_gui.py:53 iw/filter_gui.py:408 iw/osbootwidget.py:211
 #: iw/osbootwidget.py:220 iw/raid_dialog_gui.py:215 iw/raid_dialog_gui.py:766
 #: iw/raid_dialog_gui.py:805 iw/task_gui.py:54 iw/task_gui.py:155
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
@@ -180,7 +181,7 @@ msgstr ""
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:425
+#: textw/upgrade_text.py:188 sabayon/livecd.py:476 sabayon/utils.py:1005
 msgid "Error"
 msgstr "त्रुटि"
 
@@ -210,13 +211,13 @@ msgstr ""
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:432
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:483
 msgid "_Exit installer"
 msgstr "संस्थापक छोड़ू (_E)"
 
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1967
+#: iw/partition_gui.py:1603 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "जारी राखू (_C)"
 
@@ -391,8 +392,8 @@ msgid ""
 "\n"
 "REINITIALIZING WILL CAUSE ALL DATA TO BE LOST!\n"
 "\n"
-"This action may also be applied to all other disks needing reinitialization.%"
-"(details)s"
+"This action may also be applied to all other disks needing reinitialization."
+"%(details)s"
 msgstr ""
 "ड्राइव प्रक्रियामे त्रुटि:\n"
 "\n"
@@ -553,8 +554,8 @@ msgstr "जरूरी संस्थापन मीडिया"
 #: image.py:242
 #, fuzzy, python-format
 msgid ""
-"The software you have selected to install will require the following %"
-"(productName)s %(productVersion)s discs:\n"
+"The software you have selected to install will require the following "
+"%(productName)s %(productVersion)s discs:\n"
 "\n"
 "%(reqcdstr)s\n"
 "Please have these ready before proceeding with the installation.  If you "
@@ -572,7 +573,7 @@ msgstr "रिबूट करू (_R)"
 
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:431
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:482
 msgid "_Back"
 msgstr "पाछाँ (_B)"
 
@@ -603,22 +604,22 @@ msgstr[1] ""
 #: iutil.py:816
 #, fuzzy, python-format
 msgid ""
-"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: %(e)"
-"s)"
+"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr "त्रुटि: खोलबा पर, reIPL विधि केँ %s (%s: %s) मे सेट नहि कए सकैत अछि"
 
 #: iutil.py:827
 #, fuzzy, python-format
 msgid ""
-"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr "त्रुटि: लिखबा पर, reIPL विधि केँ %s (%s: %s) मे सेट नहि कए सकैत अछि"
 
 #: iutil.py:836
 #, fuzzy, python-format
 msgid ""
-"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr "त्रुटि: बन्न करबा पर, reIPL विधि केँ %s (%s: %s) मे सेट नहि कए सकैत अछि"
 
 #: iutil.py:855
@@ -663,8 +664,8 @@ msgstr "त्रुटि: पूर्वनिर्धारित FCP ग�
 #: iutil.py:954
 #, python-format
 msgid ""
-"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN %"
-"(wwpn)s and LUN %(lun)s to continue installation"
+"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN "
+"%(wwpn)s and LUN %(lun)s to continue installation"
 msgstr ""
 "बन्न करबाक बाद, कृप्या FCP %(device)s सँ WWPN %(wwpn)s आओर LUN %(lun)s सँ संस्थापन "
 "जारी रखबा क लेल एकटा दस्ती IPL करू"
@@ -831,7 +832,7 @@ msgid ""
 "minutes."
 msgstr "उत्तर संस्थापन फाइल सिस्टम परिवर्तन आनि रहल अछि. ई कइ मिनट लए सकैत अछि."
 
-#: livecd.py:401 sabayon/livecd.py:426
+#: livecd.py:401 sabayon/livecd.py:477
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -846,8 +847,8 @@ msgstr "मेजबाननाम 255 अथवा एकरासँ कम �
 
 #: network.py:62
 msgid ""
-"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or '0-"
-"9'"
+"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or "
+"'0-9'"
 msgstr ""
 "मेजबाननाम केँ 'a-z' अथवा 'A-Z' अथवा '0-9' सीमा मे एकटा उचित अक्षर सँ अवश्य प्रारंभ "
 "होबा चाही"
@@ -857,22 +858,22 @@ msgid ""
 "Hostnames can only contain the characters 'a-z', 'A-Z', '0-9', '-', or '.'"
 msgstr "मेजबाननाम मे केवल 'a-z', 'A-Z',or '0-9', '-', अथवा '.' अक्षर भए सकैत अछि"
 
-#: network.py:176
+#: network.py:180
 msgid "IP address is missing."
 msgstr "IP पता गुम भ' रहल अछि"
 
-#: network.py:180
+#: network.py:184
 msgid ""
 "IPv4 addresses must contain four numbers between 0 and 255, separated by "
 "periods."
 msgstr "IPv4 पतामे 0 आओर 255 क' बीच क' 4 अंक हएबाक चाही, अवधि क' द्वारा अलग."
 
-#: network.py:183
+#: network.py:187
 #, python-format
 msgid "'%s' is not a valid IPv6 address."
 msgstr "'%s' एकटा उचित IPv6 पता नहि अछि."
 
-#: network.py:185
+#: network.py:189
 #, python-format
 msgid "'%s' is an invalid IP address."
 msgstr "'%s' एकटा अवैध IP पता नहि अछि."
@@ -1010,8 +1011,8 @@ msgid "You are about to delete all partitions on the device '%s'."
 msgstr "अहाँ युक्ति '%s' पर अहाँ सभटा विभाजन केँ मेटाएबाक करीब छी."
 
 #: partIntfHelpers.py:157 partIntfHelpers.py:342 iw/lvm_dialog_gui.py:865
-#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1811
-#: iw/partition_gui.py:1823
+#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1816
+#: iw/partition_gui.py:1828
 msgid "_Delete"
 msgstr "मेटाउ (_D)"
 
@@ -1071,7 +1072,7 @@ msgstr ""
 msgid "Format?"
 msgstr "प्रारूपित करू?"
 
-#: partIntfHelpers.py:249 iw/partition_gui.py:1596
+#: partIntfHelpers.py:249 iw/partition_gui.py:1601
 msgid "_Modify Partition"
 msgstr "विभाजन रूपांतरित करू (_M)"
 
@@ -1087,8 +1088,8 @@ msgstr "विभाजनमे त्रुटि"
 #, fuzzy, python-format
 msgid ""
 "The following critical errors exist with your requested partitioning scheme. "
-"These errors must be corrected prior to continuing with your install of %"
-"(productName)s.\n"
+"These errors must be corrected prior to continuing with your install of "
+"%(productName)s.\n"
 "\n"
 "%(errorstr)s"
 msgstr ""
@@ -1278,13 +1279,13 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "की अहाँ एहि सिस्टम पर संजाल अंतरफलकसभकेँ प्रारंभ कएनाइ चाहैत छी?"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:924
-#: sabayon/utils.py:1142
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:928
+#: sabayon/utils.py:1172
 msgid "Yes"
 msgstr "हँ"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:924 sabayon/utils.py:1142
+#: textw/constants_text.py:60 sabayon/utils.py:928 sabayon/utils.py:1172
 msgid "No"
 msgstr "नहि"
 
@@ -1921,8 +1922,8 @@ msgstr ""
 #: yuminstall.py:1001
 #, python-format
 msgid ""
-"There was an error running your transaction for the following reason(s): %"
-"s.\n"
+"There was an error running your transaction for the following reason(s): "
+"%s.\n"
 msgstr "निम्न कारण सँ अहाँक विनिमय केँ चलाबै मे एकटा त्रुटि छल: %s\n"
 
 #: yuminstall.py:1008 yuminstall.py:1013
@@ -2007,9 +2008,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid ""
 "The arch of the release of %(productName)s you are upgrading to appears to "
-"be %(myarch)s which does not match your previously installed arch of %(arch)"
-"s.  This is likely to not succeed.  Are you sure you wish to continue the "
-"upgrade process?"
+"be %(myarch)s which does not match your previously installed arch of "
+"%(arch)s.  This is likely to not succeed.  Are you sure you wish to continue "
+"the upgrade process?"
 msgstr ""
 "%s केर रिलीज क' आर्किटेक्चर जकरामे अहाँ उन्नत करबा जाए रहल छी %s प्रतीत होता अछि जे "
 "अहाँक %s केर पिछले संस्थापित आर्किटेक्चर सँ मेल नहि खाइत अछि.  ई आगे नहि होता दिखता "
@@ -2338,7 +2339,7 @@ msgstr "युक्ति बदलू (_C)"
 msgid "Clear Disks Selector"
 msgstr ""
 
-#: iw/cleardisks_gui.py:44 iw/filter_gui.py:412
+#: iw/cleardisks_gui.py:44 iw/filter_gui.py:409
 #, fuzzy
 msgid "You must select at least one drive to be used for installation."
 msgstr "अहाँक %s संस्थापन करबाक' लेल कम सँ कम एकटा हार्ड ड्राइव अवश्य चुननाइ अछि."
@@ -2348,30 +2349,30 @@ msgstr "अहाँक %s संस्थापन करबाक' लेल �
 msgid "You must select one drive to boot from."
 msgstr "अहाँ संपादनक लेल कोनो युक्ति जरूर चुनू"
 
-#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:447
-#: iw/filter_gui.py:458 iw/filter_gui.py:488
+#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:444
+#: iw/filter_gui.py:455 iw/filter_gui.py:485
 msgid "Model"
 msgstr ""
 
-#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:448
-#: iw/filter_gui.py:459 iw/filter_gui.py:467 iw/filter_gui.py:478
-#: iw/filter_gui.py:489
+#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:445
+#: iw/filter_gui.py:456 iw/filter_gui.py:464 iw/filter_gui.py:475
+#: iw/filter_gui.py:486
 msgid "Capacity"
 msgstr ""
 
-#: iw/cleardisks_gui.py:123 iw/filter_gui.py:449 iw/filter_gui.py:468
-#: iw/filter_gui.py:479 iw/filter_gui.py:490
+#: iw/cleardisks_gui.py:123 iw/filter_gui.py:446 iw/filter_gui.py:465
+#: iw/filter_gui.py:476 iw/filter_gui.py:487
 #, fuzzy
 msgid "Vendor"
 msgstr "_Fedora"
 
-#: iw/cleardisks_gui.py:124 iw/filter_gui.py:450 iw/filter_gui.py:469
-#: iw/filter_gui.py:480 iw/filter_gui.py:491
+#: iw/cleardisks_gui.py:124 iw/filter_gui.py:447 iw/filter_gui.py:466
+#: iw/filter_gui.py:477 iw/filter_gui.py:488
 msgid "Interconnect"
 msgstr ""
 
-#: iw/cleardisks_gui.py:125 iw/filter_gui.py:451 iw/filter_gui.py:481
-#: iw/filter_gui.py:492
+#: iw/cleardisks_gui.py:125 iw/filter_gui.py:448 iw/filter_gui.py:478
+#: iw/filter_gui.py:489
 msgid "Serial Number"
 msgstr ""
 
@@ -2507,33 +2508,33 @@ msgstr ""
 msgid "Device Filter"
 msgstr "युक्ति सेटअप विफल"
 
-#: iw/filter_gui.py:452 iw/filter_gui.py:460 iw/filter_gui.py:471
-#: iw/filter_gui.py:482 iw/filter_gui.py:497 iw/osbootwidget.py:66
+#: iw/filter_gui.py:449 iw/filter_gui.py:457 iw/filter_gui.py:468
+#: iw/filter_gui.py:479 iw/filter_gui.py:494 iw/osbootwidget.py:66
 #: iw/partition_gui.py:607
 msgid "Device"
 msgstr "युक्ति"
 
-#: iw/filter_gui.py:466 iw/filter_gui.py:477 iw/filter_gui.py:493
+#: iw/filter_gui.py:463 iw/filter_gui.py:474 iw/filter_gui.py:490
 #, fuzzy
 msgid "Identifier"
 msgstr "पहचानू"
 
-#: iw/filter_gui.py:470
+#: iw/filter_gui.py:467
 #, fuzzy
 msgid "Paths"
 msgstr "पथ (_P)"
 
-#: iw/filter_gui.py:494
+#: iw/filter_gui.py:491
 #, fuzzy
 msgid "Port"
 msgstr "रोकू (_A)"
 
-#: iw/filter_gui.py:495
+#: iw/filter_gui.py:492
 #, fuzzy
 msgid "Target"
 msgstr "जाँचू"
 
-#: iw/filter_gui.py:496
+#: iw/filter_gui.py:493
 msgid "LUN"
 msgstr ""
 
@@ -2611,9 +2612,9 @@ msgstr "जारी राखू (_o)"
 #: iw/lvm_dialog_gui.py:172
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is larger than the smallest physical volume (%(maxpvsize)"
-"10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is larger than the smallest physical volume "
+"(%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "भौतिक विस्तार आकार बदैल नहि सकत किएक वाल्यूम ग्रूपमे चयनित (%10.2f MB) मान, "
 "छोटभौतिक आयतन (%10.2f MB) सँ पैघ अछि."
@@ -2621,9 +2622,9 @@ msgstr ""
 #: iw/lvm_dialog_gui.py:186
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is too large compared to the size of the smallest physical "
-"volume (%(maxpvsize)10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is too large compared to the size of the smallest "
+"physical volume (%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "भौतिक विस्तार आकार बदैल नहि सकत किएक वाल्यूम ग्रूपमे चयनित (%10.2f MB) मान छोटभौतिक "
 "आयतन (%10.2f MB) क' आकार सँ पैघ अछि."
@@ -2647,8 +2648,8 @@ msgid ""
 "logical volume size (%10.2f MB) is smaller than one or more of the currently "
 "defined logical volumes."
 msgstr ""
-"भौतिक विस्तार आकार बदलल नहि जाए सकैत किएक परिणामी अधिकतम लाजिकल वाल्यूम आकार  (%"
-"10.2f MB), वर्तमानमे उल्लिखित एकटा अथवा एकटा सँ बेसी लॉजिकल वॉल्यूमसँ छोट अछि."
+"भौतिक विस्तार आकार बदलल नहि जाए सकैत किएक परिणामी अधिकतम लाजिकल वाल्यूम आकार  "
+"(%10.2f MB), वर्तमानमे उल्लिखित एकटा अथवा एकटा सँ बेसी लॉजिकल वॉल्यूमसँ छोट अछि."
 
 #: iw/lvm_dialog_gui.py:302
 msgid ""
@@ -2891,8 +2892,8 @@ msgstr "आकार (MB)"
 msgid "_Add"
 msgstr "जोड़ू (_A)"
 
-#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1810
-#: iw/partition_gui.py:1820
+#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1815
+#: iw/partition_gui.py:1825
 msgid "_Edit"
 msgstr "संपादन (_E)"
 
@@ -3100,7 +3101,7 @@ msgid "Drive %(drive)s (%(size)-0.f MB) (Model: %(model)s)"
 msgstr "ड्राइव %s (%-0.f MB) (मॉडल: %s)"
 
 #: iw/partition_gui.py:396 iw/partition_gui.py:442 iw/partition_gui.py:509
-#: iw/partition_gui.py:996 iw/partition_gui.py:1063
+#: iw/partition_gui.py:999 iw/partition_gui.py:1066
 msgid "Free"
 msgstr "मुक्त"
 
@@ -3142,36 +3143,36 @@ msgstr ""
 msgid "Partitioning"
 msgstr "विभाजन कए रहल अछि"
 
-#: iw/partition_gui.py:846
+#: iw/partition_gui.py:849
 msgid ""
 "The partitioning scheme you requested caused the following critical errors."
 msgstr "विभाजन योजना जकरा लेल अहाँ आग्रह कएने अछि क' कारण निम्न गंभीर त्रुटि आएल."
 
-#: iw/partition_gui.py:848
+#: iw/partition_gui.py:851
 #, python-format
 msgid ""
 "You must correct these errors before you continue your installation of %s."
 msgstr ""
 "अहाँक %s संस्थापन क' जारी रहए क' पहिले अहाँक जरूर एहि त्रुटिसभकेँ सही कएनाइ चाही."
 
-#: iw/partition_gui.py:854
+#: iw/partition_gui.py:857
 msgid "Partitioning Errors"
 msgstr "विभाजन करबामे त्रुटि"
 
-#: iw/partition_gui.py:861
+#: iw/partition_gui.py:864
 msgid "The partitioning scheme you requested generated the following warnings."
 msgstr ""
 "विभाजनकारी योजना जकरा लेल अहाँ निवेदन कएने अछि क' कारण निम्न चेतावनी उत्पन्न भेल."
 
-#: iw/partition_gui.py:863
+#: iw/partition_gui.py:866
 msgid "Would you like to continue with your requested partitioning scheme?"
 msgstr "की अहाँ निवेदित विभाजन योजना जारी राखनाइ चाहैत छी?"
 
-#: iw/partition_gui.py:868
+#: iw/partition_gui.py:871
 msgid "Partitioning Warnings"
 msgstr "विभाजन चेतावनी"
 
-#: iw/partition_gui.py:877
+#: iw/partition_gui.py:880
 #, fuzzy
 msgid ""
 "The following pre-existing devices have been selected to be formatted, "
@@ -3179,35 +3180,35 @@ msgid ""
 msgstr ""
 "निम्नांकित पूर्व-मोजुद विभाजनकेँ सबहि आंकड़ा नष्ट कए क' प्रारूपित करबाक' लेल चुनल गेल अछि."
 
-#: iw/partition_gui.py:889
+#: iw/partition_gui.py:892
 msgid "Format Warnings"
 msgstr "संरूप चेतावनी"
 
-#: iw/partition_gui.py:894 storage/dasd.py:139
+#: iw/partition_gui.py:897 storage/dasd.py:139
 msgid "_Format"
 msgstr "प्रारूपित करू (_F)"
 
-#: iw/partition_gui.py:984
+#: iw/partition_gui.py:987
 msgid "LVM Volume Groups"
 msgstr "LVM वाल्यूम समूह"
 
-#: iw/partition_gui.py:1006
+#: iw/partition_gui.py:1009
 msgid "RAID Devices"
 msgstr "RAID युक्तिसभ"
 
-#: iw/partition_gui.py:1017 loader/hdinstall.c:206
+#: iw/partition_gui.py:1020 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "हार्ड ड्राइव"
 
-#: iw/partition_gui.py:1067
+#: iw/partition_gui.py:1070
 msgid "Extended"
 msgstr "विस्तारित"
 
-#: iw/partition_gui.py:1346
+#: iw/partition_gui.py:1349
 msgid "Cannot perform any creation action"
 msgstr ""
 
-#: iw/partition_gui.py:1347
+#: iw/partition_gui.py:1350
 msgid ""
 "Note that the creation action requires one of the following:\n"
 "\n"
@@ -3217,7 +3218,7 @@ msgid ""
 "* At least one Volume Group with free space."
 msgstr ""
 
-#: iw/partition_gui.py:1455
+#: iw/partition_gui.py:1460
 #, fuzzy, python-format
 msgid ""
 "Software RAID allows you to combine several disks into a larger RAID "
@@ -3229,7 +3230,7 @@ msgstr ""
 "व्यक्तिगत ड्राइव क' उपयोग सँ बाइली गति आओर विश्वास देबा क' लेल एकटा RAID युक्तिकेँ "
 "विन्यस्त कए सकैत अछि. RAID युक्तिसभक उपयोग पर बेसी सूचना क' लेल कृप्या %s दस्ताबेज देखू."
 
-#: iw/partition_gui.py:1461
+#: iw/partition_gui.py:1466
 msgid ""
 "To use RAID you must first create at least two partitions of type 'software "
 "RAID'.  Then you can create a RAID device that can be formatted and "
@@ -3241,19 +3242,19 @@ msgstr ""
 "अछि.\n"
 "\n"
 
-#: iw/partition_gui.py:1465
+#: iw/partition_gui.py:1470
 #, fuzzy, python-format
 msgid "You currently have %d software RAID partition free to use."
 msgid_plural "You currently have %d software RAID partitions free to use."
 msgstr[0] "एकटा साफ्टवेयर RAID विभाजन बनाउ (_p)."
 msgstr[1] "एकटा साफ्टवेयर RAID विभाजन बनाउ (_p)."
 
-#: iw/partition_gui.py:1469
+#: iw/partition_gui.py:1474
 #, fuzzy
 msgid "About RAID"
 msgstr "साफ्टवेयर RAID"
 
-#: iw/partition_gui.py:1475
+#: iw/partition_gui.py:1480
 #, python-format
 msgid ""
 "Logical Volume Manager (LVM) is a 3 level construct. The first level is made "
@@ -3264,7 +3265,7 @@ msgid ""
 "information on using LVM please consult the %s documentation\n"
 msgstr ""
 
-#: iw/partition_gui.py:1483
+#: iw/partition_gui.py:1488
 msgid ""
 "To create a PV you need a partition with free space.  To create a VG you "
 "need a PV that is not part of any existing VG.  To create an LV you need a "
@@ -3272,49 +3273,49 @@ msgid ""
 "\n"
 msgstr ""
 
-#: iw/partition_gui.py:1487
+#: iw/partition_gui.py:1492
 #, python-format
 msgid "You currently have %d available PV free to use.\n"
 msgid_plural "You currently have %d available PVs free to use.\n"
 msgstr[0] ""
 msgstr[1] ""
 
-#: iw/partition_gui.py:1491
+#: iw/partition_gui.py:1496
 msgid "You currently have free space to create PVs."
 msgstr ""
 
-#: iw/partition_gui.py:1494
+#: iw/partition_gui.py:1499
 msgid "About LVM"
 msgstr ""
 
-#: iw/partition_gui.py:1525
+#: iw/partition_gui.py:1530
 msgid "Couldn't Create Drive Clone Editor"
 msgstr "ड्राइव क्लोन संपादक नहि बनाए सकल"
 
-#: iw/partition_gui.py:1526
+#: iw/partition_gui.py:1531
 msgid "The drive clone editor could not be created for some reason."
 msgstr "किछु कारण सँ ड्राइव क्लोन संपादक बनाओल नहि जाए सकत."
 
-#: iw/partition_gui.py:1584 storage/partitioning.py:196
+#: iw/partition_gui.py:1589 storage/partitioning.py:196
 #: storage/partitioning.py:239
 msgid "Error Partitioning"
 msgstr "विभाजन त्रुटि"
 
-#: iw/partition_gui.py:1585
+#: iw/partition_gui.py:1590
 #, python-format
 msgid "Could not allocate requested partitions: %s."
 msgstr "निवेदित विभाजनसभकेँ बाँटि नहि सकैत छल:  %s."
 
-#: iw/partition_gui.py:1594
+#: iw/partition_gui.py:1599
 #, python-format
 msgid "Warning: %s."
 msgstr "चेतावनी: %s"
 
-#: iw/partition_gui.py:1625
+#: iw/partition_gui.py:1630
 msgid "Unable To Edit"
 msgstr "संपादन करबामे असमर्थ"
 
-#: iw/partition_gui.py:1626
+#: iw/partition_gui.py:1631
 #, python-format
 msgid ""
 "You cannot edit this device:\n"
@@ -3325,15 +3326,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: iw/partition_gui.py:1809
+#: iw/partition_gui.py:1814
 msgid "_Create"
 msgstr ""
 
-#: iw/partition_gui.py:1812
+#: iw/partition_gui.py:1817
 msgid "Re_set"
 msgstr "पुनःजमाबू (_s)"
 
-#: iw/partition_gui.py:1835
+#: iw/partition_gui.py:1840
 #, fuzzy
 msgid "Please Select A Device"
 msgstr "कृप्या एकटा स्रोत ड्राइव चुनू."
@@ -3667,8 +3668,8 @@ msgstr "अहाँक सिस्टम पर वर्तमानमे �
 #: iw/upgrade_bootloader_gui.py:138 textw/upgrade_bootloader_text.py:121
 #, fuzzy, python-format
 msgid ""
-"The installer has detected the %(type)s boot loader currently installed on %"
-"(bootDev)s."
+"The installer has detected the %(type)s boot loader currently installed on "
+"%(bootDev)s."
 msgstr "संस्थापक ने %s बूट लोडरकेँ वर्तमानमे %s पर संस्थापित भेल खोजने अछि."
 
 #: iw/upgrade_bootloader_gui.py:142
@@ -3711,9 +3712,9 @@ msgstr "फाइल सिस्टमक उत्प्रवासन कर
 #, fuzzy, python-format
 msgid ""
 "This release of %(productName)s supports an updated file system, which has "
-"several benefits over the file system traditionally shipped in %(productName)"
-"s.  This installation program can migrate formatted partitions without data "
-"loss.\n"
+"several benefits over the file system traditionally shipped in "
+"%(productName)s.  This installation program can migrate formatted partitions "
+"without data loss.\n"
 "\n"
 "Which of these partitions would you like to migrate?"
 msgstr ""
@@ -3731,8 +3732,8 @@ msgstr "स्वैप विभाजनक उन्नयन करू"
 #, python-format
 msgid ""
 "Recent kernels (2.4 or newer) need significantly more swap than older "
-"kernels, up to twice the amount of RAM on the system.  You currently have %"
-"dMB of swap configured, but you may create additional swap space on one of "
+"kernels, up to twice the amount of RAM on the system.  You currently have "
+"%dMB of swap configured, but you may create additional swap space on one of "
 "your file systems now."
 msgstr ""
 "हाल क' कर्नल (2.4 अथवा नवीन)केँ पुरान कर्नलसभसँ बेसी स्वैप स्थान क' आवश्यकता हाएत अछि. "
@@ -5224,24 +5225,24 @@ msgstr "vginfo विफल रहल %s कए लेल"
 msgid "lvs failed for %s"
 msgstr "lvs विफल रहल %s कए लेल"
 
-#: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3289
+#: storage/devices.py:1258 storage/devices.py:1929 storage/devices.py:2332
+#: storage/devices.py:2803 storage/devices.py:3293
 #, fuzzy
 msgid "Creating"
 msgstr "क्रोशियाइ"
 
-#: storage/devices.py:1259 storage/devices.py:1926 storage/devices.py:2329
-#: storage/devices.py:2800
+#: storage/devices.py:1259 storage/devices.py:1930 storage/devices.py:2333
+#: storage/devices.py:2804
 #, fuzzy, python-format
 msgid "Creating device %s"
 msgstr "युक्ति बदलू (_C)"
 
-#: storage/devices.py:2422
+#: storage/devices.py:2426
 #, python-format
 msgid "A RAID%d set requires atleast %d members"
 msgstr ""
 
-#: storage/devices.py:3290
+#: storage/devices.py:3294
 #, fuzzy, python-format
 msgid "Creating file %s"
 msgstr "%s पर फाइल सिस्टम बनाए रहल अछि"
@@ -5535,8 +5536,8 @@ msgstr "WWPN %s नहि भेटल zFCP युक्ति %s पर."
 #: storage/zfcp.py:182
 #, fuzzy, python-format
 msgid ""
-"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s (%(e)"
-"s)."
+"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr "LUN %s केँ WWPN %s मे zFCP युक्ति %s (%s) पर जोड़ि नहि सकल."
 
 #: storage/zfcp.py:188
@@ -5562,15 +5563,15 @@ msgstr "विफल LUN %s WWPN %s मे zFCP युक्ति %s पर फ
 #: storage/zfcp.py:266
 #, fuzzy, python-format
 msgid ""
-"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s %(fcplun)"
-"s (%(e)s)."
+"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s "
+"%(fcplun)s (%(e)s)."
 msgstr "सही तरीकासँ SCSI युक्तिकेँ zFCP %s %s %s (%s) पर मेटाए नहि सकल."
 
 #: storage/zfcp.py:275
 #, fuzzy, python-format
 msgid ""
-"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s (%"
-"(e)s)."
+"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr "LUN %s केँ WWPN %s पर zFCP युक्ति %s (%s) पर हटाए नहि सकल."
 
 #: storage/zfcp.py:293
@@ -5765,7 +5766,7 @@ msgstr "विलोम CHAP प्रयोक्तानाम"
 msgid "Reverse CHAP password"
 msgstr "विलोम CHAP गुड़किल्ली"
 
-#: textw/progress_text.py:46
+#: textw/progress_text.py:57
 msgid "Package Installation"
 msgstr "संकुल संस्थापन"
 
@@ -6757,33 +6758,29 @@ msgstr "बूट लोडर संस्थापित कए रहल अ�
 msgid "Configuring Sabayon"
 msgstr "VNC विन्यास"
 
-#: sabayon/livecd.py:153
+#: sabayon/livecd.py:158
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:214
-msgid "System Health Status Warning"
-msgstr ""
-
-#: sabayon/utils.py:412
+#: sabayon/utils.py:405
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "संजाल अंतरफलक विन्यस्त कए रहल अछि"
 
-#: sabayon/utils.py:681
+#: sabayon/utils.py:684
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:683
+#: sabayon/utils.py:686
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:684
+#: sabayon/utils.py:687
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "संस्थापन प्रक्रिया आरंभ कए रहल अछि"
 
-#: sabayon/utils.py:714
+#: sabayon/utils.py:716
 #, fuzzy
 msgid "System Installation"
 msgstr "उत्तर संस्थापन"
@@ -6798,74 +6795,82 @@ msgstr "पुरान संकुल"
 msgid "Cleaning package"
 msgstr "गुम संकुल"
 
-#: sabayon/utils.py:913
+#: sabayon/utils.py:917
 #, fuzzy
 msgid "Installation complete"
 msgstr "संस्थापन कुँजी"
 
-#: sabayon/utils.py:921
+#: sabayon/utils.py:925
 msgid ""
 "The following language packs are available for download (you need Internet), "
 "would you like to install them?"
 msgstr ""
 
-#: sabayon/utils.py:925
+#: sabayon/utils.py:929
 #, fuzzy
 msgid "Language packs download"
 msgstr "संकुल संस्थापन"
 
-#: sabayon/utils.py:946
+#: sabayon/utils.py:950
 msgid "No language packs are available for download, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:947 sabayon/utils.py:957
+#: sabayon/utils.py:951 sabayon/utils.py:961
 #, fuzzy
 msgid "Language packs"
 msgstr "संकुल संस्थापन"
 
-#: sabayon/utils.py:956
+#: sabayon/utils.py:960
 msgid "No language packs are available for install, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:966
+#: sabayon/utils.py:970
 #, fuzzy
 msgid "Downloading package"
 msgstr "गुम संकुल"
 
-#: sabayon/utils.py:975
+#: sabayon/utils.py:979
 #, fuzzy
 msgid "Installing package"
 msgstr "संकुलसभक संस्थापन भ' रहल अछि"
 
-#: sabayon/utils.py:1004
+#: sabayon/utils.py:996 sabayon/utils.py:1006
+msgid "Reordering Entropy mirrors"
+msgstr ""
+
+#: sabayon/utils.py:996
+msgid "can take some time..."
+msgstr ""
+
+#: sabayon/utils.py:1034
 msgid "No repositories specified in"
 msgstr ""
 
-#: sabayon/utils.py:1006 sabayon/utils.py:1011 sabayon/utils.py:1018
+#: sabayon/utils.py:1036 sabayon/utils.py:1041 sabayon/utils.py:1048
 msgid "Repositories update"
 msgstr ""
 
-#: sabayon/utils.py:1010
+#: sabayon/utils.py:1040
 msgid "Unhandled exception"
 msgstr ""
 
-#: sabayon/utils.py:1017
-msgid "Cannot download language packs right now, no big deal"
+#: sabayon/utils.py:1047
+msgid "Cannot download repositories right now, no big deal"
 msgstr ""
 
-#: sabayon/utils.py:1140
+#: sabayon/utils.py:1170
 #, fuzzy
 msgid ""
 "This medium contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "संस्थापन प्रक्रिया क' समय अहाँ कओन भाषाक प्रयोग कएनाइ चाहैत छी?"
 
-#: sabayon/utils.py:1143
+#: sabayon/utils.py:1173
 #, fuzzy
 msgid "Language packs installation"
 msgstr "संकुल संस्थापन"
 
-#: sabayon/utils.py:1154
+#: sabayon/utils.py:1184
 msgid "Generating list of files to copy"
 msgstr ""
 

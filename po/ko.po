@@ -10,10 +10,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda.master\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-05-12 15:29+0200\n"
+"POT-Creation-Date: 2010-08-07 10:23+0200\n"
 "PO-Revision-Date: 2009-09-23 15:01+1000\n"
 "Last-Translator: Eunju Kim <eukim@redhat.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -97,11 +98,11 @@ msgstr "텍스트 모드 사용"
 msgid "Starting graphical installation."
 msgstr "그래픽 설치 시작중 "
 
-#: anaconda:1059
+#: anaconda:1062
 msgid "Would you like to use VNC?"
 msgstr "VNC를 사용하시겠습니까? "
 
-#: anaconda:1060
+#: anaconda:1063
 msgid ""
 "Text mode provides a limited set of installation options.  It does not allow "
 "you to specify your own partitioning layout or package selections.  Would "
@@ -110,11 +111,11 @@ msgstr ""
 "텍스트 모드는 제한된 설치 옵션을 제공합니다.  원하는 파피션 레이아웃을 지정하"
 "거나 패키지를 선택할 수 없습니다. 대신 VNC 모드를 사용하시겠습니까?       "
 
-#: anaconda:1086
+#: anaconda:1089
 msgid "Graphical installation is not available. Starting text mode."
 msgstr "그래픽 모드 설치를 사용할 수 없습니다...  텍스트 모드로 설치합니다. "
 
-#: anaconda:1094
+#: anaconda:1097
 msgid "DISPLAY variable not set. Starting text mode."
 msgstr "DISPLAY 변수가 설정되지 않았습니다. 텍스트 모드로 시작합니다. "
 
@@ -159,7 +160,7 @@ msgstr ""
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
 #: iw/advanced_storage.py:176 iw/advanced_storage.py:179
 #: iw/advanced_storage.py:207 iw/autopart_type.py:96 iw/cleardisks_gui.py:43
-#: iw/cleardisks_gui.py:53 iw/filter_gui.py:411 iw/osbootwidget.py:211
+#: iw/cleardisks_gui.py:53 iw/filter_gui.py:408 iw/osbootwidget.py:211
 #: iw/osbootwidget.py:220 iw/raid_dialog_gui.py:215 iw/raid_dialog_gui.py:766
 #: iw/raid_dialog_gui.py:805 iw/task_gui.py:54 iw/task_gui.py:155
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
@@ -178,7 +179,7 @@ msgstr ""
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:425
+#: textw/upgrade_text.py:188 sabayon/livecd.py:476 sabayon/utils.py:1005
 msgid "Error"
 msgstr "오류"
 
@@ -209,13 +210,13 @@ msgstr ""
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:432
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:483
 msgid "_Exit installer"
 msgstr "설치 프로그램 종료(_E)"
 
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1967
+#: iw/partition_gui.py:1603 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "계속 진행(_C)"
 
@@ -392,8 +393,8 @@ msgid ""
 "\n"
 "REINITIALIZING WILL CAUSE ALL DATA TO BE LOST!\n"
 "\n"
-"This action may also be applied to all other disks needing reinitialization.%"
-"(details)s"
+"This action may also be applied to all other disks needing reinitialization."
+"%(details)s"
 msgstr ""
 "드라이버를 프로세스 중 오류 발생:\n"
 "\n"
@@ -557,8 +558,8 @@ msgstr "필요한 설치 매체"
 #: image.py:242
 #, fuzzy, python-format
 msgid ""
-"The software you have selected to install will require the following %"
-"(productName)s %(productVersion)s discs:\n"
+"The software you have selected to install will require the following "
+"%(productName)s %(productVersion)s discs:\n"
 "\n"
 "%(reqcdstr)s\n"
 "Please have these ready before proceeding with the installation.  If you "
@@ -576,7 +577,7 @@ msgstr "재부팅(_R)"
 
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:431
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:482
 msgid "_Back"
 msgstr "뒤로(_B)"
 
@@ -606,22 +607,22 @@ msgstr[0] ""
 #: iutil.py:816
 #, fuzzy, python-format
 msgid ""
-"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: %(e)"
-"s)"
+"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr "오류: 오픈시 %s (%s: %s)에 reIPL 방식을 설정할 수 없습니다   "
 
 #: iutil.py:827
 #, fuzzy, python-format
 msgid ""
-"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr "오류: 작성시 %s (%s: %s)에 reIPL 방식을 설정할 수 없습니다  "
 
 #: iutil.py:836
 #, fuzzy, python-format
 msgid ""
-"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr "오류: 종료시, %s (%s: %s)에 reIPL 방식을 설정할 수 없습니다  "
 
 #: iutil.py:855
@@ -666,8 +667,8 @@ msgstr "오류: reIPL (%s)에 대한 디폴트 FCP 속성 %s 작성 중 "
 #: iutil.py:954
 #, python-format
 msgid ""
-"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN %"
-"(wwpn)s and LUN %(lun)s to continue installation"
+"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN "
+"%(wwpn)s and LUN %(lun)s to continue installation"
 msgstr ""
 "종료 후, WWPN %(wwpn)s 및 LUN %(lun)s를 사용하여 FCP %(device)s에서 수동으로 "
 "IPL을 실행하여 설치를 계속 진행하십시오 "
@@ -837,7 +838,7 @@ msgid ""
 msgstr ""
 "설치 후 파일 시스템을 변경합니다. 이는 몇 분이 소요될 수 있습니다...   "
 
-#: livecd.py:401 sabayon/livecd.py:426
+#: livecd.py:401 sabayon/livecd.py:477
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -852,8 +853,8 @@ msgstr "호스트명은 255자 이하의 문자로 구성되어야 합니다.   
 
 #: network.py:62
 msgid ""
-"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or '0-"
-"9'"
+"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or "
+"'0-9'"
 msgstr ""
 "호스트명의 첫 문자는 영문자 'a-z', 'A-Z' 또는 '0-9' 사이의 문자만을 이용하여 "
 "지정하셔야 합니다.  "
@@ -865,11 +866,11 @@ msgstr ""
 "호스트명은 영문자 'a-z', 'A-Z', '0-9'와 기호 '-', '.' 만을 이용하여 지정하셔"
 "야 합니다.   "
 
-#: network.py:176
+#: network.py:180
 msgid "IP address is missing."
 msgstr "IP 주소가 없습니다."
 
-#: network.py:180
+#: network.py:184
 msgid ""
 "IPv4 addresses must contain four numbers between 0 and 255, separated by "
 "periods."
@@ -877,12 +878,12 @@ msgstr ""
 "IPv4 주소는 0에서 255 사이의 네 자리 숫자로 마침표로 구분하여 지정해 주셔야 "
 "합니다."
 
-#: network.py:183
+#: network.py:187
 #, python-format
 msgid "'%s' is not a valid IPv6 address."
 msgstr "'%s' (은)는 잘못된 IPv6 주소입니다."
 
-#: network.py:185
+#: network.py:189
 #, python-format
 msgid "'%s' is an invalid IP address."
 msgstr "'%s' (은)는 잘못된 IP 주소입니다."
@@ -1022,8 +1023,8 @@ msgid "You are about to delete all partitions on the device '%s'."
 msgstr "'%s' 장치의 모든 파티션을 삭제하려고 합니다. "
 
 #: partIntfHelpers.py:157 partIntfHelpers.py:342 iw/lvm_dialog_gui.py:865
-#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1811
-#: iw/partition_gui.py:1823
+#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1816
+#: iw/partition_gui.py:1828
 msgid "_Delete"
 msgstr "삭제(_D)"
 
@@ -1083,7 +1084,7 @@ msgstr ""
 msgid "Format?"
 msgstr "포맷?"
 
-#: partIntfHelpers.py:249 iw/partition_gui.py:1596
+#: partIntfHelpers.py:249 iw/partition_gui.py:1601
 msgid "_Modify Partition"
 msgstr "파티션 수정(_M)"
 
@@ -1099,8 +1100,8 @@ msgstr "파티션 설정의 오류"
 #, fuzzy, python-format
 msgid ""
 "The following critical errors exist with your requested partitioning scheme. "
-"These errors must be corrected prior to continuing with your install of %"
-"(productName)s.\n"
+"These errors must be corrected prior to continuing with your install of "
+"%(productName)s.\n"
 "\n"
 "%(errorstr)s"
 msgstr ""
@@ -1291,13 +1292,13 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "시스템 상에서 네트워크 인터페이스를 시작하시겠습니까?"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:924
-#: sabayon/utils.py:1142
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:928
+#: sabayon/utils.py:1172
 msgid "Yes"
 msgstr "예"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:924 sabayon/utils.py:1142
+#: textw/constants_text.py:60 sabayon/utils.py:928 sabayon/utils.py:1172
 msgid "No"
 msgstr "아니오"
 
@@ -1933,8 +1934,8 @@ msgstr ""
 #: yuminstall.py:1001
 #, python-format
 msgid ""
-"There was an error running your transaction for the following reason(s): %"
-"s.\n"
+"There was an error running your transaction for the following reason(s): "
+"%s.\n"
 msgstr "다음과 같은 이유로 트랜젝션 실행 중 오류가 발생했습니다: %s.\n"
 
 #: yuminstall.py:1008 yuminstall.py:1013
@@ -2021,9 +2022,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid ""
 "The arch of the release of %(productName)s you are upgrading to appears to "
-"be %(myarch)s which does not match your previously installed arch of %(arch)"
-"s.  This is likely to not succeed.  Are you sure you wish to continue the "
-"upgrade process?"
+"be %(myarch)s which does not match your previously installed arch of "
+"%(arch)s.  This is likely to not succeed.  Are you sure you wish to continue "
+"the upgrade process?"
 msgstr ""
 "업그레이그하시려는 %s 출시 버전 아키텍쳐는 이전에 설치된 %s 버전 아키텍쳐와 "
 "일치하지 않는 %s 버전으로 나타나고 있습니다. 따라서 업그레이드를 제대로 실행"
@@ -2353,7 +2354,7 @@ msgstr "장치 교체(_C) "
 msgid "Clear Disks Selector"
 msgstr ""
 
-#: iw/cleardisks_gui.py:44 iw/filter_gui.py:412
+#: iw/cleardisks_gui.py:44 iw/filter_gui.py:409
 #, fuzzy
 msgid "You must select at least one drive to be used for installation."
 msgstr "%s 설치를 위해 최소 하나의 드라이브를 선택해 주셔야 합니다."
@@ -2363,30 +2364,30 @@ msgstr "%s 설치를 위해 최소 하나의 드라이브를 선택해 주셔야
 msgid "You must select one drive to boot from."
 msgstr "편집할 장치를 선택하셔야 합니다 "
 
-#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:447
-#: iw/filter_gui.py:458 iw/filter_gui.py:488
+#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:444
+#: iw/filter_gui.py:455 iw/filter_gui.py:485
 msgid "Model"
 msgstr ""
 
-#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:448
-#: iw/filter_gui.py:459 iw/filter_gui.py:467 iw/filter_gui.py:478
-#: iw/filter_gui.py:489
+#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:445
+#: iw/filter_gui.py:456 iw/filter_gui.py:464 iw/filter_gui.py:475
+#: iw/filter_gui.py:486
 msgid "Capacity"
 msgstr ""
 
-#: iw/cleardisks_gui.py:123 iw/filter_gui.py:449 iw/filter_gui.py:468
-#: iw/filter_gui.py:479 iw/filter_gui.py:490
+#: iw/cleardisks_gui.py:123 iw/filter_gui.py:446 iw/filter_gui.py:465
+#: iw/filter_gui.py:476 iw/filter_gui.py:487
 #, fuzzy
 msgid "Vendor"
 msgstr "Fedora(_F)"
 
-#: iw/cleardisks_gui.py:124 iw/filter_gui.py:450 iw/filter_gui.py:469
-#: iw/filter_gui.py:480 iw/filter_gui.py:491
+#: iw/cleardisks_gui.py:124 iw/filter_gui.py:447 iw/filter_gui.py:466
+#: iw/filter_gui.py:477 iw/filter_gui.py:488
 msgid "Interconnect"
 msgstr ""
 
-#: iw/cleardisks_gui.py:125 iw/filter_gui.py:451 iw/filter_gui.py:481
-#: iw/filter_gui.py:492
+#: iw/cleardisks_gui.py:125 iw/filter_gui.py:448 iw/filter_gui.py:478
+#: iw/filter_gui.py:489
 msgid "Serial Number"
 msgstr ""
 
@@ -2526,33 +2527,33 @@ msgstr ""
 msgid "Device Filter"
 msgstr "장치 설정 실패 "
 
-#: iw/filter_gui.py:452 iw/filter_gui.py:460 iw/filter_gui.py:471
-#: iw/filter_gui.py:482 iw/filter_gui.py:497 iw/osbootwidget.py:66
+#: iw/filter_gui.py:449 iw/filter_gui.py:457 iw/filter_gui.py:468
+#: iw/filter_gui.py:479 iw/filter_gui.py:494 iw/osbootwidget.py:66
 #: iw/partition_gui.py:607
 msgid "Device"
 msgstr "장치"
 
-#: iw/filter_gui.py:466 iw/filter_gui.py:477 iw/filter_gui.py:493
+#: iw/filter_gui.py:463 iw/filter_gui.py:474 iw/filter_gui.py:490
 #, fuzzy
 msgid "Identifier"
 msgstr "확인 "
 
-#: iw/filter_gui.py:470
+#: iw/filter_gui.py:467
 #, fuzzy
 msgid "Paths"
 msgstr "경로(_P) "
 
-#: iw/filter_gui.py:494
+#: iw/filter_gui.py:491
 #, fuzzy
 msgid "Port"
 msgstr "중지(_A)"
 
-#: iw/filter_gui.py:495
+#: iw/filter_gui.py:492
 #, fuzzy
 msgid "Target"
 msgstr "테스트"
 
-#: iw/filter_gui.py:496
+#: iw/filter_gui.py:493
 msgid "LUN"
 msgstr ""
 
@@ -2630,9 +2631,9 @@ msgstr "진행(_O)"
 #: iw/lvm_dialog_gui.py:172
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is larger than the smallest physical volume (%(maxpvsize)"
-"10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is larger than the smallest physical volume "
+"(%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "선택하신 값 (% 10.2f MB)이 볼륨 그룹의 최소 물리적 볼륨값 (%10.2f MB) 보다 큽"
 "니다. 물리적 범위 용량을 변경할 수 없습니다."
@@ -2640,9 +2641,9 @@ msgstr ""
 #: iw/lvm_dialog_gui.py:186
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is too large compared to the size of the smallest physical "
-"volume (%(maxpvsize)10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is too large compared to the size of the smallest "
+"physical volume (%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "선택하신 값 (%10.2f MB)이 볼륨 그룹의 최소 물리적 볼륨값 (%10.2f MB) 보다 큽"
 "니다. 물리적 범위 용량을 변경하실 수 없습니다."
@@ -2911,8 +2912,8 @@ msgstr "용량 (MB)"
 msgid "_Add"
 msgstr "추가(_A)"
 
-#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1810
-#: iw/partition_gui.py:1820
+#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1815
+#: iw/partition_gui.py:1825
 msgid "_Edit"
 msgstr "편집(_E)"
 
@@ -3118,7 +3119,7 @@ msgid "Drive %(drive)s (%(size)-0.f MB) (Model: %(model)s)"
 msgstr "드라이브 %s (%-0.f MB) (모델: %s)"
 
 #: iw/partition_gui.py:396 iw/partition_gui.py:442 iw/partition_gui.py:509
-#: iw/partition_gui.py:996 iw/partition_gui.py:1063
+#: iw/partition_gui.py:999 iw/partition_gui.py:1066
 msgid "Free"
 msgstr "여유공간"
 
@@ -3160,35 +3161,35 @@ msgstr ""
 msgid "Partitioning"
 msgstr "파티션 설정"
 
-#: iw/partition_gui.py:846
+#: iw/partition_gui.py:849
 msgid ""
 "The partitioning scheme you requested caused the following critical errors."
 msgstr ""
 "요청하신 파티션 설정 내용에서 다음과 같은 중대한 오류가 발생하였습니다."
 
-#: iw/partition_gui.py:848
+#: iw/partition_gui.py:851
 #, python-format
 msgid ""
 "You must correct these errors before you continue your installation of %s."
 msgstr "%s 설치에 앞서 현재 발생한 모든 오류를 해결해 주시기 바랍니다."
 
-#: iw/partition_gui.py:854
+#: iw/partition_gui.py:857
 msgid "Partitioning Errors"
 msgstr "파티션 설정의 오류"
 
-#: iw/partition_gui.py:861
+#: iw/partition_gui.py:864
 msgid "The partitioning scheme you requested generated the following warnings."
 msgstr "요청하신 파티션 설정 내용에서 다음과 같은 경고가 발생하였습니다."
 
-#: iw/partition_gui.py:863
+#: iw/partition_gui.py:866
 msgid "Would you like to continue with your requested partitioning scheme?"
 msgstr "지정하신 내용으로 파티션을 설정하시겠습니까?"
 
-#: iw/partition_gui.py:868
+#: iw/partition_gui.py:871
 msgid "Partitioning Warnings"
 msgstr "파티션 설정시 주의사항"
 
-#: iw/partition_gui.py:877
+#: iw/partition_gui.py:880
 #, fuzzy
 msgid ""
 "The following pre-existing devices have been selected to be formatted, "
@@ -3197,35 +3198,35 @@ msgstr ""
 "포맷하기 위해 다음의 기존-파티션을 선택합니다, 파티션 안의 모든 자료는 삭제됩"
 "니다."
 
-#: iw/partition_gui.py:889
+#: iw/partition_gui.py:892
 msgid "Format Warnings"
 msgstr "포맷시 주의사항"
 
-#: iw/partition_gui.py:894 storage/dasd.py:139
+#: iw/partition_gui.py:897 storage/dasd.py:139
 msgid "_Format"
 msgstr "포맷(_F)"
 
-#: iw/partition_gui.py:984
+#: iw/partition_gui.py:987
 msgid "LVM Volume Groups"
 msgstr "LVM 볼륨 그룹"
 
-#: iw/partition_gui.py:1006
+#: iw/partition_gui.py:1009
 msgid "RAID Devices"
 msgstr "RAID 장치"
 
-#: iw/partition_gui.py:1017 loader/hdinstall.c:206
+#: iw/partition_gui.py:1020 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "하드 드라이브"
 
-#: iw/partition_gui.py:1067
+#: iw/partition_gui.py:1070
 msgid "Extended"
 msgstr "확장됨(Extended)"
 
-#: iw/partition_gui.py:1346
+#: iw/partition_gui.py:1349
 msgid "Cannot perform any creation action"
 msgstr ""
 
-#: iw/partition_gui.py:1347
+#: iw/partition_gui.py:1350
 msgid ""
 "Note that the creation action requires one of the following:\n"
 "\n"
@@ -3235,7 +3236,7 @@ msgid ""
 "* At least one Volume Group with free space."
 msgstr ""
 
-#: iw/partition_gui.py:1455
+#: iw/partition_gui.py:1460
 #, fuzzy, python-format
 msgid ""
 "Software RAID allows you to combine several disks into a larger RAID "
@@ -3248,7 +3249,7 @@ msgstr ""
 "할 수 있습니다.  RAID 장치 사용법에 관련된 보다 많은 정보를 원하시면 %s 문서 "
 "자료를 참조해 보시기 바랍니다.  "
 
-#: iw/partition_gui.py:1461
+#: iw/partition_gui.py:1466
 msgid ""
 "To use RAID you must first create at least two partitions of type 'software "
 "RAID'.  Then you can create a RAID device that can be formatted and "
@@ -3259,18 +3260,18 @@ msgstr ""
 "드셔야 합니다.  그 후 RAID 장치를 생성하여 포맷하고 마운트할 수 있습니다.\n"
 "\n"
 
-#: iw/partition_gui.py:1465
+#: iw/partition_gui.py:1470
 #, fuzzy, python-format
 msgid "You currently have %d software RAID partition free to use."
 msgid_plural "You currently have %d software RAID partitions free to use."
 msgstr[0] "소프트웨어 RAID 파티션 만들기(_P)"
 
-#: iw/partition_gui.py:1469
+#: iw/partition_gui.py:1474
 #, fuzzy
 msgid "About RAID"
 msgstr "소프트웨어 RAID"
 
-#: iw/partition_gui.py:1475
+#: iw/partition_gui.py:1480
 #, python-format
 msgid ""
 "Logical Volume Manager (LVM) is a 3 level construct. The first level is made "
@@ -3281,7 +3282,7 @@ msgid ""
 "information on using LVM please consult the %s documentation\n"
 msgstr ""
 
-#: iw/partition_gui.py:1483
+#: iw/partition_gui.py:1488
 msgid ""
 "To create a PV you need a partition with free space.  To create a VG you "
 "need a PV that is not part of any existing VG.  To create an LV you need a "
@@ -3289,48 +3290,48 @@ msgid ""
 "\n"
 msgstr ""
 
-#: iw/partition_gui.py:1487
+#: iw/partition_gui.py:1492
 #, python-format
 msgid "You currently have %d available PV free to use.\n"
 msgid_plural "You currently have %d available PVs free to use.\n"
 msgstr[0] ""
 
-#: iw/partition_gui.py:1491
+#: iw/partition_gui.py:1496
 msgid "You currently have free space to create PVs."
 msgstr ""
 
-#: iw/partition_gui.py:1494
+#: iw/partition_gui.py:1499
 msgid "About LVM"
 msgstr ""
 
-#: iw/partition_gui.py:1525
+#: iw/partition_gui.py:1530
 msgid "Couldn't Create Drive Clone Editor"
 msgstr "드라이브 복제품 편집기를 생성하지 못함"
 
-#: iw/partition_gui.py:1526
+#: iw/partition_gui.py:1531
 msgid "The drive clone editor could not be created for some reason."
 msgstr "드라이브 복제 편집기가 생성되지 않았습니다."
 
-#: iw/partition_gui.py:1584 storage/partitioning.py:196
+#: iw/partition_gui.py:1589 storage/partitioning.py:196
 #: storage/partitioning.py:239
 msgid "Error Partitioning"
 msgstr "파티션 작업 오류"
 
-#: iw/partition_gui.py:1585
+#: iw/partition_gui.py:1590
 #, python-format
 msgid "Could not allocate requested partitions: %s."
 msgstr "요구하신 파티션을 할당할 수 없습니다: %s."
 
-#: iw/partition_gui.py:1594
+#: iw/partition_gui.py:1599
 #, python-format
 msgid "Warning: %s."
 msgstr "경고: %s."
 
-#: iw/partition_gui.py:1625
+#: iw/partition_gui.py:1630
 msgid "Unable To Edit"
 msgstr "편집할 수 없음"
 
-#: iw/partition_gui.py:1626
+#: iw/partition_gui.py:1631
 #, python-format
 msgid ""
 "You cannot edit this device:\n"
@@ -3341,15 +3342,15 @@ msgstr ""
 "\n"
 "%s "
 
-#: iw/partition_gui.py:1809
+#: iw/partition_gui.py:1814
 msgid "_Create"
 msgstr ""
 
-#: iw/partition_gui.py:1812
+#: iw/partition_gui.py:1817
 msgid "Re_set"
 msgstr "재설정(_S)"
 
-#: iw/partition_gui.py:1835
+#: iw/partition_gui.py:1840
 #, fuzzy
 msgid "Please Select A Device"
 msgstr "소스 드라이브를 선택해 주십시오."
@@ -3688,8 +3689,8 @@ msgstr ""
 #: iw/upgrade_bootloader_gui.py:138 textw/upgrade_bootloader_text.py:121
 #, fuzzy, python-format
 msgid ""
-"The installer has detected the %(type)s boot loader currently installed on %"
-"(bootDev)s."
+"The installer has detected the %(type)s boot loader currently installed on "
+"%(bootDev)s."
 msgstr ""
 "설치 프로그램이 %s부트 로더가 현재 %s에 설치되어있는 것을 발견했습니다."
 
@@ -3733,9 +3734,9 @@ msgstr "파일시스템 이전"
 #, fuzzy, python-format
 msgid ""
 "This release of %(productName)s supports an updated file system, which has "
-"several benefits over the file system traditionally shipped in %(productName)"
-"s.  This installation program can migrate formatted partitions without data "
-"loss.\n"
+"several benefits over the file system traditionally shipped in "
+"%(productName)s.  This installation program can migrate formatted partitions "
+"without data loss.\n"
 "\n"
 "Which of these partitions would you like to migrate?"
 msgstr ""
@@ -3754,8 +3755,8 @@ msgstr "스왑 파티션 업그레이드"
 #, python-format
 msgid ""
 "Recent kernels (2.4 or newer) need significantly more swap than older "
-"kernels, up to twice the amount of RAM on the system.  You currently have %"
-"dMB of swap configured, but you may create additional swap space on one of "
+"kernels, up to twice the amount of RAM on the system.  You currently have "
+"%dMB of swap configured, but you may create additional swap space on one of "
 "your file systems now."
 msgstr ""
 "커널 2.4 부터는 이전의 커널이 시스템에 설치되어 있는 램 용량의 두배 이상을 스"
@@ -5254,24 +5255,24 @@ msgstr "%s에 대해 vginfo 실패 "
 msgid "lvs failed for %s"
 msgstr "%s에 대해 lvs 실패 "
 
-#: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3289
+#: storage/devices.py:1258 storage/devices.py:1929 storage/devices.py:2332
+#: storage/devices.py:2803 storage/devices.py:3293
 #, fuzzy
 msgid "Creating"
 msgstr "크로아티아어 "
 
-#: storage/devices.py:1259 storage/devices.py:1926 storage/devices.py:2329
-#: storage/devices.py:2800
+#: storage/devices.py:1259 storage/devices.py:1930 storage/devices.py:2333
+#: storage/devices.py:2804
 #, fuzzy, python-format
 msgid "Creating device %s"
 msgstr "장치 교체(_C) "
 
-#: storage/devices.py:2422
+#: storage/devices.py:2426
 #, python-format
 msgid "A RAID%d set requires atleast %d members"
 msgstr ""
 
-#: storage/devices.py:3290
+#: storage/devices.py:3294
 #, fuzzy, python-format
 msgid "Creating file %s"
 msgstr "%s에 파일 시스템 생성 중 "
@@ -5565,8 +5566,8 @@ msgstr "WWPN %s을(를) zFCP 장치 %s에서 찾을 수 없습니다.  "
 #: storage/zfcp.py:182
 #, fuzzy, python-format
 msgid ""
-"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s (%(e)"
-"s)."
+"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr "zFCP 장치 %s (%s)에서 LUN %s을(를) WWPN %s에 추가할 수 없습니다. "
 
 #: storage/zfcp.py:188
@@ -5594,15 +5595,15 @@ msgstr "zFCP 장치 %s에 있는 WWPN %s에서 실패한 LUN %s이 다시 삭제
 #: storage/zfcp.py:266
 #, fuzzy, python-format
 msgid ""
-"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s %(fcplun)"
-"s (%(e)s)."
+"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s "
+"%(fcplun)s (%(e)s)."
 msgstr "zFCP %s %s %s (%s)의 SCSI 장치를 올바르게 삭제할 수 없습니다.  "
 
 #: storage/zfcp.py:275
 #, fuzzy, python-format
 msgid ""
-"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s (%"
-"(e)s)."
+"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr "zFCP 장치 %s (%s) 상의 WWPN %s에서 LUN %s을(를) 제거할 수 없습니다.   "
 
 #: storage/zfcp.py:293
@@ -5798,7 +5799,7 @@ msgstr "역순 CHAP 사용자 이름 "
 msgid "Reverse CHAP password"
 msgstr "역순 CHAP 암호 "
 
-#: textw/progress_text.py:46
+#: textw/progress_text.py:57
 msgid "Package Installation"
 msgstr "패키지 설치"
 
@@ -6796,33 +6797,29 @@ msgstr "부트로더를 설치하고 있습니다. "
 msgid "Configuring Sabayon"
 msgstr "VNC 설정"
 
-#: sabayon/livecd.py:153
+#: sabayon/livecd.py:158
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:214
-msgid "System Health Status Warning"
-msgstr ""
-
-#: sabayon/utils.py:412
+#: sabayon/utils.py:405
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "네트워크 인터페이스 설정 "
 
-#: sabayon/utils.py:681
+#: sabayon/utils.py:684
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:683
+#: sabayon/utils.py:686
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:684
+#: sabayon/utils.py:687
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "설치 프로세스 시작하기 "
 
-#: sabayon/utils.py:714
+#: sabayon/utils.py:716
 #, fuzzy
 msgid "System Installation"
 msgstr "설치후 설정 "
@@ -6837,74 +6834,82 @@ msgstr "이전 팩키지"
 msgid "Cleaning package"
 msgstr "패키지 부재"
 
-#: sabayon/utils.py:913
+#: sabayon/utils.py:917
 #, fuzzy
 msgid "Installation complete"
 msgstr "설치키"
 
-#: sabayon/utils.py:921
+#: sabayon/utils.py:925
 msgid ""
 "The following language packs are available for download (you need Internet), "
 "would you like to install them?"
 msgstr ""
 
-#: sabayon/utils.py:925
+#: sabayon/utils.py:929
 #, fuzzy
 msgid "Language packs download"
 msgstr "패키지 설치"
 
-#: sabayon/utils.py:946
+#: sabayon/utils.py:950
 msgid "No language packs are available for download, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:947 sabayon/utils.py:957
+#: sabayon/utils.py:951 sabayon/utils.py:961
 #, fuzzy
 msgid "Language packs"
 msgstr "패키지 설치"
 
-#: sabayon/utils.py:956
+#: sabayon/utils.py:960
 msgid "No language packs are available for install, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:966
+#: sabayon/utils.py:970
 #, fuzzy
 msgid "Downloading package"
 msgstr "패키지 부재"
 
-#: sabayon/utils.py:975
+#: sabayon/utils.py:979
 #, fuzzy
 msgid "Installing package"
 msgstr "패키지 설치"
 
-#: sabayon/utils.py:1004
+#: sabayon/utils.py:996 sabayon/utils.py:1006
+msgid "Reordering Entropy mirrors"
+msgstr ""
+
+#: sabayon/utils.py:996
+msgid "can take some time..."
+msgstr ""
+
+#: sabayon/utils.py:1034
 msgid "No repositories specified in"
 msgstr ""
 
-#: sabayon/utils.py:1006 sabayon/utils.py:1011 sabayon/utils.py:1018
+#: sabayon/utils.py:1036 sabayon/utils.py:1041 sabayon/utils.py:1048
 msgid "Repositories update"
 msgstr ""
 
-#: sabayon/utils.py:1010
+#: sabayon/utils.py:1040
 msgid "Unhandled exception"
 msgstr ""
 
-#: sabayon/utils.py:1017
-msgid "Cannot download language packs right now, no big deal"
+#: sabayon/utils.py:1047
+msgid "Cannot download repositories right now, no big deal"
 msgstr ""
 
-#: sabayon/utils.py:1140
+#: sabayon/utils.py:1170
 #, fuzzy
 msgid ""
 "This medium contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "설치 과정에서 사용하실 언어를 선택해 주십시오"
 
-#: sabayon/utils.py:1143
+#: sabayon/utils.py:1173
 #, fuzzy
 msgid "Language packs installation"
 msgstr "패키지 설치"
 
-#: sabayon/utils.py:1154
+#: sabayon/utils.py:1184
 msgid "Generating list of files to copy"
 msgstr ""
 

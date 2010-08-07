@@ -15,10 +15,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: anaconda.f12-branch.kn\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2010-05-12 15:29+0200\n"
+"POT-Creation-Date: 2010-08-07 10:23+0200\n"
 "PO-Revision-Date: 2010-01-07 15:13+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <kde-l10n-kn@kde.org>\n"
+"Language: kn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -95,11 +96,11 @@ msgstr "ಪಠ್ಯವಿಧಾನವನ್ನು ಬಳಸು"
 msgid "Starting graphical installation."
 msgstr "ಚಿತ್ರಾತ್ಮಕ ಅನುಸ್ಥಾಪನೆ ಪ್ರಾರಂಭವಾಗುತ್ತಿದೆ."
 
-#: anaconda:1059
+#: anaconda:1062
 msgid "Would you like to use VNC?"
 msgstr "ನೀವು VNC ಅನ್ನು ಬಳಸಲು ಇಚ್ಚಿಸುತ್ತೀರಾ?"
 
-#: anaconda:1060
+#: anaconda:1063
 msgid ""
 "Text mode provides a limited set of installation options.  It does not allow "
 "you to specify your own partitioning layout or package selections.  Would "
@@ -109,11 +110,11 @@ msgstr ""
 "ವಿಭಾಗೀಕರಣ ವಿನ್ಯಾಸವನ್ನು ಸೂಚಿಸಲು ಅಥವ ಪ್ಯಾಕೇಜನ್ನು ಆರಿಸಲು ಅನುಮತಿ ಇರುವುದಿಲ್ಲ. ಬದಲಿಗೆ "
 "VNC ಕ್ರಮವನ್ನು ಬಳಸಲು ಬಯಸುತ್ತೀರೆ?"
 
-#: anaconda:1086
+#: anaconda:1089
 msgid "Graphical installation is not available. Starting text mode."
 msgstr "ಚಿತ್ರಾತ್ಮಕ ಅನುಸ್ಥಾಪನೆ ಲಭ್ಯವಿಲ್ಲ.  ಪಠ್ಯಾತ್ಮಕ ಕ್ರಮದಲ್ಲಿ ಪ್ರಾರಂಭವಾಗುತ್ತಿದೆ."
 
-#: anaconda:1094
+#: anaconda:1097
 msgid "DISPLAY variable not set. Starting text mode."
 msgstr "DISPLAY ಚರಮೌಲ್ಯ (ವೇರಿಯೇಬಲ್) ನಿಗದಿಗೊಂಡಿಲ್ಲ. ಪಠ್ಯಾತ್ಮಕ ಶೈಲಿ ಪ್ರಾರಂಭವಾಗುತ್ತಿದೆ."
 
@@ -158,7 +159,7 @@ msgstr ""
 #: iw/advanced_storage.py:90 iw/advanced_storage.py:100
 #: iw/advanced_storage.py:176 iw/advanced_storage.py:179
 #: iw/advanced_storage.py:207 iw/autopart_type.py:96 iw/cleardisks_gui.py:43
-#: iw/cleardisks_gui.py:53 iw/filter_gui.py:411 iw/osbootwidget.py:211
+#: iw/cleardisks_gui.py:53 iw/filter_gui.py:408 iw/osbootwidget.py:211
 #: iw/osbootwidget.py:220 iw/raid_dialog_gui.py:215 iw/raid_dialog_gui.py:766
 #: iw/raid_dialog_gui.py:805 iw/task_gui.py:54 iw/task_gui.py:155
 #: iw/task_gui.py:302 iw/task_gui.py:463 loader/cdinstall.c:228
@@ -177,7 +178,7 @@ msgstr ""
 #: textw/partition_text.py:186 textw/partition_text.py:192
 #: textw/partition_text.py:198 textw/partition_text.py:227
 #: textw/partition_text.py:273 textw/upgrade_text.py:181
-#: textw/upgrade_text.py:188 sabayon/livecd.py:425
+#: textw/upgrade_text.py:188 sabayon/livecd.py:476 sabayon/utils.py:1005
 msgid "Error"
 msgstr "ದೋಷ"
 
@@ -207,13 +208,13 @@ msgstr ""
 #: yuminstall.py:930 yuminstall.py:1010 yuminstall.py:1016 yuminstall.py:1169
 #: yuminstall.py:1186 yuminstall.py:1239 yuminstall.py:1427 yuminstall.py:1446
 #: yuminstall.py:1469 storage/__init__.py:112 storage/__init__.py:219
-#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:432
+#: storage/__init__.py:1966 storage/dasd.py:139 sabayon/livecd.py:483
 msgid "_Exit installer"
 msgstr "ಅನುಸ್ಥಾಪಕದಿಂದ ನಿರ್ಗಮಿಸು (_E)"
 
 #: bootloader.py:60 image.py:92 image.py:251 kickstart.py:1350
 #: kickstart.py:1389 upgrade.py:56 yuminstall.py:1244 yuminstall.py:1428
-#: iw/partition_gui.py:1598 storage/__init__.py:1967
+#: iw/partition_gui.py:1603 storage/__init__.py:1967
 msgid "_Continue"
 msgstr "ಮುಂದುವರೆ (_C)"
 
@@ -391,8 +392,8 @@ msgid ""
 "\n"
 "REINITIALIZING WILL CAUSE ALL DATA TO BE LOST!\n"
 "\n"
-"This action may also be applied to all other disks needing reinitialization.%"
-"(details)s"
+"This action may also be applied to all other disks needing reinitialization."
+"%(details)s"
 msgstr ""
 "ಡ್ರೈವನ್ನು ಸಂಸ್ಕರಿಸುವಾಗ ದೋಷ ಉಂಟಾಗಿದೆ.\n"
 "\n"
@@ -554,8 +555,8 @@ msgstr "ಅಗತ್ಯ ಅನುಸ್ಥಾಪನಾ ಮಾಧ್ಯಮಗಳ�
 #: image.py:242
 #, fuzzy, python-format
 msgid ""
-"The software you have selected to install will require the following %"
-"(productName)s %(productVersion)s discs:\n"
+"The software you have selected to install will require the following "
+"%(productName)s %(productVersion)s discs:\n"
 "\n"
 "%(reqcdstr)s\n"
 "Please have these ready before proceeding with the installation.  If you "
@@ -573,7 +574,7 @@ msgstr "ಮರು ಬೂಟ್ ಮಾಡು (_R)"
 
 #: image.py:251 livecd.py:406 packages.py:332 upgrade.py:236 yuminstall.py:930
 #: yuminstall.py:1016 yuminstall.py:1427 yuminstall.py:1469 yuminstall.py:1487
-#: ui/anaconda.glade.h:2 sabayon/livecd.py:431
+#: ui/anaconda.glade.h:2 sabayon/livecd.py:482
 msgid "_Back"
 msgstr "ಹಿಂದಕ್ಕೆ (_B)"
 
@@ -605,22 +606,22 @@ msgstr[1] ""
 #: iutil.py:816
 #, fuzzy, python-format
 msgid ""
-"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: %(e)"
-"s)"
+"Error: On open, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr "ದೋಷ: ತೆರೆದಾಗ, %s ಗೆ reIPL ವಿಧಾನವನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ (%s: %s)"
 
 #: iutil.py:827
 #, fuzzy, python-format
 msgid ""
-"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On write, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr "ದೋಷ: ಬರೆದಾಗ, %s ಗೆ reIPL ವಿಧಾನವನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ (%s: %s)"
 
 #: iutil.py:836
 #, fuzzy, python-format
 msgid ""
-"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: %"
-"(e)s)"
+"Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s: "
+"%(e)s)"
 msgstr "ದೋಷ: ಮುಚ್ಚಿದಾಗ, %s ಗೆ reIPL ವಿಧಾನವನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ (%s: %s)"
 
 #: iutil.py:855
@@ -666,11 +667,11 @@ msgstr "ದೋಷ: ಪೂರ್ವನಿಯೋಜಿತ FCP ಗುಣ %s ಅನ�
 #: iutil.py:954
 #, python-format
 msgid ""
-"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN %"
-"(wwpn)s and LUN %(lun)s to continue installation"
+"After shutdown, please perform a manual IPL from FCP %(device)s with WWPN "
+"%(wwpn)s and LUN %(lun)s to continue installation"
 msgstr ""
-"ಸ್ಥಗಿತಗೊಳಿಸಿದ ನಂತರ, ಅನುಸ್ಥಾಪನೆಯನ್ನು ಮುಂದುವರೆಸಲು ದಯವಿಟ್ಟು WWPN %(wwpn)s ಹಾಗು LUN %"
-"(lun)s ಯೊಂದಿಗೆ FCP %(device)s ಕೈಯಾರೆ IPL ಅನ್ನು ನಿರ್ವಹಿಸಿ"
+"ಸ್ಥಗಿತಗೊಳಿಸಿದ ನಂತರ, ಅನುಸ್ಥಾಪನೆಯನ್ನು ಮುಂದುವರೆಸಲು ದಯವಿಟ್ಟು WWPN %(wwpn)s ಹಾಗು LUN "
+"%(lun)s ಯೊಂದಿಗೆ FCP %(device)s ಕೈಯಾರೆ IPL ಅನ್ನು ನಿರ್ವಹಿಸಿ"
 
 #: iutil.py:971
 msgid ""
@@ -839,7 +840,7 @@ msgstr ""
 "ಅನುಸ್ಥಾಪನ ನಂತರದ ಕಡತ ವ್ಯವಸ್ಥೆ ಬದಲಾವಣೆಗಳನ್ನು ಮಾಡಲಾಗುತ್ತಿದೆ. ಇದಕ್ಕೆ ಹಲವು ನಿಮಿಷಗಳು "
 "ಬೇಕಾಗಬಹುದು."
 
-#: livecd.py:401 sabayon/livecd.py:426
+#: livecd.py:401 sabayon/livecd.py:477
 #, python-format
 msgid ""
 "The root filesystem you created is not large enough for this live image "
@@ -854,8 +855,8 @@ msgstr "ಆತಿಥೇಯನಾಮ 255 ಅಕ್ಷರಗಳನ್ನು ಅಥ
 
 #: network.py:62
 msgid ""
-"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or '0-"
-"9'"
+"Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or "
+"'0-9'"
 msgstr ""
 "ಆತಿಥೇಯನಾಮವು 'a-z', 'A-Z', 0-9, '-' ಅಥವ '.' ವ್ಯಾಪ್ತಿಯ ಒಳಗಿರುವ ಮಾನ್ಯವಾದ ಅಕ್ಷರಗಳಿಂದ "
 "ಮಾತ್ರ ಪ್ರಾರಂಭವಾಗಬೇಕು"
@@ -865,11 +866,11 @@ msgid ""
 "Hostnames can only contain the characters 'a-z', 'A-Z', '0-9', '-', or '.'"
 msgstr "ಆತಿಥೇಯನಾಮವು ಕೇವಲ 'a-z', 'A-Z', 0-9, '-' ಅಥವ '.'ಅಕ್ಷರಗಳನ್ನು ಹೊಂದಿರಬಹುದು"
 
-#: network.py:176
+#: network.py:180
 msgid "IP address is missing."
 msgstr "IP ವಿಳಾಸ ನಾಪತ್ತೆಯಾಗಿದೆ."
 
-#: network.py:180
+#: network.py:184
 msgid ""
 "IPv4 addresses must contain four numbers between 0 and 255, separated by "
 "periods."
@@ -877,12 +878,12 @@ msgstr ""
 "IP ವಿಳಾಸಗಳು 0 ಮತ್ತು 255 ರ ನಡುವಿನ ನಾಲ್ಕು ಸಂಖ್ಯೆಗಳನ್ನು ಒಳಗೊಂಡಿದ್ದು, ಆವರ್ತಕವನ್ನು "
 "ಹೊಂದಿರಬೇಕು."
 
-#: network.py:183
+#: network.py:187
 #, python-format
 msgid "'%s' is not a valid IPv6 address."
 msgstr "%s ಯು ಒಂದು ಮಾನ್ಯ IPv6 ವಿಳಾಸವಲ್ಲ."
 
-#: network.py:185
+#: network.py:189
 #, python-format
 msgid "'%s' is an invalid IP address."
 msgstr "%s ಯು ಒಂದು ಮಾನ್ಯ IPv6 ವಿಳಾಸವಾಗಿದೆ."
@@ -1022,8 +1023,8 @@ msgid "You are about to delete all partitions on the device '%s'."
 msgstr "ನೀವು '%s' ಸಾಧನದಲ್ಲಿರುವ ಎಲ್ಲಾ ವಿಭಾಗಗಳನ್ನೂ ತೆಗೆದುಹಾಕುವುದರಲ್ಲಿದ್ದೀರಿ."
 
 #: partIntfHelpers.py:157 partIntfHelpers.py:342 iw/lvm_dialog_gui.py:865
-#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1811
-#: iw/partition_gui.py:1823
+#: iw/lvm_dialog_gui.py:1434 iw/osbootwidget.py:104 iw/partition_gui.py:1816
+#: iw/partition_gui.py:1828
 msgid "_Delete"
 msgstr "ಅಳಿಸು (_D)"
 
@@ -1084,7 +1085,7 @@ msgstr ""
 msgid "Format?"
 msgstr "ಫಾರ್ಮಾಟುಗೊಳಿಸುವುದೇ?"
 
-#: partIntfHelpers.py:249 iw/partition_gui.py:1596
+#: partIntfHelpers.py:249 iw/partition_gui.py:1601
 msgid "_Modify Partition"
 msgstr "ವಿಭಾಗವನ್ನು ಮಾರ್ಪಡಿಸು (_M)"
 
@@ -1100,8 +1101,8 @@ msgstr "ವಿಭಾಗೀಕರಣದಲ್ಲಿ ದೋಷ ಕಂಡುಬಂ�
 #, fuzzy, python-format
 msgid ""
 "The following critical errors exist with your requested partitioning scheme. "
-"These errors must be corrected prior to continuing with your install of %"
-"(productName)s.\n"
+"These errors must be corrected prior to continuing with your install of "
+"%(productName)s.\n"
 "\n"
 "%(errorstr)s"
 msgstr ""
@@ -1294,13 +1295,13 @@ msgid "Do you want to start the network interfaces on this system?"
 msgstr "ಈ ಗಣಕದಲ್ಲಿ ಜಾಲ ಸಂಪರ್ಕಸಾಧನಗಳನ್ನು ಪ್ರಾರಂಭಿಸುವ ಅಪೇಕ್ಷೆ ಇದೆಯೇ?"
 
 #: rescue.py:242 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:924
-#: sabayon/utils.py:1142
+#: loader/hdinstall.c:206 textw/constants_text.py:56 sabayon/utils.py:928
+#: sabayon/utils.py:1172
 msgid "Yes"
 msgstr "ಹೌದು"
 
 #: rescue.py:242 rescue.py:244 loader/driverdisk.c:666 loader/driverdisk.c:676
-#: textw/constants_text.py:60 sabayon/utils.py:924 sabayon/utils.py:1142
+#: textw/constants_text.py:60 sabayon/utils.py:928 sabayon/utils.py:1172
 msgid "No"
 msgstr "ಇಲ್ಲ"
 
@@ -1897,8 +1898,8 @@ msgstr "ಡೌನ್‍ಲೋಡನ್ನು ಮಾಡಲು ಮರಳಿ ಪ್
 msgid ""
 "There was an error running your transaction for the following reason: %s\n"
 msgstr ""
-"ಈ ಕೆಳಕಂಡ ಕಾರಣಗಳಿಂದಾಗಿ ನಿಮ್ಮ ವ್ಯವಹಾರಗಳನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸುವಾಗ ಒಂದು ದೋಷ ಕಂಡುಬಂದಿದೆ: %"
-"s\n"
+"ಈ ಕೆಳಕಂಡ ಕಾರಣಗಳಿಂದಾಗಿ ನಿಮ್ಮ ವ್ಯವಹಾರಗಳನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸುವಾಗ ಒಂದು ದೋಷ ಕಂಡುಬಂದಿದೆ: "
+"%s\n"
 
 #: yuminstall.py:962 yuminstall.py:963
 msgid "file conflicts"
@@ -1952,8 +1953,8 @@ msgstr ""
 #: yuminstall.py:1001
 #, python-format
 msgid ""
-"There was an error running your transaction for the following reason(s): %"
-"s.\n"
+"There was an error running your transaction for the following reason(s): "
+"%s.\n"
 msgstr ""
 "ಈ ಕೆಳಕಂಡ ಕಾರಣದಿಂದಾಗಿ(ಗಳಿಂದಾಗಿ) ನಿಮ್ಮ ವ್ಯವಹಾರಗಳನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸುವಾಗ ದೋಷ "
 "ಕಂಡುಬಂದಿತು: %s\n"
@@ -2043,9 +2044,9 @@ msgstr ""
 #, fuzzy, python-format
 msgid ""
 "The arch of the release of %(productName)s you are upgrading to appears to "
-"be %(myarch)s which does not match your previously installed arch of %(arch)"
-"s.  This is likely to not succeed.  Are you sure you wish to continue the "
-"upgrade process?"
+"be %(myarch)s which does not match your previously installed arch of "
+"%(arch)s.  This is likely to not succeed.  Are you sure you wish to continue "
+"the upgrade process?"
 msgstr ""
 "ನೀವು ನವೀಕರಿಸುತ್ತಿರುವ %s ನ ಬಿಡುಗಡೆಯ ಆರ್ಕ್ %s ಎಂದು ತೋರುತ್ತಿದ್ದು, ಇದು ನಿಮ್ಮಲ್ಲಿ ಈ "
 "ಮೊದಲು ಅನುಸ್ಥಾಪಿತಗೊಂಡಿರುವ %s ನ ಆರ್ಕ್ ತಾಳೆಯಾಗುತ್ತಿಲ್ಲ. ಇದು ಯಶಸ್ವಿಯಾಗುವ ಸಾಧ್ಯತಗಳಿಲ್ಲ. "
@@ -2378,7 +2379,7 @@ msgstr "ಸಾಧನವನ್ನು ಬದಲಾಯಿಸು(_C)"
 msgid "Clear Disks Selector"
 msgstr ""
 
-#: iw/cleardisks_gui.py:44 iw/filter_gui.py:412
+#: iw/cleardisks_gui.py:44 iw/filter_gui.py:409
 #, fuzzy
 msgid "You must select at least one drive to be used for installation."
 msgstr "%s ಅನ್ನು ಅನುಸ್ಥಾಪಿಸಲು ನೀವು ಒಂದಾದರೂ ಹಾರ್ಡ್ ಡ್ರೈವ್ ಅನ್ನು ಆರಿಸಬೇಕು."
@@ -2388,30 +2389,30 @@ msgstr "%s ಅನ್ನು ಅನುಸ್ಥಾಪಿಸಲು ನೀವು ಒ
 msgid "You must select one drive to boot from."
 msgstr "ಸಂಪಾದಿಸಲು ನೀವೊಂದು ವಿಭಾಗವನ್ನು ಆರಿಸಿಕೊಳ್ಳಬೇಕು"
 
-#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:447
-#: iw/filter_gui.py:458 iw/filter_gui.py:488
+#: iw/cleardisks_gui.py:121 iw/cleardisks_gui.py:140 iw/filter_gui.py:444
+#: iw/filter_gui.py:455 iw/filter_gui.py:485
 msgid "Model"
 msgstr ""
 
-#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:448
-#: iw/filter_gui.py:459 iw/filter_gui.py:467 iw/filter_gui.py:478
-#: iw/filter_gui.py:489
+#: iw/cleardisks_gui.py:122 iw/cleardisks_gui.py:141 iw/filter_gui.py:445
+#: iw/filter_gui.py:456 iw/filter_gui.py:464 iw/filter_gui.py:475
+#: iw/filter_gui.py:486
 msgid "Capacity"
 msgstr ""
 
-#: iw/cleardisks_gui.py:123 iw/filter_gui.py:449 iw/filter_gui.py:468
-#: iw/filter_gui.py:479 iw/filter_gui.py:490
+#: iw/cleardisks_gui.py:123 iw/filter_gui.py:446 iw/filter_gui.py:465
+#: iw/filter_gui.py:476 iw/filter_gui.py:487
 #, fuzzy
 msgid "Vendor"
 msgstr "ಫೆಡೋರಾ (_F)"
 
-#: iw/cleardisks_gui.py:124 iw/filter_gui.py:450 iw/filter_gui.py:469
-#: iw/filter_gui.py:480 iw/filter_gui.py:491
+#: iw/cleardisks_gui.py:124 iw/filter_gui.py:447 iw/filter_gui.py:466
+#: iw/filter_gui.py:477 iw/filter_gui.py:488
 msgid "Interconnect"
 msgstr ""
 
-#: iw/cleardisks_gui.py:125 iw/filter_gui.py:451 iw/filter_gui.py:481
-#: iw/filter_gui.py:492
+#: iw/cleardisks_gui.py:125 iw/filter_gui.py:448 iw/filter_gui.py:478
+#: iw/filter_gui.py:489
 msgid "Serial Number"
 msgstr ""
 
@@ -2547,33 +2548,33 @@ msgstr ""
 msgid "Device Filter"
 msgstr "ಸಾಧನವನ್ನು ಸಿದ್ಧಗೊಳಿಸುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ"
 
-#: iw/filter_gui.py:452 iw/filter_gui.py:460 iw/filter_gui.py:471
-#: iw/filter_gui.py:482 iw/filter_gui.py:497 iw/osbootwidget.py:66
+#: iw/filter_gui.py:449 iw/filter_gui.py:457 iw/filter_gui.py:468
+#: iw/filter_gui.py:479 iw/filter_gui.py:494 iw/osbootwidget.py:66
 #: iw/partition_gui.py:607
 msgid "Device"
 msgstr "ಸಾಧನ"
 
-#: iw/filter_gui.py:466 iw/filter_gui.py:477 iw/filter_gui.py:493
+#: iw/filter_gui.py:463 iw/filter_gui.py:474 iw/filter_gui.py:490
 #, fuzzy
 msgid "Identifier"
 msgstr "ಪತ್ತೆ ಹಚ್ಚಿ"
 
-#: iw/filter_gui.py:470
+#: iw/filter_gui.py:467
 #, fuzzy
 msgid "Paths"
 msgstr "ಮಾರ್ಗ(_P)"
 
-#: iw/filter_gui.py:494
+#: iw/filter_gui.py:491
 #, fuzzy
 msgid "Port"
 msgstr "ರದ್ದುಗೊಳಿಸು (_A)"
 
-#: iw/filter_gui.py:495
+#: iw/filter_gui.py:492
 #, fuzzy
 msgid "Target"
 msgstr "ಪರೀಕ್ಷಿಸು"
 
-#: iw/filter_gui.py:496
+#: iw/filter_gui.py:493
 msgid "LUN"
 msgstr ""
 
@@ -2651,9 +2652,9 @@ msgstr "ಮುಂದುವರೆಯಿರಿ (_o)"
 #: iw/lvm_dialog_gui.py:172
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is larger than the smallest physical volume (%(maxpvsize)"
-"10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is larger than the smallest physical volume "
+"(%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "ಭೌತಿಕ ಗಾತ್ರಮಟ್ಟವನ್ನು ಬದಲಾಯಿಸಲಾಗುವುದಿಲ್ಲ, ಏಕೆಂದರೆ, ನೀವು ಆರಿಸಿರುವ ಮೌಲ್ಯ (%10.2f ಎಮ್."
 "ಬಿ), ಪರಿಮಾಣ ಸಮೂಹದಲ್ಲಿನ ಅತಿಚಿಕ್ಕ ಭೌತಿಕ ಪರಿಮಾಣದ ಗಾತ್ರಕ್ಕಿಂದ (%10.2f ಎಮ್.ಬಿ) "
@@ -2662,9 +2663,9 @@ msgstr ""
 #: iw/lvm_dialog_gui.py:186
 #, fuzzy, python-format
 msgid ""
-"The physical extent size cannot be changed because the value selected (%"
-"(curpe)10.2f MB) is too large compared to the size of the smallest physical "
-"volume (%(maxpvsize)10.2f MB) in the volume group."
+"The physical extent size cannot be changed because the value selected "
+"(%(curpe)10.2f MB) is too large compared to the size of the smallest "
+"physical volume (%(maxpvsize)10.2f MB) in the volume group."
 msgstr ""
 "ಭೌತಿಕ ಗಾತ್ರಮಟ್ಟವನ್ನು ಬದಲಾಯಿಸಲಾಗುವುದಿಲ್ಲ, ಏಕೆಂದರೆ, ನೀವು ಆರಿಸಿರುವ ಮೌಲ್ಯ (%10.2f ಎಮ್."
 "ಬಿ), ಪರಿಮಾಣ ಸಮೂಹದಲ್ಲಿನ ಅತಿಚಿಕ್ಕ ಭೌತಿಕ ಪರಿಮಾಣದ ಗಾತ್ರಕ್ಕೆ ಹೋಲಿಸಿದರೆ (%10.2f ಎಮ್.ಬಿ) "
@@ -2801,9 +2802,9 @@ msgid ""
 "create more Physical Volumes from unpartitioned disk space and add them to "
 "this Volume Group."
 msgstr ""
-"ನೀವು ಸದ್ಯಕ್ಕೆ ಕೋರಿರುವ ಗಾತ್ರ (%10.2f ಎಂ.ಬಿ) ಗರಿಷ್ಟ ಲಾಜಿಕಲ್ ಪರಿಮಾಣ ಗಾತ್ರಕ್ಕಿಂತ (%"
-"10.2f ಎಂ.ಬಿ) ಹಿರಿದಾಗಿದೆ. ಈ ಮಿತಿಯನ್ನು ಹೆಚ್ಚಿಸಲು, ನೀವು ವಿಭಾಗಗೊಳಿಸದ ಡಿಸ್ಕ್ ಸ್ಥಳಗಳನ್ನು "
-"ಬಳಸಿ, ಹೆಚ್ಚುವರಿ ಭೌತಿಕ ಪರಿಮಾಣವನ್ನು ಸೃಷ್ಟಿಸಿ, ಈ ಪರಿಮಾಣ ಸಮೂಹಕ್ಕೆ ಸೇರಿಸಬಹುದು."
+"ನೀವು ಸದ್ಯಕ್ಕೆ ಕೋರಿರುವ ಗಾತ್ರ (%10.2f ಎಂ.ಬಿ) ಗರಿಷ್ಟ ಲಾಜಿಕಲ್ ಪರಿಮಾಣ ಗಾತ್ರಕ್ಕಿಂತ "
+"(%10.2f ಎಂ.ಬಿ) ಹಿರಿದಾಗಿದೆ. ಈ ಮಿತಿಯನ್ನು ಹೆಚ್ಚಿಸಲು, ನೀವು ವಿಭಾಗಗೊಳಿಸದ ಡಿಸ್ಕ್ "
+"ಸ್ಥಳಗಳನ್ನು ಬಳಸಿ, ಹೆಚ್ಚುವರಿ ಭೌತಿಕ ಪರಿಮಾಣವನ್ನು ಸೃಷ್ಟಿಸಿ, ಈ ಪರಿಮಾಣ ಸಮೂಹಕ್ಕೆ ಸೇರಿಸಬಹುದು."
 
 #: iw/lvm_dialog_gui.py:712
 #, fuzzy, python-format
@@ -2935,8 +2936,8 @@ msgstr "ಗಾತ್ರ (ಎಮ್.ಬಿ)"
 msgid "_Add"
 msgstr "ಸೇರಿಸು (_A)"
 
-#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1810
-#: iw/partition_gui.py:1820
+#: iw/lvm_dialog_gui.py:1431 iw/osbootwidget.py:100 iw/partition_gui.py:1815
+#: iw/partition_gui.py:1825
 msgid "_Edit"
 msgstr "ಸಂಪಾದನೆ (_E)"
 
@@ -3144,7 +3145,7 @@ msgid "Drive %(drive)s (%(size)-0.f MB) (Model: %(model)s)"
 msgstr "ಚಾಲಕ %s (%-0.f ಎಮ್ ಬಿ) (ಮಾದರಿ: %s)"
 
 #: iw/partition_gui.py:396 iw/partition_gui.py:442 iw/partition_gui.py:509
-#: iw/partition_gui.py:996 iw/partition_gui.py:1063
+#: iw/partition_gui.py:999 iw/partition_gui.py:1066
 msgid "Free"
 msgstr "ಖಾಲಿ"
 
@@ -3186,35 +3187,35 @@ msgstr ""
 msgid "Partitioning"
 msgstr "ವಿಭಾಗೀಕರಣ"
 
-#: iw/partition_gui.py:846
+#: iw/partition_gui.py:849
 msgid ""
 "The partitioning scheme you requested caused the following critical errors."
 msgstr ""
 "ನೀವು ಅಪೇಕ್ಷಿಸಿದ ವಿಭಾಗೀಕರಣ ಯೋಜನೆಯಿಂದ ಈ ಕೆಳಗಿನ ಸಂದಿಗ್ಧ ದೋಷಗಳಿಗೆ ಕಾರಣವಾಗಿದೆ."
 
-#: iw/partition_gui.py:848
+#: iw/partition_gui.py:851
 #, python-format
 msgid ""
 "You must correct these errors before you continue your installation of %s."
 msgstr "%s ನ ಅನುಸ್ಥಾಪನೆಯೊಡನೆ ಮುಂದುವರೆಯುವ ಮೊದಲೇ ಈ ದೋಷಗಳನ್ನು ಸರಿಪಡಿಸಬೇಕು."
 
-#: iw/partition_gui.py:854
+#: iw/partition_gui.py:857
 msgid "Partitioning Errors"
 msgstr "ವಿಭಾಗೀಕರಣ ದೋಷಗಳು"
 
-#: iw/partition_gui.py:861
+#: iw/partition_gui.py:864
 msgid "The partitioning scheme you requested generated the following warnings."
 msgstr "ನೀವು ಅಪೇಕ್ಷಿಸಿದ ವಿಭಾಗೀಕರಣ ಯೋಜನೆಯಿಂದ ಈ ಕೆಳಗಿನ ಎಚ್ಚರಿಕೆಗಳು ಉಂಟಾಗಿವೆ."
 
-#: iw/partition_gui.py:863
+#: iw/partition_gui.py:866
 msgid "Would you like to continue with your requested partitioning scheme?"
 msgstr "ನೀವು ಕೋರಿದ ವಿಭಾಗೀಕರಣ ಯೋಜನೆಯೊಂದಿಗೆ ಮುಂದುವರೆಯಲು ಇಚ್ಛಸುತ್ತೀರೇನು?"
 
-#: iw/partition_gui.py:868
+#: iw/partition_gui.py:871
 msgid "Partitioning Warnings"
 msgstr "ವಿಭಾಗೀಕರಣ ಎಚ್ಚರಿಕೆಗಳು"
 
-#: iw/partition_gui.py:877
+#: iw/partition_gui.py:880
 #, fuzzy
 msgid ""
 "The following pre-existing devices have been selected to be formatted, "
@@ -3223,35 +3224,35 @@ msgstr ""
 "ಈಗಾಗಲೇ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಈ ಕೆಳಕಂಡ ವಿಭಾಗಗಳು ತಮ್ಮಲ್ಲಿರುವ ಎಲ್ಲಾ ಮಾಹಿತಿಯನ್ನೂ ಕಳೆದುಕೊಂಡು "
 "ಫಾರ್ಮಾಟುಗೊಳ್ಳಲು ಆರಿಸಲಾಗಿವೆ."
 
-#: iw/partition_gui.py:889
+#: iw/partition_gui.py:892
 msgid "Format Warnings"
 msgstr "ಫಾರ್ಮಾಟ್ ಎಚ್ಚರಿಕೆಗಳು"
 
-#: iw/partition_gui.py:894 storage/dasd.py:139
+#: iw/partition_gui.py:897 storage/dasd.py:139
 msgid "_Format"
 msgstr "ಫಾರ್ಮಾಟ್‍ಗೊಳಿಸು (_F)"
 
-#: iw/partition_gui.py:984
+#: iw/partition_gui.py:987
 msgid "LVM Volume Groups"
 msgstr "LVM ಪರಿಮಾಣ ಸಮೂಹಗಳು"
 
-#: iw/partition_gui.py:1006
+#: iw/partition_gui.py:1009
 msgid "RAID Devices"
 msgstr "RAID ಸಾಧನಗಳು"
 
-#: iw/partition_gui.py:1017 loader/hdinstall.c:206
+#: iw/partition_gui.py:1020 loader/hdinstall.c:206
 msgid "Hard Drives"
 msgstr "ಹಾರ್ಡ್ ಡ್ರೈವ್‍ಗಳು"
 
-#: iw/partition_gui.py:1067
+#: iw/partition_gui.py:1070
 msgid "Extended"
 msgstr "ವಿಸ್ತರಿಸಲಾದ"
 
-#: iw/partition_gui.py:1346
+#: iw/partition_gui.py:1349
 msgid "Cannot perform any creation action"
 msgstr ""
 
-#: iw/partition_gui.py:1347
+#: iw/partition_gui.py:1350
 msgid ""
 "Note that the creation action requires one of the following:\n"
 "\n"
@@ -3261,7 +3262,7 @@ msgid ""
 "* At least one Volume Group with free space."
 msgstr ""
 
-#: iw/partition_gui.py:1455
+#: iw/partition_gui.py:1460
 #, fuzzy, python-format
 msgid ""
 "Software RAID allows you to combine several disks into a larger RAID "
@@ -3274,7 +3275,7 @@ msgstr ""
 "ವಿಶ್ವಾಸಾರ್ಹತೆಯನ್ನು ನೀಡುವಂತೆ ಸಂರಚಿಸಬಹುದು.  RAID ಗಳ ಬಗೆಗಿನ ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ %s "
 "ದಸ್ತಾವೇಜುಗಳನ್ನು ನೋಡಿ."
 
-#: iw/partition_gui.py:1461
+#: iw/partition_gui.py:1466
 msgid ""
 "To use RAID you must first create at least two partitions of type 'software "
 "RAID'.  Then you can create a RAID device that can be formatted and "
@@ -3286,19 +3287,19 @@ msgstr ""
 "ರಚಿಸಬಹುದು.\n"
 "\n"
 
-#: iw/partition_gui.py:1465
+#: iw/partition_gui.py:1470
 #, fuzzy, python-format
 msgid "You currently have %d software RAID partition free to use."
 msgid_plural "You currently have %d software RAID partitions free to use."
 msgstr[0] "ತಂತ್ರಾಂಶಾತ್ಮಕ RAID ವಿಭಾಗವನ್ನು ರಚಿಸು (_p)."
 msgstr[1] "ತಂತ್ರಾಂಶಾತ್ಮಕ RAID ವಿಭಾಗವನ್ನು ರಚಿಸು (_p)."
 
-#: iw/partition_gui.py:1469
+#: iw/partition_gui.py:1474
 #, fuzzy
 msgid "About RAID"
 msgstr "ತಂತ್ರಾಂಶಾತ್ಮಕ RAID"
 
-#: iw/partition_gui.py:1475
+#: iw/partition_gui.py:1480
 #, python-format
 msgid ""
 "Logical Volume Manager (LVM) is a 3 level construct. The first level is made "
@@ -3309,7 +3310,7 @@ msgid ""
 "information on using LVM please consult the %s documentation\n"
 msgstr ""
 
-#: iw/partition_gui.py:1483
+#: iw/partition_gui.py:1488
 msgid ""
 "To create a PV you need a partition with free space.  To create a VG you "
 "need a PV that is not part of any existing VG.  To create an LV you need a "
@@ -3317,49 +3318,49 @@ msgid ""
 "\n"
 msgstr ""
 
-#: iw/partition_gui.py:1487
+#: iw/partition_gui.py:1492
 #, python-format
 msgid "You currently have %d available PV free to use.\n"
 msgid_plural "You currently have %d available PVs free to use.\n"
 msgstr[0] ""
 msgstr[1] ""
 
-#: iw/partition_gui.py:1491
+#: iw/partition_gui.py:1496
 msgid "You currently have free space to create PVs."
 msgstr ""
 
-#: iw/partition_gui.py:1494
+#: iw/partition_gui.py:1499
 msgid "About LVM"
 msgstr ""
 
-#: iw/partition_gui.py:1525
+#: iw/partition_gui.py:1530
 msgid "Couldn't Create Drive Clone Editor"
 msgstr "ಡ್ರೈವ್‍ ತದ್ರೂಪಕ ಸಂಪಾದಕನನ್ನು ರಚಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"
 
-#: iw/partition_gui.py:1526
+#: iw/partition_gui.py:1531
 msgid "The drive clone editor could not be created for some reason."
 msgstr "ಡ್ರೈವ್ ತದ್ರೂಪಕ ಸಂಪಾದಕವನ್ನು ಕಾರಣಾಂತರಗಳಿಂದ ರಚಿಸಲಾಗಲಿಲ್ಲ."
 
-#: iw/partition_gui.py:1584 storage/partitioning.py:196
+#: iw/partition_gui.py:1589 storage/partitioning.py:196
 #: storage/partitioning.py:239
 msgid "Error Partitioning"
 msgstr "ವಿಭಾಗೀಕರಣದಲ್ಲಿ ದೋಷ"
 
-#: iw/partition_gui.py:1585
+#: iw/partition_gui.py:1590
 #, python-format
 msgid "Could not allocate requested partitions: %s."
 msgstr "ಕೋರಿದ ವಿಭಾಗಗಳನ್ನು ನಿಗದಿಗೊಳಿಸಲಾಗಲಿಲ್ಲ: %s."
 
-#: iw/partition_gui.py:1594
+#: iw/partition_gui.py:1599
 #, python-format
 msgid "Warning: %s."
 msgstr "ಎಚ್ಚರಿಕೆ: %s."
 
-#: iw/partition_gui.py:1625
+#: iw/partition_gui.py:1630
 msgid "Unable To Edit"
 msgstr "ಸಂಪಾದಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"
 
-#: iw/partition_gui.py:1626
+#: iw/partition_gui.py:1631
 #, python-format
 msgid ""
 "You cannot edit this device:\n"
@@ -3370,15 +3371,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: iw/partition_gui.py:1809
+#: iw/partition_gui.py:1814
 msgid "_Create"
 msgstr ""
 
-#: iw/partition_gui.py:1812
+#: iw/partition_gui.py:1817
 msgid "Re_set"
 msgstr "ಮರುಸಿದ್ಧಗೂಳಿಸು (_s)"
 
-#: iw/partition_gui.py:1835
+#: iw/partition_gui.py:1840
 #, fuzzy
 msgid "Please Select A Device"
 msgstr "ದಯವಿಟ್ಟು ಒಂದು ಆಕರ ಡ್ರೈವನ್ನು ಆರಿಸಿ."
@@ -3720,8 +3721,8 @@ msgstr ""
 #: iw/upgrade_bootloader_gui.py:138 textw/upgrade_bootloader_text.py:121
 #, fuzzy, python-format
 msgid ""
-"The installer has detected the %(type)s boot loader currently installed on %"
-"(bootDev)s."
+"The installer has detected the %(type)s boot loader currently installed on "
+"%(bootDev)s."
 msgstr "%s ಬೂಟ್ ಲೋಡರ್ %s ನ ಮೇಲೆ ಅನುಸ್ಥಾಪನೆಯಾಗಿರುವುದನ್ನು ಅನುಸ್ಥಾಪಕವು ಪತ್ತೆಹಚ್ಚಿದೆ."
 
 #: iw/upgrade_bootloader_gui.py:142
@@ -3764,9 +3765,9 @@ msgstr "ಕಡತ ವ್ಯವಸ್ಥೆಗಳನ್ನು ವಲಸೆಗಾ�
 #, fuzzy, python-format
 msgid ""
 "This release of %(productName)s supports an updated file system, which has "
-"several benefits over the file system traditionally shipped in %(productName)"
-"s.  This installation program can migrate formatted partitions without data "
-"loss.\n"
+"several benefits over the file system traditionally shipped in "
+"%(productName)s.  This installation program can migrate formatted partitions "
+"without data loss.\n"
 "\n"
 "Which of these partitions would you like to migrate?"
 msgstr ""
@@ -3785,13 +3786,13 @@ msgstr "ಸ್ವಾಪ್ ವಿಭಾಗವನ್ನು ನವೀಕರಿಸ�
 #, python-format
 msgid ""
 "Recent kernels (2.4 or newer) need significantly more swap than older "
-"kernels, up to twice the amount of RAM on the system.  You currently have %"
-"dMB of swap configured, but you may create additional swap space on one of "
+"kernels, up to twice the amount of RAM on the system.  You currently have "
+"%dMB of swap configured, but you may create additional swap space on one of "
 "your file systems now."
 msgstr ""
 "ಹಿಂದಿನ ಕರ್ನಲ್‍ಗಳಿಗೆ ಹೋಲಿಸಿದರೆ 2.4 ಕರ್ನೆಲ್ಲಿಗೆ ಗಮನಾರ್ಹವಾದ ಹೆಚ್ಚಿನ ಸ್ವಾಪ್‍ನಅವಶ್ಯಕತೆ ಇದೆ. "
-"ಇದು ಸರಿಸುಮಾರು RAM ನ ಎರಡರಷ್ಟು ಗಾತ್ರದ ಸ್ವಾಪ್ ಅನ್ನು ಅಪೇಕ್ಷಿಸುತ್ತದೆ.  ನಿಮ್ಮ ಬಳಿ, ಸಕ್ಕೆ %"
-"dMB ಗಾತ್ರದ ಸ್ವಾಪ್ ಅನ್ನು  ಹೊಂದಿದ್ದೀರಿ, ಆದರೆ ನಿಮಗಿಷ್ಟವಿದ್ದಲ್ಲಿ ಈಗ ನಿಮ್ಮ ಕಡತವ್ಯವಸ್ಥೆಯಲ್ಲಿ "
+"ಇದು ಸರಿಸುಮಾರು RAM ನ ಎರಡರಷ್ಟು ಗಾತ್ರದ ಸ್ವಾಪ್ ಅನ್ನು ಅಪೇಕ್ಷಿಸುತ್ತದೆ.  ನಿಮ್ಮ ಬಳಿ, ಸಕ್ಕೆ "
+"%dMB ಗಾತ್ರದ ಸ್ವಾಪ್ ಅನ್ನು  ಹೊಂದಿದ್ದೀರಿ, ಆದರೆ ನಿಮಗಿಷ್ಟವಿದ್ದಲ್ಲಿ ಈಗ ನಿಮ್ಮ ಕಡತವ್ಯವಸ್ಥೆಯಲ್ಲಿ "
 "ಹೆಚ್ಚುವರಿ ಸ್ವಾಪ್ ಅನ್ನು  ರಚಿಸಬಹುದು."
 
 #: iw/upgrade_swap_gui.py:99
@@ -5301,24 +5302,24 @@ msgstr "%s ಗಾಗಿನ vginfo"
 msgid "lvs failed for %s"
 msgstr "%s ಗಾಗಿನ lvs ವಿಫಲಗೊಂಡಿದೆ"
 
-#: storage/devices.py:1258 storage/devices.py:1925 storage/devices.py:2328
-#: storage/devices.py:2799 storage/devices.py:3289
+#: storage/devices.py:1258 storage/devices.py:1929 storage/devices.py:2332
+#: storage/devices.py:2803 storage/devices.py:3293
 #, fuzzy
 msgid "Creating"
 msgstr "ಕ್ರೊಯೇಶಿಯನ್"
 
-#: storage/devices.py:1259 storage/devices.py:1926 storage/devices.py:2329
-#: storage/devices.py:2800
+#: storage/devices.py:1259 storage/devices.py:1930 storage/devices.py:2333
+#: storage/devices.py:2804
 #, fuzzy, python-format
 msgid "Creating device %s"
 msgstr "ಸಾಧನವನ್ನು ಬದಲಾಯಿಸು(_C)"
 
-#: storage/devices.py:2422
+#: storage/devices.py:2426
 #, python-format
 msgid "A RAID%d set requires atleast %d members"
 msgstr ""
 
-#: storage/devices.py:3290
+#: storage/devices.py:3294
 #, fuzzy, python-format
 msgid "Creating file %s"
 msgstr "%s ನಲ್ಲಿ ಕಡತವ್ಯವಸ್ಥೆಯನ್ನು ನಿರ್ಮಿಸಲಾಗುತ್ತಿದೆ"
@@ -5566,8 +5567,8 @@ msgstr ""
 "\n"
 "%s\n"
 "\n"
-"ನಿಮ್ಮ ಹಾರ್ಡ್ ಡ್ರೈವಿನಲ್ಲಿ(ಗಳಲ್ಲಿ) ಅನುಸ್ಥಾಪನೆಗೆ ಬೇಕಾದ ಸ್ಥಳವಿಲ್ಲದಿದ್ದ ಪಕ್ಷದಲ್ಲಿ ಹೀಗಾಗಬಹುದು.%"
-"s"
+"ನಿಮ್ಮ ಹಾರ್ಡ್ ಡ್ರೈವಿನಲ್ಲಿ(ಗಳಲ್ಲಿ) ಅನುಸ್ಥಾಪನೆಗೆ ಬೇಕಾದ ಸ್ಥಳವಿಲ್ಲದಿದ್ದ ಪಕ್ಷದಲ್ಲಿ ಹೀಗಾಗಬಹುದು."
+"%s"
 
 #: storage/partitioning.py:276
 msgid "The system will now reboot."
@@ -5614,8 +5615,8 @@ msgstr "WWPN %s ಯು zFCP ಸಾಧನ %s ದಲ್ಲಿ ಕಂಡುಬಂ�
 #: storage/zfcp.py:182
 #, fuzzy, python-format
 msgid ""
-"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s (%(e)"
-"s)."
+"Could not add LUN %(fcplun)s to WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr "LUN %s ಅನ್ನು WWPN %s ಗೆ zFCP ಸಾಧನ %s ದಲ್ಲಿ ಸೇರಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ (%s)."
 
 #: storage/zfcp.py:188
@@ -5643,15 +5644,15 @@ msgstr "LUN %s ವು WWPN %s ನಲ್ಲಿ (zFCP ಸಾಧನ %s ದಲ್ಲ
 #: storage/zfcp.py:266
 #, fuzzy, python-format
 msgid ""
-"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s %(fcplun)"
-"s (%(e)s)."
+"Could not correctly delete SCSI device of zFCP %(devnum)s %(wwpn)s "
+"%(fcplun)s (%(e)s)."
 msgstr "zFCP %s %s %s ದ SCSI ಸಾಧನವನ್ನು ಸೂಕ್ತವಾಗಿ ಅಳಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ (%s)."
 
 #: storage/zfcp.py:275
 #, fuzzy, python-format
 msgid ""
-"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s (%"
-"(e)s)."
+"Could not remove LUN %(fcplun)s at WWPN %(wwpn)s on zFCP device %(devnum)s "
+"(%(e)s)."
 msgstr "LUN %s ಅನ್ನು WWPN %s ಇಂದ (zFCP ಸಾಧನ %s ದಲ್ಲಿನ) ತೆಗೆದು ಹಾಕಲಾಗಿಲ್ಲ (%s)."
 
 #: storage/zfcp.py:293
@@ -5848,7 +5849,7 @@ msgstr "ವಿಲೋಮ CHAP ಬಳಕೆದಾರ ಹೆಸರು"
 msgid "Reverse CHAP password"
 msgstr "ವಿಲೋಮ CHAP ಗುಪ್ತಪದ"
 
-#: textw/progress_text.py:46
+#: textw/progress_text.py:57
 msgid "Package Installation"
 msgstr "ಪ್ಯಾಕೇಜ್‌ ಅನುಸ್ಥಾಪನೆ"
 
@@ -6848,33 +6849,29 @@ msgstr "ಬೂಟ್‍ಲೋಡರ್ ಅನುಸ್ಥಾಪನೆಗೊಳ�
 msgid "Configuring Sabayon"
 msgstr "VNC ಸಂರಚನೆ"
 
-#: sabayon/livecd.py:153
+#: sabayon/livecd.py:158
 msgid "Sabayon configuration complete"
 msgstr ""
 
-#: sabayon/utils.py:214
-msgid "System Health Status Warning"
-msgstr ""
-
-#: sabayon/utils.py:412
+#: sabayon/utils.py:405
 #, fuzzy
 msgid "Configuring System Services"
 msgstr "ಜಾಲ ಸಂಪರ್ಕಸಾಧನವನ್ನು ಸಂರಚಿಸಲಾಗುತ್ತಿದೆ"
 
-#: sabayon/utils.py:681
+#: sabayon/utils.py:684
 msgid "An issue occured while installing"
 msgstr ""
 
-#: sabayon/utils.py:683
+#: sabayon/utils.py:686
 msgid "Meh."
 msgstr ""
 
-#: sabayon/utils.py:684
+#: sabayon/utils.py:687
 #, fuzzy
 msgid "Drivers installation issue"
 msgstr "ಅನುಸ್ಥಾಪನಾ ಪೂರ್ವ"
 
-#: sabayon/utils.py:714
+#: sabayon/utils.py:716
 #, fuzzy
 msgid "System Installation"
 msgstr "ಅನುಸ್ಥಾಪನಾ ನಂತರ"
@@ -6889,74 +6886,82 @@ msgstr "ಹಿಂದಿನ ಪ್ಯಾಕೇಜ್‌(ಗಳು)"
 msgid "Cleaning package"
 msgstr "ಕಾಣೆಯಾದ ಸಂಗ್ರಹ"
 
-#: sabayon/utils.py:913
+#: sabayon/utils.py:917
 #, fuzzy
 msgid "Installation complete"
 msgstr "ಅನುಸ್ಥಾಪನಾ ಕೀಲಿ"
 
-#: sabayon/utils.py:921
+#: sabayon/utils.py:925
 msgid ""
 "The following language packs are available for download (you need Internet), "
 "would you like to install them?"
 msgstr ""
 
-#: sabayon/utils.py:925
+#: sabayon/utils.py:929
 #, fuzzy
 msgid "Language packs download"
 msgstr "ಪ್ಯಾಕೇಜ್‌ ಅನುಸ್ಥಾಪನೆ"
 
-#: sabayon/utils.py:946
+#: sabayon/utils.py:950
 msgid "No language packs are available for download, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:947 sabayon/utils.py:957
+#: sabayon/utils.py:951 sabayon/utils.py:961
 #, fuzzy
 msgid "Language packs"
 msgstr "ಪ್ಯಾಕೇಜ್‌ ಅನುಸ್ಥಾಪನೆ"
 
-#: sabayon/utils.py:956
+#: sabayon/utils.py:960
 msgid "No language packs are available for install, sorry!"
 msgstr ""
 
-#: sabayon/utils.py:966
+#: sabayon/utils.py:970
 #, fuzzy
 msgid "Downloading package"
 msgstr "ಕಾಣೆಯಾದ ಸಂಗ್ರಹ"
 
-#: sabayon/utils.py:975
+#: sabayon/utils.py:979
 #, fuzzy
 msgid "Installing package"
 msgstr "ಪ್ಯಾಕೇಜ್‌ಗಳನ್ನು ಅನುಸ್ಥಾಪಿಸುತ್ತಿದೆ"
 
-#: sabayon/utils.py:1004
+#: sabayon/utils.py:996 sabayon/utils.py:1006
+msgid "Reordering Entropy mirrors"
+msgstr ""
+
+#: sabayon/utils.py:996
+msgid "can take some time..."
+msgstr ""
+
+#: sabayon/utils.py:1034
 msgid "No repositories specified in"
 msgstr ""
 
-#: sabayon/utils.py:1006 sabayon/utils.py:1011 sabayon/utils.py:1018
+#: sabayon/utils.py:1036 sabayon/utils.py:1041 sabayon/utils.py:1048
 msgid "Repositories update"
 msgstr ""
 
-#: sabayon/utils.py:1010
+#: sabayon/utils.py:1040
 msgid "Unhandled exception"
 msgstr ""
 
-#: sabayon/utils.py:1017
-msgid "Cannot download language packs right now, no big deal"
+#: sabayon/utils.py:1047
+msgid "Cannot download repositories right now, no big deal"
 msgstr ""
 
-#: sabayon/utils.py:1140
+#: sabayon/utils.py:1170
 #, fuzzy
 msgid ""
 "This medium contains many extra languages, would you like to keep them "
 "installed?"
 msgstr "ಅನುಸ್ಥಾಪನಾ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿ ಯಾವ ಭಾಷೆಯನ್ನು ಬಳಸಬೇಕೆಂದಿದ್ದೀರಿ?"
 
-#: sabayon/utils.py:1143
+#: sabayon/utils.py:1173
 #, fuzzy
 msgid "Language packs installation"
 msgstr "ಪ್ಯಾಕೇಜ್‌ ಅನುಸ್ಥಾಪನೆ"
 
-#: sabayon/utils.py:1154
+#: sabayon/utils.py:1184
 msgid "Generating list of files to copy"
 msgstr ""
 
@@ -7043,8 +7048,8 @@ msgstr ""
 #, fuzzy
 #~ msgid ""
 #~ "This release of %(productName)s supports the an updated file system, "
-#~ "which has several benefits over the file system traditionally shipped in %"
-#~ "(productName)s.  This installation program can migrate formatted "
+#~ "which has several benefits over the file system traditionally shipped in "
+#~ "%(productName)s.  This installation program can migrate formatted "
 #~ "partitions without data loss.\n"
 #~ "\n"
 #~ "Which of these partitions would you like to migrate?"
