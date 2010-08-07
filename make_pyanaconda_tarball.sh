@@ -1,4 +1,5 @@
 #!/bin/sh
+SABAYON_VER=${SABAYON_VER:-5.3}
 rm -rf tmp
 mkdir tmp
 sh autogen.sh
@@ -11,10 +12,11 @@ find $PWD/tmp -name "*.so" | xargs rm
 pyanaconda_dir=$(find tmp -name "pyanaconda" -type d)
 [[ -d "${pyanaconda_dir}" ]] || (echo "ouch" && exit 1)
 cd $(dirname ${pyanaconda_dir})
-tar cjvf pyanaconda.tar.bz2 "$(basename ${pyanaconda_dir})"
-mv pyanaconda.tar.bz2 $OLDPWD/
+tar cjvf pyanaconda-${SABAYON_VER}.tar.bz2 "$(basename ${pyanaconda_dir})"
+md5sum pyanaconda-${SABAYON_VER}.tar.bz2 > pyanaconda-${SABAYON_VER}.tar.bz2.md5
+mv pyanaconda-${SABAYON_VER}.tar.bz2{,.md5} $OLDPWD/
 cd $OLDPWD
 make distclean
 rm -rf tmp
 echo
-echo "Done cooking pyanaconda.tar.bz2"
+echo "Done cooking pyanaconda-${SABAYON_VER}.tar.bz2"
