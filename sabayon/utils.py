@@ -186,7 +186,10 @@ class SabayonInstall:
         self._files_db = self._entropy.open_generic_repository(
              self._files_db_path, dbname = "filesdb",
             indexing_override = True)
-        self._files_db.initializeRepository()
+        if hasattr(self._files_db, "initializeDatabase"):
+            self._files_db.initializeDatabase()
+        else:
+            self._files_db.initializeRepository()
         self._live_repo = self._open_live_installed_repository()
         self._package_identifiers_to_remove = set()
 
