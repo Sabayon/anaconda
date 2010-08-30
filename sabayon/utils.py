@@ -425,6 +425,9 @@ class SabayonInstall:
             if [ -e "/etc/init.d/nfsmount" ]; then
                 rc-update add nfsmount default
             fi
+            if [ -e "/etc/init.d/cdeject" ]; then
+                rc-update del cdeject shutdown
+            fi
         """
         self.spawn_chroot(config_script, silent = True)
 
