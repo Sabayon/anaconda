@@ -428,6 +428,12 @@ class SabayonInstall:
             if [ -e "/etc/init.d/cdeject" ]; then
                 rc-update del cdeject shutdown
             fi
+            if [ -e "/etc/init.d/oemsystem-boot" ]; then
+                rc-update add oemsystem-boot boot
+            fi
+            if [ -e "/etc/init.d/oemsystem-default" ]; then
+                rc-update add oemsystem-default default
+            fi
         """
         self.spawn_chroot(config_script, silent = True)
 
