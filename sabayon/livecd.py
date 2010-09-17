@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # livecd.py
 #
@@ -231,19 +232,64 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
     def _get_bootloader_args(self):
 
+        # keymaps genkernel vs system map
+        keymaps_map = {
+            'azerty': 'azerty',
+            'be-latin1': 'be',
+            'bg_bds-utf8': 'bg',
+            'br-abnt2': 'br-a',
+            'by': 'by',
+            'cf': 'cf',
+            'croat': 'croat',
+            'cz-lat2': 'cz',
+            'de': 'de',
+            'dk': 'dk',
+            'es': 'es',
+            'et': 'et',
+            'fi': 'fi',
+            'fr-latin9': 'fr',
+            'gr': 'gr',
+            'hu': 'hu',
+            'is-latin1': 'is',
+            'it': 'it',
+            'jp106': 'jp',
+            'mk': 'mk',
+            'nl': 'nl',
+            'no': 'no',
+            'pl2': 'pl',
+            'pt-latin1': 'pt',
+            'ro': 'ro',
+            'ru': 'ru',
+            'sk-qwerty': 'sk-y',
+            'slovene': 'slovene',
+            'trq': 'trq',
+            'ua-utf': 'ua',
+            'uk': 'uk',
+            'us': 'us',
+        }
+        console_kbd, xxx = self._sabayon_install.get_keyboard_layout()
+        gk_kbd = keymaps_map.get(console_kbd)
+
         # look for kernel arguments we know should be preserved and add them
         ourargs = ["speakup_synth=", "apic", "noapic", "apm=", "ide=", "noht",
             "acpi=", "video=", "vga=", "init=", "splash=", "console=",
             "pci=routeirq", "irqpoll", "nohdparm", "pci=", "floppy.floppy=",
             "all-generic-ide", "gentoo=", "res=", "hsync=", "refresh=", "noddc",
             "xdriver=", "onlyvesa", "nvidia=", "dodmraid", "dmraid",
-            "sabayonmce", "quiet", "scandelay=", "doslowusb", "docrypt" ]
+            "sabayonmce", "quiet", "scandelay=", "doslowusb", "docrypt",
+            "dokeymap", "keymap="]
 
         # Sabayon MCE install -> MCE support
         # use reference, yeah
         cmdline = self._sabayon_install.cmdline
         if Entropy.is_sabayon_mce() and ("sabayonmce" not in cmdline):
             cmdline.append("sabayonmce")
+
+        # Setup genkernel (init) keyboard layout
+        if gk_kbd is not None:
+            if "dokeymap" not in cmdline:
+                cmdline.append("dokeymap")
+                cmdline.append("keymap=%s" % (gk_kbd,))
 
         usb_storage_dir = "/sys/bus/usb/drivers/usb-storage"
         if os.path.isdir(usb_storage_dir):

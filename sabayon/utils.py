@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # sabayon/utils.py
 #
@@ -539,12 +540,16 @@ class SabayonInstall:
         """
         self.spawn_chroot(nm_script, silent = True)
 
-    def setup_keyboard(self):
+    def get_keyboard_layout(self):
         console_kbd = self._anaconda.keyboard.get()
         kbd = self._anaconda.keyboard.modelDict[console_kbd]
         (name, layout, model, variant, options) = kbd
         # for X, KDE and GNOME
         keylayout = layout.split(",")[0].split("_")[0]
+        return console_kbd, keylayout
+
+    def setup_keyboard(self):
+        console_kbd, keylayout = self.get_keyboard_layout()
         self.spawn("/sbin/keyboard-setup "+keylayout+" gnome --do-not-restart --with-root="+self._root+" &> /dev/null")
         self.spawn("/sbin/keyboard-setup "+keylayout+" kde --do-not-restart --with-root="+self._root+" &> /dev/null")
         self.spawn("/sbin/keyboard-setup "+keylayout+" xorg --do-not-restart --with-root="+self._root+" &> /dev/null") #redoundant
