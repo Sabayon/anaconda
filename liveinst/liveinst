@@ -124,10 +124,6 @@ kill_mounts
 [[ -n "${DO_TEXT}" ]] && reset
 
 if [ "${ANACONDA_RC}" = "100" ] || [ -f "/tmp/__anaconda_reboot__" ]; then
-    # eject
-    for dev in /dev/cdrom*; do
-        eject -mp "${dev}" &> /dev/null
-    done
     # reboot
     reboot -f
 fi
