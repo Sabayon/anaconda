@@ -196,7 +196,10 @@ class SabayonInstall:
 
     def destroy(self):
         # remove files db if exists
-        self._files_db.closeDB()
+        if hasattr(self._files_db, "close"):
+            self._files_db.close()
+        else:
+            self._files_db.closeDB()
         try:
             os.remove(self._files_db_path)
         except OSError:
