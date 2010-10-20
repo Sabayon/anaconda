@@ -291,15 +291,19 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 cmdline.append("dokeymap")
                 cmdline.append("keymap=%s" % (gk_kbd,))
 
-        usb_storage_dir = "/sys/bus/usb/drivers/usb-storage"
-        if os.path.isdir(usb_storage_dir):
-            for cdir, subdirs, files in os.walk(usb_storage_dir):
-                subdirs = set(subdirs)
-                subdirs.discard("module")
-                if subdirs:
-                    cmdline.append("doslowusb")
-                    cmdline.append("scandelay=10")
-                    break
+        # setup USB parameters, if installing on USB
+        boot_device = self.anaconda.bootloader.getDevice()
+        boot_is_removable = False
+        for dev in self.anaconda.storage.disks:
+            if dev.name != boot_device:
+                continue
+            if dev.removable:
+                boot_is_removable = True
+                break
+
+        if boot_is_removable:
+            cmdline.append("doslowusb")
+            cmdline.append("scandelay=10")
 
         previous_vga = None
         final_cmdline = []
