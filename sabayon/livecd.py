@@ -292,16 +292,9 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 cmdline.append("keymap=%s" % (gk_kbd,))
 
         # setup USB parameters, if installing on USB
-        boot_device = self.anaconda.bootloader.getDevice()
-        boot_is_removable = False
-        for dev in self.anaconda.storage.disks:
-            if dev.name != boot_device:
-                continue
-            if dev.removable:
-                boot_is_removable = True
-                break
-
-        if boot_is_removable:
+        root_is_removable = getattr(self.anaconda.storage.rootDevice,
+            "removable", False)
+        if root_is_removable:
             cmdline.append("doslowusb")
             cmdline.append("scandelay=10")
 
