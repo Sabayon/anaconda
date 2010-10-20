@@ -76,8 +76,10 @@ class TimezoneWindow(InstallWindow):
         mappath = "/usr/share/system-config-date/pixmaps/map1440.png"
 
         wp_width = 480
-        x_size = self.ics.cw.window.get_size()[0]
-        if x_size > 1024:
+        x_size, y_size = self.ics.cw.window.get_size()
+        if y_size <= 799:
+            wp_width = 480
+        elif x_size > 1024:
             wp_width = x_size - int(x_size/6.5)
         elif x_size >= 800:
             wp_width = x_size - 80
