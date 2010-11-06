@@ -965,7 +965,7 @@ class SabayonInstall:
                 return
 
             lang_matches = [self._entropy.atom_match(x) for x in langpacks]
-            lang_matches = [x for x in lang_matches if x[1] != -1]
+            lang_matches = [x for x in lang_matches if x[0] != -1]
             if not lang_matches:
                 msg = _("No language packs are available for download, sorry!")
                 self._intf.messageWindow(_("Language packs"), msg,
