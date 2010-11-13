@@ -91,8 +91,15 @@ class InstallProgressWindow (InstallWindow):
         langs.append('')
 
         pixmaps = []
-        paths = ("/tmp/product/pixmaps/rnotes/%s/*.png",
-                 "/usr/share/anaconda/pixmaps/rnotes/%s/*.png")
+        # OEM path overrides built in
+        oem_pixmaps_path = "/etc/oem/anaconda/rnotes/%s/*.png"
+        oem_pixmaps_dir = "/etc/oem/anaconda/rnotes"
+        if os.path.isdir(oem_pixmaps_dir):
+            paths = ("/tmp/product/pixmaps/rnotes/%s/*.png",
+                oem_pixmaps_path)
+        else:
+            paths = ("/tmp/product/pixmaps/rnotes/%s/*.png",
+                    "/usr/share/anaconda/pixmaps/rnotes/%s/*.png")
         for p in paths:
             for lang in langs:
                 path = p % lang
