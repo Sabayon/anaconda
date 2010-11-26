@@ -1342,6 +1342,10 @@ class PartitionDevice(StorageDevice):
         self.disk.format.removePartition(self.partedPartition)
         try:
             self.disk.format.commit()
+        except parted.IOException:
+            # lxnay: catch commit errors on device destroy(), should be
+            # harmless
+            pass
         except DiskLabelCommitError:
             # lxnay: catch commit errors here and cross fingers
             pass
