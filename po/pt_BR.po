@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Anaconda\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
 "POT-Creation-Date: 2010-08-07 10:23+0200\n"
-"PO-Revision-Date: 2010-11-12 19:46-0300\n"
-"Last-Translator: Alberto Federman Neto <albfneto@fcfrp.usp.br>\n"
+"PO-Revision-Date: 2010-11-27 01:15+0100\n"
+"Last-Translator: Fabio Erculiani <lxnay@sabayonlinux.org>\n"
 "Language-Team: Brazilian Portuguese <fedora-trans-pt_br@redhat.com>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -525,17 +525,6 @@ msgid ""
 "\n"
 "This action may also be applied to all other disks needing reinitialization.%(details)s"
 msgstr ""
-"Erro ao processar drive:\n"
-"\n"
-"%(path)s\n"
-"%(path)-0.fMB\n"
-"%(description)s\n"
-"\n"
-"Pode ser necessário reinicializar este dispositivo.\n"
-"\n"
-"A REINICIALIZAÇÃO CAUSARÁ A PERDA DE TODOS OS DADOS !\n"
-"\n"
-"sua ação será aplicada a todos os discos, Requer reinicialização.%(details)s"
 
 #: gui.py:1113
 #: gui.py:1171
@@ -758,10 +747,6 @@ msgid "Error: On close, cannot set reIPL method to %(reipl_type)s (%(filename)s:
 msgstr "Erro: Ao fechar, não foi possível usar o método reIPL para %(reipl_type)s (%(filename)s: %(e)s)"
 
 #: iutil.py:855
-#, python-format
-msgid "Error: Could not set %(device)s as reIPL device (%(e)s)"
-msgstr "Erro: Não é possível marcar %(device)s como dispositivo reIPL device (%(e)s)"
-
 #: iutil.py:865
 #, python-format
 msgid "Error: Could not reset loadparm (%s)"
@@ -5053,7 +5038,7 @@ msgstr "Verificando o sistema de arquivos em %s"
 #: storage/formats/fs.py:531
 #, python-format
 msgid "%(type)s filesystem check failure on %(device)s: "
-msgstr "%(type)s de sistemas de arquivos falharam na checagem em %(dispositivos)s: "
+msgstr "%(type)s de sistemas de arquivos falharam na checagem em %(device)s: "
 
 #: storage/formats/fs.py:537
 msgid "Errors like this usually mean there is a problem with the filesystem that will require user interaction to repair.  Before restarting installation, reboot to rescue mode or another system that allows you to repair the filesystem interactively.  Restart installation after you have corrected the problems on the filesystem."
@@ -5990,7 +5975,7 @@ msgstr "Selecionar os drives que quer usar para instalar o Sistema Operacional, 
 msgid ""
 "Port / Target / LUN\n"
 "Target Identifier"
-msgstr "Porta / Alvo / LUN\n"
+msgstr "Porta / Alvo / LUN"
 
 #: ui/filter.glade.h:18
 msgid "Port:"
@@ -6480,8 +6465,10 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #, fuzzy
 #~ msgid "Upgrade an Existing Installation"
 #~ msgstr "_Atualizar uma instalação existente"
+
 #~ msgid "Reboot"
 #~ msgstr "Reinicializar"
+
 #~ msgid "_Fedora"
 #~ msgstr "_Fedora"
 
@@ -6494,10 +6481,13 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "A instalação padrão do %s inclui um conjunto de programas aplicáveis para "
 #~ "uso geral na Internet. Você deseja que o seu sistema suporte quais "
 #~ "tarefas adicionais?"
+
 #~ msgid "Software Development"
 #~ msgstr "Desenvolvimento de software"
+
 #~ msgid "Web Server"
 #~ msgstr "Servidor web"
+
 #~ msgid "Red Hat Enterprise Linux"
 #~ msgstr "Red Hat Enterprise Linux"
 
@@ -6508,38 +6498,55 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ msgstr ""
 #~ "A instalação padrão do %s é uma instalação mínima. Você deseja que o seu "
 #~ "sistema suporte quais tarefas adicionais?"
+
 #~ msgid "Desktop"
 #~ msgstr "Desktop"
+
 #~ msgid "Advanced Server"
 #~ msgstr "Servidor avançado"
+
 #~ msgid "Unknown"
 #~ msgstr "Desconhecido"
+
 #~ msgid "Add _FCoE SAN"
 #~ msgstr "Adicionar _FCoE SAN"
+
 #~ msgid "Add _ZFCP LUN"
 #~ msgstr "Adicionar _ZFCP LUN"
+
 #~ msgid "Add _iSCSI target"
 #~ msgstr "Adicionar destino _iSCSI"
+
 #~ msgid "Re_view and modify partitioning layout"
 #~ msgstr "Re_ver e modificar o layout do particionamento"
+
 #~ msgid "<b>Gateway:</b>"
 #~ msgstr "<b>Gateway:</b>"
+
 #~ msgid "<b>IPv4 Address:</b>"
 #~ msgstr "<b>Endereço IPv4:</b>"
+
 #~ msgid "<b>IPv6 Address:</b>"
 #~ msgstr "<b>Endereço IPv6:</b>"
+
 #~ msgid "<b>Nameserver:</b>"
 #~ msgstr "<b>Servidor de nomes:</b>"
+
 #~ msgid "<b>_Interface:</b>"
 #~ msgstr "<b>_Interface:</b>"
+
 #~ msgid "Enable IPv_4 support"
 #~ msgstr "Habilitar suporte para IPv_4"
+
 #~ msgid "Enable IPv_6 support"
 #~ msgstr "Habilitar suporte para IPv_6"
+
 #~ msgid "Use _dynamic IP configuration (DHCP)"
 #~ msgstr "Utilizar configuração de IP _dinâmico (DHCP)"
+
 #~ msgid "Customize _later"
 #~ msgstr "Persona_lizar depois"
+
 #~ msgid ""
 #~ "The default installation of %s includes a set of software applicable for "
 #~ "general internet usage.  What additional tasks would you like your system "
@@ -6548,6 +6555,7 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "A instalação padrão do %s inclui um conjunto de programas aplicáveis para "
 #~ "uso geral na Internet. Você deseja que o seu sistema suporte quais "
 #~ "tarefas adicionais?"
+
 #~ msgid ""
 #~ "You can further customize the software selection now, or after install "
 #~ "via the software management application."
@@ -6555,44 +6563,63 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "As personalizações adicionais da seleção de programas podem ser "
 #~ "concluídas agora ou após a instalação, através da aplicação de "
 #~ "gerenciamento de programas."
+
 #~ msgid "_Customize now"
 #~ msgstr "_Personalizar agora"
+
 #~ msgid "Install class forcing text mode installation"
 #~ msgstr "Classe Install forçando a instalação em modo texto"
+
 #~ msgid "reipl configuration successful => reboot"
 #~ msgstr "configuração do reipl bem sucedida => reinicializar"
+
 #~ msgid "reipl configuration failed => halt"
 #~ msgstr "falha na configuração do reipl => interromper"
+
 #~ msgid "Device Resize Failed"
 #~ msgstr "Falha no redimensionamento do dispositivo"
+
 #~ msgid "An error was encountered while resizing device %s."
 #~ msgstr "Um erro foi encontrado ao redimensionar o dispositivo %s."
+
 #~ msgid "Device Creation Failed"
 #~ msgstr "Falha na criação do dispositivo"
+
 #~ msgid "An error was encountered while creating device %s."
 #~ msgstr "Um erro foi encontrado ao criar o dispositivo %s."
+
 #~ msgid "Device Removal Failed"
 #~ msgstr "Falha na remoção do dispositivo"
+
 #~ msgid "An error was encountered while removing device %s."
 #~ msgstr "Um erro foi encontrado ao remover o dispositivo %s."
+
 #~ msgid "An error was encountered while setting up device %s."
 #~ msgstr "Um erro foi encontrado ao configurar o dispositivo %s."
+
 #~ msgid "An error was encountered while formatting device %s."
 #~ msgstr "Um erro foi encontrado ao formatar o dispositivo %s."
+
 #~ msgid "Storage Activation Failed"
 #~ msgstr "Falha na ativação do armazenamento"
+
 #~ msgid ""
 #~ "An error was encountered while activating your storage configuration."
 #~ msgstr ""
 #~ "Um erro foi encontrado ao ativar a sua configuração de armazenamento."
+
 #~ msgid "The installer will now exit..."
 #~ msgstr "O instalador será encerrado agora..."
+
 #~ msgid "/boot is not on an ext2 filesystem."
 #~ msgstr "A /boot não está em um sistema de arquivos ext2."
+
 #~ msgid "%s not found"
 #~ msgstr "%s não encontrado"
+
 #~ msgid "%s %s installation"
 #~ msgstr "Instalação %s %s"
+
 #~ msgid ""
 #~ "The default installation of %s includes a set of software applicable for "
 #~ "general internet usage. What additional tasks would you like your system "
@@ -6601,50 +6628,69 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "A instalação padrão do %s inclui um conjunto de programas aplicáveis para "
 #~ "uso geral na Internet. Você deseja que o seu sistema suporte quais "
 #~ "tarefas adicionais?"
+
 #~ msgid "Office and Productivity"
 #~ msgstr "Escritório e produtividade"
+
 #~ msgid "%s: %s"
 #~ msgstr "%s: %s"
+
 #~ msgid ""
 #~ "Do you really want to boot from a disk which is not used for installation?"
 #~ msgstr ""
 #~ "Você realmente deseja inicializar a partir de um disco que não é usado "
 #~ "para instalação?"
+
 #~ msgid "Rescanning disks"
 #~ msgstr "Analisando os discos novamente"
+
 #~ msgid "_Install %s"
 #~ msgstr "_Instalar %s"
+
 #~ msgid "The following installed system will be upgraded:"
 #~ msgstr "O seguinte sistema instalado será atualizado:"
+
 #~ msgid "Not supported"
 #~ msgstr "Não suportado"
+
 #~ msgid "LVM is NOT supported on this platform."
 #~ msgstr "O LVM NÃO é suportado nesta plataforma."
+
 #~ msgid "Software RAID is NOT supported on this platform."
 #~ msgstr "RAID por software NÃO é suportado nesta plataforma."
+
 #~ msgid "No RAID minor device numbers available"
 #~ msgstr "Não há números de dispositivos RAID minoritários disponíveis"
+
 #~ msgid ""
 #~ "A software RAID device cannot be created because all of the available "
 #~ "RAID minor device numbers have been used."
 #~ msgstr ""
 #~ "Não é possível criar um dispositivo RAID por software porque todos os "
 #~ "números dos dispositivos minoritários RAID já estão em uso."
+
 #~ msgid "What do you want to do now?"
 #~ msgstr "O que você deseja fazer agora?"
+
 #~ msgid "Create a RAID _device [default=/dev/md%s]."
 #~ msgstr "Criar um _dispositivo RAID [default=/dev/md%s]."
+
 #~ msgid "Clone a _drive to create a RAID device [default=/dev/md%s]."
 #~ msgstr ""
 #~ "Clonar um _disco para criar um dispositivo RAID [default=/dev/md%s]."
+
 #~ msgid "Ne_w"
 #~ msgstr "No_va"
+
 #~ msgid "R_AID"
 #~ msgstr "R_AID"
+
 #~ msgid "_LVM"
 #~ msgstr "_LVM"
+
 #~ msgid "Hide RAID device/LVM Volume _Group members"
 #~ msgstr "Ocultar membros de dispositivos RAID/_Grupos de Volumes LVM"
+
 #~ msgid ""
 #~ "Clone Drive Tool\n"
 #~ "\n"
@@ -6674,6 +6720,7 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "\n"
 #~ "TUDO o que estiver no(s) disco(s) de destino será destruído por este "
 #~ "processo."
+
 #~ msgid ""
 #~ "The following error occurred while setting up the installation "
 #~ "repository:\n"
@@ -6688,24 +6735,32 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "%s\n"
 #~ "\n"
 #~ "Por favor, forneça as informações corretas para a instalação do %s."
+
 #~ msgid "Unknown Host"
 #~ msgstr "Máquina desconhecida"
+
 #~ msgid "%s is not a valid hostname."
 #~ msgstr "%s não é um nome de máquina válido."
+
 #~ msgid "_Ignore drive"
 #~ msgstr "_Ignorar disco"
+
 #~ msgid "_Re-initialize drive"
 #~ msgstr "_Reinicializar disco"
+
 #~ msgid ""
 #~ "Enter the device name for the NIC which is connected to the FCoE SAN. For "
 #~ "example \"eth0\"."
 #~ msgstr ""
 #~ "Digite o nome do dispositivo para o NIC que está conectado ao FCoE SAN. "
 #~ "Por exemplo \"eth0\"."
+
 #~ msgid "NIC device name"
 #~ msgstr "Nome de dispositivo NIC"
+
 #~ msgid "%s is not a valid NIC device name."
 #~ msgstr "%s não é um nome de dispositivo NIC válido."
+
 #~ msgid ""
 #~ "This release of %s supports the an updated file system, which has several "
 #~ "benefits over the file system traditionally shipped in %s.  This "
@@ -6719,6 +6774,7 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "formatadas sem perda de dados.\n"
 #~ "\n"
 #~ "Quais destas partições você deseja migrar?"
+
 #~ msgid ""
 #~ "Installation requires partitioning of your hard drive.  The default "
 #~ "layout is suitable for most users.  Select what space to use and which "
@@ -6729,38 +6785,54 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "padrão é apropriado para a maioria dos usuários. Selecione qual o espaço "
 #~ "e quais discos devem ser usados como destino da instalação. Você também "
 #~ "pode escolher criar o seu próprio layout."
+
 #~ msgid "What drive would you like to _boot this installation from?"
 #~ msgstr ""
 #~ "A partir de qual disco você gostaria de i_nicializar esta instalação?"
+
 #~ msgid "_Advanced storage configuration"
 #~ msgstr "Configurações _avançadas de armazenamento"
+
 #~ msgid "_Select the drive(s) to use for this installation."
 #~ msgstr ""
 #~ "_Selecione o(s) disco(s) a ser(em) utilizado(s) para esta instalação."
+
 #~ msgid "Invalid Key"
 #~ msgstr "Chave inválida"
+
 #~ msgid "The key you entered is invalid."
 #~ msgstr "A chave que você inseriu é inválida."
+
 #~ msgid "_Skip"
 #~ msgstr "_Pular"
+
 #~ msgid "Please enter your %(instkey)s"
 #~ msgstr "Por favor, insira a sua %(instkey)s"
+
 #~ msgid "Skip entering %(instkey)s"
 #~ msgstr "Pular a inserção de %(instkey)s"
+
 #~ msgid "Office"
 #~ msgstr "Escritório"
+
 #~ msgid "Multimedia"
 #~ msgstr "Multimídia"
+
 #~ msgid "Web server"
 #~ msgstr "Servidor web"
+
 #~ msgid "Virtualization"
 #~ msgstr "Virtualização"
+
 #~ msgid "Clustering"
 #~ msgstr "Clustering"
+
 #~ msgid "Storage Clustering"
 #~ msgstr "Clustering de armazenamento"
+
 #~ msgid "Installation Number"
 #~ msgstr "Número de instalação"
+
 #~ msgid ""
 #~ "Would you like to enter an Installation Number (sometimes called "
 #~ "Subscription Number) now? This feature enables the installer to access "
@@ -6775,20 +6847,26 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "os componentes adicionais poderão ser instalados depois.\n"
 #~ "\n"
 #~ "Veja http://www.redhat.com/InstNum/ para mais informações."
+
 #~ msgid ""
 #~ "If you cannot locate the Installation Number, consult http://www.redhat."
 #~ "com/InstNum/"
 #~ msgstr ""
 #~ "Se você não conseguir localizar o Número de Instalação, consulte http://"
 #~ "www.redhat.com/InstNum/"
+
 #~ msgid "%(instkey)s:"
 #~ msgstr "%(instkey)s:"
+
 #~ msgid "Please enter your %(instkey)s."
 #~ msgstr "Por favor, insira a sua %(instkey)s."
+
 #~ msgid "attr dict must include a type"
 #~ msgstr "o attr dict deve incluir um tipo"
+
 #~ msgid "Disable _dmraid device"
 #~ msgstr "Desabilitar dispositivo _dmraid"
+
 #~ msgid ""
 #~ "The following error was found while parsing thekickstart configuration "
 #~ "file:\n"
@@ -6799,10 +6877,13 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "kickstart:\n"
 #~ "\n"
 #~ "%s"
+
 #~ msgid "window1"
 #~ msgstr "window1"
+
 #~ msgid "label1"
 #~ msgstr "label1"
+
 #~ msgid ""
 #~ "You do not have enough RAM to install %s on this machine.\n"
 #~ "\n"
@@ -6811,6 +6892,7 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "Não há memória RAM suficiente para instalar o %s nesta máquina.\n"
 #~ "\n"
 #~ "Pressione <enter> para reinicializar o seu sistema.\n"
+
 #~ msgid ""
 #~ "Your bug could not be filed due to the following error when communicating "
 #~ "with bugzilla:\n"
@@ -6821,6 +6903,7 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "comunicação com o bugzilla:\n"
 #~ "\n"
 #~ "%s"
+
 #~ msgid ""
 #~ "Your bug could not be filed due to bad information in the bug fields.  "
 #~ "This is most likely an error in anaconda:\n"
@@ -6831,31 +6914,39 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "campos do erro. É mais provável que isso seja um erro no anaconda:\n"
 #~ "\n"
 #~ "%s"
+
 #~ msgid "Unable To File Bug"
 #~ msgstr "Não foi possível relatar o erro"
+
 #~ msgid "Bug Filing Not Supported"
 #~ msgstr "O relato de erros não é suportado"
+
 #~ msgid ""
 #~ "Your distribution does not provide a supported bug filing system, so you "
 #~ "cannot save your exception this way."
 #~ msgstr ""
 #~ "A sua distribuição não fornece um sistema de relato de erros suportado. "
 #~ "Por tanto, você não pode salvar a sua exceção dessa forma."
+
 #~ msgid "Invalid Bug Information"
 #~ msgstr "Informações do erro inválidas"
+
 #~ msgid ""
 #~ "Please provide a valid username, password, and short bug description."
 #~ msgstr ""
 #~ "Por favor, forneça um nome de usuário e senha válidos e uma curta "
 #~ "descrição do erro."
+
 #~ msgid "Unable To Login"
 #~ msgstr "Não foi possível autenticar"
+
 #~ msgid ""
 #~ "There was an error logging into %s using the provided username and "
 #~ "password."
 #~ msgstr ""
 #~ "Houve um erro ao autenticar em %s usando a senha e o nome de usuário "
 #~ "fornecidos."
+
 #~ msgid ""
 #~ "A new bug has been created with your traceback attached. Please add "
 #~ "additional information such as what you were doing when you encountered "
@@ -6870,8 +6961,10 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "para o seguinte erro:\n"
 #~ "\n"
 #~ "%s/%s"
+
 #~ msgid "Bug Updated"
 #~ msgstr "Relatório de erro atualizado"
+
 #~ msgid ""
 #~ "A bug with your information already exists.  Your account has been added "
 #~ "to the CC list and your traceback added as a comment.  Please add "
@@ -6884,45 +6977,59 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "informações descritivas adicionais para o seguinte erro:\n"
 #~ "\n"
 #~ "%s/%s"
+
 #~ msgid "Dump Written"
 #~ msgstr "O despejo foi salvo"
+
 #~ msgid ""
 #~ "Your system's state has been successfully written to the disk. The "
 #~ "installer will now exit."
 #~ msgstr ""
 #~ "O estado do seu sistema foi salvo com sucesso no disco. O instalador irá "
 #~ "sair agora."
+
 #~ msgid "Dump Not Written"
 #~ msgstr "O despejo não foi salvo"
+
 #~ msgid ""
 #~ "Cannot save a bug report since there is no active networking device "
 #~ "available."
 #~ msgstr ""
 #~ "Não foi possível salvar o relatório de erro, já que não há nenhum "
 #~ "dispositivo de rede ativo disponível."
+
 #~ msgid ""
 #~ "Your system's state has been successfully written to the remote host.  "
 #~ "The installer will now exit."
 #~ msgstr ""
 #~ "O estado do seu sistema foi salvo com sucesso na máquina remota. O "
 #~ "instalador irá sair agora."
+
 #~ msgid "There was a problem writing the system state to the remote host."
 #~ msgstr "Houve um problema ao salvar o estado do sistema na máquina remota."
+
 #~ msgid "Bugzilla (%s)"
 #~ msgstr "Bugzilla (%s)"
+
 #~ msgid "Debug"
 #~ msgstr "Depurar"
+
 #~ msgid "Exception Occurred"
 #~ msgstr "Ocorreu uma exceção"
+
 #~ msgid "Error: %s splits into %s but not like we expect"
 #~ msgstr "Erro: %s divide em %s mas não como esperado"
+
 #~ msgid "Could not get information for mount point /boot or /"
 #~ msgstr ""
 #~ "Não foi possível obter informações para o ponto de montagem /boot ou /"
+
 #~ msgid "Doing post-installation"
 #~ msgstr "Executando pós-instalação"
+
 #~ msgid "None"
 #~ msgstr "Nenhum"
+
 #~ msgid ""
 #~ "The device %s is LDL formatted instead of CDL formatted.  LDL formatted "
 #~ "DASDs are not supported for usage during an install of %s.  If you wish "
@@ -6937,6 +7044,7 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "reinicializado, causando a perda de TODOS OS DADOS nele contidos.\n"
 #~ "\n"
 #~ "Você deseja reformatar este DASD usando o formato CDL?"
+
 #~ msgid ""
 #~ "/dev/%s currently has a %s partition layout.  To use this drive for the "
 #~ "installation of %s, it must be re-initialized, causing the loss of ALL "
@@ -6949,10 +7057,13 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "causando a perda de TODOS OS DADOS nele contidos.\n"
 #~ "\n"
 #~ "Você deseja reinicializar este disco?"
+
 #~ msgid "Initializing"
 #~ msgstr "Inicializando"
+
 #~ msgid "Please wait while formatting drive %s...\n"
 #~ msgstr "Formatando o disco %s, por favor aguarde...\n"
+
 #~ msgid ""
 #~ "The partition table on device %s (%s %-0.f MB) was unreadable.\n"
 #~ "\n"
@@ -6974,6 +7085,7 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "a quais dispositivos devem ser ignorados.\n"
 #~ "\n"
 #~ "Você deseja inicializar este disco, apagando TODO OS DADOS?"
+
 #~ msgid ""
 #~ "The drive /dev/%s has more than 15 partitions on it.  The SCSI subsystem "
 #~ "in the Linux kernel does not allow for more than 15 partitons at this "
@@ -6984,20 +7096,28 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "Linux não permite mais de 15 partições no momento. Você não poderá "
 #~ "realizar alterações no particionamento deste disco ou utilizar quaisquer "
 #~ "partições além de /dev/%s15 em %s"
+
 #~ msgid "Save"
 #~ msgstr "Salvar"
+
 #~ msgid "Save to local disk"
 #~ msgstr "Salvar no disco local"
+
 #~ msgid "Send to bugzilla (%s)"
 #~ msgstr "Enviar para o bugzilla (%s)"
+
 #~ msgid "Send to remote server (scp)"
 #~ msgstr "Enviar para um servidor remoto (scp)"
+
 #~ msgid "Bug Description"
 #~ msgstr "Descrição do erro"
+
 #~ msgid "Host (host:port)"
 #~ msgstr "Máquina (máquina:porta)"
+
 #~ msgid "Destination file"
 #~ msgstr "Arquivo de destino"
+
 #~ msgid ""
 #~ "You have choosen the upgrade for %s architecture, but the installed "
 #~ "system is for %s architecture. \n"
@@ -7006,27 +7126,35 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "Você escolheu a atualização para a arquitetura %s, mas o sistema "
 #~ "instalado é da arquitetura %s.\n"
 #~ "\n"
+
 #~ msgid ""
 #~ "Would you like to upgrade  the installed system to the %s architecture?"
 #~ msgstr ""
 #~ "Você gostaria de atualizar o sistema instalado para a arquitetura %s?"
+
 #~ msgid "%s Bytes"
 #~ msgstr "%s Bytes"
+
 #~ msgid "Processing"
 #~ msgstr "Processando"
+
 #~ msgid "%s of %s packages completed"
 #~ msgstr "%s pacotes instalados de %s no total"
+
 #~ msgid "Starting install process.  This may take several minutes..."
 #~ msgstr ""
 #~ "Iniciando o processo de instalação. Isso poderá demorar alguns minutos..."
+
 #~ msgid "Drive %s (Geom: %s/%s/%s) (Model: %s)"
 #~ msgstr "Disco %s (Geom: %s/%s/%s) (Modelo: %s)"
+
 #~ msgid ""
 #~ "To install the full set of supported packages included in your "
 #~ "subscription, please enter your Installation Number"
 #~ msgstr ""
 #~ "Para instalar o conjunto completo dos pacotes suportados inclusos na sua "
 #~ "subscrição, por favor, insira o seu Número de Instalação."
+
 #~ msgid ""
 #~ "If you're unable to locate the Installation Number, consult http://www."
 #~ "redhat.com/apps/support/in.html.\n"
@@ -7049,19 +7177,26 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "Hat Enterprise Linux.\n"
 #~ "* Você não receberá atualizações de programas e de segurança para pacotes "
 #~ "não inclusos na sua subscrição."
+
 #~ msgid "boot flag not available for this partition"
 #~ msgstr ""
 #~ "o sinalizador de inicialização não está disponível para esta partição"
+
 #~ msgid "_Ignore drive(s)"
 #~ msgstr "_Ignorar disco(s)"
+
 #~ msgid "_Re-initialize drive(s)"
 #~ msgstr "_Reinicializar disco(s)"
+
 #~ msgid "Your system will now be rebooted."
 #~ msgstr "O seu sistema será reinicializado agora."
+
 #~ msgid "Bug _description"
 #~ msgstr "_Descrição do erro"
+
 #~ msgid "Destination _file"
 #~ msgstr "_Arquivo de destino"
+
 #~ msgid ""
 #~ "Local storage device\n"
 #~ "Local disk\n"
@@ -7070,12 +7205,15 @@ msgstr "Gerando a lista dos arquivos a serem copiados"
 #~ "Dispositivo de armazenamento local\n"
 #~ "Disco local\n"
 #~ "Servidor remoto (scp)"
+
 #~ msgid "Please choose a destination for saving your traceback."
 #~ msgstr "Por favor, escolha o destino onde o seu traceback deve ser salvo"
+
 #~ msgid "Select A File"
 #~ msgstr "Selecione um arquivo"
+
 #~ msgid "_Host (host:port)"
 #~ msgstr "_Máquina (máquina:porta)"
+
 #~ msgid "_Password"
 #~ msgstr "_Senha"
-
