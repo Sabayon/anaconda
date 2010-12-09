@@ -2232,14 +2232,14 @@ msgstr "%(name)s: %(msg)s"
 
 #: iw/autopart_type.py:228
 msgid "Use All Space"
-msgstr "Usa Tutto lo Spazio"
+msgstr "Usa tutto lo Spazio"
 
 #: iw/autopart_type.py:230
 msgid ""
 "Removes all partitions on the selected device(s).  This includes partitions created by other operating systems.\n"
 "\n"
 "<b>Tip:</b> This option will remove data from the selected device(s).  Make sure you have backups."
-msgstr "Rimuovi tutte le partizioni sui dischi selezionati. Questo include le partizioni create da altri sistemi operativi."
+msgstr "Rimuove tutte le partizioni sui dischi selezionati. Questo include le partizioni create da altri sistemi operativi."
 
 #: iw/autopart_type.py:236
 msgid "Replace Existing Linux System(s)"
@@ -2250,11 +2250,11 @@ msgid ""
 "Removes all Linux partitions on the selected device(s). This does not remove other partitions you may have on your storage device(s) (such as VFAT or FAT32).\n"
 "\n"
 "<b>Tip:</b> This option will remove data from the selected device(s).  Make sure you have backups."
-msgstr "Rimuovi tutte le partizioni Linux sui dischi selezionati. Questo non rimuove altre partizioni che potresti avere sui tuoi dischi (come VFAT o FAT32)."
+msgstr "Rimuove tutte le partizioni Linux sui dischi selezionati. Questo non rimuove altre partizioni che potresti avere sui tuoi dischi (come VFAT o FAT32)."
 
 #: iw/autopart_type.py:246
 msgid "Shrink Current System"
-msgstr "Ridimensiona Sistema Attuale"
+msgstr "Ridimensiona sistema attuale"
 
 #: iw/autopart_type.py:248
 msgid "Shrinks existing partitions to create free space for the default layout."
