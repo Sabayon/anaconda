@@ -173,6 +173,11 @@ class UserPasswordWindow:
                                         _("Username too short"),
                                         custom_icon="error")
                 clean_pass = False
+            elif self.isUsernameAlreadyAvailable(username):
+                self.intf.messageWindow(_("Error with username"),
+                                    _("Requested username is already taken."),
+                                    custom_icon="error")
+                self.usernameError()
 
             if self.hasBadChars(entry_username.value(), spaces = False):
                 anaconda.intf.messageWindow(_("Error with username"),
@@ -181,7 +186,6 @@ class UserPasswordWindow:
                                           "not allowed."),
                                         custom_icon="error")
                 clean_pass = False
-
             else:
                 try:
                     cracklib.FascistCheck(entry1.value())
@@ -228,3 +232,7 @@ class UserPasswordWindow:
             if letter not in allowed:
                 return True
         return False
+
+    def isUsernameAlreadyAvailable(self, username):
+        import pwd
+        return username in [x.pw_name for x in pwd.getpwall()]

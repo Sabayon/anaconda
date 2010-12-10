@@ -126,6 +126,10 @@ class AccountWindow (InstallWindow):
                 return False
         return True
 
+    def isUsernameAlreadyAvailable(self, username):
+        import pwd
+        return username in [x.pw_name for x in pwd.getpwall()]
+
     def getNext (self):
         pw = self.pw.get_text()
         confirm = self.confirm.get_text()
@@ -184,6 +188,12 @@ class AccountWindow (InstallWindow):
                                     _("Requested username contains "
                                       "non-ASCII characters or spaces, which are "
                                       "not allowed."),
+                                    custom_icon="error")
+            self.usernameError()
+
+        if self.isUsernameAlreadyAvailable(username):
+            self.intf.messageWindow(_("Error with username"),
+                                    _("Requested username is already taken."),
                                     custom_icon="error")
             self.usernameError()
 
