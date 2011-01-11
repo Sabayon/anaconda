@@ -295,7 +295,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         root_is_removable = getattr(self.anaconda.storage.rootDevice,
             "removable", False)
         if root_is_removable:
-            cmdline.append("doslowusb")
             cmdline.append("scandelay=10")
 
         previous_vga = None
