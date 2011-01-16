@@ -184,9 +184,15 @@ class SabayonInstall:
         #sys.stderr = STDERR_LOG
 
         self._files_db_path = self._root+"/files.db"
-        self._files_db = self._entropy.open_generic_repository(
-             self._files_db_path, dbname = "filesdb",
-            indexing_override = True)
+        try:
+            self._files_db = self._entropy.open_generic_repository(
+                 self._files_db_path, dbname = "filesdb",
+                indexing_override = True)
+        except TypeError:
+            # new API
+            self._files_db = self._entropy.open_generic_repository(
+                 self._files_db_path, name = "filesdb",
+                indexing_override = True)
         if hasattr(self._files_db, "initializeDatabase"):
             self._files_db.initializeDatabase()
         else:
@@ -244,10 +250,10 @@ class SabayonInstall:
                 dbfile = dbpath, xcache = False, read_only = True,
                 dbname = "live_client", indexing_override = False)
         except TypeError:
-            # backward compat
+            # new API
             dbconn = self._entropy.open_generic_repository(
-                dbfile = dbpath, xcache = False, readOnly = True,
-                dbname = "live_client", indexing_override = False)
+                dbfile = dbpath, xcache = False, read_only = True,
+                name = "live_client", indexing_override = False)
         return dbconn
 
     def _change_entropy_chroot(self, chroot = None):
