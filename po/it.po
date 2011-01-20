@@ -2551,7 +2551,7 @@ msgstr "Installa o aggiorna su dispositivi di archiviazione comuni. Se non sei s
 
 #: iw/filter_type.py:66
 msgid "Specialized Storage Devices"
-msgstr "Dischi Specializzati."
+msgstr "Dischi Specializzati"
 
 #: iw/filter_type.py:67
 msgid "Installs or upgrades to devices such as Storage Area Networks (SANs) or mainframe attached disks (DASD), usually in an enterprise environment"
