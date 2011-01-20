@@ -48,6 +48,11 @@ NM_MANAGER_IFACE = "org.freedesktop.NetworkManager"
 NM_ACTIVE_CONNECTION_IFACE = "org.freedesktop.NetworkManager.Connection.Active"
 NM_CONNECTION_IFACE = "org.freedesktop.NetworkManagerSettings.Connection"
 NM_DEVICE_IFACE = "org.freedesktop.NetworkManager.Device"
+NM_IP4CONFIG_IFACE = "org.freedesktop.NetworkManager.IP4Config"
+NM_DEVICE_WIRED_IFACE = "org.freedesktop.NetworkManager.Device.Wired"
+NM_DEVICE_WIRELESS_IFACE = "org.freedesktop.NetworkManager.Device.Wireless"
+NM_DEVICE_BLUETOOTH_IFACE = "org.freedesktop.NetworkManager.Device.Bluetooth"
+NM_DEVICE_OLPCMESH_IFACE = "org.freedesktop.NetworkManager.Device.OlpcMesh"
 
 NM_STATE_UNKNOWN = 0
 NM_STATE_ASLEEP = 1
@@ -335,7 +340,7 @@ def getDeviceProperties(dev=None):
         device = bus.get_object(NM_SERVICE, path)
         device_props_iface = dbus.Interface(device, DBUS_PROPS_IFACE)
 
-        device_interface = str(device_props_iface.Get(NM_MANAGER_IFACE, "Interface"))
+        device_interface = str(device_props_iface.Get(NM_DEVICE_IFACE, "Interface"))
 
         if dev is None:
             all[device_interface] = device_props_iface
@@ -392,11 +397,30 @@ def getMacAddress(dev):
         return None
 
     device_macaddr = None
-    try:
-        device_macaddr = device_props_iface.Get(NM_MANAGER_IFACE, "HwAddress").upper()
-    except dbus.exceptions.DBusException as e:
-        if e.get_dbus_name() != 'org.freedesktop.DBus.Error.InvalidArgs':
-            raise
+    dev_type = int(device_props_iface.Get(NM_DEVICE_IFACE, "DeviceType"))
+    device_type_map = {
+        0: None, # unknown
+        1: [NM_DEVICE_WIRED_IFACE],
+        2: [NM_DEVICE_WIRELESS_IFACE],
+        #3: [NM_DEVICE_BLUETOOTH_IFACE], # NM_DEVICE_TYPE_GSM, try everything
+        #4: [NM_DEVICE_BLUETOOTH_IFACE], # NM_DEVICE_TYPE_CDMA, try everything
+    }
+    device_types = device_type_map.get(dev_type)
+    if device_types is None:
+        device_types = [NM_DEVICE_WIRED_IFACE, NM_DEVICE_WIRELESS_IFACE,
+            NM_DEVICE_OLPCMESH_IFACE, NM_DEVICE_BLUETOOTH_IFACE]
+    for device_type in device_types:
+        # try bluetooth
+        try:
+            device_macaddr = device_props_iface.Get(device_type, "HwAddress").upper()
+            break
+        except dbus.exceptions.DBusException:
+            pass
+
+    if (device_macaddr is None) and (dev_type in (1, 2)):
+        # this is wtf
+        raise dbus.exceptions.DBusException("cannot determine hwaddr")
+
     return device_macaddr
 
 # Get a description string for a network device (e.g., eth0)
@@ -441,7 +465,7 @@ def isWireless(dev):
     if device_props_iface is None:
         return None
 
-    device_type = int(device_props_iface.Get(NM_MANAGER_IFACE, "DeviceType"))
+    device_type = int(device_props_iface.Get(NM_DEVICE_IFACE, "DeviceType"))
 
     # from include/NetworkManager.h in the NM source code
     #    0 == NM_DEVICE_TYPE_UNKNOWN
@@ -464,7 +488,7 @@ def getIPAddress(dev):
         return None
 
     # XXX: add support for IPv6 addresses when NM can do that
-    device_ip4addr = device_props_iface.Get(NM_MANAGER_IFACE, "Ip4Address")
+    device_ip4addr = device_props_iface.Get(NM_DEVICE_IFACE, "Ip4Address")
 
     try:
         tmp = struct.pack('I', device_ip4addr)

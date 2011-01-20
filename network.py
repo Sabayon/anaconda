@@ -83,19 +83,19 @@ def getDefaultHostname(anaconda):
     for connection in active_connections:
         active_connection = bus.get_object(isys.NM_SERVICE, connection)
         active_connection_props_iface = dbus.Interface(active_connection, isys.DBUS_PROPS_IFACE)
-        devices = active_connection_props_iface.Get(isys.NM_MANAGER_IFACE, 'Devices')
+        devices = active_connection_props_iface.Get(isys.NM_ACTIVE_CONNECTION_IFACE, 'Devices')
 
         for device_path in devices:
             device = bus.get_object(isys.NM_SERVICE, device_path)
             device_props_iface = dbus.Interface(device, isys.DBUS_PROPS_IFACE)
 
-            ip4_config_path = device_props_iface.Get(isys.NM_MANAGER_IFACE, 'Ip4Config')
+            ip4_config_path = device_props_iface.Get(isys.NM_DEVICE_IFACE, 'Ip4Config')
             ip4_config_obj = bus.get_object(isys.NM_SERVICE, ip4_config_path)
             ip4_config_props = dbus.Interface(ip4_config_obj, isys.DBUS_PROPS_IFACE)
 
             # addresses (3-element list:  ipaddr, netmask, gateway)
             try:
-                addrs = ip4_config_props.Get(isys.NM_MANAGER_IFACE, "Addresses")[0]
+                addrs = ip4_config_props.Get(isys.NM_IP4CONFIG_IFACE, "Addresses")[0]
             except:
                 # DBusException
                 continue
@@ -224,13 +224,13 @@ def getActiveNetDevs():
     for connection in active_connections:
         active_connection = bus.get_object(isys.NM_SERVICE, connection)
         active_connection_props_iface = dbus.Interface(active_connection, isys.DBUS_PROPS_IFACE)
-        devices = active_connection_props_iface.Get(isys.NM_MANAGER_IFACE, 'Devices')
+        devices = active_connection_props_iface.Get(isys.NM_ACTIVE_CONNECTION_IFACE, 'Devices')
 
         for device_path in devices:
             device = bus.get_object(isys.NM_SERVICE, device_path)
             device_props_iface = dbus.Interface(device, isys.DBUS_PROPS_IFACE)
 
-            interface_name = device_props_iface.Get(isys.NM_MANAGER_IFACE, 'Interface')
+            interface_name = device_props_iface.Get(isys.NM_DEVICE_IFACE, 'Interface')
             active_devs.add(interface_name)
 
     ret = list(active_devs)
@@ -301,12 +301,12 @@ class Network:
                 else:
                     self.netdevices[dev].unset('BOOTPROTO')
                     bus = dbus.SystemBus()
-                    config_path = props.Get(isys.NM_MANAGER_IFACE, 'Ip4Config')
+                    config_path = props.Get(isys.NM_DEVICE_IFACE, 'Ip4Config')
                     config = bus.get_object(isys.NM_SERVICE, config_path)
                     config_props = dbus.Interface(config, isys.DBUS_PROPS_IFACE)
 
                     # addresses (3-element list:  ipaddr, netmask, gateway)
-                    addrs = config_props.Get(isys.NM_MANAGER_IFACE, 'Addresses')[0]
+                    addrs = config_props.Get(isys.NM_IP4CONFIG_IFACE, 'Addresses')[0]
                     try:
                         tmp = struct.pack('I', addrs[0])
                         ipaddr = socket.inet_ntop(socket.AF_INET, tmp)
@@ -393,6 +393,10 @@ class Network:
                 self.netdevices[dev] = NetworkDevice(dev)
 
             hwaddr = isys.getMacAddress(dev)
+            if hwaddr is None:
+                # not a valid device
+                log.warning("invalid hwaddr for: %s" % (dev,))
+                continue
 
             self.netdevices[dev].set(('HWADDR', hwaddr))
             self.netdevices[dev].set(('DESC', isys.getNetDevDesc(dev)))
