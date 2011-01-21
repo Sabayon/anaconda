@@ -682,17 +682,19 @@ class SabayonInstall:
                 continue
 
             pkg_filepath = os.path.join(drivers_dir, pkg_file)
-            try:
-                shutil.copy2(pkg_filepath, self._root+"/")
-            except:
+            if not os.path.isfile(pkg_filepath):
                 continue
+            dest_pkg_filepath = os.path.join(self._root + "/", pkg_file)
+            shutil.copy2(pkg_filepath, dest_pkg_filepath)
 
-            rc = self.install_package_file(self._root+'/'+pkg_file)
+            rc = self.install_package_file(dest_pkg_filepath)
 
             # mask all the nvidia-drivers, this avoids having people
             # updating their drivers resulting in a non working system
-            mask_file = os.path.join(self._root+'/',"etc/entropy/packages/package.mask")
-            unmask_file = os.path.join(self._root+'/',"etc/entropy/packages/package.unmask")
+            mask_file = os.path.join(self._root+'/',
+                "etc/entropy/packages/package.mask")
+            unmask_file = os.path.join(self._root+'/',
+                "etc/entropy/packages/package.unmask")
             if os.access(mask_file, os.W_OK) and os.path.isfile(mask_file):
                 f = open(mask_file,"aw")
                 f.write("\n# added by Sabayon Installer\nx11-drivers/nvidia-drivers\n")
@@ -713,6 +715,13 @@ class SabayonInstall:
                 self._intf.messageWindow(_("Drivers installation issue"),
                     question_text, custom_icon="question", type="custom",
                     custom_buttons = buttons)
+
+            try:
+                os.remove(dest_pkg_filepath)
+            except OSError:
+                pass
+
+            break
 
         # force OpenGL reconfiguration
         ogl_script = """
