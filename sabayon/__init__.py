@@ -35,10 +35,9 @@ class Entropy(Client):
     def init_singleton(self):
         self._progress = None
         self.oldcount = []
-        Client.init_singleton(self, indexing = False, xcache = False,
+        Client.init_singleton(self, xcache = False,
             url_fetcher = InstallerUrlFetcher)
         nocolor()
-        self.indexing = False
 
     def connect_progress(self, progress):
         self._progress = progress

@@ -874,7 +874,6 @@ class SabayonInstall:
         if self._package_identifiers_to_remove:
 
             # this makes packages removal much faster
-            client_repo.indexing = True
             client_repo.createAllIndexes()
 
             total_counter = len(self._package_identifiers_to_remove)
@@ -1247,7 +1246,10 @@ class SabayonInstall:
             self._files_db.commit()
         else:
             self._files_db.commitChanges()
-        self._files_db.indexing = True
+        if hasattr(self._files_db, "setIndexing"):
+            self._files_db.setIndexing(True)
+        else:
+            self._files_db.indexing = True
         self._files_db.createAllIndexes()
 
     def _add_file_to_ignore(self, f_path, ctype):
