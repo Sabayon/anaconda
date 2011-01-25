@@ -1022,8 +1022,9 @@ class SabayonInstall:
         if not hasattr(self._entropy, 'reorder_mirrors'):
             # Entropy version does not support it
             return
-        # make possible to disable it via env
-        if os.getenv('SABAYON_DISABLE_MIRROR_SORTING'):
+        # disable by default, pkg.sabayon.org was always selected
+        # as first, causing massive bandwidth usage
+        if not os.getenv('SABAYON_ENABLE_MIRROR_SORTING'):
             return
 
         self._progress.set_label("%s: %s" % (
