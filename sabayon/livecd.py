@@ -267,7 +267,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             'uk': 'uk',
             'us': 'us',
         }
-        console_kbd, xxx = self._sabayon_install.get_keyboard_layout()
+        console_kbd, xxx, yyy, zzz = self._sabayon_install.get_keyboard_layout()
         gk_kbd = keymaps_map.get(console_kbd)
 
         # look for kernel arguments we know should be preserved and add them

@@ -555,15 +555,26 @@ class SabayonInstall:
         (name, layout, model, variant, options) = kbd
         # for X, KDE and GNOME
         keylayout = layout.split(",")[0].split("_")[0]
-        return console_kbd, keylayout
+        return console_kbd, keylayout, variant, options
 
     def setup_keyboard(self):
-        console_kbd, keylayout = self.get_keyboard_layout()
-        self.spawn("/sbin/keyboard-setup "+keylayout+" gnome --do-not-restart --with-root="+self._root+" &> /dev/null")
-        self.spawn("/sbin/keyboard-setup "+keylayout+" kde --do-not-restart --with-root="+self._root+" &> /dev/null")
-        self.spawn("/sbin/keyboard-setup "+keylayout+" xorg --do-not-restart --with-root="+self._root+" &> /dev/null") #redoundant
-        self.spawn("/sbin/keyboard-setup "+console_kbd+" system --do-not-restart --with-root="+self._root+" &> /dev/null")
-        self.spawn("/sbin/keyboard-setup "+console_kbd+" xfce --do-not-restart --with-root="+self._root+" &> /dev/null")
+        console_kbd, keylayout, variant, options = self.get_keyboard_layout()
+        def _spawn(args):
+            subprocess.call(args, shell=True)
+        _spawn("ROOT=%s /sbin/keyboard-setup-2 %s gnome &> /dev/null" % (
+            self._root, keylayout))
+        _spawn("ROOT=%s /sbin/keyboard-setup-2 %s kde &> /dev/null" % (
+            self._root, keylayout))
+        _spawn("ROOT=%s /sbin/keyboard-setup-2 %s lxde &> /dev/null" % (
+            self._root, keylayout))
+        _spawn("ROOT=%s /sbin/keyboard-setup-2 %s e17 &> /dev/null" % (
+            self._root, keylayout))
+        _spawn("ROOT=%s /sbin/keyboard-setup-2 %s %s %s xorg &> /dev/null" % (
+            self._root, keylayout, variant, options))
+        _spawn("ROOT=%s /sbin/keyboard-setup-2 %s system &> /dev/null" % (
+            self._root, console_kbd))
+        _spawn("ROOT=%s /sbin/keyboard-setup-2 %s xfce &> /dev/null" % (
+            self._root, console_kbd))
 
     def setup_sudo(self):
         sudoers_file = self._root + '/etc/sudoers'
