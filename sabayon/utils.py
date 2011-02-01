@@ -1083,12 +1083,19 @@ class SabayonInstall:
                     custom_icon="warning")
                 return False
             except Exception as e:
-                msg = "%s: %s" % (_('Unhandled exception'), e,)
+                msg = "%s: %s" % (_('Unhandled error'), e,)
                 self._intf.messageWindow(_("Repositories update"), msg,
                     custom_icon="warning")
                 return False
 
-            update_rc = repo_intf.sync()
+            try:
+                update_rc = repo_intf.sync()
+            except Exception as e:
+                msg = "%s: %s" % (_('Sync error'), e,)
+                self._intf.messageWindow(_("Repositories update"), msg,
+                    custom_icon="warning")
+                return False
+
             if repo_intf.sync_errors or (update_rc != 0):
                 msg = _("Cannot download repositories right now, no big deal")
                 self._intf.messageWindow(_("Repositories update"), msg,
