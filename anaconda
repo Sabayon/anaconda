@@ -814,6 +814,9 @@ class Anaconda(object):
 if __name__ == "__main__":
     setupPythonPath()
 
+    if os.getenv("SABAYON_DEBUG") is None:
+        sys.stderr = open("/tmp/anaconda.stderr.log", "w")
+
     # Allow a file to be loaded as early as possible
     try:
         import updates_disk_hook
