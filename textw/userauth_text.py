@@ -173,7 +173,7 @@ class UserPasswordWindow:
                                         _("Username too short"),
                                         custom_icon="error")
                 clean_pass = False
-            elif self.isUsernameAlreadyAvailable(username):
+            elif self.isUsernameAlreadyAvailable(entry_username.value()):
                 self.intf.messageWindow(_("Error with username"),
                                     _("Requested username is already taken."),
                                     custom_icon="error")
