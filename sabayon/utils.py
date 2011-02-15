@@ -529,6 +529,22 @@ class SabayonInstall:
                 stdout = subprocess.PIPE, stderr = subprocess.PIPE)
             os._exit(proc.wait())
 
+        # fixup root password
+        # see bug #2175
+        pid = os.fork()
+        if pid > 0:
+            os.waitpid(pid, 0)
+        else:
+            os.chroot(self._root)
+            root_pass = self._anaconda.users.rootPassword["password"]
+            root_str = "root:%s\n" % (root_pass,)
+            proc = subprocess.Popen(["chpasswd"],
+                stdin = subprocess.PIPE,
+                stdout = subprocess.PIPE, stderr = subprocess.PIPE)
+            proc.stdin.write(root_str)
+            proc.stdin.close()
+            os._exit(proc.wait())
+
     def setup_manual_networking(self):
         mn_script = """
             rc-update del NetworkManager default
