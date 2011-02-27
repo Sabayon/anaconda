@@ -418,6 +418,10 @@ class SabayonInstall:
         action = _("Configuring System Services")
         self._progress.set_text(action)
 
+        is_sabayon_mce = "1"
+        if not Entropy.is_sabayon_mce():
+            is_sabayon_mce = "0"
+
         # Remove Installer services
         config_script = """
             rc-update del installer-gui boot default
@@ -444,8 +448,13 @@ class SabayonInstall:
             if [ -e "/etc/init.d/oemsystem-default" ]; then
                 rc-update add oemsystem-default default
             fi
+            if [ "0" = """+is_sabayon_mce+""" ]; then
+                rc-update del sabayon-mce boot
+                rc-update del sabayon-mce default
+            fi
         """
         self.spawn_chroot(config_script, silent = True)
+
 
         # setup dmcrypt service if user enabled encryption
         if self._is_encrypted():
