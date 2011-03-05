@@ -33,6 +33,7 @@ import tempfile
 import time
 
 # Entropy imports
+from entropy.exceptions import EntropyPackageException
 from entropy.const import etpUi, etpConst, etpSys
 import entropy.tools
 from entropy.core.settings.base import SystemSettings
@@ -348,11 +349,12 @@ class SabayonInstall:
         if chroot != root:
             self._change_entropy_chroot(chroot)
 
-        rc, atomsfound = self._entropy.add_package_to_repositories(
-            package_file)
+        try:
+            atomsfound = self._entropy.add_package_repository(
+                package_file)
+        except EntropyPackageException:
+            return -1
         repo = 0
-        if rc != 0:
-            return rc
         for match in atomsfound:
             repo = match[1]
             Package = self._entropy.Package()
