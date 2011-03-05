@@ -258,8 +258,10 @@ class SabayonInstall:
 
     def _change_entropy_chroot(self, chroot = None):
         if not chroot:
+            self._entropy._installed_repo_enable = True
             self._entropy.noclientdb = False
         else:
+            self._entropy._installed_repo_enable = False
             self._entropy.noclientdb = True
         if chroot is None:
             chroot = ""
