@@ -248,12 +248,12 @@ class SabayonInstall:
         dbpath = self._prod_root + etpConst['etpdatabaseclientfilepath']
         try:
             dbconn = self._entropy.open_generic_repository(
-                dbfile = dbpath, xcache = False, read_only = True,
+                dbpath, xcache = False, read_only = True,
                 dbname = "live_client", indexing_override = False)
         except TypeError:
             # new API
             dbconn = self._entropy.open_generic_repository(
-                dbfile = dbpath, xcache = False, read_only = True,
+                dbpath, xcache = False, read_only = True,
                 name = "live_client", indexing_override = False)
         return dbconn
 
