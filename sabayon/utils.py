@@ -36,6 +36,7 @@ import time
 from entropy.exceptions import EntropyPackageException
 from entropy.const import etpUi, etpConst, etpSys
 import entropy.tools
+import entropy.dep
 from entropy.core.settings.base import SystemSettings
 from entropy.core import Singleton
 
@@ -968,7 +969,7 @@ class SabayonInstall:
                 break
 
         # list installed packages and setup a package set
-        inst_packages = ['%s:%s\n' % (entropy.tools.dep_getkey(atom),slot,) \
+        inst_packages = ['%s:%s\n' % (entropy.dep.dep_getkey(atom),slot,) \
             for idpk, atom, slot, revision in client_repo.listAllPackages(
                 get_scope = True, order_by = "atom")]
         # perfectly fine w/o self._root
