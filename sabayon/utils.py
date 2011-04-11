@@ -39,6 +39,7 @@ import entropy.tools
 import entropy.dep
 from entropy.core.settings.base import SystemSettings
 from entropy.core import Singleton
+from entropy.services.client import WebService
 
 # Anaconda imports
 import logging
@@ -774,10 +775,19 @@ class SabayonInstall:
     def env_update(self):
         self.spawn_chroot("env-update &> /dev/null")
 
+    def _get_entropy_webservice(self):
+        factory = self._entropy.WebServices()
+        webserv = factory.new(REPO_NAME)
+        return webserv
+
     def emit_install_done(self):
         # user installed Sabayon, w00hooh!
         try:
-            self._entropy.UGC.add_download_stats(REPO_NAME, ["installer"])
+            webserv = self._get_entropy_webservice()
+        except WebService.UnsupportedService:
+            return
+        try:
+            webserv.add_downloads(["installer"])
         except Exception as err:
             log.error("Unable to emit_install_done(): %s" % err)
 
