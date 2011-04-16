@@ -139,15 +139,15 @@ class InstallProgressWindow (InstallWindow):
             box.add(self.adpix)
             self.adbox = box
             frame.add(box)
-            vbox.pack_start(frame, False)
+            vbox.pack_start(frame, True, True)
 
 
 	self.progress = gtk.ProgressBar()
-        vbox.pack_start(self.progress, False)
+        vbox.pack_start(self.progress, False, False)
 
         self.infolabel = gui.WrappingLabel("")
         self.infolabel.set_alignment(0,0)
-        vbox.pack_start(self.infolabel)
+        vbox.pack_start(self.infolabel, False, False)
 
 	# All done with creating components of UI
 	self.intf.setPackageProgressWindow(self)
