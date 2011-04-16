@@ -74,18 +74,27 @@ class TimezoneWindow(InstallWindow):
 
     def timezone_widget_create (self, str1, str2, int1, int2):
         mappath = "/usr/share/system-config-date/pixmaps/map1440.png"
+        pixbuf = gtk.gdk.pixbuf_new_from_file(mappath)
+        p_w, p_h = pixbuf.get_width(), pixbuf.get_height()
+        # find image w/h ratio
+        ratio = float(p_w)/p_h
+        screen_x, screen_y = self.ics.cw.window.get_size()
+        screen_x -= 80
+        screen_y -= 200
+        p_w -= 80
 
-        wp_width = 480
-        x_size, y_size = self.ics.cw.window.get_size()
-        if y_size <= 799:
-            wp_width = 480
-        elif x_size > 1024:
-            wp_width = x_size - int(x_size/6.5)
-        elif x_size >= 800:
-            wp_width = x_size - 80
+        if screen_x < p_w:
+            p_w = screen_x
+            p_h = int(float(p_w)/ratio)
+
+        if screen_y < p_h:
+            p_h = screen_y
+            proposed_p_w = p_h * ratio
+            if proposed_p_w < p_w:
+                p_w = proposed_p_w
 
         self.tz = AnacondaTZMap(self.zonetab, self.default, map=mappath,
-                                viewportWidth=wp_width)
+                                viewportWidth=p_w)
         self.tz.show_all()
         return self.tz
 
