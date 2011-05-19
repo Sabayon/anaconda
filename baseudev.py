@@ -80,7 +80,8 @@ def udev_settle():
     # wait maximal 300 seconds for udev to be done running blkid, lvm,
     # mdadm etc. This large timeout is needed when running on machines with
     # lots of disks, or with slow disks
-    argv = ["settle", "--timeout=300"]
+    # lxnay: OTOH, 300 seconds is too much in case of errors
+    argv = ["settle", "--timeout=30"]
 
     iutil.execWithRedirect("udevadm", argv, stderr="/dev/null")
 
