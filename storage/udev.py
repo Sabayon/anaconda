@@ -89,7 +89,8 @@ def udev_get_block_devices():
                 state = None
                 state_file = "/sys/%s/md/array_state" % entry["sysfs_path"]
                 if os.access(state_file, os.R_OK):
-                    state = open(state_file).read().strip()
+                    with open(state_file) as state_f:
+                        state = state_f.read().strip()
                 if state == "clear":
                     continue
             entries.append(entry)
@@ -100,8 +101,10 @@ def __is_blacklisted_blockdev(dev_name):
     if dev_name.startswith("loop") or dev_name.startswith("ram") or dev_name.startswith("fd"):
         return True
 
-    if os.path.exists("/sys/class/block/%s/device/model" %(dev_name,)):
-        model = open("/sys/class/block/%s/device/model" %(dev_name,)).read()
+    dev_path = "/sys/class/block/%s/device/model" %(dev_name,)
+    if os.path.exists(dev_path):
+        with open(dev_path) as dev_f:
+            model = dev_f.read()
         for bad in ("IBM *STMF KERNEL", "SCEI Flash-5", "DGC LUNZ"):
             if model.find(bad) != -1:
                 log.info("ignoring %s with model %s" %(dev_name, model))
@@ -210,7 +213,8 @@ def udev_device_get_zfcp_attribute(info, attr=None):
         log.warning("%s is not a valid zfcp attribute" % (attribute,))
         return None
 
-    return open(attribute, "r").read().strip()
+    with open(attribute, "r") as f:
+        return f.read().strip()
 
 def udev_device_get_dasd_bus_id(info):
     """ Return the CCW bus ID of the dasd device. """
@@ -225,7 +229,8 @@ def udev_device_get_dasd_flag(info, flag=None):
     if not os.path.isfile(path):
         return None
 
-    return open(path, 'r').read().strip()
+    with open(path, "r") as f:
+        return f.read().strip()
 
 def udev_device_is_cdrom(info):
     """ Return True if the device is an optical drive. """

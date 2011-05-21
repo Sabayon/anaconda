@@ -2094,13 +2094,15 @@ class FSSet(object):
         mdadm_path = os.path.normpath("%s/etc/mdadm.conf" % instPath)
         mdadm_conf = self.mdadmConf()
         if mdadm_conf:
-            open(mdadm_path, "w").write(mdadm_conf)
+            with open(mdadm_path, "w") as md_f:
+                md_f.write(mdadm_conf)
 
         # /etc/multipath.conf
         multipath_path = os.path.normpath("%s/etc/multipath.conf" % instPath)
         multipath_conf = self.multipathConf()
         if multipath_conf:
-            open(multipath_path, "w").write(multipath_conf)
+            with open(multipath_path, "w") as mp_f:
+                mp_f.write(multipath_conf)
 
     def crypttab(self):
         # if we are upgrading, do we want to update crypttab?

@@ -740,9 +740,13 @@ class StorageDevice(Device):
     def removable(self):
         devpath = os.path.normpath("/sys/%s" % self.sysfsPath)
         remfile = os.path.normpath("%s/removable" % devpath)
-        return (self.sysfsPath and os.path.exists(devpath) and
-                os.access(remfile, os.R_OK) and
-                open(remfile).readline().strip() == "1")
+        rem_f = open(remfile)
+        try:
+            return (self.sysfsPath and os.path.exists(devpath) and
+                    os.access(remfile, os.R_OK) and
+                    rem_f.readline().strip() == "1")
+        finally:
+            rem_f.close()
 
     @property
     def isDisk(self):
@@ -2468,8 +2472,9 @@ class MDRaidArrayDevice(StorageDevice):
         if self.exists and self.uuid:
             # this is a hack to work around mdadm's insistence on giving
             # really high minors to arrays it has no config entry for
-            open("/etc/mdadm.conf", "a").write("ARRAY %s UUID=%s\n"
-                                                % (self.path, self.uuid))
+            md_f = open("/etc/mdadm.conf", "a")
+            md_f.write("ARRAY %s UUID=%s\n" % (self.path, self.uuid))
+            md_f.close()
 
     @property
     def smallestMember(self):
@@ -2724,7 +2729,9 @@ class MDRaidArrayDevice(StorageDevice):
 
         state_file = "/sys/%s/md/array_state" % self.sysfsPath
         if os.access(state_file, os.R_OK):
-            state = open(state_file).read().strip()
+            state_f = open(state_file)
+            state = state_f.read().strip()
+            state_f.close()
             log.debug("%s state is %s" % (self.name, state))
             if state in ("clean", "active", "active-idle", "readonly", "read-auto"):
                 status = True
@@ -2740,7 +2747,9 @@ class MDRaidArrayDevice(StorageDevice):
         rc = False
         degraded_file = "/sys/%s/md/degraded" % self.sysfsPath
         if os.access(degraded_file, os.R_OK):
-            val = open(degraded_file).read().strip()
+            deg_f = open(degraded_file)
+            val = deg_f.read().strip()
+            deg_f.close()
             log.debug("%s degraded is %s" % (self.name, val))
             if val == "1":
                 rc = True
