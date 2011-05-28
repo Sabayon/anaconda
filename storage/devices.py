@@ -740,7 +740,13 @@ class StorageDevice(Device):
     def removable(self):
         devpath = os.path.normpath("/sys/%s" % self.sysfsPath)
         remfile = os.path.normpath("%s/removable" % devpath)
-        rem_f = open(remfile)
+        rem_f = None
+        try:
+            rem_f = open(remfile, "r")
+        except IOError as err:
+            if err.errno != 2:
+                raise
+            return False
         try:
             return (self.sysfsPath and os.path.exists(devpath) and
                     os.access(remfile, os.R_OK) and
