@@ -14,15 +14,15 @@
 # Afonso Celso Medina <medina@maua.br>, 2006.
 # Igor Pires Soares <igor@projetofedora.org>, 2006,2007,2008,2009.
 # ufa <ufa@technotroll.org>, 2010.
-# Alberto Federman Neto <albfneto@fcfrp.usp.br> 2009,2010.
+# Alberto Federman Neto <albfneto@fcfrp.usp.br> 2009,2010,2011
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Anaconda\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
 "POT-Creation-Date: 2010-08-07 10:23+0200\n"
-"PO-Revision-Date: 2010-11-27 13:00-0000\n"
-"Last-Translator: Daniel Halens Rodriguez <daniel.halens@sabayonlinux.org>\n"
+"PO-Revision-Date: 2011-06-04 13:02-0300\n"
+"Last-Translator: albfneto <albfneto@fcfrp.usp.br>\n"
 "Language-Team: Brazilian Portuguese <fedora-trans-pt_br@redhat.com>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -5987,11 +5987,12 @@ msgid "Please select the drives you'd like to install the operating system on, a
 msgstr "Selecionar os drives que quer usar para instalar o Sistema Operacional, bem como quaisquer drives que serão usados na montagem automática:"
 
 #: ui/filter.glade.h:16
-#, fuzzy
 msgid ""
 "Port / Target / LUN\n"
 "Target Identifier"
-msgstr "Porta / Alvo / LUN\n"
+msgstr ""
+"Porta / Alvo / LUN\n"
+"Identificador de Alvo"
 
 #: ui/filter.glade.h:18
 msgid "Port:"
