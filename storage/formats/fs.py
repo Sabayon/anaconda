@@ -1081,7 +1081,7 @@ class BTRFS(FS):
     _resizefs = "btrfsctl"
     _formattable = True
     _linuxNative = True
-    _bootable = False
+    _bootable = True
     _maxLabelChars = 256
     _supported = True
     _dump = True
