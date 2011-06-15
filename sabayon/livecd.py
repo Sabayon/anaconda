@@ -381,8 +381,9 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 return "/dev/mapper/root"
             if crypted and is_parent_a_simple_device(root_device):
                 return "/dev/mapper/root"
-            if isinstance(root_device, storage.devices.MDRaidArrayDevice):
-                return root_device.path
+            # not needed anymore with grub 1.99
+            # if isinstance(root_device, storage.devices.MDRaidArrayDevice):
+            #    return root_device.path
             return root_device.fstabSpec
 
         crypt_root = None
