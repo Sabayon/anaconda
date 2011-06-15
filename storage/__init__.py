@@ -2090,13 +2090,6 @@ class FSSet(object):
         crypttab = self.crypttab()
         open(crypttab_path, "w").write(crypttab)
 
-        # /etc/mdadm.conf
-        mdadm_path = os.path.normpath("%s/etc/mdadm.conf" % instPath)
-        mdadm_conf = self.mdadmConf()
-        if mdadm_conf:
-            with open(mdadm_path, "w") as md_f:
-                md_f.write(mdadm_conf)
-
         # /etc/multipath.conf
         multipath_path = os.path.normpath("%s/etc/multipath.conf" % instPath)
         multipath_conf = self.multipathConf()
@@ -2128,30 +2121,6 @@ class FSSet(object):
                 del self.cryptTab.mappings[name]
 
         return self.cryptTab.crypttab()
-
-    def mdadmConf(self):
-        """ Return the contents of mdadm.conf. """
-        arrays = self.devicetree.getDevicesByType("mdarray")
-        arrays.extend(self.devicetree.getDevicesByType("mdbiosraidarray"))
-        arrays.extend(self.devicetree.getDevicesByType("mdcontainer"))
-        # Sort it, this not only looks nicer, but this will also put
-        # containers (which get md0, md1, etc.) before their members
-        # (which get md127, md126, etc.). and lame as it is mdadm will not
-        # assemble the whole stack in one go unless listed in the proper order
-        # in mdadm.conf
-        arrays.sort(key=lambda d: d.path)
-
-        conf = "# mdadm.conf written out by anaconda\n"
-        conf += "MAILADDR root\n"
-        conf += "AUTO +imsm +1.x -all\n"
-        devices = self.mountpoints.values() + self.swapDevices
-        for array in arrays:
-            for device in devices:
-                if device == array or device.dependsOn(array):
-                    conf += array.mdadmConfEntry
-                    break
-
-        return conf
 
     def multipathConf(self):
         """ Return the contents of multipath.conf. """
