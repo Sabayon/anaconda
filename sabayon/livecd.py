@@ -277,7 +277,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             "all-generic-ide", "gentoo=", "res=", "hsync=", "refresh=", "noddc",
             "xdriver=", "onlyvesa", "nvidia=", "dodmraid", "dmraid",
             "sabayonmce", "quiet", "scandelay=", "doslowusb", "docrypt",
-            "dokeymap", "keymap=", "radeon.modeset=", "modeset=", "nomodeset"]
+            "dokeymap", "keymap=", "radeon.modeset=", "modeset=", "nomodeset",
+            "domdadm"]
 
         # Sabayon MCE install -> MCE support
         # use reference, yeah
@@ -296,6 +297,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             "removable", False)
         if root_is_removable:
             cmdline.append("scandelay=10")
+
+        # always add md support (we don't know if md have been created)
+        if "domdadm" not in cmdline:
+            cmdline.append("domdadm")
 
         previous_vga = None
         final_cmdline = []
