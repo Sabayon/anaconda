@@ -2330,6 +2330,7 @@ class LVMLogicalVolumeDevice(DMDevice):
         if not self.exists and not recursive:
             raise DeviceError("device has not been created", self.name)
 
+        udev_settle()
         if self.status:
             if self.originalFormat.exists:
                 self.originalFormat.teardown()
