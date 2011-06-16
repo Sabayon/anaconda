@@ -339,8 +339,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 # genkernel hardcoded bullshit, cannot change /dev/mapper/swap
                 # change inside swap_dev, fstabSpec should return /dev/mapper/swap
                 swap_crypted = ("swap", swap_dev)
-                final_cmdline.append("resume=swap:%s" % (swap_dev.path,))
-                final_cmdline.append("real_resume=%s" % (swap_dev.path,))
+                final_cmdline.append("resume=swap:/dev/mapper/swap")
+                final_cmdline.append("real_resume=/dev/mapper/swap")
                 # NOTE: cannot use swap_crypto_dev.fstabSpec because
                 # genkernel doesn't support UUID= on crypto
                 delayed_crypt_swap = swap_crypto_dev.path
@@ -360,6 +360,13 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 root_crypted = True
                 break
 
+        # - in case of real device being crypted, crypto_dev is
+        #   a storage.devices.PartitionDevice object
+        # - in case of crypt over lvm, crypto_dev is
+        #   storage.devices.LVMLogicalVolumeDevice
+
+        # crypt over raid?
+
         def is_parent_a_simple_device(root_device):
             if not hasattr(root_device, 'parents'):
                 return False
@@ -372,15 +379,27 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             if not hasattr(root_device, 'parents'):
                 return False
             for parent in root_device.parents:
-                if not isinstance(parent, storage.devices.MDRaidArrayDevice):
-                    return False
-            return True
+                if isinstance(parent, storage.devices.MDRaidArrayDevice):
+                    return True
+            return False
+
+        def is_parent_a_lv_device(root_device):
+            if not hasattr(root_device, 'parents'):
+                return False
+            for parent in root_device.parents:
+                if isinstance(parent, storage.devices.LVMVolumeGroupDevice):
+                    return True
+            return False
 
         def translate_real_root(root_device, crypted):
+            # crypt over anything, == "/dev/mapper/root"
+            if crypted and isinstance(root_device, storage.devices.LUKSDevice):
+                return "/dev/mapper/root"
             if crypted and is_parent_a_md_device(root_device):
                 return "/dev/mapper/root"
             if crypted and is_parent_a_simple_device(root_device):
                 return "/dev/mapper/root"
+
             # not needed anymore with grub 1.99
             # if isinstance(root_device, storage.devices.MDRaidArrayDevice):
             #    return root_device.path
