@@ -176,7 +176,7 @@ def mdadd(device):
     except MDRaidError as msg:
         raise MDRaidError("mdadd failed for %s: %s" % (device, msg))
 
-def mdactivate(device, members=[], update_super_minor=False, uuid=None):
+def mdactivate(device, members=[], super_minor=False, uuid=None):
     if super_minor is None and not uuid:
         raise ValueError("mdactivate requires either a uuid or a super-minor")
     
