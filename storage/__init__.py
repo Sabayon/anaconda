@@ -1035,6 +1035,20 @@ class Storage(object):
             if mountpoint in mustbeonlinuxfs and (not dev.format.mountable or not dev.format.linuxNative):
                 errors.append(_("The mount point %s must be on a linux file system.") % mountpoint)
 
+        # genkernel doesn't support crypted root spread over multiple
+        # luks devices yet
+        if isinstance(root, LVMLogicalVolumeDevice):
+            for parent in root.parents:
+                if isinstance(parent, LVMVolumeGroupDevice):
+                    luks_parents = filter(lambda x: isinstance(x, LUKSDevice),
+                        parent.parents)
+                    if len(luks_parents) > 1:
+                        # caught!
+                        errors.append(_("Unfortunately, the Operating System "
+                            "does not support having multiple crypt "
+                            "devices spread over different partitions, for "
+                            " the / filesystem"))
+
         return (errors, warnings)
 
     def isProtected(self, device):
