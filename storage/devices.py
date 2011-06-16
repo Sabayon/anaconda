@@ -1644,6 +1644,13 @@ class LUKSDevice(DMCryptDevice):
             size = self.partedDevice.getSize()
         return size
 
+    @property
+    def fstabSpec(self):
+        spec = self.path
+        if self.format and self.format.uuid:
+            spec = "UUID=%s" % self.format.uuid
+        return spec
+
     def create(self, intf=None):
         """ Create the device. """
         log_method_call(self, self.name, status=self.status)
