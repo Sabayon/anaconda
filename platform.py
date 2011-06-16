@@ -198,7 +198,7 @@ class Platform(object):
         return 0
 
 class EFI(Platform):
-    _bootFSTypes = ["btrfs", "ext4", "ext3", "ext2"]
+    _bootFSTypes = ["ext4", "ext3", "ext2", "btrfs"]
     _diskLabelType = "gpt"
     _minBootPartSize = 50
     _maxBootPartSize = 256
@@ -309,7 +309,7 @@ class IA64(EFI):
         EFI.__init__(self, anaconda)
 
 class PPC(Platform):
-    _bootFSTypes = ["btrfs", "ext4", "ext3", "ext2"]
+    _bootFSTypes = ["ext4", "ext3", "ext2", "btrfs"]
     _packages = ["yaboot"]
     _ppcMachine = iutil.getPPCMachine()
     _supportsMdRaidBoot = True
@@ -488,7 +488,7 @@ class Sparc(Platform):
         return start+1
 
 class X86(EFI):
-    _bootFSTypes = ["btrfs", "ext4", "ext3", "ext2", "reiserfs", "xfs", "jfs"]
+    _bootFSTypes = ["ext4", "ext3", "ext2", "btrfs", "reiserfs", "xfs", "jfs"]
     _packages = ["grub"]
     _supportsMdRaidBoot = True
 
