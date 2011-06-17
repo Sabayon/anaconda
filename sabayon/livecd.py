@@ -408,14 +408,13 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         crypt_root = None
         if root_crypted:
             log.info("Root crypted? %s, %s, crypto_dev: %s" % (root_crypted,
-                root_device.path, crypto_dev.path))
+                root_device.path, crypto_dev.fstabSpec))
 
-            # NOTE: cannot use crypto_dev.fstabSpec because
-            # genkernel doesn't support UUID= on crypto
             translated_real_root = translate_real_root(root_device, True)
             root_crypted = (os.path.basename(translated_real_root), root_device)
+            # must use fstabSpec now, since latest genkernel supports it
             final_cmdline.append("root=%s crypt_root=%s" % (
-                translated_real_root, crypto_dev.path,))
+                translated_real_root, crypto_dev.fstabSpec,))
             # due to genkernel initramfs stupidity, when crypt_root = crypt_swap
             # do not add crypt_swap.
             if delayed_crypt_swap == crypto_dev.path:
