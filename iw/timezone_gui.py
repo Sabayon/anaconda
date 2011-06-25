@@ -94,7 +94,7 @@ class TimezoneWindow(InstallWindow):
                 p_w = proposed_p_w
 
         self.tz = AnacondaTZMap(self.zonetab, self.default, map=mappath,
-                                viewportWidth=p_w)
+                                viewportWidth=int(p_w))
         self.tz.show_all()
         return self.tz
 
