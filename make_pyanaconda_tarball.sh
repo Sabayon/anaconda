@@ -1,5 +1,5 @@
 #!/bin/sh
-SABAYON_VER=${SABAYON_VER:-5.3}
+SABAYON_VER=${SABAYON_VER:-6}
 rm -rf tmp
 mkdir tmp
 sh autogen.sh && \
@@ -11,7 +11,10 @@ sh autogen.sh && \
 [[ "${?}" != "0" ]] && exit 1
 
 pyanaconda_dir=$(find tmp -name "pyanaconda" -type d)
-[[ -d "${pyanaconda_dir}" ]] || { echo "ouch" && exit 1 }
+if [[ ! -d "${pyanaconda_dir}" ]]; then
+	echo "ouch"
+	exit 1
+fi
 cd $(dirname "${pyanaconda_dir}")
 tar cjvf pyanaconda-${SABAYON_VER}.tar.bz2 "$(basename ${pyanaconda_dir})"
 md5sum pyanaconda-${SABAYON_VER}.tar.bz2 > pyanaconda-${SABAYON_VER}.tar.bz2.md5
