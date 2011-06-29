@@ -99,6 +99,13 @@ class InstallerUrlFetcher(UrlFetcher):
 
     gui_last_avg = 0
 
+    def __init__(self, *args, **kwargs):
+        UrlFetcher.__init__(self, *args, **kwargs)
+        self.__average = 0
+        self.__downloadedsize = 0
+        self.__remotesize = 0
+        self.__datatransfer = 0
+
     def handle_statistics(self, th_id, downloaded_size, total_size,
             average, old_average, update_step, show_speed, data_transfer,
             time_remaining, time_remaining_secs):
