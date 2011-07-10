@@ -214,6 +214,12 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                     root_dev._name = old_root_name
 
         self._copy_logs()
+        # also remove hw.hash
+        hwhash_file = os.path.join(self._root, "etc/entropy/.hw.hash")
+        try:
+            os.remove(hwhash_file)
+        except (OSError, IOError):
+            pass
 
     def _copy_logs(self):
 
