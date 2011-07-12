@@ -328,6 +328,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         root_crypted = False
         swap_crypted = False
         delayed_crypt_swap = None
+        any_crypted = len(fsset.cryptTab.mappings.keys()) > 0
 
         if swap_devices:
             log.info("Found swap devices: %s" % (swap_devices,))
@@ -440,11 +441,12 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         log.info("Generated boot cmdline: %s" % (final_cmdline,))
 
-        return final_cmdline, root_crypted, swap_crypted
+        return final_cmdline, root_crypted, swap_crypted, any_crypted
 
     def _setup_grub2(self):
 
-        cmdline_args, root_crypted, swap_crypted = self._get_bootloader_args()
+        cmdline_args, root_crypted, swap_crypted, any_crypted = \
+            self._get_bootloader_args()
 
         log.info("_setup_grub2, cmdline_args: %s | "
             "root_crypted: %s | swap_crypted: %s" % (cmdline_args,
@@ -461,7 +463,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         cmdline_str = ' '.join(cmdline_args)
 
         # if root_device or swap encrypted, replace splash=silent
-        if root_crypted or swap_crypted:
+        if root_crypted or swap_crypted or any_crypted:
             cmdline_str = cmdline_str.replace('splash=silent', 'splash=verbose')
 
         log.info("_setup_grub2, grub_target: %s | "
