@@ -2148,7 +2148,8 @@ class FSSet(object):
         crypttab_path = os.path.normpath("%s%s" % (instPath,
             CryptTab.PATH,))
         crypttab = self.crypttab()
-        with open(crypttab_path, "w") as crypt_f:
+        with open(crypttab_path, "a+") as crypt_f:
+            crypt_f.write("\n")
             crypt_f.write(crypttab)
 
         # /etc/multipath.conf
