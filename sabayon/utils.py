@@ -458,6 +458,9 @@ class SabayonInstall:
                 rc-update del sabayon-mce boot
                 rc-update del sabayon-mce default
             fi
+            if [ e "/etc/init.d/dmcrypt" ]; then
+                rc-update add dmcrypt boot
+            fi
         """
         self.spawn_chroot(config_script, silent = True)
 
