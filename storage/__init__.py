@@ -1400,6 +1400,9 @@ class BlkidTab(object):
 
 
 class CryptTab(object):
+
+    PATH = "/etc/conf.d/dmcrypt"
+
     """ Dictionary-like interface to crypttab entries with map name keys """
     def __init__(self, devicetree, blkidTab=None, chroot=""):
         self.devicetree = devicetree
@@ -1412,9 +1415,21 @@ class CryptTab(object):
         if not chroot or not os.path.isdir(chroot):
             chroot = ""
 
-        path = "%s/etc/crypttab" % chroot
+        def _setup_mapping(name, device, keyfile, options, is_swap):
+            if not keyfile:
+                keyfile = "none"
+            if not options:
+                options = ""
+            self.mappings[name] = {
+                "device": device,
+                "keyfile": keyfile,
+                "options": options,
+                "is_swap": is_swap,
+            }
+
+        path = "%s%s" % (chroot, CryptTab.PATH,)
         log.debug("parsing %s" % path)
-        with open(path) as f:
+        with open(path, "r") as f:
             if not self.blkidTab:
                 try:
                     self.blkidTab = BlkidTab(chroot=chroot)
@@ -1422,25 +1437,46 @@ class CryptTab(object):
                 except Exception:
                     self.blkidTab = None
 
+            name = None
+            device = None
+            keyfile = None
+            options = None
+            is_swap = False
             for line in f.readlines():
-                (line, pound, comment) = line.partition("#")
-                fields = line.split()
-                if not 2 <= len(fields) <= 4:
+                line = line.strip()
+                if line.startswith("#"):
                     continue
-                elif len(fields) == 2:
-                    fields.extend(['none', ''])
-                elif len(fields) == 3:
-                    fields.append('')
+                if line.startswith("target=") or line.startswith("swap="):
+                    # setup mapping of previous entry
+                    if name and device:
+                        _setup_mapping(name, device, keyfile, options, is_swap)
 
-                (name, devspec, keyfile, options) = fields
+                    device = None
+                    keyfile = None
+                    options = None
+                    is_swap = False
+                    # add support for swap
+                    if line.startswith("target="):
+                        name = line[len("target="):].strip("'").strip('"').strip()
+                    else:
+                        name = line[len("swap="):].strip("'").strip('"').strip()
+                        is_swap = True
+                    continue
 
-                # resolve devspec to a device in the tree
-                device = self.devicetree.resolveDevice(devspec,
-                                                       blkidTab=self.blkidTab)
-                if device:
-                    self.mappings[name] = {"device": device,
-                                           "keyfile": keyfile,
-                                           "options": options}
+                elif name and line.startswith("source="):
+                    devspec = line[len("source="):].strip("'").strip('"').strip()
+                    device = self.devicetree.resolveDevice(devspec,
+                        blkidTab=self.blkidTab)
+
+                elif name and line.startswith("key="):
+                    keyfile = line[len("key="):].strip("'").strip('"').strip()
+
+                elif name and line.startswith("options="):
+                    options = line[len("options="):].strip("'").strip('"').strip()
+
+            # setup remaining entries, if any
+            if name and device:
+                _setup_mapping(name, device, keyfile, options, is_swap)
 
     def populate(self):
         """ Populate the instance based on the device tree's contents. """
@@ -1460,20 +1496,29 @@ class CryptTab(object):
             if not options:
                 options = ""
 
+            is_swap = device.format.type == "swap"
             self.mappings[device.format.mapName] = {"device": device,
                                                     "keyfile": key_file,
-                                                    "options": options}
+                                                    "options": options,
+                                                    "is_swap": is_swap}
 
     def crypttab(self):
         """ Write out /etc/crypttab """
         crypttab = ""
         for name in self.mappings:
             entry = self[name]
-            crypttab += "%s UUID=%s %s %s\n" % (name,
-                                                entry['device'].format.uuid,
-                                                entry['keyfile'],
-                                                entry['options'])
-        return crypttab                       
+            is_swap = entry['is_swap']
+            if is_swap:
+                crypttab += "swap='%s'\n" % name
+            else:
+                crypttab += "target='%s'\n" % name
+            crypttab += "source='%s'\n" % entry['device'].path
+            if entry['keyfile'] and (entry['keyfile'] != "none"):
+                crypttab += "key='%s'\n" % entry['keyfile']
+            if entry['options']:
+                crypttab += "options='%s'\n" % entry['options']
+            crypttab += "\n"
+        return crypttab
 
     def __getitem__(self, key):
         return self.mappings[key]
@@ -2099,10 +2144,12 @@ class FSSet(object):
         fstab = self.fstab()
         open(fstab_path, "w").write(fstab)
 
-        # /etc/crypttab
-        crypttab_path = os.path.normpath("%s/etc/crypttab" % instPath)
+        # /etc/conf.d/dmcrypt (Gentoo way, no /etc/crypttab)
+        crypttab_path = os.path.normpath("%s%s" % (instPath,
+            CryptTab.PATH,))
         crypttab = self.crypttab()
-        open(crypttab_path, "w").write(crypttab)
+        with open(crypttab_path, "w") as crypt_f:
+            crypt_f.write(crypttab)
 
         # /etc/multipath.conf
         multipath_path = os.path.normpath("%s/etc/multipath.conf" % instPath)
