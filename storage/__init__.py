@@ -1404,11 +1404,13 @@ class CryptTab(object):
     PATH = "/etc/conf.d/dmcrypt"
 
     """ Dictionary-like interface to crypttab entries with map name keys """
-    def __init__(self, devicetree, blkidTab=None, chroot=""):
+    def __init__(self, devicetree, blkidTab=None, chroot="",
+        filter_callback=None):
         self.devicetree = devicetree
         self.blkidTab = blkidTab
         self.chroot = chroot
         self.mappings = {}
+        self._filter_callback = filter_callback
 
     def parse(self, chroot=""):
         """ Parse /etc/crypttab from an existing installation. """
@@ -1487,6 +1489,10 @@ class CryptTab(object):
             #       Put them all in here -- we can filter from FSSet
             if device.format.type != "luks":
                 continue
+
+            if self._filter_callback is not None:
+                if not self._filter_callback(device):
+                    continue
 
             key_file = device.format.keyFile
             if not key_file:
@@ -2133,7 +2139,7 @@ class FSSet(object):
 
         return migratable
 
-    def write(self, instPath=None):
+    def write(self, instPath=None, crypt_filter_callback=None):
         """ write out all config files based on the set of filesystems """
         if not instPath:
             instPath = self.rootpath
@@ -2146,7 +2152,7 @@ class FSSet(object):
         # /etc/conf.d/dmcrypt (Gentoo way, no /etc/crypttab)
         crypttab_path = os.path.normpath("%s%s" % (instPath,
             CryptTab.PATH,))
-        crypttab = self.crypttab()
+        crypttab = self.crypttab(filter_callback=crypt_filter_callback)
         with open(crypttab_path, "w") as crypt_f:
             # this method should never use append, but we still need
             # to keep the descriptory lines of the original files.
@@ -2163,12 +2169,13 @@ class FSSet(object):
             with open(multipath_path, "w") as mp_f:
                 mp_f.write(multipath_conf)
 
-    def crypttab(self):
+    def crypttab(self, filter_callback=None):
         # if we are upgrading, do we want to update crypttab?
         # gut reaction says no, but plymouth needs the names to be very
         # specific for passphrase prompting
         if not self.cryptTab:
-            self.cryptTab = CryptTab(self.devicetree)
+            self.cryptTab = CryptTab(self.devicetree,
+                filter_callback=filter_callback)
             self.cryptTab.populate()
 
         devices = self.mountpoints.values() + self.swapDevices

@@ -185,6 +185,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         """
 
         # Write critical configuration not automatically written
+        # ignore crypt_filter_callback here
         self.anaconda.storage.fsset.write()
 
         log.info("Do we need to run GRUB2 setup? => %s" % (self._install_grub,))
@@ -196,6 +197,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             # and this code overrides it
             encrypted, root_crypted, swap_crypted = self._setup_grub2()
             if encrypted:
+                swap_dev = None
+                root_dev = None
                 if swap_crypted:
                     swap_name, swap_dev = swap_crypted
                     old_swap_name = swap_dev._name
@@ -205,9 +208,24 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                     old_root_name = root_dev._name
                     if root_name == "root": # comes from /dev/mapper/root
                         root_dev._name = root_name
+
+                def _crypt_filter_callback(cb_dev):
+                    # this is required in order to not get
+                    # crypt root device and crypt swap written
+                    # into /etc/conf.d/dmcrypt, as per bug #2522
+                    handled_devs = [swap_dev, root_dev]
+                    # use is and not ==, so, loop manually
+                    for handled_dev in handled_devs:
+                        if cb_dev is handled_dev:
+                            # we are already handling this device,
+                            # so skip it
+                            return False
+                    return True
+
                 # HACK: since swap device path value is potentially changed
                 # it is required to rewrite the fstab (circular dependency, sigh)
-                self.anaconda.storage.fsset.write()
+                self.anaconda.storage.fsset.write(
+                    crypt_filter_callback=_crypt_filter_callback)
                 if swap_crypted:
                     swap_dev._name = old_swap_name
                 if root_crypted:
