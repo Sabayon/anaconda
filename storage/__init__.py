@@ -1496,11 +1496,10 @@ class CryptTab(object):
             if not options:
                 options = ""
 
-            is_swap = device.format.type == "swap"
             self.mappings[device.format.mapName] = {"device": device,
                                                     "keyfile": key_file,
                                                     "options": options,
-                                                    "is_swap": is_swap}
+                                                    "is_swap": False}
 
     def crypttab(self):
         """ Write out /etc/crypttab """
