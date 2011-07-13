@@ -464,7 +464,6 @@ class SabayonInstall:
         """
         self.spawn_chroot(config_script, silent = True)
 
-
         # setup dmcrypt service if user enabled encryption
         if self._is_encrypted():
             self.spawn_chroot("rc-update add dmcrypt boot", silent = True)

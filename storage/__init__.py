@@ -2148,7 +2148,12 @@ class FSSet(object):
         crypttab_path = os.path.normpath("%s%s" % (instPath,
             CryptTab.PATH,))
         crypttab = self.crypttab()
-        with open(crypttab_path, "a+") as crypt_f:
+        with open(crypttab_path, "w") as crypt_f:
+            # this method should never use append, but we still need
+            # to keep the descriptory lines of the original files.
+            # this does the trick.
+            with open(CryptTab.PATH, "r") as orig_crypt_f:
+                crypt_f.write(orig_crypt_f.read())
             crypt_f.write("\n")
             crypt_f.write(crypttab)
 
