@@ -1497,6 +1497,10 @@ class CryptTab(object):
 
             if self._filter_callback is not None:
                 if not self._filter_callback(device):
+                    try:
+                        del self.mappings[device.format.mapName]
+                    except KeyError:
+                        pass
                     continue
 
             key_file = device.format.keyFile
