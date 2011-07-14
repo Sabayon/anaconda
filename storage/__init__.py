@@ -1404,13 +1404,12 @@ class CryptTab(object):
     PATH = "/etc/conf.d/dmcrypt"
 
     """ Dictionary-like interface to crypttab entries with map name keys """
-    def __init__(self, devicetree, blkidTab=None, chroot="",
-        filter_callback=None):
+    def __init__(self, devicetree, blkidTab=None, chroot=""):
         self.devicetree = devicetree
         self.blkidTab = blkidTab
         self.chroot = chroot
         self.mappings = {}
-        self._filter_callback = filter_callback
+        self._filter_callback = None
 
     def parse(self, chroot=""):
         """ Parse /etc/crypttab from an existing installation. """
@@ -1479,6 +1478,12 @@ class CryptTab(object):
             # setup remaining entries, if any
             if name and device:
                 _setup_mapping(name, device, keyfile, options, is_swap)
+
+    def set_filter_callback(self, filter_callback):
+        """ Set a new filter callback for filtering out entries from conf.d/dmcrypt """
+        if filter_callback is not self._filter_callback:
+            self._filter_callback = filter_callback
+            self.populate()
 
     def populate(self):
         """ Populate the instance based on the device tree's contents. """
@@ -2174,9 +2179,9 @@ class FSSet(object):
         # gut reaction says no, but plymouth needs the names to be very
         # specific for passphrase prompting
         if not self.cryptTab:
-            self.cryptTab = CryptTab(self.devicetree,
-                filter_callback=filter_callback)
+            self.cryptTab = CryptTab(self.devicetree)
             self.cryptTab.populate()
+        self.cryptTab.set_filter_callback(filter_callback)
 
         devices = self.mountpoints.values() + self.swapDevices
 
