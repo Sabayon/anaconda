@@ -220,6 +220,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                             # we are already handling this device,
                             # so skip it
                             return False
+                        if handled_dev is not None:
+                            if handled_dev.dependsOn(cb_dev):
+                                # already handling this device, root dev?
+                                return False
                     return True
 
                 # HACK: since swap device path value is potentially changed
