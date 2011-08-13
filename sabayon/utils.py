@@ -493,8 +493,10 @@ class SabayonInstall:
             """
             self.spawn_chroot(ogl_script)
             self.remove_package('ati-drivers', silent = True)
+            self.remove_package('ati-userspace', silent = True)
             self.remove_package('nvidia-settings', silent = True)
             self.remove_package('nvidia-drivers', silent = True)
+            self.remove_package('nvidia-userspace', silent = True)
 
     def copy_udev(self):
         tmp_dir = tempfile.mkdtemp()
