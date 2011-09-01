@@ -5,7 +5,7 @@ _fetch_ver="5"
 
 FETCH_VER=${FETCH_VER:-${_fetch_ver}}
 FETCH_FN="anaconda-${FETCH_VER}-$(uname -m).tar.bz2"
-FETCH_URL=${FETCH_URL:-"http://www.sabayon.org/sabayon/installer/${FETCH_FN}"}
+FETCH_URL=${FETCH_URL:-"http://static.sabayon.org/sabayon/installer/${FETCH_FN}"}
 
 cd /tmp
 rm -rf "/tmp/${FETCH_FN}"*
