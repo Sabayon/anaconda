@@ -43,7 +43,7 @@ class InstallClass(BaseInstallClass):
         if os.path.isfile(_pix_path):
             pixmap = _pix_path
 
-    dmrc = "xfce"
+    dmrc = "awesome"
     _description = N_("Select this installation type for a default installation "
          "with the Awesome desktop environment. "
          "A small lightweight and functional working environment at your service.")
