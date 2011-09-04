@@ -653,6 +653,26 @@ class SabayonInstall:
         shutil.copy2(live_xorg_conf, xorg_conf)
         shutil.copy2(live_xorg_conf, xorg_conf+".original")
 
+    def _setup_consolefont(self, system_font):
+        consolefont_conf = self._root + "/etc/conf.d/consolefont"
+        content = []
+        with open(consolefont_conf, "r") as con_f:
+            while True:
+                line = con_f.readline()
+                if not line:
+                    break
+                if line.startswith("consolefont="):
+                    line = "consolefont=\"%s\"\n" % (system_font,)
+                    found = True
+                content.append(line)
+            if not found:
+                content.append("consolefont=\"%s\"\n" % (system_font,))
+
+        with open(consolefont_conf, "w") as con_f:
+            for line in content:
+                con_f.write(line)
+            con_f.flush()
+
     def setup_language(self):
         # Prepare locale variables
 
@@ -684,6 +704,15 @@ class SabayonInstall:
                 f.write("%s\n" % (locale,))
             f.flush()
             f.close()
+
+        # See Sabayon bug #2582
+        system_font = self._anaconda.instLanguage.info.get("SYSFONT")
+        if system_font is not None:
+            consolefont_dir = self._root + "/usr/share/consolefonts"
+            system_font = os.path.join(consolefont_dir,
+                system_font + ".psfu.gz")
+            if os.path.isfile(system_font):
+                self._setup_consolefont(system_font)
 
         localization = self._anaconda.instLanguage.instLang.split(".")[0]
         # Configure KDE language
