@@ -590,10 +590,11 @@ class SabayonInstall:
         (name, layout, model, variant, options) = kbd
         # for X, KDE and GNOME
         keylayout = layout.split(",")[0].split("_")[0]
-        return console_kbd, keylayout, variant, options
+        return console_kbd, keylayout, layout, variant, options
 
     def setup_keyboard(self):
-        console_kbd, keylayout, variant, options = self.get_keyboard_layout()
+        console_kbd, keylayout, xorglayout, variant, options = \
+            self.get_keyboard_layout()
         def _spawn(args):
             subprocess.call(args, shell=True)
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s gnome &> /dev/null" % (
@@ -604,8 +605,8 @@ class SabayonInstall:
             self._root, keylayout))
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s e17 &> /dev/null" % (
             self._root, keylayout))
-        _spawn("ROOT=%s /sbin/keyboard-setup-2 %s %s %s xorg &> /dev/null" % (
-            self._root, keylayout, variant, options))
+        _spawn("ROOT=%s /sbin/keyboard-setup-2 \"%s\" \"%s\" \"%s\" xorg &> /dev/null" % (
+            self._root, xorglayout, variant, options))
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s system &> /dev/null" % (
             self._root, console_kbd))
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s xfce &> /dev/null" % (
