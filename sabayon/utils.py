@@ -45,7 +45,8 @@ from entropy.services.client import WebService
 import logging
 from constants import productPath
 from sabayon import Entropy
-from sabayon.const import LIVE_USER, LANGUAGE_PACKS, REPO_NAME
+from sabayon.const import LIVE_USER, LANGUAGE_PACKS, REPO_NAME, \
+    ASIAN_FONTS_PACKAGES
 
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
@@ -1036,16 +1037,22 @@ class SabayonInstall:
         self._progress.set_text(_("Installation complete"))
 
     def language_packs_install(self):
-        langpacks = self._get_installable_language_packs()
-        if not langpacks:
-            # all fine already
-            return
+        langpacks = []
 
         # some language packs are available for download
         # internet required, let's see if we should fetch them
-        if not self._anaconda.instLanguage.fullLanguageSupport:
-            # bye!
+        if self._anaconda.instLanguage.fullLanguageSupport:
+            langpacks += self._get_installable_language_packs()
+
+        if self._anaconda.instLanguage.asianLanguageSupport:
+            langpacks += self._get_installable_asian_fonts()
+
+        if not langpacks:
+            # nothing to install
+            log.info("nothing to install by language_packs_install")
             return
+
+        log.info("language packs install: %s" % (" ".join(langpacks),))
 
         chroot = self._root
         root = etpSys['rootdir']
@@ -1218,6 +1225,31 @@ class SabayonInstall:
                 if not valid:
                     continue
                 yield pkg_id
+
+    def _get_installable_asian_fonts(self):
+
+        packages = self._entropy.packages_expand(ASIAN_FONTS_PACKAGES)
+        if not packages:
+            log.error("tried to expand asian fonts packages, got nothing!")
+            return []
+
+        client_repo = self._entropy.installed_repository()
+
+        def _pkg_filter(package):
+            pkg_id, rc = client_repo.atomMatch(package)
+            if pkg_id != -1:
+                # already installed
+                return False
+            return True
+
+        packages = list(filter(_pkg_filter, packages))
+        if not packages:
+            log.warning("all the required asian packages are already installed")
+            return []
+
+        log.info("got these asian packages to deal with: %s" % (
+            " ".join(packages),))
+        return packages
 
     def _get_installable_language_packs(self):
         """

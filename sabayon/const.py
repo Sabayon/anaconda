@@ -223,5 +223,8 @@ app-i18n/man-pages-ru
 app-i18n/man-pages-zh_CN
 """
 
+# See Sabayon bug 2518
+ASIAN_FONTS_PACKAGES = ["@ime-fonts-support", "@ime-fonts"]
+
 LIVE_USER = "sabayonuser"
 REPO_NAME = "sabayonlinux.org"
