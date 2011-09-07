@@ -42,9 +42,6 @@ class LanguageWindow (InstallWindow):
         if not iter:
             raise StayOnScreen
 
-        print anaconda.instLanguage.fullLanguageSupport
-        print anaconda.instLanguage.asianLanguageSupport
-
 	choice = self.listStore.get_value(iter, 1)
         self.lang = self.instLang.getLangByName(choice)
 
