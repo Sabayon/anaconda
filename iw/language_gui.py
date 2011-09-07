@@ -42,6 +42,9 @@ class LanguageWindow (InstallWindow):
         if not iter:
             raise StayOnScreen
 
+        print anaconda.instLanguage.fullLanguageSupport
+        print anaconda.instLanguage.asianLanguageSupport
+
 	choice = self.listStore.get_value(iter, 1)
         self.lang = self.instLang.getLangByName(choice)
 
@@ -54,6 +57,12 @@ class LanguageWindow (InstallWindow):
 	self.ics.getICW().setLanguage()
 
         return None
+
+    def _fullLangSupportCb(self, widget, anaconda):
+        anaconda.instLanguage.fullLanguageSupport = widget.get_active()
+
+    def _asianLangSupportCb(self, widget, anaconda):
+        anaconda.instLanguage.asianLanguageSupport = widget.get_active()
 
     def listScroll(self, widget, *args):
         # recenter the list
@@ -128,6 +137,28 @@ class LanguageWindow (InstallWindow):
 
         mainBox.pack_start (hbox, False, False, 10)
         mainBox.pack_start (sw, True, True)
+
+        # Sabayon language packs options
+        # See Sabayon bug 2518
+        self.fullLangSupport = anaconda.instLanguage.fullLanguageSupport
+        self.asianLangSupport = anaconda.instLanguage.asianLanguageSupport
+
+        fullLangSupportCb = gtk.CheckButton(
+            _("Full language support (download extra language packs)"))
+        asianLangSupportCb = gtk.CheckButton(
+            _("Asian fonts support (IME, download extra fonts)"))
+        fullLangSupportCb.set_active(self.fullLangSupport)
+        fullLangSupportCb.connect("toggled", self._fullLangSupportCb,
+            anaconda)
+        asianLangSupportCb.set_active(self.asianLangSupport)
+        asianLangSupportCb.connect("toggled", self._asianLangSupportCb,
+            anaconda)
+
+        optsVbox = gtk.VBox(False, 1)
+        optsVbox.pack_start(fullLangSupportCb)
+        optsVbox.pack_start(asianLangSupportCb)
+
+        mainBox.pack_start(optsVbox, False, False)
 
         self.running = 1
 

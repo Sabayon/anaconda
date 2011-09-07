@@ -184,6 +184,11 @@ class Language(object):
         self.instLang = os.environ.get("LANG", self._default)
         self.systemLang = os.environ.get("LANG", self._default)
 
+        # Sabayon language packs options, configured by frontends
+        # See Sabayon bug 2518
+        self.fullLanguageSupport = False
+        self.asianLanguageSupport = False
+
     def _canonLang(self, lang):
         """Convert the shortened form of a language name into the full
            version.  If it's not found, raise ValueError.
