@@ -1041,14 +1041,10 @@ class SabayonInstall:
             # all fine already
             return
 
-        question_text = _("The following language packs are available for "
-            "download (you need Internet), would you like to install them?") + \
-            " [" + ', '.join(sorted(langpacks)) + "]"
-        buttons = [_("Yes"), _("No")]
-        answer = self._intf.messageWindow(_("Language packs download"),
-            question_text, custom_icon="question", type="custom",
-            custom_buttons = buttons)
-        if answer == 1: # No
+        # some language packs are available for download
+        # internet required, let's see if we should fetch them
+        if not self._anaconda.instLanguage.fullLanguageSupport:
+            # bye!
             return
 
         chroot = self._root
@@ -1066,9 +1062,8 @@ class SabayonInstall:
             lang_matches = [self._entropy.atom_match(x) for x in langpacks]
             lang_matches = [x for x in lang_matches if x[0] != -1]
             if not lang_matches:
-                msg = _("No language packs are available for download, sorry!")
-                self._intf.messageWindow(_("Language packs"), msg,
-                    custom_icon="warning")
+                log.warning(
+                    "No language packs are available for download, sorry!")
                 return
 
             # calculate deps, use relaxed algo
@@ -1076,9 +1071,8 @@ class SabayonInstall:
                 self._entropy.get_install_queue(lang_matches, False, False,
                     relaxed = True)
             if status != 0:
-                msg = _("No language packs are available for install, sorry!")
-                self._intf.messageWindow(_("Language packs"), msg,
-                    custom_icon="warning")
+                log.warning(
+                    "No language packs are available for install, sorry!")
                 return
 
             # fetch packages
@@ -1292,15 +1286,9 @@ class SabayonInstall:
             if pkg_id != -1:
                 self._package_identifiers_to_remove.add(pkg_id)
 
-        localized_pkgs = self._get_removable_localized_packages()
-        if localized_pkgs:
-            question_text = _("This medium contains many extra languages, "
-                "would you like to keep them installed?")
-            buttons = [_("Yes"), _("No")]
-            answer = self._intf.messageWindow(_("Language packs installation"),
-                question_text, custom_icon="question", type="custom",
-                custom_buttons = buttons)
-            if answer == 1:
+        if not self._anaconda.instLanguage.fullLanguageSupport:
+            localized_pkgs = self._get_removable_localized_packages()
+            if localized_pkgs:
                 self._package_identifiers_to_remove.update(localized_pkgs)
 
         if self._package_identifiers_to_remove:
