@@ -276,6 +276,7 @@ class Network:
         self.domains = []
         self.hostname = socket.gethostname()
         self.overrideDHCPhostname = False
+        self.useFirewall = True
 
         # populate self.netdevices
         devhash = isys.getDeviceProperties(dev=None)

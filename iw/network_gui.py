@@ -53,6 +53,13 @@ class NetworkWindow(InstallWindow):
         # load the icon
         gui.readImageFromFile("network.png", image=self.icon)
 
+        self.firewallCb = self.xml.get_widget("firewall_check")
+        self.firewallCb.set_active(self.anaconda.network.useFirewall)
+        from sabayon import Entropy
+        from sabayon.const import FIREWALL_PACKAGE
+        if not Entropy().is_installed(FIREWALL_PACKAGE):
+            self.firewallCb.set_visible(False)
+
         return self.align
 
     def focus(self):
@@ -86,6 +93,9 @@ class NetworkWindow(InstallWindow):
             self.hostnameError()
 
         self.anaconda.network.hostname = hostname
+
+        self.anaconda.network.useFirewall = self.firewallCb.get_active()
+
         return None
 
     def _NMExited(self, pid, condition, data):

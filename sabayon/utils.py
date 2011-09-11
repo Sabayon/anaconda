@@ -46,7 +46,7 @@ import logging
 from constants import productPath
 from sabayon import Entropy
 from sabayon.const import LIVE_USER, LANGUAGE_PACKS, REPO_NAME, \
-    ASIAN_FONTS_PACKAGES
+    ASIAN_FONTS_PACKAGES, FIREWALL_SERVICE
 
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
@@ -420,6 +420,11 @@ class SabayonInstall:
             return True
         return False
 
+    def _is_firewall_enabled(self):
+        if self._anaconda.network.useFirewall:
+            return True
+        return False
+
     def configure_services(self):
 
         action = _("Configuring System Services")
@@ -474,6 +479,13 @@ class SabayonInstall:
                 silent = True)
         else:
             self.spawn_chroot("rc-update del virtualbox-guest-additions boot",
+                silent = True)
+
+        if self._is_firewall_enabled():
+            self.spawn_chroot("rc-update del %s boot default" % (
+                FIREWALL_SERVICE,), silent = True)
+        else:
+            self.spawn_chroot("rc-update add %s boot" % (FIREWALL_SERVICE,),
                 silent = True)
 
         # Copy the kernel modules blacklist configuration file
