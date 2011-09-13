@@ -723,9 +723,9 @@ class SabayonInstall:
         system_font = self._anaconda.instLanguage.info.get("SYSFONT")
         if system_font is not None:
             consolefont_dir = self._root + "/usr/share/consolefonts"
-            system_font = os.path.join(consolefont_dir,
+            system_font_path = os.path.join(consolefont_dir,
                 system_font + ".psfu.gz")
-            if os.path.isfile(system_font):
+            if os.path.isfile(system_font_path):
                 self._setup_consolefont(system_font)
 
         localization = self._anaconda.instLanguage.instLang.split(".")[0]
