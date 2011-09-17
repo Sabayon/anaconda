@@ -893,6 +893,12 @@ class SabayonInstall:
         for currentdir, subdirs, files in os.walk(image_dir):
 
             copy_update_counter += 1
+            to_currentdir = currentdir[image_dir_len:]
+            for t_dir in ("/proc", "/dev", "sys"):
+                if to_currentdir.startswith(t_dir):
+                    # don't touch subdirs
+                    subdirs = []
+                    break
 
             for xdir in subdirs:
 
