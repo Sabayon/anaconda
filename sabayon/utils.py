@@ -928,14 +928,22 @@ class SabayonInstall:
                     os.chown(rootdir,user,group)
                     shutil.copystat(image_path_dir,rootdir)
 
-            for path_file in sorted(files):
+            files.sort()
+            for path_file in files:
 
                 current_counter += 1
                 fromfile = currentdir + "/" + path_file
                 currentfile = fromfile[image_dir_len:]
 
                 if currentfile.startswith("/dev/"):
-                    continue
+                    if currentfile != "/dev/.keep":
+                        continue
+                if currentfile.startswith("/proc/"):
+                    if currentfile != "/proc/.keep":
+                        continue
+                if currentfile.startswith("/sys/"):
+                    if currentfile != "/sys/.keep":
+                        continue
 
                 try:
                     # if file is in the ignore list
