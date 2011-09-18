@@ -1070,15 +1070,11 @@ class SabayonInstall:
         if self._anaconda.instLanguage.fullLanguageSupport:
             langpacks += self._get_installable_language_packs()
 
-        if self._anaconda.instLanguage.asianLanguageSupport:
-            langpacks += self._get_installable_asian_fonts()
-
-        if not langpacks:
+        if not langpacks and \
+            not (self._anaconda.instLanguage.asianLanguageSupport):
             # nothing to install
             log.info("nothing to install by language_packs_install")
             return
-
-        log.info("language packs install: %s" % (" ".join(langpacks),))
 
         chroot = self._root
         root = etpSys['rootdir']
@@ -1090,7 +1086,17 @@ class SabayonInstall:
             # update repos
             done = self.update_entropy_repositories()
             if not done:
+                log.warning(
+                    "unable to update repositories for langpack install")
                 return
+
+            if self._anaconda.instLanguage.asianLanguageSupport:
+                asian_langpacks = self._get_installable_asian_fonts()
+                log.info("asian language install support enabled: %s" % (
+                    asian_langpacks,))
+                langpacks += asian_langpacks
+
+            log.info("language packs install: %s" % (" ".join(langpacks),))
 
             lang_matches = [self._entropy.atom_match(x) for x in langpacks]
             lang_matches = [x for x in lang_matches if x[0] != -1]
@@ -1253,7 +1259,9 @@ class SabayonInstall:
                 yield pkg_id
 
     def _get_installable_asian_fonts(self):
-
+        """
+        This method must be called after having switched to install chroot.
+        """
         packages = self._entropy.packages_expand(ASIAN_FONTS_PACKAGES)
         if not packages:
             log.error("tried to expand asian fonts packages, got nothing!")
