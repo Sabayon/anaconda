@@ -52,6 +52,8 @@ class Entropy(Client):
             self.oldcount = [0,100]
 
         progress_text = text
+        if len(progress_text) > 80:
+            progress_text = progress_text[:80].rstrip() + "..."
         if count:
             try:
                 self.oldcount = int(count[0]),int(count[1])
