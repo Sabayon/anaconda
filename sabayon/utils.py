@@ -33,7 +33,8 @@ import tempfile
 import time
 
 # Entropy imports
-from entropy.exceptions import EntropyPackageException
+from entropy.exceptions import EntropyPackageException, DependenciesNotFound, \
+    DependenciesCollision
 from entropy.const import etpUi, etpConst, etpSys
 import entropy.tools
 import entropy.dep
@@ -1118,12 +1119,21 @@ class SabayonInstall:
                 return
 
             # calculate deps, use relaxed algo
-            install_queue, conflicts_queue, status = \
-                self._entropy.get_install_queue(lang_matches, False, False,
-                    relaxed = True)
-            if status != 0:
+            try:
+                queue_obj = self._entropy.get_install_queue(lang_matches,
+                    False, False, relaxed = True)
+                if len(queue_obj) == 2:
+                    install_queue, conflicts_queue = queue_obj
+                else:
+                    install_queue, conflicts_queue, status = queue_obj
+                    if status == -2:
+                        raise DependenciesNotFound(install_queue)
+                    elif status == -3:
+                        raise DependenciesCollision(install_queue)
+            except (DependenciesCollision, DependenciesNotFound) as exc:
                 log.warning(
-                    "No language packs are available for install, sorry!")
+                    "No language packs are available for install, %s, %s" % (
+                        repr(exc), exc.value))
                 return
 
             # fetch packages
