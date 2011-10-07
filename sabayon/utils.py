@@ -483,11 +483,11 @@ class SabayonInstall:
                 silent = True)
 
         if self._is_firewall_enabled():
-            self.spawn_chroot("rc-update del %s boot default" % (
+            self.spawn_chroot("rc-update add %s boot default" % (
                 FIREWALL_SERVICE,), silent = True)
         else:
-            self.spawn_chroot("rc-update add %s boot" % (FIREWALL_SERVICE,),
-                silent = True)
+            self.spawn_chroot("rc-update del %s boot default" % (
+                FIREWALL_SERVICE,), silent = True)
 
         # Copy the kernel modules blacklist configuration file
         if os.access("/etc/modules.d/blacklist",os.F_OK):
