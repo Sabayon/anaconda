@@ -713,15 +713,16 @@ class Anaconda(object):
         self.writeXdriver()
         self.instLanguage.write(self.rootPath)
 
-        self.timezone.write(self.rootPath)
-        self.network.write(instPath=self.rootPath, anaconda=self)
-        self.desktop.write(self.rootPath)
-        self.users.write(self.rootPath)
-        # Sabayon doesn't ship with authconfig
-        # authconfig causes massive breakage to Gentoo's pambase file
-        # layout renaming files around without notification
-        # self.security.write(self.rootPath)
-        self.firewall.write(self.rootPath)
+        if not self.upgrade:
+            self.timezone.write(self.rootPath)
+            self.network.write(instPath=self.rootPath, anaconda=self)
+            self.desktop.write(self.rootPath)
+            self.users.write(self.rootPath)
+            # Sabayon doesn't ship with authconfig
+            # authconfig causes massive breakage to Gentoo's pambase file
+            # layout renaming files around without notification
+            # self.security.write(self.rootPath)
+            self.firewall.write(self.rootPath)
 
         if self.ksdata:
             for svc in self.ksdata.services.disabled:
