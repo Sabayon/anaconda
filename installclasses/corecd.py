@@ -35,7 +35,7 @@ from sabayon.livecd import LiveCDCopyBackend
 class InstallClass(BaseInstallClass):
 
     id = "sabayon_corecd"
-    name = N_("Sabayon Core CD")
+    name = N_("Sabayon Core")
 
     _pixmap_dirs = os.getenv("PIXMAPPATH", "/usr/share/pixmaps").split(":")
     for _pix_dir in _pixmap_dirs:
@@ -50,10 +50,7 @@ class InstallClass(BaseInstallClass):
          "This is the best choice for Server-oriented "
          "deployments.")
     _descriptionFields = (productName,)
-    sortPriority = 10000
-
-    if not Entropy.is_corecd():
-        hidden = 1
+    sortPriority = 9998
 
     def configure(self, anaconda):
         BaseInstallClass.configure(self, anaconda)

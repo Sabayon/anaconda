@@ -75,16 +75,6 @@ class Entropy(Client):
         return False
 
     @staticmethod
-    def is_corecd():
-        if os.path.isfile("/etc/sabayon-edition"):
-            f = open("/etc/sabayon-edition","r")
-            cnt = f.readline().strip()
-            f.close()
-            if cnt.lower().find("core") != -1:
-                return True
-        return False
-
-    @staticmethod
     def is_sabayon_mce():
         with open("/proc/cmdline", "r") as cmd_f:
             args = cmd_f.readline().strip().split()
