@@ -23,6 +23,7 @@ import sys
 
 # add Entropy module path to PYTHONPATH
 sys.path.insert(0, '/usr/lib/entropy/libraries')
+sys.path.insert(0, '/usr/lib/entropy/lib')
 
 # Entropy Interface
 from entropy.client.interfaces import Client
