@@ -1207,7 +1207,7 @@ class SabayonInstall:
                     entropy_updates_alert = False)
             except AttributeError:
                 msg = "%s: %s" % (_('No repositories specified in'),
-                    etpConst['repositoriesconf'],)
+                    "repositories.conf",)
                 self._intf.messageWindow(_("Repositories update"), msg,
                     custom_icon="warning")
                 return False
