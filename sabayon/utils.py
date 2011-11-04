@@ -1057,7 +1057,7 @@ class SabayonInstall:
             for idpk, atom, slot, revision in client_repo.listAllPackages(
                 get_scope = True, order_by = "atom")]
         # perfectly fine w/o self._root
-        pkgset_dir = etpConst['confsetsdir']
+        pkgset_dir = SystemSettings.packages_sets_directory()
         if not os.path.isdir(pkgset_dir):
             os.makedirs(pkgset_dir, 0755)
         set_name = "install_base"
