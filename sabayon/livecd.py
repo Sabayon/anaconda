@@ -328,6 +328,14 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         if root_is_removable:
             cmdline.append("scandelay=10")
 
+        # check if root device is ext2, ext3 or ext4. In case,
+        # add rootfstype=ext* to avoid genkernel crap to mount
+        # it wrongly (for example: ext3 as ext2).
+        root_dev_type = getattr(self.anaconda.storage.rootDevice.format,
+            "name", "")
+        if root_dev_type in ("ext2", "ext3", "ext4"):
+            cmdline.append("rootfstype=" + root_dev_type)
+
         # always add md support (we don't know if md have been created)
         if "domdadm" not in cmdline:
             cmdline.append("domdadm")
