@@ -483,7 +483,7 @@ class SabayonInstall:
                 silent = True)
 
         if self._is_firewall_enabled():
-            self.spawn_chroot("rc-update add %s boot default" % (
+            self.spawn_chroot("rc-update add %s default" % (
                 FIREWALL_SERVICE,), silent = True)
         else:
             self.spawn_chroot("rc-update del %s boot default" % (
