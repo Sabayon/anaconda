@@ -149,7 +149,7 @@ static int mapBiosDisks(struct device** devices,const char *path) {
     char * sigFileName;
     uint32_t mbrSig, biosNum, currentSig;
     struct device **currentDev, **foundDisk;
-    int i, rc, ret, dm_nr, highest_dm;
+    int i, ret, rc, dm_nr, highest_dm;
 
     dirHandle = opendir(path);
     if(!dirHandle){
@@ -174,7 +174,9 @@ static int mapBiosDisks(struct device** devices,const char *path) {
             continue;
         }
         ret = sscanf((entry->d_name+9), "%x", &biosNum);
-        
+        if (ret != 1)
+            continue;
+
         sigFileName = malloc(strlen(path) + strlen(entry->d_name) + 20);
         sprintf(sigFileName, "%s/%s/%s", path, entry->d_name, SIG_FILE);
         if (readMbrSig(sigFileName, &mbrSig) == 0) {
@@ -332,6 +334,8 @@ char * getBiosDisk(char *biosStr) {
         return NULL;
 
     ret = sscanf(biosStr,"%x",&biosNum);
+    if (ret != 1)
+        return NULL;
     disk = lookupHashItem(mbrSigToName, biosNum);
     if (disk) return disk->diskname;
 

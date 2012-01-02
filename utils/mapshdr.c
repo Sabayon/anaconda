@@ -29,13 +29,18 @@
 int main(int argc, char ** argv) {
     struct kmapHeader h;
     struct kmapInfo info;
-    int i, x;
+    int i;
+    ssize_t x;
     struct stat sb;
     char * chptr;
 
     h.magic = KMAP_MAGIC;
     h.numEntries = argc - 1;
     x = write(1, &h, sizeof(h));
+    if (x == -1) {
+        fprintf(stderr, "cannot write to fd\n");
+        exit(1);
+    }
 
     for (i = 1; i < argc; i++) {
 	if (stat(argv[i], &sb)) {
@@ -53,6 +58,10 @@ int main(int argc, char ** argv) {
 
 	info.size = sb.st_size;
 	x = write(1, &info, sizeof(info));
+        if (x == -1) {
+            fprintf(stderr, "cannot write to fd\n");
+            exit(1);
+        }
     }
 
     return 0;
