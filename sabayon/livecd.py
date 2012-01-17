@@ -197,13 +197,22 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             # Grub configuration is disabled
             # and this code overrides it
             encrypted, root_crypted, swap_crypted = self._setup_grub2()
+            swap_dev_name_changed = False
             if encrypted:
                 swap_dev = None
                 root_dev = None
                 if swap_crypted:
+                    # in case of encrypted swap_dev sitting on top of
+                    # LVMLogicalVolumeDevice, do not force fstabSpec
+                    # to /dev/mapper/swap, otherwise fstab will end up
+                    # having wrong devspec.
                     swap_name, swap_dev = swap_crypted
-                    old_swap_name = swap_dev._name
-                    swap_dev._name = swap_name
+                    if not isinstance(swap_dev,
+                                  storage.devices.LVMLogicalVolumeDevice):
+                        old_swap_name = swap_dev._name
+                        swap_dev._name = swap_name
+                        swap_dev_name_changed = True
+
                 if root_crypted:
                     root_name, root_dev = root_crypted
                     old_root_name = root_dev._name
@@ -231,7 +240,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 # it is required to rewrite the fstab (circular dependency, sigh)
                 self.anaconda.storage.fsset.write(
                     crypt_filter_callback=_crypt_filter_callback)
-                if swap_crypted:
+                if swap_crypted and swap_dev_name_changed:
                     swap_dev._name = old_swap_name
                 if root_crypted:
                     root_dev._name = old_root_name
@@ -378,8 +387,18 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 # genkernel hardcoded bullshit, cannot change /dev/mapper/swap
                 # change inside swap_dev, fstabSpec should return /dev/mapper/swap
                 swap_crypted = ("swap", swap_dev)
-                final_cmdline.append("resume=swap:/dev/mapper/swap")
-                final_cmdline.append("real_resume=/dev/mapper/swap")
+                # if the swap device is on top of LVM LV device, don't
+                # force /dev/mapper/swap, because it's not going to work
+                # with current genkernel.
+                if not isinstance(swap_dev,
+                                  storage.devices.LVMLogicalVolumeDevice):
+                    final_cmdline.append("resume=swap:/dev/mapper/swap")
+                    final_cmdline.append("real_resume=/dev/mapper/swap")
+                else:
+                    final_cmdline.append("resume=swap:%s" % (
+                            swap_dev.fstabSpec,))
+                    final_cmdline.append("real_resume=%s" % (
+                            swap_dev.fstabSpec,))
                 # NOTE: cannot use swap_crypto_dev.fstabSpec because
                 # genkernel doesn't support UUID= on crypto
                 delayed_crypt_swap = swap_crypto_dev.path
