@@ -31,6 +31,10 @@ import shutil
 import statvfs
 import tempfile
 import time
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 
 # Entropy imports
 from entropy.exceptions import EntropyPackageException, DependenciesNotFound, \
@@ -495,6 +499,7 @@ class SabayonInstall:
                 "cp -p /etc/modules.d/blacklist %s/etc/modules.d/blacklist" % (
                     self._root,))
 
+        # XXX: hack
         # Copy fglrx & GNOME Shell workaround to target system if found.
         # This workaround will be dropped ASAP (it's shit and uses spawn()
         # for no particular reason -- doesn't check exit status, etc...)
@@ -506,6 +511,27 @@ class SabayonInstall:
                     glib_schema, self._root, glib_schema,))
             self.spawn_chroot("/usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas",
                 silent = True)
+
+        # XXX: hack
+        # For GDM, set DefaultSession= to /etc/skel/.dmrc value
+        # This forces GDM to respect the default session and load Cinnamon
+        # as default xsession. (This is equivalent of using:
+        # /usr/libexec/gdm-set-default-session
+        custom_gdm = os.path.join(self._root, "etc/gdm/custom.conf")
+        skel_dmrc = os.path.join(self._root, "etc/skel/.dmrc")
+        if os.path.isfile(custom_gdm) and os.path.isfile(skel_dmrc):
+            skel_config = ConfigParser.ConfigParser()
+            skel_session = None
+            if skel_dmrc in skel_config.read(skel_dmrc):
+                skel_session = skel_config.get("Desktop", "Session")
+            if skel_session:
+                # set inside custom_gdm
+                gdm_config = ConfigParser.ConfigParser()
+                gdm_config.optionxform = str
+                if custom_gdm in gdm_config.read(custom_gdm):
+                    gdm_config.set("daemon", "DefaultSession", skel_session)
+                    with open(custom_gdm, "w") as gdm_f:
+                        gdm_config.write(gdm_f)
 
     def remove_proprietary_drivers(self):
         """
