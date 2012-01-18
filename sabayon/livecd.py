@@ -601,11 +601,15 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             rc = anaconda.intf.messageWindow(_("Warning"),
                 _("The root filesystem you created is "
                   "not large enough for this live "
-                  "image (%.2f MB required). But I coult be mistaken.") % ossize,
+                  "image (%.2f MB required). But I could be mistaken.") % ossize,
                 type = "custom",
                 custom_icon = "error",
                 custom_buttons=[_("_Back"),
                                 _("_Exit installer")])
+            if rc == 0:
+                return DISPATCH_BACK
+            else:
+                sys.exit(1)
 
     # package/group selection doesn't apply for this backend
     def groupExists(self, group):
