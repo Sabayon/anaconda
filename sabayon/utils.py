@@ -619,6 +619,7 @@ class SabayonInstall:
     def setup_manual_networking(self):
         mn_script = """
             rc-update del NetworkManager default
+            rc-update del NetworkManager-setup default
             rc-update del avahi-daemon default
             rc-update del dhcdbd default
             if [ -f "/etc/rc.conf" ]; then
