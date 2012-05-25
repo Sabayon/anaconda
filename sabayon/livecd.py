@@ -128,7 +128,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         action = _("Configuring Sabayon")
         self._progress.set_label(action)
-        self._progress.set_fraction(0.9)
+        self._progress.set_fraction(0.7)
 
         self._sabayon_install.setup_sudo()
         self._sabayon_install.setup_audio()
@@ -140,7 +140,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             # caused by Entropy bug <0.99.47.2, remove in future
             log.error("Unable to install legacy nvidia drivers: %s" % e)
 
-        self._progress.set_fraction(0.95)
+        self._progress.set_fraction(0.8)
         self._sabayon_install.configure_services()
         self._sabayon_install.copy_udev()
         self._sabayon_install.env_update()
@@ -158,13 +158,14 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         action = _("Sabayon configuration complete")
         self._progress.set_label(action)
-        self._progress.set_fraction(1.0)
 
     def doPostInstall(self, anaconda):
 
         if not self._bootloader_recovery:
             self._sabayon_install.setup_entropy_mirrors()
             self._sabayon_install.language_packs_install()
+
+        self._progress.set_fraction(1.0)
 
         self._sabayon_install.emit_install_done()
         storage.writeEscrowPackets(anaconda)

@@ -1123,6 +1123,10 @@ class SabayonInstall:
 
         try:
 
+            action = _("Installing Language Packs")
+            self._progress.set_label(action)
+            self._progress.set_fraction(0.85)
+
             # update repos
             done = self.update_entropy_repositories()
             if not done:
@@ -1183,6 +1187,7 @@ class SabayonInstall:
         finally:
             if chroot != root:
                 self._change_entropy_chroot(root)
+            self._progress.set_fraction(0.9)
 
     def setup_entropy_mirrors(self):
 
