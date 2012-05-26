@@ -198,7 +198,7 @@ class Platform(object):
         return 0
 
 class EFI(Platform):
-    _bootFSTypes = ["ext4", "ext3", "ext2", "btrfs"]
+    _bootFSTypes = ["ext4", "ext3", "ext2", "btrfs", "reiserfs", "xfs", "jfs"]
     _diskLabelType = "gpt"
     _minBootPartSize = 50
     _maxBootPartSize = 256
