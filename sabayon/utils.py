@@ -554,7 +554,6 @@ class SabayonInstall:
         tmp_dir = tempfile.mkdtemp()
         self.spawn("mount --move %s/dev %s" % (self._root, tmp_dir,))
         self.spawn("cp /dev/* %s/dev/ -Rp" % (self._root,))
-        self.spawn("cp /dev/.u* %s/dev/ -Rp" % (self._root,))
         self.spawn("mount --move %s %s/dev" % (tmp_dir, self._root,))
         shutil.rmtree(tmp_dir, True)
 
