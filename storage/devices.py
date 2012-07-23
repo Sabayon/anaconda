@@ -102,6 +102,7 @@ import time
 from devicelibs import mdraid
 from devicelibs import lvm
 from devicelibs import dm
+from devicelibs import crypto
 import parted
 import _ped
 import block
@@ -1638,8 +1639,7 @@ class LUKSDevice(DMCryptDevice):
     @property
     def size(self):
         if not self.exists or not self.partedDevice:
-            # the LUKS header takes up 4040 512-byte sectors w/ a 512-bit key
-            size = float(self.slave.size) - ((4040 * 2.0) / 1024)
+            size = float(self.slave.size) - crypto.LUKS_METADATA_SIZE
         else:
             size = self.partedDevice.getSize()
         return size
