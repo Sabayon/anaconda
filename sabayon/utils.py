@@ -531,6 +531,21 @@ class SabayonInstall:
             self.remove_package('nvidia-drivers', silent = True)
             self.remove_package('nvidia-userspace', silent = True)
 
+        # created by gpu-detector
+        if os.path.isfile("/tmp/.radeon.kms"):
+            # since CONFIG_DRM_RADEON_KMS=n on our kernel
+            # we need to force radeon to load at boot
+            modules_conf = self._root + "/etc/conf.d/modules"
+            with open(modules_conf, "a+") as mod_f:
+                mod_f.write("\n")
+                mod_f.write("""\
+# Added by the Sabayon Installer to force radeon.ko to load
+# since CONFIG_DRM_RADEON_KMS is not enabled by default at
+# this time.
+modules="radeon"
+module_radeon_args="modeset=1"
+""")
+
     def copy_udev(self):
         tmp_dir = tempfile.mkdtemp()
         self.spawn("mount --move %s/dev %s" % (self._root, tmp_dir,))
