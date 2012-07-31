@@ -493,25 +493,6 @@ class SabayonInstall:
             self.spawn_chroot("rc-update del %s boot default" % (
                 FIREWALL_SERVICE,), silent = True)
 
-        # Copy the kernel modules blacklist configuration file
-        if os.access("/etc/modules.d/blacklist",os.F_OK):
-            self.spawn(
-                "cp -p /etc/modules.d/blacklist %s/etc/modules.d/blacklist" % (
-                    self._root,))
-
-        # XXX: hack
-        # Copy fglrx & GNOME Shell workaround to target system if found.
-        # This workaround will be dropped ASAP (it's shit and uses spawn()
-        # for no particular reason -- doesn't check exit status, etc...)
-        # Who cares, it will be killed very soon!
-        glib_schema = "/usr/share/glib-2.0/schemas/org.sabayon-fglrx.gschema.override"
-        if os.path.isfile(glib_schema):
-            self.spawn(
-                "cp -p %s %s%s" % (
-                    glib_schema, self._root, glib_schema,))
-            self.spawn_chroot("/usr/bin/glib-compile-schemas /usr/share/glib-2.0/schemas",
-                silent = True)
-
         # XXX: hack
         # For GDM, set DefaultSession= to /etc/skel/.dmrc value
         # This forces GDM to respect the default session and load Cinnamon
