@@ -312,7 +312,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         # look for kernel arguments we know should be preserved and add them
         ourargs = ["speakup_synth=", "apic", "noapic", "apm=", "ide=", "noht",
-            "acpi=", "video=", "vga=", "init=", "splash=", "console=",
+            "acpi=", "video=", "vga=", "gfxpayload=", "init=", "splash=", "console=",
             "pci=routeirq", "irqpoll", "nohdparm", "pci=", "floppy.floppy=",
             "all-generic-ide", "gentoo=", "res=", "hsync=", "refresh=", "noddc",
             "xdriver=", "onlyvesa", "nvidia=", "dodmraid", "dmraid",
