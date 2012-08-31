@@ -579,12 +579,21 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             root = self._root
         )
 
-        iutil.execWithRedirect('/sbin/grub-mkconfig',
-            ["--output=%s" % (grub_cfg_noroot,)],
-            stdout = PROGRAM_LOG_FILE,
-            stderr = PROGRAM_LOG_FILE,
-            root = self._root
-        )
+        grub2_mkconfig = self._root + "/sbin/grub2-mkconfig"
+        if os.path.lexists(grub2_mkconfig):
+            iutil.execWithRedirect('/sbin/grub2-mkconfig',
+                                   ["--output=%s" % (grub_cfg_noroot,)],
+                                   stdout = PROGRAM_LOG_FILE,
+                                   stderr = PROGRAM_LOG_FILE,
+                                   root = self._root
+                                   )
+        else:
+            iutil.execWithRedirect('/sbin/grub-mkconfig',
+                                   ["--output=%s" % (grub_cfg_noroot,)],
+                                   stdout = PROGRAM_LOG_FILE,
+                                   stderr = PROGRAM_LOG_FILE,
+                                   root = self._root
+                                   )
 
         log.info("%s: %s => %s\n" % ("_write_grub2", "end", locals()))
 
