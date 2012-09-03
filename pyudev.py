@@ -9,7 +9,7 @@ from ctypes import *
 # XXX this one may need some tweaking...
 def find_library(name, somajor=0):
     env = os.environ.get("LD_LIBRARY_PATH")
-    common = ["/lib64", "/lib"]
+    common = ["/usr/lib64", "/usr/lib", "/lib64", "/lib"]
 
     if env:
         libdirs = env.split(":") + common
