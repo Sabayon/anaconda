@@ -630,7 +630,7 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             if rc == 0:
                 return DISPATCH_BACK
             else:
-                sys.exit(1)
+                raise SystemExit(1)
 
     # package/group selection doesn't apply for this backend
     def groupExists(self, group):
