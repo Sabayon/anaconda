@@ -533,7 +533,7 @@ class SabayonInstall:
 
         # created by gpu-detector
         if os.path.isfile("/tmp/.radeon.kms"):
-            # since CONFIG_DRM_RADEON_KMS=n on our kernel
+            # (<3.6.0 kernel) since CONFIG_DRM_RADEON_KMS=n on our kernel
             # we need to force radeon to load at boot
             modules_conf = self._root + "/etc/conf.d/modules"
             with open(modules_conf, "a+") as mod_f:
@@ -794,44 +794,49 @@ module_radeon_args="modeset=1"
             nv_ver = "7"
 
         legacy_unmask_map = {
-            "7": "=x11-drivers/nvidia-drivers-7*",
-            "9": "=x11-drivers/nvidia-drivers-9*",
-            "17": "=x11-drivers/nvidia-drivers-17*"
+            "7": [
+                "=x11-drivers/nvidia-drivers-7*",
+                "=x11-drivers/nvidia-userspace-7*"
+                ],
+            "9": [
+                "=x11-drivers/nvidia-drivers-9*",
+                "=x11-drivers/nvidia-userspace-9*"
+                ],
+            "17": [
+                "=x11-drivers/nvidia-drivers-17*",
+                "=x11-drivers/nvidia-userspace-17*"
+                ]
         }
 
+        # remove current
         self.remove_package('nvidia-drivers', silent = True)
-        for pkg_file in os.listdir(drivers_dir):
+        self.remove_package('nvidia-userspace', silent = True)
 
-            if not pkg_file.startswith("x11-drivers:nvidia-drivers-"+nv_ver):
-                continue
+        # install new
+        packages = os.listdir(drivers_dir)
+        _packages = []
+        for pkg_file in packages:
+            if pkg_file.startswith("x11-drivers:nvidia-drivers-" + nv_ver):
+                _packages.append(pkg_file)
+            elif pkg_file.startswith("x11-drivers:nvidia-userspace-" + nv_ver):
+                _packages.append(pkg_file)
+        packages = [os.path.join(drivers_dir, x) for x in _packages]
+        completed = True
 
-            pkg_filepath = os.path.join(drivers_dir, pkg_file)
+        for pkg_filepath in packages:
+
+            pkg_file = os.path.basename(pkg_filepath)
             if not os.path.isfile(pkg_filepath):
                 continue
-            dest_pkg_filepath = os.path.join(self._root + "/", pkg_file)
+
+            dest_pkg_filepath = os.path.join(
+                self._root + "/", pkg_file)
             shutil.copy2(pkg_filepath, dest_pkg_filepath)
 
             rc = self.install_package_file(dest_pkg_filepath)
+            _completed = rc == 0
 
-            # mask all the nvidia-drivers, this avoids having people
-            # updating their drivers resulting in a non working system
-            mask_file = os.path.join(self._root+'/',
-                "etc/entropy/packages/package.mask")
-            unmask_file = os.path.join(self._root+'/',
-                "etc/entropy/packages/package.unmask")
-            if os.access(mask_file, os.W_OK) and os.path.isfile(mask_file):
-                f = open(mask_file,"aw")
-                f.write("\n# added by Sabayon Installer\nx11-drivers/nvidia-drivers\n")
-                f.flush()
-                f.close()
-            if os.access(unmask_file, os.W_OK) and os.path.isfile(unmask_file):
-                f = open(unmask_file,"aw")
-                f.write("\n# added by Sabayon Installer\n%s\n" % (
-                    legacy_unmask_map[nv_ver],))
-                f.flush()
-                f.close()
-
-            if rc != 0:
+            if not _completed:
                 question_text = "%s: %s" % (
                     _("An issue occured while installing"),
                     pkg_file,)
@@ -845,7 +850,29 @@ module_radeon_args="modeset=1"
             except OSError:
                 pass
 
-            break
+            if not _completed:
+                completed = False
+
+        if completed:
+            # mask all the nvidia-drivers, this avoids having people
+            # updating their drivers resulting in a non working system
+            mask_file = os.path.join(self._root+'/',
+                "etc/entropy/packages/package.mask")
+            unmask_file = os.path.join(self._root+'/',
+                "etc/entropy/packages/package.unmask")
+
+            if os.access(mask_file, os.W_OK) and os.path.isfile(mask_file):
+                with open(mask_file,"aw") as f:
+                    f.write("\n# added by the Sabayon Installer\n")
+                    f.write("x11-drivers/nvidia-drivers\n")
+                    f.write("x11-drivers/nvidia-userspace\n")
+
+            if os.access(unmask_file, os.W_OK) and os.path.isfile(unmask_file):
+                with open(unmask_file, "aw") as f:
+                    deps = legacy_unmask_map[nv_ver]
+                    f.write("\n# added by the Sabayon Installer\n")
+                    for dep in deps:
+                        f.write("%s\n" % (dep,))
 
         # force OpenGL reconfiguration
         ogl_script = """
