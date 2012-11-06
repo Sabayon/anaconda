@@ -39,7 +39,13 @@ except ImportError:
 # Entropy imports
 from entropy.exceptions import EntropyPackageException, DependenciesNotFound, \
     DependenciesCollision
-from entropy.const import etpUi, etpConst, etpSys
+from entropy.const import etpConst, etpSys
+try:
+    from entropy.const import etpUi # Entropy 145
+    is_mute, set_mute = None, None
+except ImportError:
+    etpUi = None
+    from entropy.output import is_mute, set_mute
 import entropy.tools
 import entropy.dep
 from entropy.core.settings.base import SystemSettings
@@ -58,6 +64,14 @@ _ = lambda x: gettext.ldgettext("anaconda", x)
 
 STDERR_LOG = open("/tmp/anaconda.log","aw")
 log = logging.getLogger("anaconda")
+
+
+def _set_mute(status):
+    if etpUi is not None:
+        etpUi['mute'] = status
+    else:
+        set_mute(status)
+
 
 class SabayonProgress(Singleton):
 
@@ -294,7 +308,7 @@ class SabayonInstall:
         oldstdout = sys.stdout
         if silent:
             sys.stdout = STDERR_LOG
-            etpUi['mute'] = True
+            _set_mute(True)
 
         try:
             rc = 0
@@ -309,7 +323,7 @@ class SabayonInstall:
         finally:
             if silent:
                 sys.stdout = oldstdout
-                etpUi['mute'] = False
+                _set_mute(False)
             if chroot != root:
                 self._change_entropy_chroot(root)
 
@@ -331,7 +345,7 @@ class SabayonInstall:
         oldstdout = sys.stdout
         if silent:
             sys.stdout = STDERR_LOG
-            etpUi['mute'] = True
+            _set_mute(True)
 
         try:
             rc = 0
@@ -344,7 +358,7 @@ class SabayonInstall:
         finally:
             if silent:
                 sys.stdout = oldstdout
-                etpUi['mute'] = False
+                _set_mute(False)
 
         if chroot != root:
             self._change_entropy_chroot(root)
@@ -1252,7 +1266,7 @@ module_radeon_args="modeset=1"
         oldstdout = sys.stdout
         if silent:
             sys.stdout = STDERR_LOG
-            etpUi['mute'] = True
+            _set_mute(True)
 
         try:
             # fetch_security = False => avoid spamming stdout
@@ -1290,7 +1304,7 @@ module_radeon_args="modeset=1"
 
             if silent:
                 sys.stdout = oldstdout
-                etpUi['mute'] = False
+                _set_mute(False)
             self._entropy.close_repositories()
             self._settings.clear()
             if chroot != root:
