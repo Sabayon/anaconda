@@ -20,15 +20,25 @@
 #
 
 ## Global variables
-# Live Image default user name
-LIVE_USER="${LIVE_USER:-sabayonuser}"
+# User name on installed system
+QUSER=${QUSER:-geek}
+# User's password on installed system
+QUSER_PASS=${QUSER_PASS:-geek}
+# Root's password on installed system
+QROOT_PASS=${QROOT_PASS:-keeg}
 # NetworkManager networking? "1" for Yes, "0" for No
 NM_NETWORK="${NM_NETWORK:-1}"
 # Sabayon Media Center mode? "1" for Yes, "0" for No
 SABAYON_MCE="${SABAYON_MCE:-0}"
 # Firewall configuration, enable firewall? "1" for Yes, "0" for No
 FIREWALL="${FIREWALL:-1}"
-FIREWALL_PACKAGE="net-firewall/ufw"
+
+## Global variables that one wouldn't normally want to modify
+# Live Image default user name
+LIVE_USER="${LIVE_USER:-sabayonuser}"
+# Source path - where to copy data from
+SRCROOT=${SRCROOT:-/mnt/livecd}
+# Name of the firewall service
 FIREWALL_SERVICE="ufw"
 
 # This function prints a separator line
@@ -633,10 +643,10 @@ main() {
     local _chroot="${1}"
     # Overridable env vars
     # TODO(lxnay): input validation
-    local _srcroot="${SRCROOT:-/mnt/livecd}"
-    local _user="${QUSER:-geek}"
-    local _user_pass="${QUSER_PASS:-geek}"
-    local _root_pass="${QROOT_PASS:-keeg}"
+    local _srcroot="${SRCROOT}"
+    local _user="${QUSER}"
+    local _user_pass="${QUSER_PASS}"
+    local _root_pass="${QROOT_PASS}"
 
     # Input validation
     local _dir
