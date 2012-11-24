@@ -589,7 +589,7 @@ setup_misc() {
     exec_chroot "${_chroot}" /sbin/ldconfig
 
     # Fix a possible /tmp problem
-    chmod a+w "${_chroot}/tmp"
+    chmod a+w,o+t "${_chroot}/tmp"
     # make sure we have .keep files around
     # this was an old Entropy bug.
     mkdir -p "${_chroot}/var/tmp"
