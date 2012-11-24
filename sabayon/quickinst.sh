@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # quickinst.sh
 # Sabayon non-interactive install-to-chroot script
@@ -175,6 +175,7 @@ setup_language() {
         libc_locale="${_lang/@*}"
 
         local valid_locales=()
+        local loc
         while read loc; do
             if [[ "${loc}" == ${libc_locale}* ]]; then
                 valid_locales+=( "${loc}" )
@@ -196,6 +197,7 @@ setup_language() {
     fi
 
     # Setup LibreOffice (openoffice...) and other DEs languages
+    local opt
     for opt in kde openoffice mozilla; do
         exec_chroot "${_chroot}" /sbin/language-setup \
             "${_lang/.*}" "${opt}"  &> /dev/null  # ignore failure
@@ -248,6 +250,7 @@ setup_keyboard() {
     fi
 
     # run keyboard-setup directly inside chroot
+    local opt
     for opt in e17 gnome kde lxde system xfce xorg; do
         exec_chroot "${_chroot}" /sbin/keyboard-setup-2 \
             "${_key_map}" "${opt}"  &>/dev/null  # ignore failure
@@ -293,6 +296,7 @@ _remove_proprietary_drivers() {
             "x11-drivers/nvidia-userspace"
         )
 
+        local gl_path
         for gl_path in "${gl_paths[@]}"; do
             rm -rf "${_chroot}/${gl_path}"
         done
@@ -351,6 +355,8 @@ _setup_nvidia_legacy() {
     )
     local nvidia_pkg_files=()
     local drv_file_name=
+
+    local drv_file pkg_file
     for drv_file in "${drivers_dir}"/*; do
         drv_file_name=$(basename "${drv_file}")
 
@@ -363,6 +369,8 @@ _setup_nvidia_legacy() {
 
     local nvidia_file_name=
     local tmp_pkg_file=
+
+    local nvidia_pkg_file
     for nvidia_pkg_file in "${nvidia_pkg_files[@]}"; do
         nvidia_file_name=$(basename "${nvidia_pkg_file}")
         tmp_pkg_file="/tmp/${nvidia_file_name}"
@@ -630,6 +638,7 @@ main() {
     local _root_pass="${QROOT_PASS:-keeg}"
 
     # Input validation
+    local _dir
     for _dir in "${_chroot}" "${_srcroot}"; do
         if [ ! -d "${_dir}" ]; then
             echo "${_dir} is not a directory" >&2
@@ -699,3 +708,5 @@ main() {
 }
 
 main "${@}" || exit ${?}
+
+# vim: expandtab
