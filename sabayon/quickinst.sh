@@ -122,6 +122,7 @@ configure_skel() {
 
     # Cleanup cruft
     local cruft_desktops="gparted liveinst"
+    local cruft
     for cruft in ${cruft_desktops}; do
         rm -f "${_skel_dir}/Desktop/${cruft}.desktop"
     done
@@ -129,7 +130,7 @@ configure_skel() {
     # Install welcome loader
     local welcome_name="sabayon-welcome-loader.desktop"
     local welcome_desktop="${_chroot}/etc/sabayon/${welcome_name}"
-    if [ -f "${wecome_desktop}" ]; then
+    if [ -f "${welcome_desktop}" ]; then
         cp -p "${welcome_desktop}" "${_autost_dir}/${welcome_name}" \
             || return ${?}
     fi
