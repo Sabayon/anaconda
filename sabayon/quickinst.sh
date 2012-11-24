@@ -107,12 +107,8 @@ configure_skel() {
     local _desktop_dir="${_skel_dir}/Desktop"
     local _autost_dir="${_desktop_dir}/.config/autostart"
 
-    if [ ! -d "${_desktop_dir}" ]; then
-        mkdir -p "${_desktop_dir}" || return ${?}
-    fi
-    if [ ! -d "${_autost_dir}" ]; then
-        mkdir -p "${_autost_dir}" || return ${?}
-    fi
+    mkdir -p "${_desktop_dir}" || return ${?}
+    mkdir -p "${_autost_dir}" || return ${?}
 
     # Setup Rigo
     local rigo_name="rigo.desktop"
@@ -426,9 +422,7 @@ setup_xorg() {
     local chroot_xorg_file_dir="$(dirname "${chroot_xorg_file}")"
 
     if [ -f "${_xorg_file}" ]; then
-        if [ ! -d "${chroot_xorg_file_dir}" ]; then
-            mkdir -p "${chroot_xorg_file_dir}" || return ${?}
-        fi
+        mkdir -p "${chroot_xorg_file_dir}" || return ${?}
         cat "${_xorg_file}" > "${chroot_xorg_file}" || return ${?}
         cp -p "${chroot_xorg_file}" "${chroot_xorg_file}.original" \
             || return ${?}
@@ -454,9 +448,7 @@ setup_audio() {
 
         chroot_state_file="${_chroot}/${state_file}"
         chroot_state_dir=$(dirname "${chroot_state_file}")
-        if [ ! -d "${chroot_state_dir}" ]; then
-            mkdir -p "${chroot_state_dir}" || return ${?}
-        fi
+        mkdir -p "${chroot_state_dir}" || return ${?}
         cat "${state_file}" > "${chroot_state_file}" || return ${?}
     done
 }
