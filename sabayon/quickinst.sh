@@ -266,7 +266,7 @@ setup_sudo() {
     local _sudo_file="/etc/sudoers"
     local chroot_sudo_file="${_chroot}/${_sudo_file}"
     if [ -f "${chroot_sudo_file}" ]; then
-        sed -i "/NOPASSWD/ s/^#/" "${chroot_sudo_file}" || return ${?}
+        sed -i "/NOPASSWD/ s/^#//" "${chroot_sudo_file}" || return ${?}
         echo >> "${chroot_sudo_file}" || return ${?}
         echo "# Added by Sabayon Alt Installer" \
             >> "${chroot_sudo_file}" || return ${?}
@@ -300,7 +300,8 @@ _remove_proprietary_drivers() {
         for gl_path in "${gl_paths[@]}"; do
             rm -rf "${_chroot}/${gl_path}"
         done
-        exec_chroot equo remove "${prop_packages[@]}" || return ${?}
+        exec_chroot "${_chroot}" \
+            equo remove "${prop_packages[@]}" || return ${?}
     fi
 
     local _mod_conf="/etc/conf.d/modules"
