@@ -46,6 +46,11 @@ separator() {
     echo "==============================================="
 }
 
+# Print message on standard error
+warn() {
+    echo "$*" >&2
+}
+
 # Execute a command inside chroot
 # Signature: exec_chroot <chroot path> <command ...>
 exec_chroot() {
@@ -629,12 +634,12 @@ setup_entropy() {
 main() {
 
     if [ "$(whoami)" != "root" ]; then
-        echo "Y U NO root" >&2
+        warn "Y U NO root"
         return 1
     fi
     if [ ${#} -lt 1 ]; then
-        echo "Y U NO correct args" >&2
-        echo "${0} <chroot path>" >&2
+        warn "Y U NO correct args"
+        warn "${0} <chroot path>"
         return 1
     fi
 
@@ -654,12 +659,12 @@ main() {
     local _dir
     for _dir in "${_chroot}" "${_srcroot}"; do
         if [ ! -d "${_dir}" ]; then
-            echo "${_dir} is not a directory" >&2
+            warn "${_dir} is not a directory"
             exit 1
         # TODO(lxnay): uncomment this before release
         #elif [ -n "$(ls -1 "${_dir}")" ] && \
         #    [ "${_dir}" = "${_chroot}" ]; then
-        #    echo "${_dir} is not empty" >&2
+        #    warn "${_dir} is not empty"
         #    return 1
         fi
     done
@@ -720,6 +725,13 @@ main() {
 
 }
 
-main "${@}" || exit ${?}
+main "${@}"
+main_ret=$?
+separator
+if [[ ${main_ret} -eq 0 ]]; then
+    echo "Commands completed successfully."
+else
+    warn "Failure! Exit status is ${main_ret}."
+fi
 
 # vim: expandtab
