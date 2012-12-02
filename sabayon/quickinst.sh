@@ -87,13 +87,14 @@ create_user() {
         "${user}" || exit 1
 }
 
-# Setup root user settings (password, etc)
-# Signature: setup_root_user <chroot> <root pass>
-setup_root_user() {
+# Setup user's password in chroot
+# Signature: set_user_password <chroot> <login> <password>
+set_user_password() {
     local _chroot="${1}"
-    local root_pass="${2}"
-    echo "root:${root_pass}" | exec_chroot "${_chroot}" chpasswd \
-        || return ${?}
+    local login="${2}"
+    local password="${3}"
+    # TODO: some validation
+    echo "${login}:${password}" | exec_chroot "${_chroot}" chpasswd
 }
 
 # Delete live image user from chroot if exists
@@ -162,7 +163,8 @@ setup_users() {
     create_user "${_chroot}" "${user}" || return ${?}
 
     # setup passwords
-    setup_root_user "${_chroot}" "${root_pass}" || return ${?}
+    set_user_password "${_chroot}" "${user}" "${user_pass}" || return ${?}
+    set_user_password "${_chroot}" "root" "${root_pass}" || return ${?}
 }
 
 # Setup language
