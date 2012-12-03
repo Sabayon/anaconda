@@ -51,6 +51,20 @@ warn() {
     echo "$*" >&2
 }
 
+# Returns 0 if directory is empty, otherwise (non empty, not a directory,
+# permission error) returns non-true value
+# Signature: is_empty_dir <directory>
+is_empty_dir() {
+    local dir=${1}
+    [[ -d ${1} ]] || return 1
+    (
+        shopt -s dotglob nullglob
+        a=( "${dir}"/* )
+        (( ${#a[@]} == 0 ))
+    )
+}
+
+
 # Execute a command inside chroot
 # Signature: exec_chroot <chroot path> <command ...>
 exec_chroot() {
@@ -89,7 +103,7 @@ create_user() {
         -g users \
         -G "$(live_user_groups | sed "s: :,:g")" \
         -m \
-        "${user}" || exit 1
+        "${user}" || return 1
 }
 
 # Setup user's password in chroot
@@ -630,8 +644,8 @@ setup_entropy() {
 }
 
 
-# This is the main() function
-main() {
+# This is the installer_main() function
+installer_main() {
 
     if [ "$(whoami)" != "root" ]; then
         warn "Y U NO root"
@@ -660,8 +674,8 @@ main() {
     for _dir in "${_chroot}" "${_srcroot}"; do
         if [ ! -d "${_dir}" ]; then
             warn "${_dir} is not a directory"
-            exit 1
-        # TODO(lxnay): uncomment this before release
+            return 1
+        # TODO(lxnay): uncomment this before release; use is_empty_dir
         #elif [ -n "$(ls -1 "${_dir}")" ] && \
         #    [ "${_dir}" = "${_chroot}" ]; then
         #    warn "${_dir} is not empty"
@@ -724,14 +738,5 @@ main() {
     # - language packs configuration
 
 }
-
-main "${@}"
-main_ret=$?
-separator
-if [[ ${main_ret} -eq 0 ]]; then
-    echo "Commands completed successfully."
-else
-    warn "Failure! Exit status is ${main_ret}."
-fi
 
 # vim: expandtab
