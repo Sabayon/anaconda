@@ -270,6 +270,7 @@ AC_CONFIG_FILES([Makefile
                  pixmaps/rnotes/Makefile
                  po/Makefile.in
                  sabayon/Makefile
+                 sabayon/quickinst/Makefile
                  scripts/Makefile
                  storage/Makefile
                  storage/devicelibs/Makefile

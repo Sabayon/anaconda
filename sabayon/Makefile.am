@@ -21,3 +21,5 @@ sabayondir = $(pyexecdir)/py$(PACKAGE_NAME)/sabayon
 sabayon_PYTHON = *.py
 
 MAINTAINERCLEANFILES = Makefile.in
+
+SUBDIRS = quickinst
