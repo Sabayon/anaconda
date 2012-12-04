@@ -693,6 +693,13 @@ module_radeon_args="modeset=1"
         public = self._root + SB_PUBLIC_X509
         der = self._root + SB_PUBLIC_DER
 
+        orig_der = der[:]
+        count = 0
+        while os.path.lexists(der):
+            count += 1
+            der = orig_der + ".%d" % (count,)
+            assert count < 1000, "Infinite loop"
+
         for path in (private, public, der):
             _dir = os.path.dirname(path)
             if not os.path.isdir(_dir):

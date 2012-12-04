@@ -629,6 +629,7 @@ setup_secureboot() {
 
     local _private="${_chroot}/boot/SecureBoot/user-private.key"
     local _public="${_chroot}/boot/SecureBoot/user-public.crt"
+    # TODO(lxnay): assume that collisions do not happen
     local _der="${efi_dir}/EFI/sabayon/enroll-this.cer"
 
     local _dir=
