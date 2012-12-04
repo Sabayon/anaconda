@@ -11,7 +11,6 @@
 #
 # <public der cert out> must end with .cer
 
-
 PRIVATE_KEY="${1}"
 PUBLIC_x509="${2}"
 PUBLIC_DER="${3}"
@@ -30,5 +29,6 @@ openssl x509 -in "${PUBLIC_x509}" -out "${PUBLIC_DER}" -outform DER || exit 1
 openssl rsa -in "${PRIVATE_KEY}" -out "${PRIVATE_KEY}".less || exit 1
 mv "${PRIVATE_KEY}".less "${PRIVATE_KEY}" || exit 1
 
-echo "The SecureBoot Sabayon User certificate is ${PUBLIC_DER}, enjoy"
+chmod 400 "${PRIVATE_KEY}" || exit 1
 
+echo "The SecureBoot Sabayon User certificate is ${PUBLIC_DER}, enjoy"

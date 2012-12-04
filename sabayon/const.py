@@ -232,3 +232,8 @@ FIREWALL_SERVICE = "ufw"
 
 LIVE_USER = "sabayonuser"
 REPO_NAME = "sabayonlinux.org"
+
+SB_PRIVATE_KEY = "/boot/SecureBoot/user-private.key"
+SB_PUBLIC_X509 = "/boot/SecureBoot/user-public.crt"
+# look for collisions
+SB_PUBLIC_DER = "/boot/efi/EFI/sabayon/enroll-this.cer"

@@ -20,6 +20,8 @@
 #
 
 ## Global variables
+# The path of this script
+QUICKINST_PATH="${0}"
 # User name on installed system
 QUSER=${QUSER:-geek}
 # User's password on installed system
@@ -610,6 +612,38 @@ setup_udev() {
 }
 
 
+# Configure SecureBoot
+# Signature: setup_secureboot <chroot>
+setup_secureboot() {
+    local _chroot="${1}"
+
+    modprobe efivars 2> /dev/null
+    if [ ! -d "/sys/firmware/efi" ]; then
+        # Nothing to do
+        return 0
+    fi
+
+    # TODO(lxnay): this expects to find /boot/efi/
+    # directory mounted inside the chroot
+    efi_dir="${_chroot}/boot/efi"
+
+    local _private="${_chroot}/boot/SecureBoot/user-private.key"
+    local _public="${_chroot}/boot/SecureBoot/user-public.crt"
+    local _der="${efi_dir}/EFI/sabayon/enroll-this.cer"
+
+    local _dir=
+    for path in "${_private}" "${_public}" "${_der}"; do
+        _dir=$(dirname "${path}")
+        if [ ! -d "${_dir}" ]; then
+            mkdir -p "${_dir}" || return ${?}
+        fi
+    done
+
+    make_script=$(dirname "${QUICKINST_PATH}")/make-secureboot.sh
+    "${make_script}" "${_private}" "${_public}" "${_der}" || return ${?}
+}
+
+
 # Setup misc stuff, feel free to add here your crap
 # Signature: setup_misc <chroot>
 setup_misc() {
@@ -723,6 +757,9 @@ installer_main() {
 
     echo "Configuring udev..."
     setup_udev "${_chroot}" || return ${?}
+
+    echo "Configuring SecureBoot..."
+    setup_secureboot "${_chroot}" || return ${?}
 
     echo "Configuring misc stuff..."
     setup_misc "${_chroot}" || return ${?}

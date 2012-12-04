@@ -57,7 +57,8 @@ import logging
 from constants import productPath
 from sabayon import Entropy
 from sabayon.const import LIVE_USER, LANGUAGE_PACKS, REPO_NAME, \
-    ASIAN_FONTS_PACKAGES, FIREWALL_SERVICE
+    ASIAN_FONTS_PACKAGES, FIREWALL_SERVICE, SB_PRIVATE_KEY, \
+    SB_PUBLIC_X509, SB_PUBLIC_DER
 
 import gettext
 _ = lambda x: gettext.ldgettext("anaconda", x)
@@ -681,6 +682,32 @@ module_radeon_args="modeset=1"
             with open(sudoers_file, "a") as sudo_f:
                 sudo_f.write("\n#Added by Sabayon Installer\n%wheel  ALL=ALL\n")
                 sudo_f.flush()
+
+    def setup_secureboot(self):
+        if not self._anaconda.platform.isEfi:
+            # nothing to do about SecureBoot crap
+            return
+
+        make = "/usr/lib/quickinst/make-secureboot.sh"
+        private = self._root + SB_PRIVATE_KEY
+        public = self._root + SB_PUBLIC_X509
+        der = self._root + SB_PUBLIC_DER
+
+        for path in (private, public, der):
+            _dir = os.path.dirname(path)
+            if not os.path.isdir(_dir):
+                os.makedirs(_dir)
+
+        exit_st = subprocess.call(
+            [make, private, public, der])
+        if exit_st != 0:
+            log.warning(
+                "Cannot execute make-secureboot, error: %d", exit_st)
+            msg = _("Cannot generate a SecureBoot key, error: %d") % (
+                exit_st,)
+            self._intf.messageWindow(
+                _("SecureBoot Problem"), msg,
+                custom_icon="warning")
 
     def setup_audio(self):
         asound_state = "/etc/asound.state"

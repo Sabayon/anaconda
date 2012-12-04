@@ -117,6 +117,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         # Actually install
         self._sabayon_install.live_install()
+        self._sabayon_install.setup_secureboot()
         self._sabayon_install.setup_users()
         self._sabayon_install.setup_language() # before ldconfig, thx
         # if simple networking is enabled, disable NetworkManager
