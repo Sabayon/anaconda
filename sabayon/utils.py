@@ -831,30 +831,18 @@ module_radeon_args="modeset=1"
             return
 
         f = open(running_file)
+        # this contains the version we need to match.
         nv_ver = f.readline().strip()
         f.close()
 
-        if nv_ver.find("17x.xx.xx") != -1:
-            nv_ver = "17"
-        elif nv_ver.find("9x.xx") != -1:
-            nv_ver = "9"
-        else:
-            nv_ver = "7"
-
-        legacy_unmask_map = {
-            "7": [
-                "=x11-drivers/nvidia-drivers-7*",
-                "=x11-drivers/nvidia-userspace-7*"
-                ],
-            "9": [
-                "=x11-drivers/nvidia-drivers-9*",
-                "=x11-drivers/nvidia-userspace-9*"
-                ],
-            "17": [
-                "=x11-drivers/nvidia-drivers-17*",
-                "=x11-drivers/nvidia-userspace-17*"
-                ]
-        }
+        matches = [
+            "=x11-drivers/nvidia-drivers-" + nv_ver + "*",
+            "=x11-drivers/nvidia-userspace-" + nv_ver + "*",
+            ]
+        files = [
+            "x11-drivers:nvidia-drivers-" + nv_ver,
+            "x11-drivers:nvidia-userspace-" + nv_ver,
+            ]
 
         # remove current
         self.remove_package('nvidia-drivers', silent = True)
@@ -864,10 +852,10 @@ module_radeon_args="modeset=1"
         packages = os.listdir(drivers_dir)
         _packages = []
         for pkg_file in packages:
-            if pkg_file.startswith("x11-drivers:nvidia-drivers-" + nv_ver):
-                _packages.append(pkg_file)
-            elif pkg_file.startswith("x11-drivers:nvidia-userspace-" + nv_ver):
-                _packages.append(pkg_file)
+            for target_file in files:
+                if pkg_file.startswith(target_file):
+                    _packages.append(pkg_file)
+
         packages = [os.path.join(drivers_dir, x) for x in _packages]
         completed = True
 
@@ -917,9 +905,8 @@ module_radeon_args="modeset=1"
 
             if os.access(unmask_file, os.W_OK) and os.path.isfile(unmask_file):
                 with open(unmask_file, "aw") as f:
-                    deps = legacy_unmask_map[nv_ver]
                     f.write("\n# added by the Sabayon Installer\n")
-                    for dep in deps:
+                    for dep in matches:
                         f.write("%s\n" % (dep,))
 
         # force OpenGL reconfiguration
