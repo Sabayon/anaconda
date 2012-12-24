@@ -256,8 +256,9 @@ setup_language() {
     local opt
     for opt in kde openoffice mozilla; do
         exec_chroot "${_chroot}" /sbin/language-setup \
-            "${_lang/.*}" "${opt}"  &> /dev/null  # ignore failure
+            "${_lang/.*}" "${opt}" &> /dev/null
     done
+    return 0 # ignore failures in the loop above
 }
 
 
@@ -289,6 +290,9 @@ setup_network() {
                 "${_rc_conf}" || return ${?}
         fi
     fi
+
+    # ignore failures
+    return 0
 }
 
 
@@ -309,8 +313,9 @@ setup_keyboard() {
     local opt
     for opt in e17 gnome kde lxde system xfce xorg; do
         exec_chroot "${_chroot}" /sbin/keyboard-setup-2 \
-            "${_key_map}" "${opt}"  &>/dev/null  # ignore failure
+            "${_key_map}" "${opt}" &>/dev/null
     done
+    return 0 # ignore failure in the loop above
 }
 
 
