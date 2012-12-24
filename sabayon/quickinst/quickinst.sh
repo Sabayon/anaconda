@@ -49,8 +49,32 @@ separator() {
 }
 
 # Print message on standard error
+# Signature: warn <message>
 warn() {
     echo "$*" >&2
+}
+
+# Inform about a failure (for exit status taken as parameter) and optionally
+# with -v about success, optionally with label; returns given status
+# Signature: inform_status [-v] <exit status> [label]
+inform_status() {
+    local verbose=0
+    local status=${1}
+    if [[ ${status} = -v ]]; then
+        verbose=1
+        shift
+        status=${1}
+    fi
+    local label=${2}
+    [[ -n ${label} ]] && label="${label}: "
+
+    if [[ ${status} -eq 0 ]]; then
+        [[ ${verbose} = 1 ]] && echo "${label}OK"
+    else
+        echo "${label}FAIL; exit status is ${status}"
+    fi
+
+    return ${status}
 }
 
 # Returns 0 if directory is empty, otherwise (non empty, not a directory,
@@ -80,7 +104,6 @@ exec_chroot() {
 live_install() {
     local src="${1}"
     local dst="${2}"
-
     rsync -a --delete-during -H -A -X -x "${src}/" "${dst}/"
     return ${?}
 }
@@ -245,18 +268,18 @@ setup_network() {
 
     if [ "${NM_NETWORK}" = "1" ]; then
         exec_chroot "${_chroot}" rc-update del \
-            netmount default &> /dev/null
+            netmount default
         exec_chroot "${_chroot}" rc-update del \
-            nfsmount default &> /dev/null
+            nfsmount default
     else
         exec_chroot "${_chroot}" rc-update del \
-            NetworkManager default &> /dev/null
+            NetworkManager default
         exec_chroot "${_chroot}" rc-update del \
-            NetworkManager-setup default &> /dev/null
+            NetworkManager-setup default
         exec_chroot "${_chroot}" rc-update del \
-            avahi-daemon default &> /dev/null
+            avahi-daemon default
         exec_chroot "${_chroot}" rc-update del \
-            dhcdbd default &> /dev/null
+            dhcdbd default
 
         local _rc_conf="${_chroot}/etc/rc.conf"
         if [ -f "${_rc_conf}" ]; then
@@ -729,46 +752,59 @@ installer_main() {
 
     echo "Copying system:  ${_srcroot} -> ${_chroot}"
     echo "Please wait, this will take 10-15 minutes"
-    live_install "${_srcroot}" "${_chroot}" || return ${?}
+    live_install "${_srcroot}" "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "System copy complete, configuring users"
-    setup_users "${_chroot}" "${_root_pass}" "${_user}" "${_user_pass}" \
-        || return ${?}
+    setup_users "${_chroot}" "${_root_pass}" "${_user}" "${_user_pass}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring language..."
-    setup_language "${_chroot}" || return ${?}
+    setup_language "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring networking..."
-    setup_network "${_chroot}" || return ${?}
+    setup_network "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring keyboard mappings..."
-    setup_keyboard "${_chroot}" || return ${?}
+    setup_keyboard "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring X.Org..."
-    setup_xorg "${_chroot}" || return ${?}
+    setup_xorg "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring audio..."
-    setup_audio "${_chroot}" || return ${?}
+    setup_audio "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring sudo..."
-    setup_sudo "${_chroot}" || return ${?}
+    setup_sudo "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring services..."
-    setup_services "${_chroot}" || return ${?}
+    setup_services "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring udev..."
-    setup_udev "${_chroot}" || return ${?}
+    setup_udev "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring SecureBoot..."
-    setup_secureboot "${_chroot}" || return ${?}
+    setup_secureboot "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring misc stuff..."
-    setup_misc "${_chroot}" || return ${?}
+    setup_misc "${_chroot}"
+    inform_status ${?} || return ${?}
 
     echo "Configuring Entropy..."
-    setup_entropy "${_chroot}" || return ${?}
+    setup_entropy "${_chroot}"
+    inform_status ${?} || return ${?}
 
-    _emit_install_done || return ${?}
+    _emit_install_done
+    inform_status ${?} "_emit_install_done" || return ${?}
 
     # TODO: missing routines
     # - /etc/fstab configuration
