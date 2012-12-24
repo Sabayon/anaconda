@@ -42,6 +42,9 @@ LIVE_USER="${LIVE_USER:-sabayonuser}"
 SRCROOT=${SRCROOT:-/mnt/livecd}
 # Name of the firewall service
 FIREWALL_SERVICE="ufw"
+# If source is a running system (otherwise it can be for example a mounted
+# squashfs image) - "1" for yes, "0" for no
+SOURCE_IS_LIVE_SYSTEM="1"
 
 # This function prints a separator line
 separator() {
@@ -703,9 +706,16 @@ setup_udev() {
         return 1
     fi
 
-    mount --move "${_chroot}/dev" "${tmp_dir}" || return ${?}
+    if [[ ${SOURCE_IS_LIVE_SYSTEM} = 1 ]]; then
+        # Installing from a running system (such like a Live CD)
+        mount --move "${_chroot}/dev" "${tmp_dir}" || return ${?}
+    fi
+
     cp -Rp /dev/* "${_chroot}/dev/" || return ${?}
-    mount --move "${tmp_dir}" "${_chroot}/dev" || return ${?}
+
+    if [[ ${SOURCE_IS_LIVE_SYSTEM} = 1 ]]; then
+        mount --move "${tmp_dir}" "${_chroot}/dev" || return ${?}
+    fi
     rm -rf "${tmp_dir}"
 }
 

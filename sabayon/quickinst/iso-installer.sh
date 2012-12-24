@@ -31,6 +31,7 @@ start_installation() {
 	local chroot=$2
 
 	SRCROOT="${src}" \
+	SOURCE_IS_LIVE_SYSTEM="0" \
 		installer_main "${chroot}"
 }
 
@@ -281,7 +282,6 @@ main() {
 	separator
 
 	echo "calling unmount_media"
-	echo enter daj; read
 	unmount_media "${mountpoint}"
 	ret=$?
 	return $(( $? | ${inst_ret} ))
