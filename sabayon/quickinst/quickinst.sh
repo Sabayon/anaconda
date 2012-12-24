@@ -90,6 +90,29 @@ is_empty_dir() {
     )
 }
 
+# Returns 0 if package is installed on system, 1 otherwise, 2 on error
+# <package name> can be any value accepted by equo match (it can contain
+# version string for example)
+# Signature: is_package_installed <chroot path> <package name>
+is_package_installed() {
+    local _chroot=${1}
+    local pkg=${2}
+
+    if [[ $# -ne 2 ]]; then
+        warn "ERROR: is_package_installed required 2 arguments - $# given"
+        return 2
+    fi
+
+    local output
+    output=$( exec_chroot "${_chroot}" \
+        equo match --installed --quiet -- "${pkg}" )
+
+    if [[ -n ${output} ]]; then
+        return 0
+    else
+        return 1
+    fi
+}
 
 # Execute a command inside chroot
 # Signature: exec_chroot <chroot path> <command ...>
@@ -361,8 +384,31 @@ _remove_proprietary_drivers() {
         for gl_path in "${gl_paths[@]}"; do
             rm -rf "${_chroot}/${gl_path}"
         done
+
+        local prop_packages_to_remove=()
+        local pkg
+        for pkg in "${prop_packages[@]}"; do
+            if is_package_installed "${_chroot}" "${pkg}"; then
+                prop_packages_to_remove+=( "${pkg}" )
+            else
+                echo "${pkg} already not installed"
+            fi
+        done
+
+        if [[ ${#prop_packages_to_remove[@]} -eq 0 ]]; then
+            echo "No packages to remove."
+            return 0
+        fi
+
+        local ret
         exec_chroot "${_chroot}" \
-            equo remove "${prop_packages[@]}" || return ${?}
+            equo remove "${prop_packages_to_remove[@]}"
+        ret=${?}
+        if [[ ${ret} -ne 0 ]]; then
+            warn "error: command 'equo remove ${prop_packages_to_remove[*]}'"
+            warn "failed with exit status ${ret}"
+            return ${ret}
+        fi
     fi
 
     local _mod_conf="/etc/conf.d/modules"
@@ -398,8 +444,28 @@ _setup_nvidia_legacy() {
     fi
 
     # remove current
-    exec_chroot "${_chroot}" equo remove \
-        nvidia-drivers nvidia-userspace  || return ${?}
+    local packages_to_remove=()
+    local pkg_to_remove
+    for pkg_to_remove in nvidia-drivers nvidia-userspace; do
+        if is_package_installed "${_chroot}" "${pkg_to_remove}"; then
+            packages_to_remove+=( "${pkg_to_remove}" )
+        else
+            echo "${pkg_to_remove} already not installed"
+        fi
+    done
+
+    local ret
+    if [[ ${#packages_to_remove[@]} -eq 0 ]]; then
+        echo "No packages to remove."
+    else
+        exec_chroot "${_chroot}" equo remove "${packages_to_remove[@]}"
+        ret=${?}
+        if [[ ${ret} -ne 0 ]]; then
+            warn "error: command 'equo remove ${packages_to_remove[*]}'"
+            warn "failed with exit status ${ret}"
+            return ${ret}
+        fi
+    fi
 
     local nv_ver=$(cat "${running_file}")
     local ver=
@@ -498,8 +564,12 @@ setup_xorg() {
         cp -p "${chroot_xorg_file}" "${chroot_xorg_file}.original" \
             || return ${?}
     fi
-    _remove_proprietary_drivers "${_chroot}" || return ${?}
-    _setup_nvidia_legacy "${_chroot}" || return ${?}
+
+    _remove_proprietary_drivers "${_chroot}"
+    inform_status ${?} "_remove_proprietary_drivers" || return ${?}
+
+    _setup_nvidia_legacy "${_chroot}"
+    inform_status ${?} "_setup_nvidia_legacy" || return ${?}
 }
 
 
