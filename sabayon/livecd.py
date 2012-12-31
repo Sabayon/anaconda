@@ -515,10 +515,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         cmdline_str = ' '.join(cmdline_args)
 
-        # if root_device or swap encrypted, replace splash=silent
-        if root_crypted or swap_crypted or any_crypted:
-            cmdline_str = cmdline_str.replace('splash=silent', 'splash=verbose')
-
         log.info("_setup_grub2, grub_target: %s | "
             "boot_device: %s | cmdline_str: %s" % (grub_target,
             boot_device, cmdline_str,))
