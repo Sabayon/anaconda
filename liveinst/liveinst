@@ -22,7 +22,10 @@
 for i in raid0 raid1 raid5 raid6 raid456 raid10 dm-mod dm-zero dm-mirror dm-snapshot dm-multipath dm-round-robin vfat dm-crypt cbc sha256 lrw xts ; do /sbin/modprobe $i 2>/dev/null ; done
 
 # lxnay: load UEFI efivars (so that Anaconda can detect EFI systems)
-modprobe efivars 2>/dev/null
+efi_disabled=$(cat /proc/cmdline | grep noefi)
+if [ -z "${efi_disabled}" ]; then
+    modprobe efivars 2>/dev/null
+fi
 
 # NOTE (switches):
 # --text => ncurses based installer

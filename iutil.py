@@ -689,9 +689,10 @@ def isEfi():
     if efi is not None:
         return efi
 
-    efi = False
-    # XXX need to make sure efivars is loaded...
-    if os.path.exists("/sys/firmware/efi"):
+    if flags.cmdline.has_key("noefi"):
+        efi = False
+    elif os.path.exists("/sys/firmware/efi"):
+        # efivars is loaded by liveinst
         efi = True
 
     return efi
