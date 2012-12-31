@@ -568,12 +568,18 @@ password root """+str(self.anaconda.bootloader.pure)+"""
         if os.path.isfile(dev_map):
             os.remove(dev_map)
 
+        # disable efi by forcing i386-pc if noefi is set
+        efi_args = []
+        if flags.cmdline.has_key("noefi"):
+            # we assume that we only support x86_64 and i686
+            efi_args.append("--target=i386-pc")
+
         # this must be done before, otherwise gfx mode is not enabled
         grub2_install = self._root + "/usr/sbin/grub2-install"
         if os.path.lexists(grub2_install):
             iutil.execWithRedirect('/usr/sbin/grub2-install',
                                    ["/dev/" + grub_target,
-                                    "--recheck", "--force"],
+                                    "--recheck", "--force"] + efi_args,
                                    stdout = PROGRAM_LOG_FILE,
                                    stderr = PROGRAM_LOG_FILE,
                                    root = self._root
@@ -581,7 +587,7 @@ password root """+str(self.anaconda.bootloader.pure)+"""
         else:
             iutil.execWithRedirect('/sbin/grub2-install',
                                    ["/dev/" + grub_target,
-                                    "--recheck", "--force"],
+                                    "--recheck", "--force"] + efi_args,
                                    stdout = PROGRAM_LOG_FILE,
                                    stderr = PROGRAM_LOG_FILE,
                                    root = self._root
