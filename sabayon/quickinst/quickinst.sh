@@ -369,7 +369,10 @@ _remove_proprietary_drivers() {
     local _chroot="${1}"
 
     local gl_profile=$(eselect opengl show)
-    if [ "${gl_profile}" = "xorg-x11" ]; then
+    local bb_enabled=0
+    [[ -e "/tmp/.bumblebee.enabled" ]] && bb_enabled=1
+
+    if [ "${gl_profile}" = "xorg-x11" ] && [ "${bb_enabled}" = "0" ]; then
         local gl_paths=(
             "/etc/env.d/09ati"
             "/usr/lib/opengl/ati"
@@ -429,6 +432,11 @@ _remove_proprietary_drivers() {
         echo "modules=\"radeon\"" >> "${chroot_mod_conf}" || return ${?}
         echo "module_radeon_args=\"modeset=1\"" \
             >> "${chroot_mod_conf}" || return ${?}
+    fi
+
+    if [ "${bb_enabled}" = "1" ]; then
+        exec_chroot "${_chroot}" \
+            rc-update add bumblebee boot
     fi
 }
 

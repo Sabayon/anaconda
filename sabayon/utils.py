@@ -533,7 +533,12 @@ class SabayonInstall:
         """
         Detect a possible OSS video card and remove /etc/env.d/*ati
         """
-        if self._get_opengl() == "xorg-x11":
+        bb_enabled = os.path.exists("/tmp/.bumblebee.enabled")
+        radeon_kms_enabled = os.path.exists("/tmp/.radeon.kms")
+
+        xorg_x11 = self._get_opengl() == "xorg-x11"
+
+        if xorg_x11 and not bb_enabled:
             ogl_script = """
                 rm -f /etc/env.d/09ati
                 rm -rf /usr/lib/opengl/ati
@@ -547,7 +552,7 @@ class SabayonInstall:
             self.remove_package('nvidia-userspace', silent = True)
 
         # created by gpu-detector
-        if os.path.isfile("/tmp/.radeon.kms"):
+        if radeon_kms_enabled:
             # (<3.6.0 kernel) since CONFIG_DRM_RADEON_KMS=n on our kernel
             # we need to force radeon to load at boot
             modules_conf = self._root + "/etc/conf.d/modules"
@@ -560,6 +565,13 @@ class SabayonInstall:
 modules="radeon"
 module_radeon_args="modeset=1"
 """)
+
+        # bumblebee support
+        if bb_enabled:
+            bb_script = """
+            rc-update add bumblebee boot
+            """
+            self.spawn_chroot(bb_script, silent = True)
 
     def copy_udev(self):
         tmp_dir = tempfile.mkdtemp()
