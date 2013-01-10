@@ -570,7 +570,7 @@ password root """+str(self.anaconda.bootloader.pure)+"""
 
         # disable efi by forcing i386-pc if noefi is set
         efi_args = []
-        if flags.cmdline.has_key("noefi"):
+        if "noefi" in cmdline.split():
             # we assume that we only support x86_64 and i686
             efi_args.append("--target=i386-pc")
 
