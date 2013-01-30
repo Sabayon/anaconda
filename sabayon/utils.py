@@ -569,7 +569,7 @@ module_radeon_args="modeset=1"
         # bumblebee support
         if bb_enabled:
             bb_script = """
-            rc-update add bumblebee boot
+            rc-update add bumblebee default
             """
             self.spawn_chroot(bb_script, silent = True)
 

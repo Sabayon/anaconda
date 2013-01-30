@@ -436,7 +436,7 @@ _remove_proprietary_drivers() {
 
     if [ "${bb_enabled}" = "1" ]; then
         exec_chroot "${_chroot}" \
-            rc-update add bumblebee boot
+            rc-update add bumblebee default
     fi
 }
 
