@@ -1578,6 +1578,7 @@ class FSSet(object):
         self._sysfs = None
         self._proc = None
         self._devshm = None
+        self._tmp = None
         self.preserveLines = []     # lines we just ignore and preserve
 
     @property
@@ -1622,6 +1623,19 @@ class FSSet(object):
                                                      device="tmpfs",
                                                      mountpoint="/dev/shm"))
         return self._devshm
+
+    @property
+    def tmp(self):
+        if not self._tmp:
+            mem = "100M"  # cap to 100Mb
+            if iutil.memInstalled() <= isys.EARLY_SWAP_RAM:
+                mem = "10%"  # 10% of total memory
+            self._tmp = NoDevice(format=getFormat(
+                    "tmpfs",
+                    device="tmpfs",
+                    mountpoint="/tmp",
+                    mountopts="noexec,nosuid,nodev,size=%s" % (mem,)))
+        return self._tmp
 
     @property
     def devices(self):
@@ -1826,7 +1840,8 @@ class FSSet(object):
         format = "%s %s %s %s 0 0\n"
         mtab = ""
         devices = self.mountpoints.values() + self.swapDevices
-        devices.extend([self.devshm, self.devpts, self.sysfs, self.proc])
+        devices.extend([self.devshm, self.devpts, self.sysfs, self.proc,
+                        self.tmp])
         devices.sort(key=lambda d: getattr(d.format, "mountpoint", None))
         for device in devices:
             if not device.format.status:
@@ -1951,7 +1966,8 @@ class FSSet(object):
                          skipRoot=False):
         intf = anaconda.intf
         devices = self.mountpoints.values() + self.swapDevices
-        devices.extend([self.dev, self.devshm, self.devpts, self.sysfs, self.proc])
+        devices.extend([self.dev, self.devshm, self.devpts, self.sysfs,
+                        self.proc, self.tmp])
         devices.sort(key=lambda d: getattr(d.format, "mountpoint", None))
 
         for device in devices:
@@ -2066,7 +2082,8 @@ class FSSet(object):
 
     def umountFilesystems(self, ignoreErrors=True, swapoff=True):
         devices = self.mountpoints.values() + self.swapDevices
-        devices.extend([self.dev, self.devshm, self.devpts, self.sysfs, self.proc])
+        devices.extend([self.dev, self.devshm, self.devpts, self.sysfs,
+                        self.proc, self.tmp])
         devices.sort(key=lambda d: getattr(d.format, "mountpoint", None))
         devices.reverse()
         for device in devices:
@@ -2240,7 +2257,8 @@ class FSSet(object):
         devices = sorted(self.mountpoints.values(),
                          key=lambda d: d.format.mountpoint)
         devices += self.swapDevices
-        devices.extend([self.devshm, self.devpts, self.sysfs, self.proc])
+        devices.extend([self.devshm, self.devpts, self.sysfs, self.proc,
+                        self.tmp])
         netdevs = self.devicetree.getDevicesByInstance(NetworkStorageDevice)
         for device in devices:
             # why the hell do we put swap in the fstab, anyway?
