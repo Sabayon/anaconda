@@ -701,6 +701,10 @@ if custom_gdm in gdm_config.read(custom_gdm):
         gdm_config.write(gdm_f)
 "
     fi
+
+    # drop /install-data now, bug 4019
+    local install_data_dir="${_chroot}/install-data"
+    rm -rf "${install_data_dir}"
 }
 
 

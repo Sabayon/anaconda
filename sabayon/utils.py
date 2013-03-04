@@ -529,6 +529,11 @@ class SabayonInstall:
                     with open(custom_gdm, "w") as gdm_f:
                         gdm_config.write(gdm_f)
 
+        # drop /install-data now, bug 4019
+        install_data_dir = os.path.join(self._root, "install-data")
+        if os.path.isdir(install_data_dir):
+            shutil.rmtree(install_data_dir, True)
+
     def remove_proprietary_drivers(self):
         """
         Detect a possible OSS video card and remove /etc/env.d/*ati
