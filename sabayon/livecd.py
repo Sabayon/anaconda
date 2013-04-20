@@ -124,8 +124,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # if simple networking is enabled, disable NetworkManager
         if self.anaconda.instClass.simplenet:
             self._sabayon_install.setup_manual_networking()
-        else:
-            self._sabayon_install.setup_networkmanager_networking()
         self._sabayon_install.setup_keyboard()
 
         action = _("Configuring Sabayon")

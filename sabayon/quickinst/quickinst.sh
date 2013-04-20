@@ -93,6 +93,26 @@ is_empty_dir() {
     )
 }
 
+# Enables the given systemd service.
+# Signature: sd_enable <chroot> <service name, without .service>
+sd_enable() {
+    local _chroot="${1}"
+    local srv="${2}"
+    [[ -x "${_chroot}/usr/bin/systemctl" ]] && \
+        chroot "${_chroot}" /usr/bin/systemctl \
+            --no-reload enable "${srv}.service"
+}
+
+# Disables the given systemd service.
+# Signature: sd_disable <chroot> <service name, without .service>
+sd_disable() {
+    local _chroot="${1}"
+    local srv="${2}"
+    [[ -x "${_chroot}/usr/bin/systemctl" ]] && \
+        chroot "${_chroot}" /usr/bin/systemctl \
+            --no-reload disable "${srv}.service"
+}
+
 # Returns 0 if package is installed on system, 1 otherwise, 2 on error
 # <package name> can be any value accepted by equo match (it can contain
 # version string for example)
@@ -298,15 +318,21 @@ setup_network() {
             netmount default
         exec_chroot "${_chroot}" rc-update del \
             nfsmount default
+        sd_enable "${_chroot}" NetworkManager
     else
         exec_chroot "${_chroot}" rc-update del \
             NetworkManager default
         exec_chroot "${_chroot}" rc-update del \
             NetworkManager-setup default
+        sd_disable "${_chroot}" NetworkManager
+        sd_disable "${_chroot}" NetworkManager-wait-online
+
         exec_chroot "${_chroot}" rc-update del \
             avahi-daemon default
         exec_chroot "${_chroot}" rc-update del \
             dhcdbd default
+        sd_disable "${_chroot}" NetworkManager
+        sd_disable "${_chroot}" NetworkManager-wait-online
 
         local _rc_conf="${_chroot}/etc/rc.conf"
         if [ -f "${_rc_conf}" ]; then
@@ -437,6 +463,7 @@ _remove_proprietary_drivers() {
     if [ "${bb_enabled}" = "1" ]; then
         exec_chroot "${_chroot}" \
             rc-update add bumblebee default
+        sd_enable "${_chroot}" bumblebeed
     fi
 }
 
@@ -620,10 +647,12 @@ setup_services() {
     for srv in "${srvs[@]}"; do
         exec_chroot "${_chroot}" \
             rc-update del ${srv} boot default &>/dev/null
+        sd_disable "${_chroot}" ${srv}
     done
 
     exec_chroot "${_chroot}" \
         rc-update add vixie-cron default &> /dev/null
+    sd_enable "${_chroot}" vixie-cron
 
     if [ ! -e "${_chroot}/etc/init.d/net.eth0" ]; then
         ln -sf net.lo "${_chroot}/etc/init.d/net.eth0" || return ${?}
@@ -636,6 +665,7 @@ setup_services() {
     if [ -e "${_chroot}/etc/init.d/cdeject" ]; then
         exec_chroot "${_chroot}" \
             rc-update del cdeject shutdown
+        sd_disable "${_chroot}" cdeject
     fi
     if [ -e "${_chroot}/etc/init.d/oemsystem-boot" ]; then
         exec_chroot "${_chroot}" \
@@ -645,9 +675,12 @@ setup_services() {
         exec_chroot "${_chroot}" \
             rc-update add oemsystem-default default
     fi
+    sd_enable "${_chroot}" oemsystem &> /dev/null # may not be avail.
+
     if [ "${SABAYON_MCE}" = "0" ]; then
         exec_chroot "${_chroot}" \
             rc-update del sabayon-mce boot default &>/dev/null
+        sd_disable "${_chroot}" sabayon-mce
     fi
     if [ -e "${_chroot}/etc/init.d/dmcrypt" ]; then
         exec_chroot "${_chroot}" \
@@ -657,17 +690,21 @@ setup_services() {
     if _is_virtualbox; then
         exec_chroot "${_chroot}" \
             rc-update add virtualbox-guest-additions boot &>/dev/null
+        sd_enable "${_chroot}" virtualbox-guest-additions
     else
         exec_chroot "${_chroot}" \
             rc-update del virtualbox-guest-additions boot &>/dev/null
+        sd_disable "${_chroot}" virtualbox-guest-additions
     fi
 
     if [ "${FIREWALL}" = "1" ]; then
         exec_chroot "${_chroot}" \
             rc-update add "${FIREWALL_SERVICE}" default
+        sd_enable "${_chroot}" "${FIREWALL_SERVICE}"
     else
         exec_chroot "${_chroot}" \
             rc-update del "${FIREWALL_SERVICE}" boot default &>/dev/null
+        sd_disable "${_chroot}" "${FIREWALL_SERVICE}"
     fi
 
     # XXX: hack

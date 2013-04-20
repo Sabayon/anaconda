@@ -455,58 +455,63 @@ class SabayonInstall:
             is_sabayon_mce = "0"
 
         # Remove Installer services
-        config_script = """
-            rc-update del installer-gui boot default
-            rm -f /etc/init.d/installer-gui
-            rc-update del installer-text boot default
-            rm -f /etc/init.d/installer-text
-            rc-update del music boot default
-            rm -f /etc/init.d/music
-            rc-update del sabayonlive boot default
-            rm -f /etc/init.d/sabayonlive
-            rc-update add vixie-cron default
-            if [ ! -e "/etc/init.d/net.eth0" ]; then
-                cd /etc/init.d && ln -s net.lo net.eth0
-            fi
-            if [ -e "/etc/init.d/nfsmount" ]; then
-                rc-update add nfsmount default
-            fi
-            if [ -e "/etc/init.d/cdeject" ]; then
-                rc-update del cdeject shutdown
-            fi
-            if [ -e "/etc/init.d/oemsystem-boot" ]; then
-                rc-update add oemsystem-boot boot
-            fi
-            if [ -e "/etc/init.d/oemsystem-default" ]; then
-                rc-update add oemsystem-default default
-            fi
-            if [ "0" = """+is_sabayon_mce+""" ]; then
-                rc-update del sabayon-mce boot
-                rc-update del sabayon-mce default
-            fi
-            if [ -e "/etc/init.d/dmcrypt" ]; then
-                rc-update add dmcrypt boot
-            fi
+        config_script = """\
+        rc-update del installer-gui boot default
+        rc-update del installer-text boot default
+        systemctl --no-reload disable installer-gui.service
+        systemctl --no-reload disable installer-text.service
+
+        rc-update del sabayonlive boot default
+        systemctl --no-reload disable sabayonlive.service
+
+        rc-update add vixie-cron default
+        systemctl --no-reload enable vixie-cron.service
+
+        rc-update del music boot default
+        systemctl --no-reload disable music.service
+
+        rc-update add nfsmount default
+
+        rc-update del cdeject shutdown
+        systemctl --no-reload disable cdeject.service
+
+        rc-update add oemsystem-boot boot
+        rc-update add oemsystem-default default
+        systemctl --no-reload enable oemsystem.service
+
+        rc-update add dmcrypt boot
+
+        if [ "0" = """+is_sabayon_mce+""" ]; then
+            rc-update del sabayon-mce boot
+            rc-update del sabayon-mce default
+            systemctl --no-reload disable sabayon-mce.service
+        fi
+
+        cd /etc/init.d && ln -s net.lo net.eth0
         """
         self.spawn_chroot(config_script, silent = True)
 
-        # setup dmcrypt service if user enabled encryption
-        if self._is_encrypted():
-            self.spawn_chroot("rc-update add dmcrypt boot", silent = True)
-
         if self._is_virtualbox():
-            self.spawn_chroot("rc-update add virtualbox-guest-additions boot",
-                silent = True)
+            self.spawn_chroot("""\
+            rc-update add virtualbox-guest-additions boot
+            systemctl --no-reload enable virtualbox-guest-additions.service
+            """, silent = True)
         else:
-            self.spawn_chroot("rc-update del virtualbox-guest-additions boot",
-                silent = True)
+            self.spawn_chroot("""\
+            rc-update del virtualbox-guest-additions boot
+            systemctl --no-reload disable virtualbox-guest-additions.service
+            """, silent = True)
 
         if self._is_firewall_enabled():
-            self.spawn_chroot("rc-update add %s default" % (
-                FIREWALL_SERVICE,), silent = True)
+            self.spawn_chroot("""\
+            rc-update add %s default
+            systemctl --no-reload enable %s.service
+            """ % (FIREWALL_SERVICE, FIREWALL_SERVICE,), silent = True)
         else:
-            self.spawn_chroot("rc-update del %s boot default" % (
-                FIREWALL_SERVICE,), silent = True)
+            self.spawn_chroot("""\
+            rc-update del %s boot default
+            systemctl --no-reload disable %s.service
+            """ % (FIREWALL_SERVICE, FIREWALL_SERVICE,), silent = True)
 
         # XXX: hack
         # For GDM, set DefaultSession= to /etc/skel/.dmrc value
@@ -575,6 +580,7 @@ module_radeon_args="modeset=1"
         if bb_enabled:
             bb_script = """
             rc-update add bumblebee default
+            systemctl --no-reload enable bumblebeed.service
             """
             self.spawn_chroot(bb_script, silent = True)
 
@@ -654,15 +660,10 @@ module_radeon_args="modeset=1"
                 sed -i 's/^rc_hotplug=".*"/rc_hotplug="*"/g' /etc/rc.conf
             fi
         """
+        # TODO: check if we need this with systemd. I'd say no.
+        # systemctl --no-reload disable NetworkManager.service
+        # systemctl --no-reload disable NetworkManager-wait-online.service
         self.spawn_chroot(mn_script, silent = True)
-
-    def setup_networkmanager_networking(self):
-        # our NM hook already mounts network shares
-        nm_script = """
-            rc-update del netmount default
-            rc-update del nfsmount default
-        """
-        self.spawn_chroot(nm_script, silent = True)
 
     def get_keyboard_layout(self):
         console_kbd = self._anaconda.keyboard.get()
