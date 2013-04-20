@@ -319,7 +319,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             "refresh=", "noddc", "xdriver=", "onlyvesa", "nvidia=", "dodmraid",
             "dmraid", "sabayonmce", "quiet", "scandelay=", "doslowusb",
             "docrypt", "dokeymap", "keymap=", "radeon.modeset=", "modeset=",
-            "nomodeset", "domdadm", "vconsole"]
+            "nomodeset", "domdadm"]
 
         # Sabayon MCE install -> MCE support
         # use reference, yeah
