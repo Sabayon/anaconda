@@ -97,7 +97,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._sabayon_install = sabayon.utils.SabayonInstall(anaconda)
         # We use anaconda.upgrade as bootloader recovery step
         self._bootloader_recovery = anaconda.upgrade
-        self._install_grub = not self.anaconda.dispatch.stepInSkipList("instbootloader")
+        self._install_grub = not self.anaconda.dispatch.stepInSkipList(
+            "instbootloader")
 
     def doInstall(self, anaconda):
 
@@ -239,7 +240,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                     return True
 
                 # HACK: since swap device path value is potentially changed
-                # it is required to rewrite the fstab (circular dependency, sigh)
+                # it is required to rewrite the fstab
+                # (circular dependency, sigh)
                 self.anaconda.storage.fsset.write(
                     crypt_filter_callback=_crypt_filter_callback)
                 if swap_crypted and swap_dev_name_changed:
@@ -387,7 +389,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
             if swap_crypted:
                 # genkernel hardcoded bullshit, cannot change /dev/mapper/swap
-                # change inside swap_dev, fstabSpec should return /dev/mapper/swap
+                # change inside swap_dev, fstabSpec should return
+                # /dev/mapper/swap
                 swap_crypted = ("swap", swap_dev)
                 # if the swap device is on top of LVM LV device, don't
                 # force /dev/mapper/swap, because it's not going to work
@@ -409,7 +412,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 final_cmdline.append("real_resume=%s" % (swap_dev.fstabSpec,))
 
         # setup LVM
-        lvscan_out = commands.getoutput("LANG=C LC_ALL=C lvscan").split("\n")[0].strip()
+        lvscan_out = commands.getoutput("LANG=C LC_ALL=C lvscan").split(
+            "\n")[0].strip()
         if not lvscan_out.startswith("No volume groups found"):
             final_cmdline.append("dolvm")
 
@@ -625,7 +629,8 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             rc = anaconda.intf.messageWindow(_("Warning"),
                 _("The root filesystem you created is "
                   "not large enough for this live "
-                  "image (%.2f MB required). But I could be mistaken.") % ossize,
+                  "image (%.2f MB required). But I "
+                  "could be mistaken.") % ossize,
                 type = "custom",
                 custom_icon = "error",
                 custom_buttons=[_("_Back"),
