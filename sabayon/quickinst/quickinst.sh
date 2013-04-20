@@ -264,10 +264,13 @@ setup_language() {
 
     local _lang="en_US.UTF-8"  # default to en_US
     local lang_file="/etc/env.d/02locale"
+    local locale_conf_file="/etc/locale.conf"
     local chroot_lang_file="${_chroot}/${lang_file}"
+    local chroot_locale_conf_file="${_chroot}/${locale_conf_file}"
     if [ -f "${lang_file}" ]; then
         _lang=$(. "${lang_file}" && echo "${LANG}")
         cat "${lang_file}" > "${chroot_lang_file}" || return ${?}
+        cat "${locale_conf_file}" > "${chroot_locale_conf_file}" || return ${?}
     fi
 
     # write locale.gen

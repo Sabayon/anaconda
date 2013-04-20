@@ -807,12 +807,19 @@ module_radeon_args="modeset=1"
         # Prepare locale variables
 
         info = self._anaconda.instLanguage.info
-        f = open(self._root + "/etc/env.d/02locale", "w")
-        for key in info.keys():
-            if info[key] is not None:
-                f.write("%s=\"%s\"\n" % (key, info[key]))
-        f.flush()
-        f.close()
+
+        with open(self._root + "/etc/env.d/02locale", "w") as f:
+            for key in info.keys():
+                if info[key] is not None:
+                    f.write("%s=\"%s\"\n" % (key, info[key]))
+            f.flush()
+
+        # systemd support, same syntax as 02locale for now
+        with open(self._root + "/etc/locale.conf", "w") as f:
+            for key in info.keys():
+                if info[key] is not None:
+                    f.write("%s=\"%s\"\n" % (key, info[key]))
+            f.flush()
 
         # write locale.gen
         supported_file = "/usr/share/i18n/SUPPORTED"
