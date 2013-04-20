@@ -20,7 +20,9 @@
 import shutil
 import iutil
 import os
+
 from flags import flags
+from anaconda_log import PROGRAM_LOG_FILE
 
 import logging
 log = logging.getLogger("anaconda")
@@ -73,6 +75,25 @@ class Timezone:
                 f.write(item+"\n")
             f.flush()
             f.close()
+
+        # all this is ugly, but it's going away
+        # hopefully soon.
+        timedatectl = "/usr/bin/timedatectl"
+        if os.path.lexists(timedatectl):
+            if self.utc:
+                iutil.execWithRedirect(
+                    timedatectl, ["set-local-rtc", "0"],
+                    stdout = PROGRAM_LOG_FILE,
+                    stderr = PROGRAM_LOG_FILE)
+            else:
+                iutil.execWithRedirect(
+                    timedatectl, ["set-local-rtc", "1"],
+                    stdout = PROGRAM_LOG_FILE,
+                    stderr = PROGRAM_LOG_FILE)
+        # this writes /etc/adjtime, so copy it over
+        adjtime = "/etc/adjtime"
+        if os.path.isfile(adjtime):
+            shutil.copy2(adjtime, instPath + adjtime)
 
     def getTimezoneInfo(self):
         return (self.tz, self.utc)
