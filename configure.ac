@@ -142,13 +142,6 @@ PKG_CHECK_MODULES([DEVMAPPER], [devmapper >= 1.02.17])
 PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.19.5])
 PKG_CHECK_MODULES([LIBARCHIVE], [libarchive >= 2.7.902a])
 
-# Set $RPM_OPT_FLAGS if we don't have it
-if test -z $RPM_OPT_FLAGS ; then
-    CFLAGS="$CFLAGS -O2 -g -pipe -Wp,-D_FORTIFY_SOURCE=2 -fexceptions"
-else
-    CFLAGS="$CFLAGS $RPM_OPT_FLAGS"
-fi
-
 # SELinux support can be enabled or disabled
 AC_ARG_ENABLE(selinux,
     AC_HELP_STRING([--enable-selinux],
