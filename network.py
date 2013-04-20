@@ -644,13 +644,17 @@ class Network:
         f.flush()
         f.close()
 
-        # hostname
-        f = open(instPath+"/etc/conf.d/hostname","w")
+        hostname = self.hostname
         if not self.hostname:
-            self.hostname = "sabayon"
-        f.write("hostname=\""+self.hostname + "\"\n")
-        f.flush()
-        f.close()
+            hostname = "sabayon"
+        with open(instPath+"/etc/conf.d/hostname", "w") as f:
+            f.write("hostname=\""+hostname + "\"\n")
+            f.flush()
+        # systemd uses /etc/hostname
+        with open(instPath+"/etc/hostname", "w") as f:
+            f.write(hostname)
+            f.write("\n")
+            f.flush()
 
         # samba
         smb_cfg = instPath+"/etc/samba/smb.conf"
