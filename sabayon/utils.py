@@ -788,6 +788,21 @@ module_radeon_args="modeset=1"
                 con_f.write(line)
             con_f.flush()
 
+        # /etc/vconsole.conf support
+        vconsole_conf = self._root + "/etc/vconsole.conf"
+        content = []
+        if os.path.isfile(vconsole_conf):
+            with open(vconsole_conf, "r") as f:
+                for line in f.readlines():
+                    if line.startswith("FONT="):
+                        continue
+                    content.append(line)
+
+        content.append("FONT=%s\n" % (system_font,))
+        with open(vconsole_conf, "w") as f:
+            f.writelines(content)
+            f.flush()
+
     def setup_language(self):
         # Prepare locale variables
 
