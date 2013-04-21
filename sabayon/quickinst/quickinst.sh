@@ -301,12 +301,6 @@ setup_language() {
         cat "${console_file}" > "${chroot_console_file}" || return ${?}
     fi
 
-    # Setup LibreOffice (openoffice...) and other DEs languages
-    local opt
-    for opt in kde openoffice mozilla; do
-        exec_chroot "${_chroot}" /sbin/language-setup \
-            "${_lang/.*}" "${opt}" &> /dev/null
-    done
     return 0 # ignore failures in the loop above
 }
 

@@ -851,15 +851,6 @@ module_radeon_args="modeset=1"
             if os.path.isfile(system_font_path):
                 self._setup_consolefont(system_font)
 
-        localization = self._anaconda.instLanguage.instLang.split(".")[0]
-        # Configure KDE language
-        self.spawn_chroot(("/sbin/language-setup", localization, "kde"),
-            silent = True)
-        self.spawn_chroot(("/sbin/language-setup", localization, "openoffice"),
-            silent = True)
-        self.spawn_chroot(("/sbin/language-setup", localization, "mozilla"),
-            silent = True)
-
     def setup_nvidia_legacy(self):
 
         # Configure NVIDIA legacy drivers, if needed
