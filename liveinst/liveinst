@@ -90,6 +90,14 @@ function setup_vbox() {
 	fi
 }
 
+function setup_vconsole() {
+    if [ -x /usr/lib/systemd/systemd-vconsole-setup ] && \
+        [ -d /run/systemd/system ]; then
+        # Fixes terminal encoding, setting it to UTF8
+        /usr/lib/systemd/systemd-vconsole-setup
+    fi
+}
+
 if [ -n "$DISPLAY" -a -n "$LANG" ]; then
     INSTLANG="--lang $LANG"
 fi
@@ -104,6 +112,8 @@ ANACONDA="anaconda --liveinst --method=hd://://${ANACONDA_PRODUCTPATH}"
     ANACONDA="${ANACONDA} --text"
 [[ ! -e /selinux/load ]] && ANACONDA="$ANACONDA --noselinux"
 
+is_tty=$(tty | grep ^/dev/tty)
+[[ -n "${is_tty}" ]] && setup_vconsole
 kill_mounts
 setup_vbox
 
