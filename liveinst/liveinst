@@ -107,7 +107,7 @@ ANACONDA="anaconda --liveinst --method=hd://://${ANACONDA_PRODUCTPATH}"
 kill_mounts
 setup_vbox
 
-/sbin/udevadm control --env=ANACONDA=1
+udevadm control --env=ANACONDA=1
 
 if [ -x /usr/bin/udisks ] && [ -z "${SABAYON_DEBUG}" ]; then
     /usr/bin/udisks --inhibit -- $ANACONDA $*
