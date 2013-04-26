@@ -142,7 +142,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         self._progress.set_fraction(0.8)
         self._sabayon_install.configure_services()
-        self._sabayon_install.copy_udev()
         self._sabayon_install.env_update()
         self._sabayon_install.spawn_chroot("locale-gen", silent = True)
         self._sabayon_install.spawn_chroot("ldconfig")
