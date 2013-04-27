@@ -1401,7 +1401,8 @@ class BlkidTab(object):
 
 class CryptTab(object):
 
-    PATH = "/etc/conf.d/dmcrypt"
+    OPENRC_PATH = "/etc/conf.d/dmcrypt"
+    PATH = "/etc/crypttab"
 
     """ Dictionary-like interface to crypttab entries with map name keys """
     def __init__(self, devicetree, blkidTab=None, chroot=""):
@@ -1416,18 +1417,6 @@ class CryptTab(object):
         if not chroot or not os.path.isdir(chroot):
             chroot = ""
 
-        def _setup_mapping(name, device, keyfile, options, is_swap):
-            if not keyfile:
-                keyfile = "none"
-            if not options:
-                options = ""
-            self.mappings[name] = {
-                "device": device,
-                "keyfile": keyfile,
-                "options": options,
-                "is_swap": is_swap,
-            }
-
         path = "%s%s" % (chroot, CryptTab.PATH,)
         log.debug("parsing %s" % path)
         with open(path, "r") as f:
@@ -1438,46 +1427,26 @@ class CryptTab(object):
                 except Exception:
                     self.blkidTab = None
 
-            name = None
-            device = None
-            keyfile = None
-            options = None
-            is_swap = False
             for line in f.readlines():
-                line = line.strip()
-                if line.startswith("#"):
+                (line, pound, comment) = line.partition("#")
+                fields = line.split()
+                if not 2 <= len(fields) <= 4:
                     continue
-                if line.startswith("target=") or line.startswith("swap="):
-                    # setup mapping of previous entry
-                    if name and device:
-                        _setup_mapping(name, device, keyfile, options, is_swap)
+                elif len(fields) == 2:
+                    fields.extend(['none', ''])
+                elif len(fields) == 3:
+                    fields.append('')
 
-                    device = None
-                    keyfile = None
-                    options = None
-                    is_swap = False
-                    # add support for swap
-                    if line.startswith("target="):
-                        name = line[len("target="):].strip("'").strip('"').strip()
-                    else:
-                        name = line[len("swap="):].strip("'").strip('"').strip()
-                        is_swap = True
-                    continue
+                (name, devspec, keyfile, options) = fields
 
-                elif name and line.startswith("source="):
-                    devspec = line[len("source="):].strip("'").strip('"').strip()
-                    device = self.devicetree.resolveDevice(devspec,
-                        blkidTab=self.blkidTab)
-
-                elif name and line.startswith("key="):
-                    keyfile = line[len("key="):].strip("'").strip('"').strip()
-
-                elif name and line.startswith("options="):
-                    options = line[len("options="):].strip("'").strip('"').strip()
-
-            # setup remaining entries, if any
-            if name and device:
-                _setup_mapping(name, device, keyfile, options, is_swap)
+                # resolve devspec to a device in the tree
+                device = self.devicetree.resolveDevice(devspec,
+                                                       blkidTab=self.blkidTab)
+                if device:
+                    self.mappings[name] = {"device": device,
+                                           "keyfile": keyfile,
+                                           "options": options,
+                                           "is_swap": name == "swap",}
 
     def set_filter_callback(self, filter_callback):
         """ Set a new filter callback for filtering out entries from conf.d/dmcrypt """
@@ -1521,14 +1490,29 @@ class CryptTab(object):
         crypttab = ""
         for name in self.mappings:
             entry = self[name]
+            crypttab += "%s UUID=%s %s %s\n" % (name,
+                                                entry['device'].format.uuid,
+                                                entry['keyfile'],
+                                                entry['options'])
+        return crypttab
+
+    def openrc_crypttab(self):
+        """ Write out /etc/conf.d/dmcrypt """
+        crypttab = ""
+        for name in self.mappings:
+            entry = self[name]
+            keyfile = entry['keyfile']
+            if not keyfile:
+                keyfile = "none"
+
             is_swap = entry['is_swap']
             if is_swap:
                 crypttab += "swap='%s'\n" % name
             else:
                 crypttab += "target='%s'\n" % name
             crypttab += "source='%s'\n" % entry['device'].path
-            if entry['keyfile'] and (entry['keyfile'] != "none"):
-                crypttab += "key='%s'\n" % entry['keyfile']
+            if entry['keyfile'] and (keyfile != "none"):
+                crypttab += "key='%s'\n" % keyfile
             if entry['options']:
                 crypttab += "options='%s'\n" % entry['options']
             crypttab += "\n"
@@ -2175,18 +2159,27 @@ class FSSet(object):
         fstab = self.fstab()
         open(fstab_path, "w").write(fstab)
 
-        # /etc/conf.d/dmcrypt (Gentoo way, no /etc/crypttab)
+        crypttab = self.crypttab(filter_callback=crypt_filter_callback)
+
+        # /etc/crypttab
         crypttab_path = os.path.normpath("%s%s" % (instPath,
             CryptTab.PATH,))
-        crypttab = self.crypttab(filter_callback=crypt_filter_callback)
+        with open(crypttab_path, "w") as crypt_f:
+            crypt_f.write(crypttab.crypttab())
+        os.chmod(crypttab_path, 0o640)
+
+        # /etc/conf.d/dmcrypt
+        crypttab_path = os.path.normpath("%s%s" % (instPath,
+            CryptTab.OPENRC_PATH,))
         with open(crypttab_path, "w") as crypt_f:
             # this method should never use append, but we still need
             # to keep the descriptory lines of the original files.
             # this does the trick.
-            with open(CryptTab.PATH, "r") as orig_crypt_f:
+            with open(CryptTab.OPENRC_PATH, "r") as orig_crypt_f:
                 crypt_f.write(orig_crypt_f.read())
             crypt_f.write("\n")
-            crypt_f.write(crypttab)
+            crypt_f.write(crypttab.openrc_crypttab())
+        os.chmod(crypttab_path, 0o640)
 
         # /etc/multipath.conf
         multipath_path = os.path.normpath("%s/etc/multipath.conf" % instPath)
@@ -2219,7 +2212,7 @@ class FSSet(object):
             if not keep:
                 del self.cryptTab.mappings[name]
 
-        return self.cryptTab.crypttab()
+        return self.cryptTab
 
     def multipathConf(self):
         """ Return the contents of multipath.conf. """
