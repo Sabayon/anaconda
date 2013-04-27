@@ -469,6 +469,7 @@ class SabayonInstall:
 
         rc-update del sabayonlive boot default
         systemctl --no-reload disable sabayonlive.service
+        systemctl --no-reload enable x-setup.service
 
         rc-update add vixie-cron default
         systemctl --no-reload enable vixie-cron.service
