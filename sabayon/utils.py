@@ -445,6 +445,12 @@ class SabayonInstall:
             return True
         return False
 
+    def _is_systemd_running(self):
+        return os.path.isdir("/run/systemd/system")
+
+    def _is_openrc_running(self):
+        return os.path.exists("/run/openrc/softlevel")
+
     def configure_services(self):
 
         action = _("Configuring System Services")
@@ -512,6 +518,17 @@ class SabayonInstall:
             rc-update del %s boot default
             systemctl --no-reload disable %s.service
             """ % (FIREWALL_SERVICE, FIREWALL_SERVICE,), silent = True)
+
+        if self._is_systemd_running():
+            self.spawn_chroot("""\
+            eselect sysvinit set systemd
+            eselect settingsd set systemd
+            """, silent = True)
+        elif self._is_openrc_running():
+            self.spawn_chroot("""\
+            eselect sysvinit set sysvinit
+            eselect settingsd set openrc
+            """, silent = True)
 
         # XXX: hack
         # For GDM, set DefaultSession= to /etc/skel/.dmrc value
