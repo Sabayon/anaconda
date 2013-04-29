@@ -1033,7 +1033,7 @@ module_radeon_args="modeset=1"
 
             copy_update_counter += 1
             to_currentdir = currentdir[image_dir_len:]
-            for t_dir in ("/proc", "/dev", "sys"):
+            for t_dir in ("/proc", "/dev", "/sys"):
                 if to_currentdir.startswith(t_dir):
                     # don't touch subdirs
                     subdirs = []
@@ -1081,14 +1081,11 @@ module_radeon_args="modeset=1"
                 currentfile = fromfile[image_dir_len:]
 
                 if currentfile.startswith("/dev/"):
-                    if currentfile != "/dev/.keep":
-                        continue
+                    continue
                 if currentfile.startswith("/proc/"):
-                    if currentfile != "/proc/.keep":
-                        continue
+                    continue
                 if currentfile.startswith("/sys/"):
-                    if currentfile != "/sys/.keep":
-                        continue
+                    continue
 
                 try:
                     # if file is in the ignore list
