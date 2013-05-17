@@ -2250,7 +2250,7 @@ class FSSet(object):
         devices = sorted(self.mountpoints.values(),
                          key=lambda d: d.format.mountpoint)
         devices += self.swapDevices
-        devices.append(self.tmp)
+        devices.extend([self.devshm, self.tmp])
         netdevs = self.devicetree.getDevicesByInstance(NetworkStorageDevice)
         for device in devices:
             # why the hell do we put swap in the fstab, anyway?
