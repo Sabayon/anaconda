@@ -2066,7 +2066,9 @@ int get_connection(iface_t *iface) {
                   iface->device, 0);
     }
 
+#if !defined(GLIB_VERSION_2_36)
     g_type_init();
+#endif
 
     client = nm_client_new();
     if (!client) {

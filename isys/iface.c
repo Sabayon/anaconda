@@ -176,7 +176,9 @@ char *iface_ip2str(char *ifname, int family) {
         return NULL;
     }
 
+#if !defined(GLIB_VERSION_2_36)
     g_type_init();
+#endif
 
     client = nm_client_new();
     if (!client) {
@@ -412,7 +414,9 @@ gboolean is_nm_connected(void) {
     NMState state;
     NMClient *client = NULL;
 
+#if !defined(GLIB_VERSION_2_36)
     g_type_init();
+#endif
 
     client = nm_client_new();
     if (!client)
@@ -432,7 +436,9 @@ gboolean is_nm_running(void) {
     gboolean running;
     NMClient *client = NULL;
 
+#if !defined(GLIB_VERSION_2_36)
     g_type_init();
+#endif
 
     client = nm_client_new();
     if (!client)

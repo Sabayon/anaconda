@@ -419,7 +419,9 @@ int getFileFromNfs(char * url, char * dest, struct loaderData_s * loaderData) {
      * the dhcp/bootp information
      */
     if (!url) {
+#if !defined(GLIB_VERSION_2_36)
         g_type_init();
+#endif
 
         client = nm_client_new();
         if (!client) {
