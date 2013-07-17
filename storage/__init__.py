@@ -1696,7 +1696,16 @@ class FSSet(object):
         # make sure, if we're using a device from the tree, that
         # the device's format we found matches what's in the fstab
         fmt = getFormat(fstype, device=device.path)
-        if fmt.type != device.format.type:
+
+        # /boot/efi can have a partition type of EFh while containing a
+        # vfat partition. Handle this case and fixup the partition type
+        is_efi_fmt = device.format.type == "efi"
+        if fstype == "vfat" and mountpoint == "/boot/efi" and is_efi_fmt:
+            # This is triggered in the bootloader restore path
+            log.warning(
+                "/boot/efi is vfat but has partition type set to 'efi', okay..."
+                )
+        elif fmt.type != device.format.type:
             raise StorageError("scanned format (%s) differs from fstab "
                         "format (%s)" % (device.format.type, fstype))
 
