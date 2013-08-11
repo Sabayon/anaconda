@@ -602,6 +602,17 @@ module_radeon_args="modeset=1"
             """
             self.spawn_chroot(bb_script, silent = True)
 
+            udev_bl = self._root + "/etc/modprobe.d/bbswitch-blacklist.conf"
+            with open(udev_bl, "w") as bl_f:
+                bl_f.write("""\
+# Added by the Sabayon Installer to avoid a race condition
+# between udev loading nvidia.ko or nouveau.ko and bbswitch,
+# which wants to manage the driver itself.
+blacklist nvidia
+blacklist nouveau
+""")
+
+
     def _get_opengl(self, chroot = None):
         """
         get the current OpenGL subsystem (ati,nvidia,xorg-x11)
