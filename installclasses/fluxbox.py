@@ -44,6 +44,9 @@ class InstallClass(BaseInstallClass):
             pixmap = _pix_path
 
     dmrc = "fluxbox"
+    if Entropy().is_sabayon_steambox():
+        dmrc = "steambox"
+
     _description = N_("Select this installation type for a default installation "
          "with the Fluxbox geeky minimal environment. "
          "After this installation process you will "

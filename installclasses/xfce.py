@@ -44,6 +44,9 @@ class InstallClass(BaseInstallClass):
             pixmap = _pix_path
 
     dmrc = "xfce"
+    if Entropy().is_sabayon_steambox():
+        dmrc = "steambox"
+
     _description = N_("Select this installation type for a default installation "
          "with the XFCE desktop environment. "
          "A small lightweight and functional working environment at your service.")

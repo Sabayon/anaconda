@@ -43,7 +43,11 @@ class InstallClass(BaseInstallClass):
             pixmap = _pix_path
 
     name = N_("Sabayon GNOME Desktop")
+
     dmrc = "gnome"
+    if Entropy().is_sabayon_steambox():
+        dmrc = "steambox"
+
     _description = N_("Select this installation type for a default installation "
                      "with the GNOME desktop environment. "
                      "After this installation process you will "

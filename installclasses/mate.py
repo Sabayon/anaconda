@@ -44,6 +44,9 @@ class InstallClass(BaseInstallClass):
 
     name = N_("Sabayon MATE Desktop")
     dmrc = "mate"
+    if Entropy().is_sabayon_steambox():
+        dmrc = "steambox"
+
     _description = N_("Select this installation type for a default installation "
                      "with the MATE desktop environment. "
                      "After this installation process you will "
