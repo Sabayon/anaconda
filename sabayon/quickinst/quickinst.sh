@@ -32,6 +32,8 @@ QROOT_PASS=${QROOT_PASS:-keeg}
 NM_NETWORK="${NM_NETWORK:-1}"
 # Sabayon Media Center mode? "1" for Yes, "0" for No
 SABAYON_MCE="${SABAYON_MCE:-0}"
+# Sabayon Steam Box mode? "1" for Yes, "0" for No
+SABAYON_STEAMBOX="${SABAYON_STEAMBOX:-0}"
 # Firewall configuration, enable firewall? "1" for Yes, "0" for No
 FIREWALL="${FIREWALL:-1}"
 
@@ -679,6 +681,12 @@ setup_services() {
             rc-update del sabayon-mce boot default &>/dev/null
         sd_disable "${_chroot}" sabayon-mce
     fi
+    if [ "${SABAYON_STEAMBOX}" = "0" ]; then
+        exec_chroot "${_chroot}" \
+            rc-update del steambox boot default &>/dev/null
+        sd_disable "${_chroot}" steambox
+    fi
+
     if [ -e "${_chroot}/etc/init.d/dmcrypt" ]; then
         exec_chroot "${_chroot}" \
             rc-update add dmcrypt boot

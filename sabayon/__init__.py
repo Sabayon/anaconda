@@ -84,6 +84,15 @@ class Entropy(Client):
                     return True
             return False
 
+    @staticmethod
+    def is_sabayon_steambox():
+        with open("/proc/cmdline", "r") as cmd_f:
+            args = cmd_f.readline().strip().split()
+            for tstr in ("steaminstall", "steambox"):
+                if tstr in args:
+                    return True
+            return False
+
 # in this way, any singleton class that tries to directly load Client
 # gets Entropy in change
 Client.__singleton_class__ = Entropy

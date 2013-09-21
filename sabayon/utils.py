@@ -460,6 +460,10 @@ class SabayonInstall:
         if not Entropy.is_sabayon_mce():
             is_sabayon_mce = "0"
 
+        is_sabayon_steambox = "1"
+        if not Entropy.is_sabayon_steambox():
+            is_sabayon_steambox = "0"
+
         # Remove Installer services
         config_script = """\
         rc-update del installer-gui boot default
@@ -492,6 +496,12 @@ class SabayonInstall:
             rc-update del sabayon-mce boot
             rc-update del sabayon-mce default
             systemctl --no-reload disable sabayon-mce.service
+        fi
+
+        if [ "0" = """+is_sabayon_steambox+""" ]; then
+            rc-update del steambox boot
+            rc-update del steambox default
+            systemctl --no-reload disable steambox.service
         fi
 
         cd /etc/init.d && ln -s net.lo net.eth0
