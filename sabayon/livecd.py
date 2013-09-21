@@ -316,7 +316,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             "splash", "console=", "pci=routeirq", "irqpoll", "nohdparm", "pci=",
             "floppy.floppy=", "all-generic-ide", "gentoo=", "res=", "hsync=",
             "refresh=", "noddc", "xdriver=", "onlyvesa", "nvidia=", "dodmraid",
-            "dmraid", "sabayonmce", "steambox", "quiet", "scandelay=",
+            "dmraid", "sabayonmce", "quiet", "scandelay=",
             "doslowusb", "docrypt", "dokeymap", "keymap=", "radeon.modeset=",
             "modeset=", "nomodeset", "domdadm"]
 
@@ -326,10 +326,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # Sabayon MCE install -> MCE support
         if Entropy.is_sabayon_mce() and ("sabayonmce" not in cmdline):
             cmdline.append("sabayonmce")
-
-        # Sabayon Steam Box support
-        if Entropy.is_sabayon_steambox() and ("steambox" not in cmdline):
-            cmdline.append("steambox")
 
         # Setup genkernel (init) keyboard layout
         if gk_kbd is not None:
