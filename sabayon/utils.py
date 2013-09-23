@@ -397,6 +397,19 @@ class SabayonInstall:
 
         return 0
 
+    def _configure_steambox(self):
+        if not Entropy.is_sabayon_steambox():
+            return
+
+        steambox_user_file = self._root + "/etc/sabayon/steambox-user"
+        steambox_user_dir = os.path.dirname(steambox_user_file)
+        if not os.path.isdir(steambox_user_dir):
+            os.makedirs(steambox_user_dir, 0755)
+
+        steambox_user = self._anaconda.users.otherUsers[LIVE_USER]['username']
+        with open(steambox_user_file, "w") as f:
+            f.write(steambox_user)
+
     def _configure_skel(self):
 
         # copy Rigo on the desktop
@@ -643,6 +656,9 @@ blacklist nouveau
 
         # configure .desktop files on Desktop
         self._configure_skel()
+
+        # configure steambox user
+        self._configure_steambox()
 
         # remove live user and its home dir
         pid = os.fork()
