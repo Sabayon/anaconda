@@ -196,7 +196,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             # HACK: since Anaconda doesn't support grub2 yet
             # Grub configuration is disabled
             # and this code overrides it
-            encrypted, root_crypted, swap_crypted = self._setup_grub2()
+            encrypted, swap_crypted = self._setup_grub2()
             swap_dev_name_changed = False
             if encrypted:
                 swap_dev = None
@@ -212,12 +212,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                         old_swap_name = swap_dev._name
                         swap_dev._name = swap_name
                         swap_dev_name_changed = True
-
-                if root_crypted:
-                    root_name, root_dev = root_crypted
-                    old_root_name = root_dev._name
-                    if root_name == "root": # comes from /dev/mapper/root
-                        root_dev._name = root_name
 
                 def _crypt_filter_callback(cb_dev):
                     # this is required in order to not get
@@ -243,8 +237,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                     crypt_filter_callback=_crypt_filter_callback)
                 if swap_crypted and swap_dev_name_changed:
                     swap_dev._name = old_swap_name
-                if root_crypted:
-                    root_dev._name = old_root_name
 
         self._copy_logs()
         # also remove hw.hash
@@ -426,70 +418,17 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 root_crypted = True
                 break
 
-        # - in case of real device being crypted, crypto_dev is
-        #   a storage.devices.PartitionDevice object
-        # - in case of crypt over lvm, crypto_dev is
-        #   storage.devices.LVMLogicalVolumeDevice
-
-        # crypt over raid?
-
-        def is_parent_a_simple_device(root_device):
-            if not hasattr(root_device, 'parents'):
-                return False
-            for parent in root_device.parents:
-                if not isinstance(parent, storage.devices.PartitionDevice):
-                    return False
-            return True
-
-        def is_parent_a_md_device(root_device):
-            if not hasattr(root_device, 'parents'):
-                return False
-            for parent in root_device.parents:
-                if isinstance(parent, storage.devices.MDRaidArrayDevice):
-                    return True
-            return False
-
-        def is_parent_a_lv_device(root_device):
-            if not hasattr(root_device, 'parents'):
-                return False
-            for parent in root_device.parents:
-                if isinstance(parent, storage.devices.LVMVolumeGroupDevice):
-                    return True
-            return False
-
-        def translate_real_root(root_device, crypted):
-            # crypt over anything, == "/dev/mapper/root"
-            if crypted and isinstance(root_device, storage.devices.LUKSDevice):
-                return "/dev/mapper/root"
-            if crypted and is_parent_a_md_device(root_device):
-                return "/dev/mapper/root"
-            if crypted and is_parent_a_simple_device(root_device):
-                return "/dev/mapper/root"
-
-            # not needed anymore with grub 1.99
-            # if isinstance(root_device, storage.devices.MDRaidArrayDevice):
-            #    return root_device.path
-            return root_device.fstabSpec
-
         crypt_root = None
         if root_crypted:
             log.info("Root crypted? %s, %s, crypto_dev: %s" % (root_crypted,
                 root_device.path, crypto_dev.fstabSpec))
 
-            translated_real_root = translate_real_root(root_device, True)
-            root_crypted = (os.path.basename(translated_real_root), root_device)
             # must use fstabSpec now, since latest genkernel supports it
-            final_cmdline.append("root=%s crypt_root=%s" % (
-                translated_real_root, crypto_dev.fstabSpec,))
+            final_cmdline.append("crypt_root=%s" % (crypto_dev.fstabSpec,))
             # due to genkernel initramfs stupidity, when crypt_root = crypt_swap
             # do not add crypt_swap.
             if delayed_crypt_swap == crypto_dev.path:
                 delayed_crypt_swap = None
-
-        else:
-            log.info("Root crypted? Nope!")
-            final_cmdline.append("root=%s" % (
-                translate_real_root(root_device, False),))
 
         # always add docrypt, loads kernel mods required by cryptsetup devices
         if "docrypt" not in final_cmdline:
@@ -528,7 +467,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._write_grub2(cmdline_str, grub_target)
         # disable Anaconda bootloader code
         self.anaconda.bootloader.defaultDevice = -1
-        return root_crypted or swap_crypted, root_crypted, swap_crypted
+        return root_crypted or swap_crypted, swap_crypted
 
     def _write_grub2(self, cmdline, grub_target):
 
