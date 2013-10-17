@@ -535,13 +535,11 @@ class SabayonInstall:
 
         if self._is_systemd_running():
             self.spawn_chroot("""\
-            eselect sysvinit set systemd
-            eselect settingsd set systemd
+            eselect init set systemd
             """, silent = True)
         elif self._is_openrc_running():
             self.spawn_chroot("""\
-            eselect sysvinit set sysvinit
-            eselect settingsd set openrc
+            eselect init set sysvinit
             """, silent = True)
 
         # XXX: hack
