@@ -192,51 +192,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         log.info("Do we need to run GRUB2 setup? => %s" % (self._install_grub,))
 
         if self._install_grub:
-
             # HACK: since Anaconda doesn't support grub2 yet
             # Grub configuration is disabled
             # and this code overrides it
-            encrypted, swap_crypted = self._setup_grub2()
-            swap_dev_name_changed = False
-            if encrypted:
-                swap_dev = None
-                root_dev = None
-                if swap_crypted:
-                    # in case of encrypted swap_dev sitting on top of
-                    # LVMLogicalVolumeDevice, do not force fstabSpec
-                    # to /dev/mapper/swap, otherwise fstab will end up
-                    # having wrong devspec.
-                    swap_name, swap_dev = swap_crypted
-                    if not isinstance(swap_dev,
-                                  storage.devices.LVMLogicalVolumeDevice):
-                        old_swap_name = swap_dev._name
-                        swap_dev._name = swap_name
-                        swap_dev_name_changed = True
-
-                def _crypt_filter_callback(cb_dev):
-                    # this is required in order to not get
-                    # crypt root device and crypt swap written
-                    # into /etc/conf.d/dmcrypt, as per bug #2522
-                    handled_devs = [swap_dev, root_dev]
-                    # use is and not ==, so, loop manually
-                    for handled_dev in handled_devs:
-                        if cb_dev is handled_dev:
-                            # we are already handling this device,
-                            # so skip it
-                            return False
-                        if handled_dev is not None:
-                            if handled_dev.dependsOn(cb_dev):
-                                # already handling this device, root dev?
-                                return False
-                    return True
-
-                # HACK: since swap device path value is potentially changed
-                # it is required to rewrite the fstab
-                # (circular dependency, sigh)
-                self.anaconda.storage.fsset.write(
-                    crypt_filter_callback=_crypt_filter_callback)
-                if swap_crypted and swap_dev_name_changed:
-                    swap_dev._name = old_swap_name
+            self._setup_grub2()
 
         self._copy_logs()
         # also remove hw.hash
@@ -314,6 +273,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
 
         # use reference, yeah
         cmdline = self._sabayon_install.cmdline
+        final_cmdline = []
 
         # Sabayon MCE install -> MCE support
         if Entropy.is_sabayon_mce() and ("sabayonmce" not in cmdline):
@@ -347,8 +307,13 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         if "domdadm" not in cmdline:
             cmdline.append("domdadm")
 
+        # setup LVM
+        lvscan_out = commands.getoutput("LANG=C LC_ALL=C lvscan").split(
+            "\n")[0].strip()
+        if not lvscan_out.startswith("No volume groups found"):
+            final_cmdline.append("dolvm")
+
         previous_vga = None
-        final_cmdline = []
         for arg in cmdline:
             for check in ourargs:
                 if arg.startswith(check):
@@ -366,52 +331,9 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         # device.format.options, device.path, device.fstabSpec
         root_crypted = False
         swap_crypted = False
-        delayed_crypt_swap = None
-        any_crypted = len(fsset.cryptTab.mappings.keys()) > 0
-
-        if swap_devices:
-            log.info("Found swap devices: %s" % (swap_devices,))
-            swap_dev = swap_devices[0]
-
-            swap_crypto_dev = None
-            for name in fsset.cryptTab.mappings.keys():
-                swap_crypto_dev = fsset.cryptTab[name]['device']
-                if swap_dev == swap_crypto_dev or swap_dev.dependsOn(
-                    swap_crypto_dev):
-                    swap_crypted = True
-                    break
-
-            if swap_crypted:
-                # genkernel hardcoded bullshit, cannot change /dev/mapper/swap
-                # change inside swap_dev, fstabSpec should return
-                # /dev/mapper/swap
-                swap_crypted = ("swap", swap_dev)
-                # if the swap device is on top of LVM LV device, don't
-                # force /dev/mapper/swap, because it's not going to work
-                # with current genkernel.
-                if not isinstance(swap_dev,
-                                  storage.devices.LVMLogicalVolumeDevice):
-                    final_cmdline.append("resume=swap:/dev/mapper/swap")
-                    final_cmdline.append("real_resume=/dev/mapper/swap")
-                else:
-                    final_cmdline.append("resume=swap:%s" % (
-                            swap_dev.fstabSpec,))
-                    final_cmdline.append("real_resume=%s" % (
-                            swap_dev.fstabSpec,))
-                # NOTE: cannot use swap_crypto_dev.fstabSpec because
-                # genkernel doesn't support UUID= on crypto
-                delayed_crypt_swap = swap_crypto_dev.path
-            else:
-                final_cmdline.append("resume=swap:%s" % (swap_dev.fstabSpec,))
-                final_cmdline.append("real_resume=%s" % (swap_dev.fstabSpec,))
-
-        # setup LVM
-        lvscan_out = commands.getoutput("LANG=C LC_ALL=C lvscan").split(
-            "\n")[0].strip()
-        if not lvscan_out.startswith("No volume groups found"):
-            final_cmdline.append("dolvm")
-
         crypto_dev = None
+        swap_crypto_dev = None
+
         for name in fsset.cryptTab.mappings.keys():
             crypto_dev = fsset.cryptTab[name]['device']
             if root_device == crypto_dev or root_device.dependsOn(crypto_dev):
@@ -422,33 +344,61 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         if root_crypted:
             log.info("Root crypted? %s, %s, crypto_dev: %s" % (root_crypted,
                 root_device.path, crypto_dev.fstabSpec))
-
             # must use fstabSpec now, since latest genkernel supports it
             final_cmdline.append("crypt_root=%s" % (crypto_dev.fstabSpec,))
-            # due to genkernel initramfs stupidity, when crypt_root = crypt_swap
-            # do not add crypt_swap.
-            if delayed_crypt_swap == crypto_dev.path:
-                delayed_crypt_swap = None
+
+        if swap_devices:
+            log.info("Found swap devices: %s" % (swap_devices,))
+            # TODO(lxnay): support multiple crypt_swap=
+            swap_dev = swap_devices[0]
+
+            for name in fsset.cryptTab.mappings.keys():
+                swap_crypto_dev = fsset.cryptTab[name]['device']
+                swap_depends = swap_dev.dependsOn(swap_crypto_dev)
+                log_s = "Checking cryptTab name=%s, swap_crypto_dev=%s {%s}, "
+                log_s += "crypto_dev=%s {%s}, swap_dev.dependsOn(swap)=%s"
+                log.info(log_s % (
+                        name, swap_crypto_dev, swap_crypto_dev.fstabSpec,
+                        crypto_dev, crypto_dev.fstabSpec, swap_depends))
+                if swap_dev == swap_crypto_dev or swap_depends:
+                    swap_crypted = True
+                    break
+
+            log.info("swap_crypted set to %s" % (swap_crypted,))
+
+            # Use .path instead of fstabSpec for cmdline because
+            # genkernel must create an appropriate device node
+            # inside /dev/mapper/ that starts with luks-<UUID>
+            # so that the generic /dev/mapper/swap will not be used
+            # and systemd won't shit in its pants.
+            final_cmdline.append("resume=%s" % (swap_dev.path,))
+            if swap_crypted:
+                add_crypt_swap = True
+                if root_crypted and crypto_dev is not None:
+                    if crypto_dev.fstabSpec == swap_crypto_dev.fstabSpec:
+                        # due to genkernel initramfs stupidity,
+                        # when crypt_root = crypt_swap
+                        # do not add crypt_swap.
+                        add_crypt_swap = False
+
+                if add_crypt_swap:
+                    # must use fstabSpec now, since latest genkernel supports it
+                    final_cmdline.append(
+                        "crypt_swap=%s" % (swap_crypto_dev.fstabSpec,))
+                else:
+                    log.info("Not adding crypt_swap= because "
+                             "crypto_dev == swap_crypto_dev")
 
         # always add docrypt, loads kernel mods required by cryptsetup devices
         if "docrypt" not in final_cmdline:
             final_cmdline.append("docrypt")
 
-        if delayed_crypt_swap:
-            final_cmdline.append("crypt_swap=%s" % (delayed_crypt_swap,))
-
         log.info("Generated boot cmdline: %s" % (final_cmdline,))
-
-        return final_cmdline, root_crypted, swap_crypted, any_crypted
+        return final_cmdline
 
     def _setup_grub2(self):
 
-        cmdline_args, root_crypted, swap_crypted, any_crypted = \
-            self._get_bootloader_args()
-
-        log.info("_setup_grub2, cmdline_args: %s | "
-            "root_crypted: %s | swap_crypted: %s" % (cmdline_args,
-            root_crypted, swap_crypted,))
+        cmdline_args = self._get_bootloader_args()
 
         # "sda" <string>
         grub_target = self.anaconda.bootloader.getDevice()
@@ -467,7 +417,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._write_grub2(cmdline_str, grub_target)
         # disable Anaconda bootloader code
         self.anaconda.bootloader.defaultDevice = -1
-        return root_crypted or swap_crypted, swap_crypted
 
     def _write_grub2(self, cmdline, grub_target):
 
