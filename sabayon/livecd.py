@@ -268,7 +268,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             "floppy.floppy=", "all-generic-ide", "gentoo=", "res=", "hsync=",
             "refresh=", "noddc", "xdriver=", "onlyvesa", "nvidia=", "dodmraid",
             "dmraid", "sabayonmce", "steambox", "quiet", "scandelay=",
-            "doslowusb", "docrypt", "dokeymap", "keymap=", "radeon.modeset=",
+            "doslowusb", "dokeymap", "keymap=", "radeon.modeset=",
             "modeset=", "nomodeset", "domdadm"]
 
         # use reference, yeah
@@ -388,10 +388,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 else:
                     log.info("Not adding crypt_swap= because "
                              "crypto_dev == swap_crypto_dev")
-
-        # always add docrypt, loads kernel mods required by cryptsetup devices
-        if "docrypt" not in final_cmdline:
-            final_cmdline.append("docrypt")
 
         log.info("Generated boot cmdline: %s" % (final_cmdline,))
         return final_cmdline
