@@ -295,6 +295,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         if root_is_removable:
             cmdline.append("scandelay=10")
 
+        # TODO(lxnay): drop this when genkernel-next-39 is rolled out
         # check if root device is ext2, ext3 or ext4. In case,
         # add rootfstype=ext* to avoid genkernel crap to mount
         # it wrongly (for example: ext3 as ext2).
