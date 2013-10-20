@@ -304,8 +304,10 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         if root_dev_type in ("ext2", "ext3", "ext4"):
             cmdline.append("rootfstype=" + root_dev_type)
 
-        # always add md support (we don't know if md have been created)
-        if "domdadm" not in cmdline:
+        raid_devs = self.anaconda.storage.mdarrays
+        raid_devs += self.anaconda.storage.mdcontainers
+        # only add domdadm if we managed to configure some kind of raid
+        if raid_devs and "domdadm" not in cmdline:
             cmdline.append("domdadm")
 
         # setup LVM
