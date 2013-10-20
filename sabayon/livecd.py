@@ -329,23 +329,20 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         root_device = self.anaconda.storage.rootDevice
         # device.format.mountpoint, device.format.type, device.format.mountable,
         # device.format.options, device.path, device.fstabSpec
-        root_crypted = False
-        swap_crypted = False
-        crypto_dev = None
         swap_crypto_dev = None
 
+        root_crypto_devs = []
         for name in fsset.cryptTab.mappings.keys():
-            crypto_dev = fsset.cryptTab[name]['device']
-            if root_device == crypto_dev or root_device.dependsOn(crypto_dev):
-                root_crypted = True
-                break
+            root_crypto_dev = fsset.cryptTab[name]['device']
+            if root_device == root_crypto_dev or \
+                    root_device.dependsOn(root_crypto_dev):
+                root_crypto_devs.append(root_crypto_dev)
 
-        crypt_root = None
-        if root_crypted:
-            log.info("Root crypted? %s, %s, crypto_dev: %s" % (root_crypted,
-                root_device.path, crypto_dev.fstabSpec))
+        log.info("Found root crypt devices: %s" % (root_crypto_devs,))
+        for root_crypto_dev in root_crypto_devs:
             # must use fstabSpec now, since latest genkernel supports it
-            final_cmdline.append("crypt_root=%s" % (crypto_dev.fstabSpec,))
+            final_cmdline.append("crypt_roots=%s" % (
+                    root_crypto_dev.fstabSpec,))
 
 
         log.info("Found swap devices: %s" % (swap_devices,))
@@ -359,17 +356,15 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                 swap_depends = swap_dev.dependsOn(swap_crypto_dev)
                 log_s = "Checking cryptTab name=%s, swap_dev=%s,"
                 log_s += "swap_crypto_dev=%s {%s}, "
-                log_s += "crypto_dev=%s {%s}, swap_dev.dependsOn(swap)=%s"
+                log_s += "swap_dev.dependsOn(swap)=%s"
                 log.info(log_s % (
                         name, swap_dev, swap_crypto_dev,
-                        swap_crypto_dev.fstabSpec, crypto_dev,
-                        crypto_dev.fstabSpec, swap_depends))
+                        swap_crypto_dev.fstabSpec, swap_depends))
                 if swap_dev == swap_crypto_dev or swap_depends:
-                    swap_crypted = True
                     this_swap_crypted = True
                     break
 
-            log.info("swap_crypted set to %s" % (swap_crypted,))
+            log.info("this_swap_crypted set to %s" % (this_swap_crypted,))
 
             # Use .path instead of fstabSpec for cmdline because
             # genkernel must create an appropriate device node
@@ -379,12 +374,13 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             final_cmdline.append("resume=%s" % (swap_dev.path,))
             if this_swap_crypted:
                 add_crypt_swap = True
-                if root_crypted and crypto_dev is not None:
-                    if crypto_dev.fstabSpec == swap_crypto_dev.fstabSpec:
+                for root_crypto_dev in root_crypto_devs:
+                    if root_crypto_dev.fstabSpec == swap_crypto_dev.fstabSpec:
                         # due to genkernel initramfs stupidity,
                         # when crypt_root = crypt_swap
                         # do not add crypt_swap.
                         add_crypt_swap = False
+                        break
 
                 if add_crypt_swap:
                     # must use fstabSpec now, since latest genkernel supports it
@@ -392,7 +388,7 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
                         "crypt_swaps=%s" % (swap_crypto_dev.fstabSpec,))
                 else:
                     log.info("Not adding crypt_swap= because "
-                             "crypto_dev == swap_crypto_dev")
+                             "swap_crypto_dev is in root_crypto_devs")
 
         log.info("Generated boot cmdline: %s" % (final_cmdline,))
         return final_cmdline
