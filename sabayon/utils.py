@@ -440,13 +440,28 @@ class SabayonInstall:
             desk_path = os.path.join(autostart_dir, desk_name)
             shutil.copy2(orig_welcome_desk, desk_path)
 
-    def _is_virtualbox(self):
-        if not os.path.isfile("/etc/init.d/virtualbox-guest-additions"):
-            return False
-        sts = os.system("/usr/sbin/lspci -n | grep \" 80ee:\" &> /dev/null")
-        if sts == 0:
-            return True
-        return False
+    def _detect_virt(self):
+        """
+        Return a virtualization environment identifier using
+        systemd-detect-virt. This code is systemd only.
+        """
+        proc = subprocess.Popen(
+            ["/usr/bin/systemd-detect-virt"],
+            stdout=subprocess.PIPE)
+        exit_st = proc.wait()
+        outcome = proc.stdout.read(256)
+        proc.stdout.close()
+        if exit_st == 0:
+            return outcome.strip()
+
+    def is_virtualbox(self):
+        return self._detect_virt() == "oracle"
+
+    def is_kvm(self):
+        return self._detect_virt() == "kvm"
+
+    def is_hyperv(self):
+        return self._detect_virt() == "microsoft"
 
     def _is_encrypted(self):
         if self._anaconda.storage.encryptionPassphrase:
@@ -511,7 +526,7 @@ class SabayonInstall:
         """
         self.spawn_chroot(config_script, silent = True)
 
-        if self._is_virtualbox():
+        if self.is_virtualbox():
             self.spawn_chroot("""\
             rc-update add virtualbox-guest-additions boot
             systemctl --no-reload enable virtualbox-guest-additions.service
