@@ -269,11 +269,14 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
             "refresh=", "noddc", "xdriver=", "onlyvesa", "nvidia=", "dodmraid",
             "dmraid", "sabayonmce", "steambox", "quiet", "scandelay=",
             "doslowusb", "dokeymap", "keymap=", "radeon.modeset=",
-            "modeset=", "nomodeset", "domdadm"]
+            "modeset=", "nomodeset", "domdadm", "dohyperv"]
 
         # use reference, yeah
         cmdline = self._sabayon_install.cmdline
         final_cmdline = []
+
+        if self._sabayon_install.is_hyperv() and ("dohyperv" not in cmdline):
+            cmdline.append("dohyperv")
 
         # Sabayon MCE install -> MCE support
         if Entropy.is_sabayon_mce() and ("sabayonmce" not in cmdline):
