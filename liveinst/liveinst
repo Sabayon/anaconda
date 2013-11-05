@@ -48,6 +48,12 @@ export ANACONDA_PRODUCTARCH="$(cat /etc/sabayon-release | cut -d' ' -f 3)"
 export ANACONDA_BUGURL="http://bugs.sabayon.org"
 export PIXMAPPATH="/usr/share/anaconda/pixmaps"
 
+# Fix for Sabayon bug #4469
+if [ -z "$DISPLAY" ]; then
+    _SITEPKGS=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+    export PYTHONPATH="${_SITEPKGS}/pyanaconda:${PYTHONPATH}"
+fi
+
 function kill_mounts() {
     # devkit-disks is now mounting lots of stuff.  for now, let's just try to unmount it all
     umount /media/* &> /dev/null
