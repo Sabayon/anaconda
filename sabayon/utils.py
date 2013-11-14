@@ -518,6 +518,8 @@ class SabayonInstall:
             rc-update del sabayon-mce boot
             rc-update del sabayon-mce default
             systemctl --no-reload disable sabayon-mce.service
+        else
+            systemctl --no-reload enable NetworkManager-wait-online.service
         fi
 
         cd /etc/init.d && ln -s net.lo net.eth0
