@@ -46,6 +46,7 @@ class Platform(object):
     _supportsMdRaidBoot = False
     _minBootPartSize = 50
     _maxBootPartSize = 0
+    _useBootPartition = False
 
     def __init__(self, anaconda):
         """Creates a new Platform object.  This is basically an abstract class.
@@ -125,8 +126,8 @@ class Platform(object):
                         break
 
         # can't have bootable partition on LV
-        if req.type == "lvmlv":
-            errors.append(_("Bootable partitions cannot be on a logical volume."))
+        #if req.type == "lvmlv":
+        #    errors.append(_("Bootable partitions cannot be on a logical volume."))
 
         # Make sure /boot is on a supported FS type.  This prevents crazy
         # things like boot on vfat.
@@ -165,8 +166,13 @@ class Platform(object):
 
     def setDefaultPartitioning(self):
         """Return the default platform-specific partitioning information."""
-        return [PartSpec(mountpoint="/boot", fstype=self.defaultBootFSType, size=500,
-                         weight=self.weight(mountpoint="/boot"))]
+        parts = []
+        if self._useBootPartition:
+            parts.append(
+                PartSpec(mountpoint="/boot", fstype=self.defaultBootFSType,
+                         size=500, weight=self.weight(mountpoint="/boot"))
+                )
+        return parts
 
     @property
     def supportsMdRaidBoot(self):
