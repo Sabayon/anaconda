@@ -185,7 +185,7 @@ def doAutoPartition(anaconda):
     if anaconda.storage.doAutoPart:
         (disks, devs) = _createFreeSpacePartitions(anaconda)
 
-        if disks == []:
+        if not disks:
             if anaconda.ksdata:
                 msg = _("Could not find enough free space for automatic "
                         "partitioning.  Press 'OK' to exit the installer.")
