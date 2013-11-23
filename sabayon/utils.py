@@ -312,15 +312,34 @@ class SabayonInstall:
             _set_mute(True)
 
         try:
+            action_factory = self._entropy.PackageActionFactory()
+            install_action = action_factory.INSTALL_ACTION
+            fetch_action = action_factory.FETCH_ACTION
+        except AttributeError:
+            action_factory = None
+            install_action = "install"
+            fetch_action = "fetch"
+
+        try:
             rc = 0
             if match[0] != -1:
-                Package = self._entropy.Package()
-                action = "install"
+
+                action = install_action
                 if fetch:
-                    action = "fetch"
-                Package.prepare(match, action)
-                rc = Package.run()
-                Package.kill()
+                    action = fetch_action
+
+                if action_factory is not None:
+                    pkg = action_factory.get(
+                        action, match)
+                    rc = pkg.start()
+                    pkg.finalize()
+
+                else:
+                    pkg = self._entropy.Package()
+                    pkg.prepare(match, action)
+                    rc = pkg.run()
+                    pkg.kill()
+
         finally:
             if silent:
                 sys.stdout = oldstdout
@@ -340,8 +359,9 @@ class SabayonInstall:
         if chroot != root:
             self._change_entropy_chroot(chroot)
 
+        inst_repo = self._entropy.installed_repository()
         if match is None:
-            match = self._entropy.installed_repository().atomMatch(atom)
+            match = inst_repo.atomMatch(atom)
 
         oldstdout = sys.stdout
         if silent:
@@ -349,13 +369,29 @@ class SabayonInstall:
             _set_mute(True)
 
         try:
+            action_factory = self._entropy.PackageActionFactory()
+            action = action_factory.REMOVE_ACTION
+        except AttributeError:
+            action_factory = None
+            action = "remove"
+
+        try:
             rc = 0
             if match[0] != -1:
-                Package = self._entropy.Package()
-                Package.prepare((match[0],), "remove")
-                if 'remove_installed_vanished' not in Package.pkgmeta:
-                    rc = Package.run()
-                    Package.kill()
+
+                if action_factory is not None:
+                    pkg = action_factory.get(
+                        action, (match[0], inst_repo.name))
+                    rc = pkg.start()
+                    pkg.finalize()
+
+                else:
+                    pkg = self._entropy.Package()
+                    pkg.prepare((match[0],), "remove")
+                    if 'remove_installed_vanished' not in pkg.pkgmeta:
+                        rc = pkg.run()
+                        pkg.kill()
+
         finally:
             if silent:
                 sys.stdout = oldstdout
@@ -377,17 +413,36 @@ class SabayonInstall:
                 package_file)
         except EntropyPackageException:
             return -1
+
+        try:
+            action_factory = self._entropy.PackageActionFactory()
+            action = action_factory.INSTALL_ACTION
+        except AttributeError:
+            action_factory = None
+            action = "install"
+
         repo = 0
         for match in atomsfound:
             repo = match[1]
-            Package = self._entropy.Package()
-            Package.prepare(match, "install")
-            rc2 = Package.run()
+
+            rc2 = 0
+
+            if action_factory is not None:
+                pkg = action_factory.get(
+                    action, match)
+                rc2 = pkg.start()
+                pkg.finalize()
+
+            else:
+                pkg = self._entropy.Package()
+                pkg.prepare(match, action)
+                rc2 = pkg.run()
+                pkg.kill()
+
             if rc2 != 0:
                 if chroot != root:
                     self._change_entropy_chroot(root)
                 return rc2
-            Package.kill()
 
         if chroot != root:
             self._change_entropy_chroot(root)
