@@ -33,41 +33,45 @@ import entropy.tools
 
 class Entropy(Client):
 
+    _progress = None
+    _oldcount = None
+
     def init_singleton(self):
-        self._progress = None
-        self.oldcount = []
         Client.init_singleton(self, xcache = False,
             url_fetcher = InstallerUrlFetcher)
         nocolor()
 
-    def connect_progress(self, progress):
-        self._progress = progress
+    @classmethod
+    def connect_progress(cls, progress):
+        Entropy._progress = progress
 
-    def output(self, text, header = "", footer = "", back = False,
+    @classmethod
+    def output(cls, text, header = "", footer = "", back = False,
         importance = 0, level = "info", count = None, percent = False):
 
-        if not self._progress:
+        if not Entropy._progress:
             return
 
-        if not self.oldcount:
-            self.oldcount = [0,100]
+        if not Entropy._oldcount:
+            Entropy._oldcount = (0, 100)
 
         progress_text = text
         if len(progress_text) > 80:
             progress_text = "%s..." % (progress_text[:80].rstrip(),)
         if count:
             try:
-                self.oldcount = int(count[0]),int(count[1])
+                Entropy._oldcount = (int(count[0]), int(count[1]))
             except:
-                self.oldcount = [0,100]
+                Entropy._oldcount = (0, 100)
             if not percent:
                 count_str = "(%s/%s) " % (str(count[0]),str(count[1]),)
                 progress_text = count_str+progress_text
 
-        percentage = float(self.oldcount[0])/self.oldcount[1] * 100
+        percentage = float(Entropy._oldcount[0]) / Entropy._oldcount[1] * 100
         percentage = round(percentage, 2)
-        self._progress.set_fraction(percentage)
-        self._progress.set_text(progress_text)
+
+        Entropy._progress.set_fraction(percentage)
+        Entropy._progress.set_text(progress_text)
 
     def is_installed(self, package_name):
         match = self.installed_repository().atomMatch(package_name)
