@@ -1077,6 +1077,7 @@ class BTRFS(FS):
     """ btrfs filesystem """
     _type = "btrfs"
     _mkfs = "mkfs.btrfs"
+    _defaultFormatOptions = ["-f"]
     _modules = ["btrfs"]
     _resizefs = "btrfsctl"
     _formattable = True
