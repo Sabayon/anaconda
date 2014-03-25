@@ -601,15 +601,6 @@ class SabayonInstall:
             systemctl --no-reload disable %s.service
             """ % (FIREWALL_SERVICE, FIREWALL_SERVICE,), silent = True)
 
-        if self._is_systemd_running():
-            self.spawn_chroot("""\
-            eselect init set systemd
-            """, silent = True)
-        elif self._is_openrc_running():
-            self.spawn_chroot("""\
-            eselect init set sysvinit
-            """, silent = True)
-
         # XXX: hack
         # For GDM, set DefaultSession= to /etc/skel/.dmrc value
         # This forces GDM to respect the default session and load Cinnamon
