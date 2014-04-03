@@ -311,23 +311,11 @@ setup_network() {
     local _chroot="${1}"
 
     if [ "${NM_NETWORK}" = "1" ]; then
-        exec_chroot "${_chroot}" rc-update del \
-            netmount default
-        exec_chroot "${_chroot}" rc-update del \
-            nfsmount default
         sd_enable "${_chroot}" NetworkManager
     else
-        exec_chroot "${_chroot}" rc-update del \
-            NetworkManager default
-        exec_chroot "${_chroot}" rc-update del \
-            NetworkManager-setup default
         sd_disable "${_chroot}" NetworkManager
         sd_disable "${_chroot}" NetworkManager-wait-online
 
-        exec_chroot "${_chroot}" rc-update del \
-            avahi-daemon default
-        exec_chroot "${_chroot}" rc-update del \
-            dhcdbd default
         sd_disable "${_chroot}" NetworkManager
         sd_disable "${_chroot}" NetworkManager-wait-online
 
@@ -458,8 +446,6 @@ _remove_proprietary_drivers() {
     fi
 
     if [ "${bb_enabled}" = "1" ]; then
-        exec_chroot "${_chroot}" \
-            rc-update add bumblebee default
         sd_enable "${_chroot}" bumblebeed
     fi
 }
@@ -642,66 +628,34 @@ setup_services() {
     )
     local srv=
     for srv in "${srvs[@]}"; do
-        exec_chroot "${_chroot}" \
-            rc-update del ${srv} boot default &>/dev/null
         sd_disable "${_chroot}" ${srv}
     done
 
-    exec_chroot "${_chroot}" \
-        rc-update add vixie-cron default &> /dev/null
     sd_enable "${_chroot}" vixie-cron
 
     if [ ! -e "${_chroot}/etc/init.d/net.eth0" ]; then
         ln -sf net.lo "${_chroot}/etc/init.d/net.eth0" || return ${?}
     fi
 
-    if [ -e "${_chroot}/etc/init.d/nfsmount" ]; then
-        exec_chroot "${_chroot}" \
-            rc-update add nfsmount default
-    fi
     if [ -e "${_chroot}/etc/init.d/cdeject" ]; then
-        exec_chroot "${_chroot}" \
-            rc-update del cdeject shutdown
         sd_disable "${_chroot}" cdeject
     fi
-    if [ -e "${_chroot}/etc/init.d/oemsystem-boot" ]; then
-        exec_chroot "${_chroot}" \
-            rc-update add oemsystem-boot boot
-    fi
-    if [ -e "${_chroot}/etc/init.d/oemsystem-default" ]; then
-        exec_chroot "${_chroot}" \
-            rc-update add oemsystem-default default
-    fi
+
     sd_enable "${_chroot}" oemsystem &> /dev/null # may not be avail.
 
     if [ "${SABAYON_MCE}" = "0" ]; then
-        exec_chroot "${_chroot}" \
-            rc-update del sabayon-mce boot default &>/dev/null
         sd_disable "${_chroot}" sabayon-mce
     fi
 
-    if [ -e "${_chroot}/etc/init.d/dmcrypt" ]; then
-        exec_chroot "${_chroot}" \
-            rc-update add dmcrypt boot
-    fi
-
     if _is_virtualbox; then
-        exec_chroot "${_chroot}" \
-            rc-update add virtualbox-guest-additions boot &>/dev/null
         sd_enable "${_chroot}" virtualbox-guest-additions
     else
-        exec_chroot "${_chroot}" \
-            rc-update del virtualbox-guest-additions boot &>/dev/null
         sd_disable "${_chroot}" virtualbox-guest-additions
     fi
 
     if [ "${FIREWALL}" = "1" ]; then
-        exec_chroot "${_chroot}" \
-            rc-update add "${FIREWALL_SERVICE}" default
         sd_enable "${_chroot}" "${FIREWALL_SERVICE}"
     else
-        exec_chroot "${_chroot}" \
-            rc-update del "${FIREWALL_SERVICE}" boot default &>/dev/null
         sd_disable "${_chroot}" "${FIREWALL_SERVICE}"
     fi
 

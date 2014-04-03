@@ -541,35 +541,21 @@ class SabayonInstall:
 
         # Remove Installer services
         config_script = """\
-        rc-update del installer-gui boot default
-        rc-update del installer-text boot default
         systemctl --no-reload disable installer-gui.service
         systemctl --no-reload disable installer-text.service
 
-        rc-update del sabayonlive boot default
         systemctl --no-reload disable sabayonlive.service
         systemctl --no-reload enable x-setup.service
 
-        rc-update add vixie-cron default
         systemctl --no-reload enable vixie-cron.service
 
-        rc-update del music boot default
         systemctl --no-reload disable music.service
 
-        rc-update add nfsmount default
-
-        rc-update del cdeject shutdown
         systemctl --no-reload disable cdeject.service
 
-        rc-update add oemsystem-boot boot
-        rc-update add oemsystem-default default
         systemctl --no-reload enable oemsystem.service
 
-        rc-update add dmcrypt boot
-
         if [ "0" = """+is_sabayon_mce+""" ]; then
-            rc-update del sabayon-mce boot
-            rc-update del sabayon-mce default
             systemctl --no-reload disable sabayon-mce.service
         else
             systemctl --no-reload enable NetworkManager-wait-online.service
@@ -581,25 +567,21 @@ class SabayonInstall:
 
         if self.is_virtualbox():
             self.spawn_chroot("""\
-            rc-update add virtualbox-guest-additions boot
             systemctl --no-reload enable virtualbox-guest-additions.service
             """, silent = True)
         else:
             self.spawn_chroot("""\
-            rc-update del virtualbox-guest-additions boot
             systemctl --no-reload disable virtualbox-guest-additions.service
             """, silent = True)
 
         if self._is_firewall_enabled():
             self.spawn_chroot("""\
-            rc-update add %s default
             systemctl --no-reload enable %s.service
-            """ % (FIREWALL_SERVICE, FIREWALL_SERVICE,), silent = True)
+            """ % (FIREWALL_SERVICE,), silent = True)
         else:
             self.spawn_chroot("""\
-            rc-update del %s boot default
             systemctl --no-reload disable %s.service
-            """ % (FIREWALL_SERVICE, FIREWALL_SERVICE,), silent = True)
+            """ % (FIREWALL_SERVICE,), silent = True)
 
         # XXX: hack
         # For GDM, set DefaultSession= to /etc/skel/.dmrc value
@@ -667,7 +649,6 @@ module_radeon_args="modeset=1"
         # bumblebee support
         if bb_enabled:
             bb_script = """
-            rc-update add bumblebee default
             systemctl --no-reload enable bumblebeed.service
             """
             self.spawn_chroot(bb_script, silent = True)
@@ -745,20 +726,10 @@ blacklist nouveau
             os._exit(proc.wait())
 
     def setup_manual_networking(self):
-        mn_script = """
-            rc-update del NetworkManager default
-            rc-update del NetworkManager-setup default
-            rc-update del avahi-daemon default
-            rc-update del dhcdbd default
-            if [ -f "/etc/rc.conf" ]; then
-                sed -i 's/^#rc_hotplug=".*"/rc_hotplug="*"/g' /etc/rc.conf
-                sed -i 's/^rc_hotplug=".*"/rc_hotplug="*"/g' /etc/rc.conf
-            fi
-        """
         # TODO: check if we need this with systemd. I'd say no.
         # systemctl --no-reload disable NetworkManager.service
         # systemctl --no-reload disable NetworkManager-wait-online.service
-        self.spawn_chroot(mn_script, silent = True)
+        pass
 
     def get_keyboard_layout(self):
         console_kbd = self._anaconda.keyboard.get()
