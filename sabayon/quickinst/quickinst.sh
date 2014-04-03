@@ -294,13 +294,6 @@ setup_language() {
         done
     fi
 
-    # copy consolefont over from live system as well
-    local console_file="/etc/conf.d/consolefont"
-    local chroot_console_file="${_chroot}/${console_file}"
-    if [ -f "${console_file}" ]; then
-        cat "${console_file}" > "${chroot_console_file}" || return ${?}
-    fi
-
     return 0 # ignore failures in the loop above
 }
 
@@ -339,12 +332,6 @@ setup_keyboard() {
     local _chroot="${1}"
 
     local _key_map="us"  # default to US keymap
-    local key_file="/etc/conf.d/keymaps"
-    local chroot_key_file="${_chroot}/${key_file}"
-    if [ -f "${key_file}" ]; then
-        _key_map=$(. "${key_file}" && echo "${keymap}")
-        cat "${key_file}" > "${chroot_key_file}" || return ${?}
-    fi
 
     # run keyboard-setup directly inside chroot
     local opt
@@ -426,23 +413,6 @@ _remove_proprietary_drivers() {
             warn "failed with exit status ${ret}"
             return ${ret}
         fi
-    fi
-
-    local _mod_conf="/etc/conf.d/modules"
-    local chroot_mod_conf="${_chroot}/${_mod_conf}"
-    # created by gpu-detector
-    if [ -f "/tmp/.radeon.kms" ]; then
-        # (<3.6.0 kernel) since CONFIG_DRM_RADEON_KMS=n on our kernel
-        # we need to force radeon to load at boot
-        echo >> "${chroot_mod_conf}" || return ${?}
-        echo "# Added by the Sabayon Installer to force radeon.ko load" \
-            >> "${chroot_mod_conf}" || return ${?}
-        echo "# since CONFIG_DRM_RADEON_KMS is not enabled by default at" \
-            >> "${chroot_mod_conf}" || return ${?}
-        echo "# this time" >> "${chroot_mod_conf}" || return ${?}
-        echo "modules=\"radeon\"" >> "${chroot_mod_conf}" || return ${?}
-        echo "module_radeon_args=\"modeset=1\"" \
-            >> "${chroot_mod_conf}" || return ${?}
     fi
 
     if [ "${bb_enabled}" = "1" ]; then
@@ -633,13 +603,7 @@ setup_services() {
 
     sd_enable "${_chroot}" vixie-cron
 
-    if [ ! -e "${_chroot}/etc/init.d/net.eth0" ]; then
-        ln -sf net.lo "${_chroot}/etc/init.d/net.eth0" || return ${?}
-    fi
-
-    if [ -e "${_chroot}/etc/init.d/cdeject" ]; then
-        sd_disable "${_chroot}" cdeject
-    fi
+    sd_disable "${_chroot}" cdeject &> /dev/null # may not be avail.
 
     sd_enable "${_chroot}" oemsystem &> /dev/null # may not be avail.
 

@@ -1401,7 +1401,6 @@ class BlkidTab(object):
 
 class CryptTab(object):
 
-    OPENRC_PATH = "/etc/conf.d/dmcrypt"
     PATH = "/etc/crypttab"
 
     """ Dictionary-like interface to crypttab entries with map name keys """
@@ -1494,28 +1493,6 @@ class CryptTab(object):
                                                 entry['device'].format.uuid,
                                                 entry['keyfile'],
                                                 entry['options'])
-        return crypttab
-
-    def openrc_crypttab(self):
-        """ Write out /etc/conf.d/dmcrypt """
-        crypttab = ""
-        for name in self.mappings:
-            entry = self[name]
-            keyfile = entry['keyfile']
-            if not keyfile:
-                keyfile = "none"
-
-            is_swap = entry['is_swap']
-            if is_swap:
-                crypttab += "swap='%s'\n" % name
-            else:
-                crypttab += "target='%s'\n" % name
-            crypttab += "source='%s'\n" % entry['device'].path
-            if entry['keyfile'] and (keyfile != "none"):
-                crypttab += "key='%s'\n" % keyfile
-            if entry['options']:
-                crypttab += "options='%s'\n" % entry['options']
-            crypttab += "\n"
         return crypttab
 
     def __getitem__(self, key):
@@ -2175,19 +2152,6 @@ class FSSet(object):
             CryptTab.PATH,))
         with open(crypttab_path, "w") as crypt_f:
             crypt_f.write(crypttab.crypttab())
-        os.chmod(crypttab_path, 0o640)
-
-        # /etc/conf.d/dmcrypt
-        crypttab_path = os.path.normpath("%s%s" % (instPath,
-            CryptTab.OPENRC_PATH,))
-        with open(crypttab_path, "w") as crypt_f:
-            # this method should never use append, but we still need
-            # to keep the descriptory lines of the original files.
-            # this does the trick.
-            with open(CryptTab.OPENRC_PATH, "r") as orig_crypt_f:
-                crypt_f.write(orig_crypt_f.read())
-            crypt_f.write("\n")
-            crypt_f.write(crypttab.openrc_crypttab())
         os.chmod(crypttab_path, 0o640)
 
         # /etc/multipath.conf

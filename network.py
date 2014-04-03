@@ -593,63 +593,10 @@ class Network:
 
                 f.close()
 
-        net_conf = instPath+"/etc/conf.d/net"
-        net_conf_dir = os.path.dirname(net_conf)
-        if os.path.isfile(net_conf):
-            f = open(net_conf, "aw")
-        else:
-            if not os.path.isdir(net_conf_dir):
-                os.makedirs(net_conf_dir)
-            f = open (net_conf, "w")
-
-        for dev in self.netdevices.values():
-            device = dev.get("DEVICE")
-
-            net_conf = []
-            ipaddr = dev.get('IPADDR')
-            netmask = dev.get('NETMASK')
-            gateway = dev.get('GATEWAY')
-            is_dhcp_boot = dev.get('BOOTPROTO') == "dhcp"
-
-            if is_dhcp_boot or (not ipaddr):
-                net_conf.append('dhcp_%s="nosendhost"\n' % (device,))
-            else:
-                net_conf.append('config_%s="%s netmask %s"\n' % (
-                        device,
-                        ipaddr,
-                        netmask,
-                    )
-                )
-                if gateway:
-                    net_conf.append('routes_%s="default via %s"\n' % (
-                            device,
-                            gateway,
-                        )
-                    )
-
-            # add new dns_domain_device nis_domain_device management
-            net_conf.append('dns_domain_%s="localdomain"\n' % (
-                    device,
-                )
-            )
-            net_conf.append('nis_domain_%s="localdomain"\n' % (
-                    device,
-                )
-            )
-
-            for line in net_conf:
-                f.write(line)
-            f.flush()
-
-        f.flush()
-        f.close()
-
         hostname = self.hostname
         if not self.hostname:
             hostname = "sabayon"
-        with open(instPath+"/etc/conf.d/hostname", "w") as f:
-            f.write("hostname=\""+hostname + "\"\n")
-            f.flush()
+
         # systemd uses /etc/hostname
         with open(instPath+"/etc/hostname", "w") as f:
             f.write(hostname)
@@ -690,21 +637,6 @@ class Network:
         f.close()
 
         log.info("hostname set to = %s" % (self.hostname,))
-
-        domain_conf = instPath+"/etc/conf.d/domainname"
-        if os.path.isfile(domain_conf):
-            f = open(domain_conf,"r")
-            domainname_cont = f.readlines()
-            f.close()
-            f = open(domain_conf, "w")
-            for line in domainname_cont:
-                if line.startswith("DNSDOMAIN="):
-                    line = 'DNSDOMAIN="localdomain"\n'
-                elif line.startswith("NISDOMAIN="):
-                    line = 'NISDOMAIN="localdomain"\n'
-                f.write(line)
-            f.flush()
-            f.close()
 
         # dhclient.conf -> force NetworkManager to not change hostname
         dh_conf = instPath + "/etc/dhcp/dhclient.conf"

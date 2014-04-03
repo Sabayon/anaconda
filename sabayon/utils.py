@@ -560,8 +560,6 @@ class SabayonInstall:
         else
             systemctl --no-reload enable NetworkManager-wait-online.service
         fi
-
-        cd /etc/init.d && ln -s net.lo net.eth0
         """
         self.spawn_chroot(config_script, silent = True)
 
@@ -614,7 +612,6 @@ class SabayonInstall:
         Detect a possible OSS video card and remove /etc/env.d/*ati
         """
         bb_enabled = os.path.exists("/tmp/.bumblebee.enabled")
-        radeon_kms_enabled = os.path.exists("/tmp/.radeon.kms")
 
         xorg_x11 = self._get_opengl() == "xorg-x11"
 
@@ -630,21 +627,6 @@ class SabayonInstall:
             self.remove_package('nvidia-settings', silent = True)
             self.remove_package('nvidia-drivers', silent = True)
             self.remove_package('nvidia-userspace', silent = True)
-
-        # created by gpu-detector
-        if radeon_kms_enabled:
-            # (<3.6.0 kernel) since CONFIG_DRM_RADEON_KMS=n on our kernel
-            # we need to force radeon to load at boot
-            modules_conf = self._root + "/etc/conf.d/modules"
-            with open(modules_conf, "a+") as mod_f:
-                mod_f.write("\n")
-                mod_f.write("""\
-# Added by the Sabayon Installer to force radeon.ko to load
-# since CONFIG_DRM_RADEON_KMS is not enabled by default at
-# this time.
-modules="radeon"
-module_radeon_args="modeset=1"
-""")
 
         # bumblebee support
         if bb_enabled:
@@ -835,25 +817,6 @@ blacklist nouveau
         shutil.copy2(live_xorg_conf, xorg_conf+".original")
 
     def _setup_consolefont(self, system_font):
-        consolefont_conf = self._root + "/etc/conf.d/consolefont"
-        content = []
-        with open(consolefont_conf, "r") as con_f:
-            while True:
-                line = con_f.readline()
-                if not line:
-                    break
-                if line.startswith("consolefont="):
-                    line = "consolefont=\"%s\"\n" % (system_font,)
-                    found = True
-                content.append(line)
-            if not found:
-                content.append("consolefont=\"%s\"\n" % (system_font,))
-
-        with open(consolefont_conf, "w") as con_f:
-            for line in content:
-                con_f.write(line)
-            con_f.flush()
-
         # /etc/vconsole.conf support
         vconsole_conf = self._root + "/etc/vconsole.conf"
         content = []

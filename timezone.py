@@ -54,28 +54,6 @@ class Timezone:
             f.flush()
             f.close()
 
-        # set clock config
-        clock_conf = instPath+"/etc/conf.d/hwclock"
-        if not os.path.isfile(clock_conf):
-            log.info("Cannot find "+clock_conf)
-        else:
-            f = open(clock_conf,"r")
-            olddata = [x.strip() for x in f.readlines()]
-            f.close()
-            newdata = []
-            for item in olddata:
-                if item.startswith("clock="):
-                    if self.utc:
-                        item = "clock=\"UTC\""
-                    else:
-                        item = "clock=\"local\""
-                newdata.append(item)
-            f = open(instPath+"/etc/conf.d/hwclock", "w")
-            for item in newdata:
-                f.write(item+"\n")
-            f.flush()
-            f.close()
-
         # all this is ugly, but it's going away
         # hopefully soon.
         timedatectl = "/usr/bin/timedatectl"
