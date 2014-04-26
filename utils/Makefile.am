@@ -17,19 +17,8 @@
 #
 # Author: David Cantrell <dcantrell@redhat.com>
 
-utilsdir            = $(libexecdir)/$(PACKAGE_NAME)
+SUBDIRS = dd
 
-utils_PROGRAMS      = modlist mapshdr readmap
-dist_utils_SCRIPTS  = genmodinfo trimpciids
-noinst_PROGRAMS     = snarffont
-dist_noinst_SCRIPTS = filtermoddeps
-
-if IS_S390
-utils_PROGRAMS      += geninitrdsz mk-s390-cdboot
-endif
-
-modlist_CFLAGS      = -I$(top_srcdir)/loader $(GLIB_CFLAGS)
-modlist_LDADD       = $(GLIB_LIBS)
-modlist_SOURCES     = modlist.c $(top_srcdir)/loader/moduleinfo.c
+dist_sbin_SCRIPTS    = handle-sshpw
 
 MAINTAINERCLEANFILES = Makefile.in

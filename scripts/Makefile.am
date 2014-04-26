@@ -18,14 +18,15 @@
 # Author: David Cantrell <dcantrell@redhat.com>
 
 scriptsdir = $(libexecdir)/$(PACKAGE_NAME)
-dist_scripts_SCRIPTS = upd-instroot mk-images buildinstall \
-                       buildinstall.functions scrubtree getkeymaps \
-                       makestamp.py maketreeinfo.py upd-updates
-dist_scripts_DATA    = mk-images.* pyrc.py
-dist_noinst_SCRIPTS  = getlangnames.py upd-bootimage upd-initrd upd-kernel \
-                       makeupdates
+dist_scripts_SCRIPTS = upd-updates run-anaconda anaconda-yum
+dist_noinst_SCRIPTS  = upd-kernel makeupdates
 
-analogdir = $(libexecdir)/$(PACKAGE_NAME)
-dist_analog_SCRIPTS = analog
+dist_bin_SCRIPTS = analog anaconda-cleanup instperf
+
+stage2scriptsdir = $(datadir)/$(PACKAGE_NAME)
+dist_stage2scripts_SCRIPTS = restart-anaconda
+
+miscdir = $(datadir)/$(PACKAGE_NAME)
+dist_misc_DATA = instperf.p
 
 MAINTAINERCLEANFILES = Makefile.in
