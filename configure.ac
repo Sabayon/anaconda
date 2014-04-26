@@ -129,7 +129,7 @@ AC_CHECK_FUNCS([dup2 fdatasync ftruncate getcwd gethostbyname gettimeofday \
 AM_PATH_PYTHON(python_required_version)
 
 # Check for the python extension paths
-PKG_CHECK_MODULES([PYTHON], [python], [
+PKG_CHECK_MODULES([PYTHON], [python-2.7], [
     LIBS_save="$LIBS"
     LIBS="$LIBS $PYTHON_LIBS"
     AC_MSG_CHECKING([Python libraries])
