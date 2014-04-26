@@ -243,12 +243,12 @@ AC_CONFIG_FILES([Makefile
                  data/icons/hicolor/256x256/apps/Makefile
                  data/systemd/Makefile
                  po/Makefile.in
-                 sabayon/Makefile
-                 sabayon/quickinst/Makefile
                  scripts/Makefile
                  pyanaconda/Makefile
                  pyanaconda/isys/Makefile
                  pyanaconda/packaging/Makefile
+                 pyanaconda/sabayon/Makefile
+                 pyanaconda/sabayon/quickinst/Makefile
                  pyanaconda/ui/Makefile
                  pyanaconda/ui/lib/Makefile
                  pyanaconda/ui/gui/categories/Makefile
