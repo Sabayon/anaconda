@@ -49,7 +49,6 @@ tag:
 po-pull:
 	rm -f $(srcdir)/po/en@boldquot.gmo $(srcdir)/po/en@boldquot.po
 	rm -f $(srcdir)/po/en@quot.gmo $(srcdir)/po/en@quot.po
-	rpm -q transifex-client &>/dev/null || ( echo "need to run: yum install transifex-client"; exit 1 )
 	tx pull $(TX_PULL_ARGS)
 
 scratch: po-pull
