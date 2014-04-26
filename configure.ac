@@ -226,6 +226,7 @@ AC_CONFIG_FILES([Makefile
                  data/liveinst/gnome/Makefile
                  data/liveinst/pam.d/Makefile
                  data/pixmaps/Makefile
+                 data/pixmaps/rnotes/Makefile
                  data/icons/Makefile
                  data/icons/hicolor/Makefile
                  data/icons/hicolor/16x16/Makefile
