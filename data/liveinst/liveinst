@@ -41,22 +41,18 @@ if [[ "$LIVECMD $*" =~ "--liveinst" ]]; then
     LIVE_INSTALL=1
 fi
 
-# Try to sort out where the live device is
-if [ -z "$LIVE_BLOCK" ]; then
-    if [ -b "/dev/mapper/live-osimg-min" ]; then
-       LIVE_BLOCK="/dev/mapper/live-osimg-min"
-    fi
-fi
-
-if [ $LIVE_INSTALL = 1 -a ! -b "$LIVE_BLOCK" ]; then
-  zenity --error --title="Not a Live image" --text "Can't do live image installation unless running from a live image"
-  exit 1
-fi
+export ANACONDA_PRODUCTNAME="Sabayon"
+export ANACONDA_PRODUCTVERSION="$(cat /etc/sabayon-release | cut -d' ' -f 4)"
+export ANACONDA_PRODUCTPATH="/mnt/livecd"
+export ANACONDA_CHROOTPATH="/mnt/sysimage"
+export ANACONDA_PRODUCTARCH="$(cat /etc/sabayon-release | cut -d' ' -f 3)"
+export ANACONDA_BUGURL="http://bugs.sabayon.org"
+export PIXMAPPATH="/usr/share/anaconda/pixmaps"
 
 # Allow running another command in the place of anaconda, but in this same
 # environment.  This allows storage testing to make use of all the module
 # loading and lvm control in this file, too.
-ANACONDA=${LIVECMD:=anaconda --liveinst --method=livecd://$LIVE_BLOCK $INSTLANG}
+ANACONDA=${LIVECMD:=anaconda --liveinst --method=hd://://${ANACONDA_PRODUCTPATH} $INSTLANG}
 
 # load modules that would get loaded by the initramfs (#230945)
 for i in raid0 raid1 raid5 raid6 raid456 raid10 dm-mod dm-zero dm-mirror dm-snapshot dm-multipath dm-round-robin vfat dm-crypt cbc sha256 lrw xts iscsi_tcp iscsi_ibft; do /sbin/modprobe $i 2>/dev/null ; done
