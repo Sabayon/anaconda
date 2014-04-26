@@ -139,7 +139,7 @@ anaconda.po
 data/liveinst/gnome/fedora-welcome.po
 
 # Sabayon stuff
-sabayon/const.py
-sabayon/__init__.py
-sabayon/livecd.py
-sabayon/utils.py
+pyanaconda/sabayon/const.py
+pyanaconda/sabayon/__init__.py
+pyanaconda/sabayon/livecd.py
+pyanaconda/sabayon/utils.py
