@@ -41,13 +41,16 @@ if [[ "$LIVECMD $*" =~ "--liveinst" ]]; then
     LIVE_INSTALL=1
 fi
 
-export ANACONDA_PRODUCTNAME="Sabayon"
-export ANACONDA_PRODUCTVERSION="$(cat /etc/sabayon-release | cut -d' ' -f 4)"
 export ANACONDA_PRODUCTPATH="/mnt/livecd"
 export ANACONDA_CHROOTPATH="/mnt/sysimage"
-export ANACONDA_PRODUCTARCH="$(cat /etc/sabayon-release | cut -d' ' -f 3)"
 export ANACONDA_BUGURL="http://bugs.sabayon.org"
 export PIXMAPPATH="/usr/share/anaconda/pixmaps"
+
+# lxnay: load UEFI efivars (so that Anaconda can detect EFI systems)
+efi_disabled=$(cat /proc/cmdline | grep noefi)
+if [ -z "${efi_disabled}" ]; then
+    modprobe efivars 2>/dev/null
+fi
 
 # Allow running another command in the place of anaconda, but in this same
 # environment.  This allows storage testing to make use of all the module
@@ -60,18 +63,10 @@ for i in raid0 raid1 raid5 raid6 raid456 raid10 dm-mod dm-zero dm-mirror dm-snap
 export ANACONDA_PRODUCTNAME=$( cat /etc/system-release | sed -r -e 's/ *release.*//' )
 if [ $LIVE_INSTALL = 1 ]; then
     export ANACONDA_PRODUCTVERSION=$( cat /etc/system-release | sed -r -e 's/^.* ([0-9\.]+).*$/\1/' )
-elif [ $IMAGE_INSTALL = 1 ]; then
-    export ANACONDA_PRODUCTVERSION=$(rpmquery -q --qf '%{VERSION}' anaconda | cut -d. -f1)
 fi
 export ANACONDA_BUGURL=${ANACONDA_BUGURL:="https://bugzilla.redhat.com/bugzilla/"}
 
-RELEASE=$(rpm -q --qf '%{Release}' fedora-release)
-if [ "${RELEASE:0:2}" = "0." ]; then
-    export ANACONDA_ISFINAL="false"
-else
-    export ANACONDA_ISFINAL="true"
-fi
-
+export ANACONDA_ISFINAL="true"
 export PATH=/sbin:/usr/sbin:$PATH
 
 if [ -x /usr/sbin/getenforce ]; then
@@ -106,32 +101,6 @@ done
 
 # unmount anything that shouldn't be mounted prior to install
 anaconda-cleanup $ANACONDA $*
-
-# Set up the updates, if provided.
-if [ ! -z "$UPDATES" ]; then
-    if [ -e /tmp/updates.img -o -e /tmp/updates ]; then
-        zenity --error --title="Updates already exist" --text "updates= was provided, but an updates image already exists.  Please remove /tmp/updates.img and /tmp/updates and try again."
-        exit 1
-    fi
-
-    curl -o /tmp/updates.img $UPDATES
-
-    # We officially support two updates.img formats:  a filesystem image, and
-    # a compressed cpio blob.
-    if [ ! -z "$(file /tmp/updates.img | grep 'gzip compressed data')" ]; then
-        ( cd / ; gzip -dc /tmp/updates.img | cpio -idu )
-    else
-        mkdir /tmp/updates.disk
-        mount -t auto /tmp/updates.img /tmp/updates.disk
-        cp -Rt / /tmp/updates.disk/*
-        umount /tmp/updates.disk
-        rmdir /tmp/updates.disk
-    fi
-
-    export PYTHONPATH=/tmp/updates:$PYTHONPATH
-    export LD_LIBRARY_PATH=/tmp/updates:$LD_LIBRARY_PATH
-    export PATH=/tmp/updates:$PATH
-fi
 
 # Prevents breakage if the hostname is changed during the install
 xhost +si:localuser:root
