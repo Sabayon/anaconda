@@ -48,8 +48,5 @@ incomplete list [please also check configure.ac]:
 [r] dmidecode
 [r] libgnomekbd
 [r] zenity
-
-
-missing / not yet scraped:
-python-ntplib
-keybinder3
+[r] dev-python/python-ntplib
+[r] dev-libs/keybinder >=0.3.0-r300
