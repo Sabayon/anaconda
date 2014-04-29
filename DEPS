@@ -24,8 +24,8 @@ incomplete list [please also check configure.ac]:
 [b,r] dbus-python
 [b,r] libarchive >=3.0.4
 [r] desktop-file-utils
-[r] dev-python/python-meh >=0.23
-[r] dev-python/python-report >=0.21
+[r] dev-python/python-meh >=0.30-r1
+[r] dev-libs/libreport >=2.0.20
 [b,r] sys-block/parted >=1.8.1
 [r] dev-python/pyparted >=2.5
 [r] dev-python/urlgrabber >=3.9.1
