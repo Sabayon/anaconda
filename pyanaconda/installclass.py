@@ -184,8 +184,9 @@ def availableClasses(showHidden=0):
 
         try:
             found = imputil.imp.find_module(mainName)
-        except ImportError:
-            log.warning ("module import of %s failed: %s", mainName, sys.exc_type)
+        except ImportError as err:
+            log.warning ("module import of %s failed: %s, %s",
+                         mainName, sys.exc_type, err)
             continue
 
         try:
