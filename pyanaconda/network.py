@@ -29,6 +29,7 @@ import shutil
 from pyanaconda import iutil
 import socket
 import os
+import errno
 import time
 import threading
 import re
@@ -208,7 +209,14 @@ def logIfcfgFile(path, message=""):
 
 def _ifcfg_files(directory):
     rv = []
-    for name in os.listdir(directory):
+    try:
+        files = os.listdir(directory)
+    except OSError as err:
+        if err.errno != errno.ENOENT:
+            raise
+        return rv
+
+    for name in files:
         if name.startswith("ifcfg-"):
             if name == "ifcfg-lo":
                 continue
