@@ -2,7 +2,7 @@
 #
 # livecd.py
 #
-# Copyright (C) 2010 Fabio Erculiani
+# Copyright (C) 2014 Fabio Erculiani
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# System imports
 import os
 import statvfs
 import subprocess
@@ -26,22 +25,24 @@ import commands
 import stat
 import time
 import shutil
-
-import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
-
-# Anaconda imports
-import storage
-import flags
-from constants import productPath as PRODUCT_PATH, productName as PRODUCT_NAME, \
-    DISPATCH_BACK
-import backend
-import isys
-import iutil
 import logging
-from anaconda_log import PROGRAM_LOG_FILE
-import sabayon.utils
-from sabayon import Entropy
+
+from pyanaconda.anaconda_log import PROGRAM_LOG_FILE
+from pyanaconda import isys
+from pyanaconda.product import productPath as PRODUCT_PATH, \
+    productName as PRODUCT_NAME
+from pyanaconda import iutil
+from pyanaconda import flags
+from pyanaconda.packaging import ImagePayload, PayloadSetupError, \
+    PayloadInstallError
+from pyanaconda.i18n import _
+from pyanaconda.constants import ROOT_PATH
+
+from blivet.size import Size
+import blivet.util
+
+from pyanaconda.sabayon import utils
+from pyanaconda.sabayon import Entropy
 
 # Entropy imports
 from entropy.const import etpConst, const_kill_threads
@@ -49,58 +50,56 @@ from entropy.misc import TimeScheduled, ParallelTask
 from entropy.cache import EntropyCacher
 import entropy.tools
 
-log = logging.getLogger("anaconda")
+log = logging.getLogger("packaging")
 
-class LiveCDCopyBackend(backend.AnacondaBackend):
 
-    def __init__(self, anaconda):
-        backend.AnacondaBackend.__init__(self, anaconda)
+class LiveCDCopyBackend(ImagePayload):
+
+    def __init__(self, *args, **kwargs):
+        super(LiveCDCopyBackend, self).__init__(*args, **kwargs)
+
         flags.livecdInstall = True
-        self.supportsUpgrades = True
-        self.supportsPackageSelection = False
-        self._root = anaconda.rootPath
+        self._root = ROOT_PATH
 
-        self.osimg = anaconda.methodstr[8:]
-        if not os.path.ismount(self.osimg):
-            anaconda.intf.messageWindow(_("Unable to find image"),
-               _("The given location [%s] isn't a valid %s "
-                 "live CD to use as an installation source.")
-               %(self.osimg, PRODUCT_NAME), type = "custom",
-               custom_icon="error",
-               custom_buttons=[_("Exit installer")])
-            raise SystemExit(1)
-
-    def _getLiveSize(self):
-        st = os.statvfs(PRODUCT_PATH)
-        compressed_byte_size = st.f_blocks * st.f_bsize
-        return compressed_byte_size * 3 # 3 times is enough
-
-    def _getLiveSizeMB(self):
-        return self._getLiveSize() / 1048576
-
-    def postAction(self, anaconda):
-        try:
-            anaconda.storage.umountFilesystems(swapoff = False)
-            os.rmdir(self._root)
-        except Exception, e:
-            log.error("Unable to unmount filesystems: %s" % e)
-
-    def checkSupportedUpgrade(self, anaconda):
-        if anaconda.dir == DISPATCH_BACK:
-            return
-
-    def doPreInstall(self, anaconda):
-        self._progress = sabayon.utils.SabayonProgress(anaconda)
-        self._progress.start()
         self._entropy = Entropy()
+
+    @property
+    def kernelVersionList(self):
+        return []
+
+    @property
+    def spaceRequired(self):
+        return Size(bytes=iutil.getDirSize(PRODUCT_PATH) * 1024)
+
+    def recreateInitrds(self, force=False):
+        log.info("calling recreateInitrds()")
+
+    def dracutSetupArgs(self):
+        log.info("calling dracutSetupArgs()")
+
+    @property
+    def repos(self):
+        return self._entropy.repositories()
+
+    # addOns, baseRepo, mirrorEnabled, getRepo, isRepoEnabled, getAddonRepo
+    # needsNetwork, updateBaseRepo, addRepo, removeRepo, enableRepo, disableRepo
+
+    def setup(self, storage):
+        super(LiveCDCopyBackend, self).setup(storage)
+
+    ### XXX ###
+
+    def preInstall(self, packages=None, groups=None):
+        self._progress = utils.SabayonProgress(anaconda)
+        self._progress.start()
         self._entropy.connect_progress(self._progress)
-        self._sabayon_install = sabayon.utils.SabayonInstall(anaconda)
+        self._sabayon_install = utils.SabayonInstall(anaconda)
         # We use anaconda.upgrade as bootloader recovery step
         self._bootloader_recovery = anaconda.upgrade
         self._install_grub = not self.anaconda.dispatch.stepInSkipList(
             "instbootloader")
 
-    def doInstall(self, anaconda):
+    def install(self):
 
         # Disable internal Anaconda bootloader setup, doesn't support GRUB2
         anaconda.dispatch.skipStep("instbootloader", skip = 1)
@@ -158,7 +157,8 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         action = _("Sabayon configuration complete")
         self._progress.set_label(action)
 
-    def doPostInstall(self, anaconda):
+    def postInstall(self):
+        super(LiveCDCopyBackend, self).postInstall()
 
         if not self._bootloader_recovery:
             self._sabayon_install.setup_entropy_mirrors()
@@ -167,7 +167,6 @@ class LiveCDCopyBackend(backend.AnacondaBackend):
         self._progress.set_fraction(1.0)
 
         self._sabayon_install.emit_install_done()
-        storage.writeEscrowPackets(anaconda)
 
         self._sabayon_install.destroy()
         if hasattr(self._entropy, "shutdown"):
@@ -510,53 +509,3 @@ password root """+str(self.anaconda.bootloader.pure)+"""
                                    )
 
         log.info("%s: %s => %s\n" % ("_write_grub2", "end", locals()))
-
-    def kernelVersionList(self, rootPath = "/"):
-        """
-        This won't be used, because our Anaconda codebase is using grub2
-        """
-        return []
-
-    def doBackendSetup(self, anaconda):
-
-        ossize = self._getLiveSizeMB()
-        slash = anaconda.storage.rootDevice
-        if slash.size < ossize:
-            rc = anaconda.intf.messageWindow(_("Warning"),
-                _("The root filesystem you created is "
-                  "not large enough for this live "
-                  "image (%.2f MB required). But I "
-                  "could be mistaken.") % ossize,
-                type = "custom",
-                custom_icon = "error",
-                custom_buttons=[_("_Back"),
-                                _("_Exit installer")])
-            if rc == 0:
-                return DISPATCH_BACK
-            else:
-                raise SystemExit(1)
-
-    # package/group selection doesn't apply for this backend
-    def groupExists(self, group):
-        pass
-
-    def selectGroup(self, group, *args):
-        pass
-
-    def deselectGroup(self, group, *args):
-        pass
-
-    def selectPackage(self, pkg, *args):
-        pass
-
-    def deselectPackage(self, pkg, *args):
-        pass
-
-    def packageExists(self, pkg):
-        return True
-
-    def getDefaultGroups(self, anaconda):
-        return []
-
-    def writePackagesKS(self, f, anaconda):
-        pass

@@ -32,6 +32,7 @@ config.set("Main", "IsFinal", os.environ.get("ANACONDA_ISFINAL", "false"))
 config.set("Main", "Product", os.environ.get("ANACONDA_PRODUCTNAME", "anaconda"))
 config.set("Main", "UUID", "")
 config.set("Main", "Version", os.environ.get("ANACONDA_PRODUCTVERSION", "bluesky"))
+config.set("Main", "ProductPath", os.environ.get("ANACONDA_PRODUCTPATH", "/mnt/livecd"))
 
 # Now read in the .buildstamp file, wherever it may be.
 config.read(["/tmp/product/.buildstamp", "/.buildstamp", os.environ.get("PRODBUILDPATH", "")])
@@ -43,6 +44,7 @@ productArch = config.get("Main", "Arch")
 productName = config.get("Main", "Product")
 productStamp = config.get("Main", "UUID")
 productVersion = config.get("Main", "Version")
+productPath = config.get("Main", "ProductPath")
 
 if not productArch and productStamp.index(".") != -1:
     productArch = productStamp[productStamp.index(".")+1:]

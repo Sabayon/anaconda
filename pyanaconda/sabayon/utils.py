@@ -35,6 +35,7 @@ try:
     import ConfigParser
 except ImportError:
     import configparser as ConfigParser
+import logging
 
 # Entropy imports
 from entropy.exceptions import EntropyPackageException, DependenciesNotFound, \
@@ -53,18 +54,15 @@ from entropy.core import Singleton
 from entropy.services.client import WebService
 
 # Anaconda imports
-import logging
-from constants import productPath
-from sabayon import Entropy
-from sabayon.const import LIVE_USER, LANGUAGE_PACKS, REPO_NAME, \
+from pyanaconda.product import productPath
+from pyanaconda.sabayon import Entropy
+from pyanaconda.sabayon.const import LIVE_USER, LANGUAGE_PACKS, REPO_NAME, \
     ASIAN_FONTS_PACKAGES, FIREWALL_SERVICE, SB_PRIVATE_KEY, \
     SB_PUBLIC_X509, SB_PUBLIC_DER
-
-import gettext
-_ = lambda x: gettext.ldgettext("anaconda", x)
+from pyanaconda.i18n import _
 
 STDERR_LOG = open("/tmp/anaconda.log","aw")
-log = logging.getLogger("anaconda")
+log = logging.getLogger("packaging")
 
 
 def _set_mute(status):
