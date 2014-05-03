@@ -20,7 +20,7 @@
 from pyanaconda.installclass import BaseInstallClass
 from pyanaconda.i18n import N_
 
-from sabayon import Entropy
+from pyanaconda.sabayon import Entropy
 
 class InstallClass(BaseInstallClass):
 
@@ -39,7 +39,7 @@ class InstallClass(BaseInstallClass):
         BaseInstallClass.setDefaultPartitioning(self, anaconda.storage)
 
     def getBackend(self):
-        from sabayon.livecd import LiveCDCopyBackend
+        from pyanaconda.sabayon.livecd import LiveCDCopyBackend
         return LiveCDCopyBackend
 
     def __init__(self):
