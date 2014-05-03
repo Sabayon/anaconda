@@ -1,5 +1,5 @@
 #
-# gnome.py
+# kde.py
 #
 # Copyright (C) 2014 Fabio Erculiani
 #
@@ -24,20 +24,19 @@ from sabayon import Entropy
 
 class InstallClass(BaseInstallClass):
 
-    id = "sabayon_gnome"
-    name = N_("Sabayon GNOME Desktop")
+    id = "sabayon_kde"
+    name = N_("Sabayon KDE")
     sortPriority = 10000
 
     _l10n_domain = "anaconda"
 
     efi_dir = "sabayon"
 
-    dmrc = "gnome"
+    dmrc = "KDE-4"
     if Entropy().is_sabayon_steambox():
         dmrc = "steambox"
 
-    # check if GNOME is available on the system
-    if not Entropy().is_installed("gnome-base/gnome-session"):
+    if not Entropy().is_installed("kde-base/kdebase-startkde"):
         hidden = 1
 
     def configure(self, anaconda):

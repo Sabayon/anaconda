@@ -1,5 +1,5 @@
 #
-# gnome.py
+# fluxbox.py
 #
 # Copyright (C) 2014 Fabio Erculiani
 #
@@ -24,20 +24,19 @@ from sabayon import Entropy
 
 class InstallClass(BaseInstallClass):
 
-    id = "sabayon_gnome"
-    name = N_("Sabayon GNOME Desktop")
-    sortPriority = 10000
+    id = "sabayon_fluxbox"
+    name = N_("Sabayon Fluxbox")
+    sortPriority = 9999
 
     _l10n_domain = "anaconda"
 
     efi_dir = "sabayon"
 
-    dmrc = "gnome"
+    dmrc = "fluxbox"
     if Entropy().is_sabayon_steambox():
         dmrc = "steambox"
 
-    # check if GNOME is available on the system
-    if not Entropy().is_installed("gnome-base/gnome-session"):
+    if not Entropy().is_installed("x11-wm/fluxbox"):
         hidden = 1
 
     def configure(self, anaconda):
