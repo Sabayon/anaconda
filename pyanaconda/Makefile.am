@@ -17,7 +17,7 @@
 #
 # Author: Martin Sivak <msivak@redhat.com>
 
-SUBDIRS = installclasses isys ui packaging
+SUBDIRS = installclasses isys ui packaging sabayon
 
 MAINTAINERCLEANFILES = Makefile.in
 
