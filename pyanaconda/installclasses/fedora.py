@@ -29,8 +29,7 @@ class InstallClass(BaseInstallClass):
     id = "fedora"
     name = N_("_Fedora")
     sortPriority = 10000
-    if productName.startswith("Red Hat Enterprise"):
-        hidden = 1
+    hidden = 1
 
     _l10n_domain = "anaconda"
 
