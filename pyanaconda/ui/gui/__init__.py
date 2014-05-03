@@ -653,7 +653,6 @@ class GraphicalUserInterface(UserInterface):
                                 message_type=Gtk.MessageType.ERROR,
                                 buttons=Gtk.ButtonsType.NONE,
                                 message_format=message)
-        dlg.set_decorated(False)
         dlg.add_button(_("_Exit Installer"), 0)
 
         with enlightbox(self._currentAction.window, dlg):
@@ -677,7 +676,6 @@ class GraphicalUserInterface(UserInterface):
                                 message_type=Gtk.MessageType.QUESTION,
                                 buttons=Gtk.ButtonsType.NONE,
                                 message_format=message)
-        dlg.set_decorated(False)
         dlg.add_buttons(_("_No"), 0, _("_Yes"), 1)
         dlg.set_default_response(1)
 
@@ -776,7 +774,6 @@ class GraphicalExceptionHandlingIface(meh.ui.gui.GraphicalIntf):
     def mainExceptionWindow(self, text, exn_file, *args, **kwargs):
         meh_intf = meh.ui.gui.GraphicalIntf()
         exc_window = meh_intf.mainExceptionWindow(text, exn_file)
-        exc_window.main_window.set_decorated(False)
 
         self._lightbox_func(exc_window)
 

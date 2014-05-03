@@ -36,7 +36,6 @@
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="type_hint">dialog</property>
-    <property name="decorated">False</property>
     <signal name="key-release-event" handler="on_key_pressed" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
