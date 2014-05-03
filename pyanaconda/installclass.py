@@ -201,8 +201,9 @@ def availableClasses(showHidden=0):
 
             if obj.hidden == 0 or showHidden == 1:
                 lst.append(((obj.name, obj), sortOrder))
-        except (ImportError, AttributeError):
-            log.warning ("module import of %s failed: %s", mainName, sys.exc_type)
+        except (ImportError, AttributeError) as err:
+            log.warning ("module import of %s failed: %s, %s",
+                         mainName, sys.exc_type, err)
             if flags.debug: raise
             else: continue
 
