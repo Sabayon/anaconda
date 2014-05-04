@@ -1,6 +1,7 @@
 incomplete list [please also check configure.ac]:
 
-[b,r] app-arch/rpm
+[r] app-admin/sudo
+[b] app-arch/rpm
 [b,r] sys-apps/libselinux[python]
 [b,r] sys-process/audit
 [r] dev-python/python-blivet >=0.23.9 <0.50
