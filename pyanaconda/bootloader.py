@@ -983,7 +983,7 @@ class GRUB(BootLoader):
     stage2_raid_member_types = ["partition"]
     stage2_raid_metadata = ["0", "0.90", "1.0"]
 
-    packages = ["grub"]
+    packages = ["sys-boot/grub:0"]
 
     def __init__(self):
         super(GRUB, self).__init__()
@@ -1345,9 +1345,9 @@ class GRUB2(GRUB):
 
     """
     name = "GRUB2"
-    packages = ["grub2"]
+    packages = ["sys-boot/grub:2"]
     _config_file = "grub.cfg"
-    _config_dir = "grub2"
+    _config_dir = "grub"
     config_file_mode = 0600
     defaults_file = "/etc/default/grub"
     can_dual_boot = True
@@ -1610,7 +1610,7 @@ class GRUB2(GRUB):
         return ret
 
 class EFIGRUB(GRUB2):
-    packages = ["grub2-efi", "efibootmgr", "shim"]
+    packages = ["sys-boot/grub:2", "sys-boot/efibootmgr", "app-crypt/shim-signed"]
     can_dual_boot = False
     stage2_is_valid_stage1 = False
     stage2_bootable = False
@@ -2094,7 +2094,7 @@ class EXTLINUX(BootLoader):
     stage2_device_types = ["partition"]
     stage2_bootable = True
 
-    packages = ["syslinux-extlinux"]
+    packages = ["sys-boot/syslinux"]
 
     @property
     def config_file(self):

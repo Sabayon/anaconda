@@ -426,7 +426,7 @@ class Realm(commands.realm.F19_Realm):
 
         # Now parse the output for the required software. First line is the
         # realm name, and following lines are information as "name: value"
-        self.packages = ["realmd"]
+        self.packages = ["sys-auth/realmd"]
         self.discovered = ""
 
         lines = output.split("\n")
