@@ -115,6 +115,11 @@ class Payload(object):
         """ Do any payload-specific setup. """
         self.storage = storage
 
+    def configure(self):
+        """ Do any payload-specific configuration work after installation.
+        """
+        pass
+
     def preStorage(self):
         """ Do any payload-specific work necessary before writing the storage
             configuration.  This method need not be provided by all payloads.

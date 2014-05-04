@@ -43,8 +43,6 @@ stdoutLog = logging.getLogger("anaconda.stdout")
 
 class Anaconda(object):
 
-    INSTANCE = None
-
     def __init__(self):
         from pyanaconda import desktop
 
@@ -78,10 +76,6 @@ class Anaconda(object):
 
         # *sigh* we still need to be able to write this out
         self.xdriver = None
-
-        # lxnay: make possible to get the anaconda instance
-        # from payload / backend code
-        Anaconda.INSTANCE = self
 
     @property
     def bootloader(self):

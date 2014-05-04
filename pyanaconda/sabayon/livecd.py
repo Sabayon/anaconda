@@ -66,7 +66,6 @@ class LiveCDCopyBackend(ImagePayload):
         self._adj_size = 0
         self.pct = 0
         self.pct_lock = None
-        self._anaconda = None
 
         self._entropy_prop = None
         self._entropy_prop_lock = threading.RLock()
@@ -100,7 +99,6 @@ class LiveCDCopyBackend(ImagePayload):
 
     def setup(self, storage):
         super(LiveCDCopyBackend, self).setup(storage)
-        self._anaconda = Anaconda.INSTANCE
 
     def progress(self):
         """Monitor the amount of disk space used on the target and source and
@@ -129,7 +127,6 @@ class LiveCDCopyBackend(ImagePayload):
         super(LiveCDCopyBackend, self).preInstall(
             packages=packages, groups=groups)
         progressQ.send_message(_("Installing software") + (" %d%%") % (0,))
-
         self._sabayon_install = utils.SabayonInstall(self)
 
     def install(self):
@@ -147,7 +144,7 @@ class LiveCDCopyBackend(ImagePayload):
         # go recursively, include devices and special files, don't cross
         # file system boundaries
         args = ["-pogAXtlHrDx", "--exclude", "/dev/", "--exclude", "/proc/",
-                "--exclude", "/sys/", "--exclude", "/run/", "--exclude", "/boot/*rescue*",
+                "--exclude", "/sys/", "--exclude", "/run/",
                 "--exclude", "/etc/machine-id", INSTALL_TREE+"/", ROOT_PATH]
         try:
             rc = iutil.execWithRedirect(cmd, args)
@@ -175,83 +172,31 @@ class LiveCDCopyBackend(ImagePayload):
     def postInstall(self):
         super(LiveCDCopyBackend, self).postInstall()
 
-        log.info("Preparing to install Sabayon")
-
-        self._progress.set_label(_("Installing Sabayon onto hard drive."))
-        self._progress.set_fraction(0.0)
-
-        # Actually install
+        log.info("Preparing to configure Sabayon (backend postInstall)")
         self._sabayon_install.setup_secureboot()
-        self._sabayon_install.setup_language() # before ldconfig, thx
-        self._sabayon_install.setup_keyboard()
-
-        action = _("Configuring Sabayon")
-        self._progress.set_label(action)
-        self._progress.set_fraction(0.7)
-
         self._sabayon_install.setup_sudo()
-        self._sabayon_install.setup_audio()
         self._sabayon_install.remove_proprietary_drivers()
-        try:
-            self._sabayon_install.setup_nvidia_legacy()
-        except Exception as e:
-            # caused by Entropy bug <0.99.47.2, remove in future
-            log.error("Unable to install legacy nvidia drivers: %s" % e)
-
-        self._progress.set_fraction(0.8)
+        self._sabayon_install.setup_nvidia_legacy()
+        self._sabayon_install.configure_skel()
         self._sabayon_install.configure_services()
         self._sabayon_install.env_update()
-        self._sabayon_install.spawn_chroot("locale-gen", silent = True)
         self._sabayon_install.spawn_chroot("ldconfig")
-        # Fix a possible /tmp problem
-        self._sabayon_install.spawn("chmod a+w "+ROOT_PATH+"/tmp")
-        var_tmp = ROOT_PATH + "/var/tmp"
-        if not os.path.isdir(var_tmp): # wtf!
-            os.makedirs(var_tmp)
-        var_tmp_keep = os.path.join(var_tmp, ".keep")
-        if not os.path.isfile(var_tmp_keep):
-            with open(var_tmp_keep, "w") as wt:
-                wt.flush()
-
-        action = _("Sabayon configuration complete")
-        self._progress.set_label(action)
-
         self._sabayon_install.setup_entropy_mirrors()
-        self._sabayon_install.language_packs_install()
-
-        self._progress.set_fraction(1.0)
-
+        self._sabayon_install.cleanup_packages()
         self._sabayon_install.emit_install_done()
 
-        self._sabayon_install.destroy()
-        if hasattr(self.entropy, "shutdown"):
-            self.entropy.shutdown()
-        else:
-            self.entropy.destroy()
-            EntropyCacher().stop()
+        progressQ.send_message(_("Sabayon configuration complete"))
 
-        const_kill_threads()
-        anaconda.intf.setInstallProgressClass(None)
+    def configure(self):
+        super(LiveCDCopyBackend, self).configure()
 
-    def writeConfiguration(self):
-        """
-        System configuration is written in anaconda.write().
-        Add extra config files setup here.
-        """
+        log.info("Preparing to configure Sabayon (backend configure)")
 
-        # Write critical configuration not automatically written
-        # ignore crypt_filter_callback here
-        self.storage.fsset.write()
+        self._sabayon_install.spawn_chroot("locale-gen", silent = True)
 
-        log.info("Do we need to run GRUB2 setup? => %s" % (self._install_grub,))
+        username = self.data.user.userList[0].name
+        self._sabayon_install.configure_steambox(username)
 
-        if self._install_grub:
-            # HACK: since Anaconda doesn't support grub2 yet
-            # Grub configuration is disabled
-            # and this code overrides it
-            self._setup_grub2()
-
-        self._copy_logs()
         # also remove hw.hash
         hwhash_file = os.path.join(ROOT_PATH, "etc/entropy/.hw.hash")
         try:
@@ -259,22 +204,10 @@ class LiveCDCopyBackend(ImagePayload):
         except (OSError, IOError):
             pass
 
-    def _copy_logs(self):
-
-        # copy log files into chroot
-        isys.sync()
-        config_files = ["/tmp/anaconda.log", "/tmp/lvmout", "/tmp/resize.out",
-             "/tmp/program.log", "/tmp/storage.log"]
-        install_dir = ROOT_PATH + "/var/log/installer"
-        if not os.path.isdir(install_dir):
-            os.makedirs(install_dir)
-        for config_file in config_files:
-            if not os.path.isfile(config_file):
-                continue
-            dest_path = os.path.join(install_dir, os.path.basename(config_file))
-            shutil.copy2(config_file, dest_path)
-
     def _get_bootloader_args(self):
+
+        # XXX
+        
 
         # keymaps genkernel vs system map
         keymaps_map = {
@@ -311,8 +244,7 @@ class LiveCDCopyBackend(ImagePayload):
             'uk': 'uk',
             'us': 'us',
         }
-        console_kbd, xxx, aaa, yyy, zzz = \
-            self._sabayon_install.get_keyboard_layout()
+        console_kbd = self.data.keyboard.get()
         gk_kbd = keymaps_map.get(console_kbd)
 
         # look for kernel arguments we know should be preserved and add them
@@ -455,112 +387,3 @@ class LiveCDCopyBackend(ImagePayload):
 
         log.info("Generated boot cmdline: %s" % (final_cmdline,))
         return final_cmdline
-
-    def _setup_grub2(self):
-
-        cmdline_args = self._get_bootloader_args()
-
-        # "sda" <string>
-        grub_target = self.anaconda.bootloader.getDevice()
-        try:
-            # <storage.device.PartitionDevice>
-            boot_device = self.storage.mountpoints["/boot"]
-        except KeyError:
-            boot_device = self.storage.mountpoints["/"]
-
-        cmdline_str = ' '.join(cmdline_args)
-
-        log.info("_setup_grub2, grub_target: %s | "
-            "boot_device: %s | cmdline_str: %s" % (grub_target,
-            boot_device, cmdline_str,))
-
-        self._write_grub2(cmdline_str, grub_target)
-        # disable Anaconda bootloader code
-        self.anaconda.bootloader.defaultDevice = -1
-
-    def _write_grub2(self, cmdline, grub_target):
-
-        default_file_noroot = "/etc/default/grub"
-        grub_cfg_noroot = "/boot/grub/grub.cfg"
-
-        log.info("%s: %s => %s\n" % ("_write_grub2", "begin", locals()))
-
-        # setup grub variables
-        # this file must exist
-
-        # drop vga= from cmdline
-        #cmdline = ' '.join([x for x in cmdline.split() if \
-        #    not x.startswith("vga=")])
-
-        # Since Sabayon 5.4, we also write to /etc/default/sabayon-grub
-        grub_sabayon_file = ROOT_PATH + "/etc/default/sabayon-grub"
-        grub_sabayon_dir = os.path.dirname(grub_sabayon_file)
-        if not os.path.isdir(grub_sabayon_dir):
-            os.makedirs(grub_sabayon_dir)
-        with open(grub_sabayon_file, "w") as f_w:
-            f_w.write("# this file has been added by the Anaconda Installer\n")
-            f_w.write("# containing default installer bootloader arguments.\n")
-            f_w.write("# DO NOT EDIT NOR REMOVE THIS FILE DIRECTLY !!!\n")
-            f_w.write('GRUB_CMDLINE_LINUX="${GRUB_CMDLINE_LINUX} %s"\n' % (
-                cmdline,))
-            f_w.flush()
-
-        if self.anaconda.bootloader.password and self.anaconda.bootloader.pure:
-            # still no proper support, so implement what can be implemented
-            # XXX: unencrypted password support
-            pass_file = ROOT_PATH + "/etc/grub.d/00_password"
-            f_w = open(pass_file, "w")
-            f_w.write("""\
-set superuser="root"
-password root """+str(self.anaconda.bootloader.pure)+"""
-            """)
-            f_w.flush()
-            f_w.close()
-
-        # remove device.map if found
-        dev_map = ROOT_PATH + "/boot/grub/device.map"
-        if os.path.isfile(dev_map):
-            os.remove(dev_map)
-
-        # disable efi by forcing i386-pc if noefi is set
-        efi_args = []
-        if "noefi" in cmdline.split():
-            # we assume that we only support x86_64 and i686
-            efi_args.append("--target=i386-pc")
-
-        # this must be done before, otherwise gfx mode is not enabled
-        grub2_install = ROOT_PATH + "/usr/sbin/grub2-install"
-        if os.path.lexists(grub2_install):
-            iutil.execWithRedirect('/usr/sbin/grub2-install',
-                                   ["/dev/" + grub_target,
-                                    "--recheck", "--force"] + efi_args,
-                                   stdout = PROGRAM_LOG_FILE,
-                                   stderr = PROGRAM_LOG_FILE,
-                                   root = ROOT_PATH
-                                   )
-        else:
-            iutil.execWithRedirect('/sbin/grub2-install',
-                                   ["/dev/" + grub_target,
-                                    "--recheck", "--force"] + efi_args,
-                                   stdout = PROGRAM_LOG_FILE,
-                                   stderr = PROGRAM_LOG_FILE,
-                                   root = ROOT_PATH
-                                   )
-
-        grub2_mkconfig = ROOT_PATH + "/usr/sbin/grub2-mkconfig"
-        if os.path.lexists(grub2_mkconfig):
-            iutil.execWithRedirect('/usr/sbin/grub2-mkconfig',
-                                   ["--output=%s" % (grub_cfg_noroot,)],
-                                   stdout = PROGRAM_LOG_FILE,
-                                   stderr = PROGRAM_LOG_FILE,
-                                   root = ROOT_PATH
-                                   )
-        else:
-            iutil.execWithRedirect('/sbin/grub-mkconfig',
-                                   ["--output=%s" % (grub_cfg_noroot,)],
-                                   stdout = PROGRAM_LOG_FILE,
-                                   stderr = PROGRAM_LOG_FILE,
-                                   root = ROOT_PATH
-                                   )
-
-        log.info("%s: %s => %s\n" % ("_write_grub2", "end", locals()))
