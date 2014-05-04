@@ -6,11 +6,12 @@ incomplete list [please also check configure.ac]:
 [r] dev-python/python-blivet >=0.23.9 <0.50
 [r] dev-python/ipy
 [b] gtk-doc
-[r] gtk3
+[b] gtk-doc-am
+[r] x11-/libs/gtk+:3
 [r] gobject-introspection
 [b,r] gettext
-[r] glade
-[b,r] pygobject3
+[r] dev-util/glade
+[b,r] dev-python/pygobject-base
 [b,r] intltool
 [b,r] libgnomekbd
 [b,r] libxklavier
@@ -18,7 +19,7 @@ incomplete list [please also check configure.ac]:
 [r] pykickstart >=1.99.52
 [r] python-bugzilla
 [b,r] systemd
-[b,r] python-nose
+[b,r] dev-python/nose
 [b,r] net-misc/networkmanager >=0.9.9.0
 [b,r] dbus >=1.2.3
 [b,r] dbus-python
