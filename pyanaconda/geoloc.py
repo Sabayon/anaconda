@@ -550,9 +550,11 @@ class FedoraGeoIPProvider(GeolocationBackend):
                         timezone=timezone_code,
                         timezone_source=timezone_source))
         except urllib2.HTTPError as e:
-            log.debug("Geoloc: HTTPError for Fedora GeoIP API lookup:\n%s", e)
+            log.debug("Geoloc: HTTPError for Fedora GeoIP API lookup:\n%s (%s)",
+                      e, self.API_URL)
         except urllib2.URLError as e:
-            log.debug("Geoloc: URLError for Fedora GeoIP API lookup:\n%s", e)
+            log.debug("Geoloc: URLError for Fedora GeoIP API lookup:\n%s (%s)",
+                      e, self.API_URL)
 
 
 class HostipGeoIPProvider(GeolocationBackend):
