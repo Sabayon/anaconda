@@ -67,6 +67,13 @@ for mounted in reversed(open("/proc/mounts").readlines()):
     if mountpoint.startswith("/mnt/anactest") or mountpoint.startswith("/run/initramfs"):
         continue
 
+    mounted_paths = [
+        "/mnt/cdrom",
+        os.getenv("ANACONDA_PRODUCTPATH", "/mnt/livecd")
+        ]
+    if mountpoint in mounted_paths:
+        continue
+
     # Always clean up anaconda's mountpoints.
     if mountpoint.startswith("/mnt/sysimage") or mountpoint.startswith("/mnt/install"):
         os.system("umount %s" % mountpoint)
