@@ -41,12 +41,7 @@ import logging
 from entropy.exceptions import EntropyPackageException, DependenciesNotFound, \
     DependenciesCollision
 from entropy.const import etpConst, etpSys
-try:
-    from entropy.const import etpUi # Entropy 145
-    is_mute, set_mute = None, None
-except ImportError:
-    etpUi = None
-    from entropy.output import is_mute, set_mute
+from entropy.output import set_mute
 import entropy.tools
 import entropy.dep
 from entropy.core.settings.base import SystemSettings
@@ -54,7 +49,8 @@ from entropy.core import Singleton
 from entropy.services.client import WebService
 
 # Anaconda imports
-from pyanaconda.product import productPath
+from pyanaconda.anaconda import Anaconda
+from pyanaconda.constants import INSTALL_TREE, ROOT_PATH
 from pyanaconda.sabayon import Entropy
 from pyanaconda.sabayon.const import LIVE_USER, LANGUAGE_PACKS, REPO_NAME, \
     ASIAN_FONTS_PACKAGES, FIREWALL_SERVICE, SB_PRIVATE_KEY, \
@@ -65,182 +61,22 @@ STDERR_LOG = open("/tmp/anaconda.log","aw")
 log = logging.getLogger("packaging")
 
 
-def _set_mute(status):
-    if etpUi is not None:
-        etpUi['mute'] = status
-    else:
-        set_mute(status)
+class SabayonInstall(object):
 
+    def __init__(self, backend):
+        self._backend = backend
 
-class SabayonProgress(Singleton):
-
-    def init_singleton(self, anaconda):
-        self._intf = anaconda.intf
-        self._display_mode = anaconda.displayMode
-        self._prog = self._intf.instProgress
-        self.__updater = None
-        self._pix_count = 0
-        self.__alive = False
-        self.__adbox_running = False
-        self.__image_t = time.time()
-
-    def _process_events(self):
-        self._prog.processEvents()
-        self._spawn_adimage()
-        return self.__alive
-
-    def start(self):
-        self.__alive = True
-        if (self.__updater is None) and (self._display_mode == "g"):
-            self.__updater = glib.timeout_add(2000, self._process_events,
-                priority = glib.PRIORITY_HIGH + 10)
-        if self._display_mode == "g":
-            self.__adbox_running = True
-
-    def __kill_updater(self):
-        if self.__updater is not None:
-            glib.source_remove(self.__updater)
-            self.__updater = None
-
-    def stop(self):
-        self.__kill_updater()
-        self.__alive = False
-
-    def progress(self):
-        return self._prog
-
-    def set_label(self, label):
-        if self._display_mode == "g":
-            def do_it():
-                self._prog.set_label(label)
-                return False
-            glib.idle_add(do_it)
-            self._process_events()
-        else:
-            self._prog.set_label(label)
-
-    def set_text(self, text):
-        if self._display_mode == "g":
-            def do_it():
-                self._prog.set_text(text)
-                return False
-            glib.idle_add(do_it)
-            self._process_events()
-        else:
-            self._prog.set_text(text)
-
-    def set_fraction(self, pct):
-
-        if pct > 1.0:
-            pct = 1.0
-        elif pct < 0.0:
-            pct = 0.0
-
-        if self._display_mode == "g":
-            def do_it(pct):
-                self._prog.set_fraction(pct)
-                return False
-            glib.idle_add(do_it, pct)
-            self._process_events()
-        else:
-            self._prog.set_fraction(pct)
-
-    def _spawn_adimage(self):
-
-        if not self.__adbox_running:
-            return
-
-        cur_t = time.time()
-        if cur_t <= (self.__image_t + 10):
-            return
-        self.__image_t = cur_t
-
-        pixmaps = getattr(self._prog, 'pixmaps', [])
-        pix_len = len(pixmaps)
-        if pix_len == 0:
-            log.warning("Shutting down _spawn_adimage, no images")
-            self.__adbox_running = False
-            return
-
-        if not self._prog.adpix:
-            log.warning("Shutting down _spawn_adimage, no adpix")
-            self.__adbox_running = False
-            return
-
-        try:
-            pix_path = pixmaps[self._pix_count]
-        except IndexError:
-            self._pix_count = 0
-            pix_path = pixmaps[0]
-
-        self._pix_count += 1
-
-        import gui
-        pix = gui.readImageFromFile(pix_path)
-        if pix:
-            self._prog.adbox.remove(self._prog.adpix)
-            self._prog.adpix.destroy()
-            pix.set_alignment(0.5, 0.5)
-            self._prog.adbox.add(pix)
-            self._prog.adpix = pix
-        else:
-            log.warning("Shutting down _spawn_adimage, no pixmap: %s" % (
-                pix_path,))
-
-        self._prog.adbox.show_all()
-
-
-class SabayonInstall:
-
-    def __init__(self, anaconda):
-
-        self._anaconda = anaconda
-        self._root = anaconda.rootPath
-        self._prod_root = productPath
-        self._intf = anaconda.intf
-        self._progress = SabayonProgress(anaconda)
-        self._entropy = Entropy()
-        self._settings = SystemSettings()
-        with open("/proc/cmdline", "r") as cmd_f:
-            self.cmdline = cmd_f.readline().strip().split()
-        #sys.stderr = STDERR_LOG
-
-        self._files_db_path = self._root+"/files.db"
-        try:
-            self._files_db = self._entropy.open_generic_repository(
-                 self._files_db_path, dbname = "filesdb",
-                indexing_override = True)
-        except TypeError:
-            # new API
-            self._files_db = self._entropy.open_generic_repository(
-                 self._files_db_path, name = "filesdb",
-                indexing_override = True)
-        if hasattr(self._files_db, "initializeDatabase"):
-            self._files_db.initializeDatabase()
-        else:
-            self._files_db.initializeRepository()
+        self._anaconda = Anaconda.INSTANCE
+        self._intf = Anaconda.INSTANCE.intf
         self._live_repo = self._open_live_installed_repository()
         self._package_identifiers_to_remove = set()
-
-    def destroy(self):
-        # remove files db if exists
-        if hasattr(self._files_db, "close"):
-            self._files_db.close()
-        else:
-            self._files_db.closeDB()
-        try:
-            os.remove(self._files_db_path)
-        except OSError:
-            pass
-
-        self._progress.stop()
 
     def spawn_chroot(self, args, silent = False):
 
         pid = os.fork()
         if pid == 0:
 
-            os.chroot(self._root)
+            os.chroot(ROOT_PATH)
             os.chdir("/")
             do_shell = False
             myargs = args
@@ -266,55 +102,51 @@ class SabayonInstall:
         return subprocess.call(myargs, shell = True)
 
     def _open_live_installed_repository(self):
-        dbpath = self._prod_root + etpConst['etpdatabaseclientfilepath']
+        dbpath = INSTALL_TREE + etpConst['etpdatabaseclientfilepath']
         try:
-            dbconn = self._entropy.open_generic_repository(
+            dbconn = self._backend.entropy.open_generic_repository(
                 dbpath, xcache = False, read_only = True,
                 dbname = "live_client", indexing_override = False)
         except TypeError:
             # new API
-            dbconn = self._entropy.open_generic_repository(
+            dbconn = self._backend.entropy.open_generic_repository(
                 dbpath, xcache = False, read_only = True,
                 name = "live_client", indexing_override = False)
         return dbconn
 
     def _change_entropy_chroot(self, chroot = None):
         if not chroot:
-            self._entropy._installed_repo_enable = True
-            self._entropy.noclientdb = False
+            self._backend.entropy._installed_repo_enable = True
+            self._backend.entropy.noclientdb = False
         else:
-            self._entropy._installed_repo_enable = False
-            self._entropy.noclientdb = True
+            self._backend.entropy._installed_repo_enable = False
+            self._backend.entropy.noclientdb = True
         if chroot is None:
             chroot = ""
-        self._entropy.switch_chroot(chroot)
+        self._backend.entropy.switch_chroot(chroot)
 
-    def install_package(self, atom, match = None, silent = False, fetch = False):
+    def install_package(self, atom, match = None, silent = False,
+                        fetch = False):
 
         if silent and os.getenv('SABAYON_DEBUG'):
             silent = False
 
-        chroot = self._root
+        chroot = ROOT_PATH
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
 
         if match is None:
-            match = self._entropy.atom_match(atom)
+            match = self._backend.entropy.atom_match(atom)
 
         oldstdout = sys.stdout
         if silent:
             sys.stdout = STDERR_LOG
-            _set_mute(True)
+            set_mute(True)
 
-        try:
-            action_factory = self._entropy.PackageActionFactory()
-            install_action = action_factory.INSTALL_ACTION
-            fetch_action = action_factory.FETCH_ACTION
-        except AttributeError:
-            action_factory = None
-            install_action = "install"
-            fetch_action = "fetch"
+        action_factory = self._backend.entropy.PackageActionFactory()
+        install_action = action_factory.INSTALL_ACTION
+        fetch_action = action_factory.FETCH_ACTION
 
         try:
             rc = 0
@@ -324,22 +156,15 @@ class SabayonInstall:
                 if fetch:
                     action = fetch_action
 
-                if action_factory is not None:
-                    pkg = action_factory.get(
-                        action, match)
-                    rc = pkg.start()
-                    pkg.finalize()
-
-                else:
-                    pkg = self._entropy.Package()
-                    pkg.prepare(match, action)
-                    rc = pkg.run()
-                    pkg.kill()
+                pkg = action_factory.get(
+                    action, match)
+                rc = pkg.start()
+                pkg.finalize()
 
         finally:
             if silent:
                 sys.stdout = oldstdout
-                _set_mute(False)
+                set_mute(False)
             if chroot != root:
                 self._change_entropy_chroot(root)
 
@@ -350,22 +175,22 @@ class SabayonInstall:
         if silent and os.getenv('SABAYON_DEBUG'):
             silent = False
 
-        chroot = self._root
+        chroot = ROOT_PATH
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
 
-        inst_repo = self._entropy.installed_repository()
+        inst_repo = self._backend.entropy.installed_repository()
         if match is None:
             match = inst_repo.atomMatch(atom)
 
         oldstdout = sys.stdout
         if silent:
             sys.stdout = STDERR_LOG
-            _set_mute(True)
+            set_mute(True)
 
         try:
-            action_factory = self._entropy.PackageActionFactory()
+            action_factory = self._backend.entropy.PackageActionFactory()
             action = action_factory.REMOVE_ACTION
         except AttributeError:
             action_factory = None
@@ -382,7 +207,7 @@ class SabayonInstall:
                     pkg.finalize()
 
                 else:
-                    pkg = self._entropy.Package()
+                    pkg = self._backend.entropy.Package()
                     pkg.prepare((match[0],), "remove")
                     if 'remove_installed_vanished' not in pkg.pkgmeta:
                         rc = pkg.run()
@@ -391,7 +216,7 @@ class SabayonInstall:
         finally:
             if silent:
                 sys.stdout = oldstdout
-                _set_mute(False)
+                set_mute(False)
 
         if chroot != root:
             self._change_entropy_chroot(root)
@@ -399,19 +224,19 @@ class SabayonInstall:
         return rc
 
     def install_package_file(self, package_file):
-        chroot = self._root
+        chroot = ROOT_PATH
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
 
         try:
-            atomsfound = self._entropy.add_package_repository(
+            atomsfound = self._backend.entropy.add_package_repository(
                 package_file)
         except EntropyPackageException:
             return -1
 
         try:
-            action_factory = self._entropy.PackageActionFactory()
+            action_factory = self._backend.entropy.PackageActionFactory()
             action = action_factory.INSTALL_ACTION
         except AttributeError:
             action_factory = None
@@ -430,7 +255,7 @@ class SabayonInstall:
                 pkg.finalize()
 
             else:
-                pkg = self._entropy.Package()
+                pkg = self._backend.entropy.Package()
                 pkg.prepare(match, action)
                 rc2 = pkg.run()
                 pkg.kill()
@@ -444,13 +269,13 @@ class SabayonInstall:
             self._change_entropy_chroot(root)
 
         if repo != 0:
-            self._entropy.remove_repository(repo)
+            self._backend.entropy.remove_repository(repo)
 
         return 0
 
     def _configure_steambox(self):
 
-        steambox_user_file = self._root + "/etc/sabayon/steambox-user"
+        steambox_user_file = ROOT_PATH + "/etc/sabayon/steambox-user"
         steambox_user_dir = os.path.dirname(steambox_user_file)
         if not os.path.isdir(steambox_user_dir):
             os.makedirs(steambox_user_dir, 0755)
@@ -462,27 +287,27 @@ class SabayonInstall:
     def _configure_skel(self):
 
         # copy Rigo on the desktop
-        rigo_desktop = self._root+"/usr/share/applications/rigo.desktop"
+        rigo_desktop = ROOT_PATH+"/usr/share/applications/rigo.desktop"
         if os.path.isfile(rigo_desktop):
-            rigo_user_desktop = self._root+"/etc/skel/Desktop/rigo.desktop"
+            rigo_user_desktop = ROOT_PATH+"/etc/skel/Desktop/rigo.desktop"
             shutil.copy2(rigo_desktop, rigo_user_desktop)
             try:
                 os.chmod(rigo_user_desktop, 0775)
             except OSError:
                 pass
 
-        gparted_desktop = self._root+"/etc/skel/Desktop/gparted.desktop"
+        gparted_desktop = ROOT_PATH+"/etc/skel/Desktop/gparted.desktop"
         if os.path.isfile(gparted_desktop):
             os.remove(gparted_desktop)
 
-        installer_desk = self._root+"/etc/skel/Desktop/liveinst.desktop"
+        installer_desk = ROOT_PATH+"/etc/skel/Desktop/liveinst.desktop"
         if os.path.isfile(installer_desk):
             os.remove(installer_desk)
 
         # install welcome loader
-        orig_welcome_desk = self._root+"/etc/sabayon/sabayon-welcome-loader.desktop"
+        orig_welcome_desk = ROOT_PATH+"/etc/sabayon/sabayon-welcome-loader.desktop"
         if os.path.isfile(orig_welcome_desk):
-            autostart_dir = self._root+"/etc/skel/.config/autostart"
+            autostart_dir = ROOT_PATH+"/etc/skel/.config/autostart"
             if not os.path.isdir(autostart_dir):
                 os.makedirs(autostart_dir)
             desk_name = os.path.basename(orig_welcome_desk)
@@ -584,8 +409,8 @@ class SabayonInstall:
         # This forces GDM to respect the default session and load Cinnamon
         # as default xsession. (This is equivalent of using:
         # /usr/libexec/gdm-set-default-session
-        custom_gdm = os.path.join(self._root, "etc/gdm/custom.conf")
-        skel_dmrc = os.path.join(self._root, "etc/skel/.dmrc")
+        custom_gdm = os.path.join(ROOT_PATH, "etc/gdm/custom.conf")
+        skel_dmrc = os.path.join(ROOT_PATH, "etc/skel/.dmrc")
         if os.path.isfile(custom_gdm) and os.path.isfile(skel_dmrc):
             skel_config = ConfigParser.ConfigParser()
             skel_session = None
@@ -601,7 +426,7 @@ class SabayonInstall:
                         gdm_config.write(gdm_f)
 
         # drop /install-data now, bug 4019
-        install_data_dir = os.path.join(self._root, "install-data")
+        install_data_dir = os.path.join(ROOT_PATH, "install-data")
         if os.path.isdir(install_data_dir):
             shutil.rmtree(install_data_dir, True)
 
@@ -633,7 +458,7 @@ class SabayonInstall:
             """
             self.spawn_chroot(bb_script, silent = True)
 
-            udev_bl = self._root + "/etc/modprobe.d/bbswitch-blacklist.conf"
+            udev_bl = ROOT_PATH + "/etc/modprobe.d/bbswitch-blacklist.conf"
             with open(udev_bl, "w") as bl_f:
                 bl_f.write("""\
 # Added by the Sabayon Installer to avoid a race condition
@@ -670,47 +495,6 @@ blacklist nouveau
 
         return "xorg-x11"
 
-    def setup_users(self):
-
-        # configure .desktop files on Desktop
-        self._configure_skel()
-
-        # configure steambox user
-        self._configure_steambox()
-
-        # remove live user and its home dir
-        pid = os.fork()
-        if pid > 0:
-            os.waitpid(pid, 0)
-        else:
-            os.chroot(self._root)
-            # backward compat
-            proc = subprocess.Popen(("userdel", "-f", "-r", LIVE_USER),
-                stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-            os._exit(proc.wait())
-
-        # fixup root password
-        # see bug #2175
-        pid = os.fork()
-        if pid > 0:
-            os.waitpid(pid, 0)
-        else:
-            os.chroot(self._root)
-            root_pass = self._anaconda.users.rootPassword["password"]
-            root_str = "root:%s\n" % (root_pass,)
-            proc = subprocess.Popen(["chpasswd"],
-                stdin = subprocess.PIPE,
-                stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-            proc.stdin.write(root_str)
-            proc.stdin.close()
-            os._exit(proc.wait())
-
-    def setup_manual_networking(self):
-        # TODO: check if we need this with systemd. I'd say no.
-        # systemctl --no-reload disable NetworkManager.service
-        # systemctl --no-reload disable NetworkManager-wait-online.service
-        pass
-
     def get_keyboard_layout(self):
         console_kbd = self._anaconda.keyboard.get()
         kbd = self._anaconda.keyboard.modelDict[console_kbd]
@@ -725,22 +509,22 @@ blacklist nouveau
         def _spawn(args):
             subprocess.call(args, shell=True)
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s gnome &> /dev/null" % (
-            self._root, keylayout))
+            ROOT_PATH, keylayout))
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s kde &> /dev/null" % (
-            self._root, keylayout))
+            ROOT_PATH, keylayout))
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s lxde &> /dev/null" % (
-            self._root, keylayout))
+            ROOT_PATH, keylayout))
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s e17 &> /dev/null" % (
-            self._root, keylayout))
+            ROOT_PATH, keylayout))
         _spawn("ROOT=%s /sbin/keyboard-setup-2 \"%s\" \"%s\" \"%s\" xorg &> /dev/null" % (
-            self._root, xorglayout, variant, options))
+            ROOT_PATH, xorglayout, variant, options))
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s system &> /dev/null" % (
-            self._root, console_kbd))
+            ROOT_PATH, console_kbd))
         _spawn("ROOT=%s /sbin/keyboard-setup-2 %s xfce &> /dev/null" % (
-            self._root, console_kbd))
+            ROOT_PATH, console_kbd))
 
     def setup_sudo(self):
-        sudoers_file = self._root + '/etc/sudoers'
+        sudoers_file = ROOT_PATH + '/etc/sudoers'
         if os.path.isfile(sudoers_file):
             self.spawn("sed -i '/NOPASSWD/ s/^/#/' %s" % (sudoers_file,))
             with open(sudoers_file, "a") as sudo_f:
@@ -753,9 +537,9 @@ blacklist nouveau
             return
 
         make = "/usr/lib/quickinst/make-secureboot.sh"
-        private = self._root + SB_PRIVATE_KEY
-        public = self._root + SB_PUBLIC_X509
-        der = self._root + SB_PUBLIC_DER
+        private = ROOT_PATH + SB_PRIVATE_KEY
+        public = ROOT_PATH + SB_PUBLIC_X509
+        der = ROOT_PATH + SB_PUBLIC_DER
 
         orig_der = der[:]
         count = 0
@@ -784,8 +568,8 @@ blacklist nouveau
         asound_state = "/etc/asound.state"
         asound_state2 = "/var/lib/alsa/asound.state"
         if os.path.isfile(asound_state) and os.access(asound_state, os.R_OK):
-            asound_state_dest_dir = os.path.dirname(self._root+asound_state)
-            asound_state_dest_dir2 = os.path.dirname(self._root+asound_state2)
+            asound_state_dest_dir = os.path.dirname(ROOT_PATH+asound_state)
+            asound_state_dest_dir2 = os.path.dirname(ROOT_PATH+asound_state2)
 
             if not os.path.isdir(asound_state_dest_dir):
                 os.makedirs(asound_state_dest_dir, 0755)
@@ -794,8 +578,8 @@ blacklist nouveau
                 os.makedirs(asound_state_dest_dir2, 0755)
 
             source_f = open(asound_state, "r")
-            dest_f = open(self._root+asound_state, "w")
-            dest2_f = open(self._root+asound_state2, "w")
+            dest_f = open(ROOT_PATH+asound_state, "w")
+            dest2_f = open(ROOT_PATH+asound_state2, "w")
             asound_data = source_f.readlines()
             dest_f.writelines(asound_data)
             dest2_f.writelines(asound_data)
@@ -805,18 +589,9 @@ blacklist nouveau
             dest2_f.close()
             source_f.close()
 
-    def setup_xorg(self):
-        # Copy current xorg.conf
-        live_xorg_conf = "/etc/X11/xorg.conf"
-        if not os.path.isfile(live_xorg_conf):
-            return
-        xorg_conf = self._root + live_xorg_conf
-        shutil.copy2(live_xorg_conf, xorg_conf)
-        shutil.copy2(live_xorg_conf, xorg_conf+".original")
-
     def _setup_consolefont(self, system_font):
         # /etc/vconsole.conf support
-        vconsole_conf = self._root + "/etc/vconsole.conf"
+        vconsole_conf = ROOT_PATH + "/etc/vconsole.conf"
         content = []
         if os.path.isfile(vconsole_conf):
             with open(vconsole_conf, "r") as f:
@@ -835,14 +610,14 @@ blacklist nouveau
 
         info = self._anaconda.instLanguage.info
 
-        with open(self._root + "/etc/env.d/02locale", "w") as f:
+        with open(ROOT_PATH + "/etc/env.d/02locale", "w") as f:
             for key in info.keys():
                 if info[key] is not None:
                     f.write("%s=\"%s\"\n" % (key, info[key]))
             f.flush()
 
         # systemd support, same syntax as 02locale for now
-        with open(self._root + "/etc/locale.conf", "w") as f:
+        with open(ROOT_PATH + "/etc/locale.conf", "w") as f:
             for key in info.keys():
                 if info[key] is not None:
                     f.write("%s=\"%s\"\n" % (key, info[key]))
@@ -861,7 +636,7 @@ blacklist nouveau
                 if locale.startswith(libc_locale):
                     valid_locales.append(locale)
 
-            f = open(self._root + "/etc/locale.gen", "w")
+            f = open(ROOT_PATH + "/etc/locale.gen", "w")
             f.write("en_US.UTF-8 UTF-8\n")
             f.write("en_US ISO-8859-1\n")
             for locale in valid_locales:
@@ -872,7 +647,7 @@ blacklist nouveau
         # See Sabayon bug #2582
         system_font = self._anaconda.instLanguage.info.get("SYSFONT")
         if system_font is not None:
-            consolefont_dir = self._root + "/usr/share/consolefonts"
+            consolefont_dir = ROOT_PATH + "/usr/share/consolefonts"
             system_font_path = os.path.join(consolefont_dir,
                 system_font + ".psfu.gz")
             if os.path.isfile(system_font_path):
@@ -924,7 +699,7 @@ blacklist nouveau
                 continue
 
             dest_pkg_filepath = os.path.join(
-                self._root + "/", pkg_file)
+                ROOT_PATH + "/", pkg_file)
             shutil.copy2(pkg_filepath, dest_pkg_filepath)
 
             rc = self.install_package_file(dest_pkg_filepath)
@@ -950,9 +725,9 @@ blacklist nouveau
         if completed:
             # mask all the nvidia-drivers, this avoids having people
             # updating their drivers resulting in a non working system
-            mask_file = os.path.join(self._root+'/',
+            mask_file = os.path.join(ROOT_PATH+'/',
                 "etc/entropy/packages/package.mask")
-            unmask_file = os.path.join(self._root+'/',
+            unmask_file = os.path.join(ROOT_PATH+'/',
                 "etc/entropy/packages/package.unmask")
 
             if os.access(mask_file, os.W_OK) and os.path.isfile(mask_file):
@@ -978,7 +753,7 @@ blacklist nouveau
         self.spawn_chroot("env-update &> /dev/null")
 
     def _get_entropy_webservice(self):
-        factory = self._entropy.WebServices()
+        factory = self._backend.entropy.WebServices()
         webserv = factory.new(REPO_NAME)
         return webserv
 
@@ -992,227 +767,6 @@ blacklist nouveau
             webserv.add_downloads(["installer"])
         except Exception as err:
             log.error("Unable to emit_install_done(): %s" % err)
-
-    def live_install(self):
-        """
-        This function copy the LiveCD/DVD content into self._root
-        """
-
-        if not os.getenv("SABAYON_DISABLE_PKG_REMOVAL"):
-            self._setup_packages_to_remove()
-
-        action = _("System Installation")
-        copy_update_interval = 300
-        copy_update_counter = 299
-        # get file counters
-        total_files = 0
-        image_dir = self._prod_root
-        for z,z,files in os.walk(image_dir):
-            for file in files:
-                total_files += 1
-
-        self._progress.set_fraction(0.0)
-        self._progress.set_text(action)
-
-        def copy_other(fromfile, tofile):
-            proc = subprocess.Popen(("/bin/cp", "-a", fromfile, tofile),
-                stdout = subprocess.PIPE, stderr = subprocess.PIPE)
-            proc.wait()
-            del proc
-
-        def copy_reg(fromfile, tofile):
-            try:
-                shutil.copy2(fromfile, tofile)
-                user = os.stat(fromfile)[4]
-                group = os.stat(fromfile)[5]
-                os.chown(tofile, user, group)
-                shutil.copystat(fromfile, tofile)
-            except IOError, e:
-                if (e[0] == 40) or (e[0] == 2):
-                    # workaround for Too many levels of symbolic links
-                    copy_other(fromfile, tofile)
-                else:
-                    raise
-
-        def copy_lnk(fromfile, tofile):
-            source_link = os.readlink(fromfile)
-            if os.path.lexists(tofile):
-                os.remove(tofile)
-            os.symlink(source_link, tofile)
-
-        current_counter = 0
-        currentfile = "/"
-        image_dir_len = len(image_dir)
-        # Create the directory structure
-        # self.InstallFilesToIgnore
-        for currentdir, subdirs, files in os.walk(image_dir):
-
-            copy_update_counter += 1
-            to_currentdir = currentdir[image_dir_len:]
-            for t_dir in ("/proc", "/dev", "/sys"):
-                if to_currentdir.startswith(t_dir):
-                    # don't touch subdirs
-                    subdirs = []
-                    break
-
-            for xdir in subdirs:
-
-                image_path_dir = currentdir + "/" + xdir
-                mydir = image_path_dir[image_dir_len:]
-                rootdir = self._root + mydir
-
-                # handle broken symlinks
-                if os.path.islink(rootdir) and not os.path.exists(rootdir):
-                    # broken symlink
-                    os.remove(rootdir)
-
-                # if our directory is a file on the live system
-                elif os.path.isfile(rootdir): # really weird...!
-                    os.remove(rootdir)
-
-                # if our directory is a symlink instead, then copy the symlink
-                if os.path.islink(image_path_dir) and not os.path.isdir(rootdir):
-                    # for security we skip live items that are dirs
-                    tolink = os.readlink(image_path_dir)
-                    if os.path.islink(rootdir):
-                        os.remove(rootdir)
-                    os.symlink(tolink,rootdir)
-                elif (not os.path.isdir(rootdir)) and \
-                    (not os.access(rootdir,os.R_OK)):
-                    os.makedirs(rootdir)
-
-                if not os.path.islink(rootdir):
-                    # symlink don't need permissions, also until os.walk
-                    # ends they might be broken
-                    user = os.stat(image_path_dir)[4]
-                    group = os.stat(image_path_dir)[5]
-                    os.chown(rootdir,user,group)
-                    shutil.copystat(image_path_dir,rootdir)
-
-            files.sort()
-            for path_file in files:
-
-                current_counter += 1
-                fromfile = currentdir + "/" + path_file
-                currentfile = fromfile[image_dir_len:]
-
-                if currentfile.startswith("/dev/"):
-                    continue
-                if currentfile.startswith("/proc/"):
-                    continue
-                if currentfile.startswith("/sys/"):
-                    continue
-
-                try:
-                    # if file is in the ignore list
-                    if self._files_db.isFileAvailable(
-                        currentfile.decode('raw_unicode_escape')):
-                        continue
-                except:
-                    import traceback
-                    traceback.print_exc()
-
-                tofile = self._root + currentfile
-                st_info = os.lstat(fromfile)
-                if stat.S_ISREG(st_info[stat.ST_MODE]):
-                    copy_reg(fromfile, tofile)
-                elif stat.S_ISLNK(st_info[stat.ST_MODE]):
-                    copy_lnk(fromfile, tofile)
-                else:
-                    copy_other(fromfile, tofile)
-
-
-            if (copy_update_counter == copy_update_interval) or \
-                ((total_files - 1000) < current_counter):
-                # do that every 1000 iterations
-                copy_update_counter = 0
-                frac = float(current_counter)/total_files
-                self._progress.set_fraction(frac)
-
-        self._progress.set_fraction(1)
-
-        self._change_entropy_chroot(self._root)
-        # doing here, because client_repo should point to self._root chroot
-        client_repo = self._entropy.installed_repository()
-        # Removing Unwanted Packages
-        if self._package_identifiers_to_remove:
-
-            # this makes packages removal much faster
-            client_repo.createAllIndexes()
-
-            total_counter = len(self._package_identifiers_to_remove)
-            current_counter = 0
-            self._progress.set_fraction(current_counter)
-            self._progress.set_text(_("Cleaning packages"))
-            self._entropy.oldcount = [0,total_counter]
-
-            for pkg_id in self._package_identifiers_to_remove:
-                current_counter += 1
-                atom = client_repo.retrieveAtom(pkg_id)
-                if not atom:
-                    continue
-
-                ### XXX needed to speed up removal process
-                #"""
-                category = client_repo.retrieveCategory(pkg_id)
-                version = client_repo.retrieveVersion(pkg_id)
-                name = client_repo.retrieveName(pkg_id)
-                ebuild_path = self._root+"/var/db/pkg/%s/%s-%s" % (
-                    category, name, version)
-                if os.path.isdir(ebuild_path):
-                    shutil.rmtree(ebuild_path, True)
-                #"""
-                ### XXX
-
-                self.remove_package(None, match = (pkg_id,0), silent = True)
-                frac = float(current_counter)/total_counter
-                self._progress.set_fraction(frac)
-                self._progress.set_text("%s: %s" % (
-                    _("Cleaning package"), atom,))
-                self._entropy.oldcount = [current_counter, total_counter]
-
-        while 1:
-            change = False
-            mydirs = set()
-            try:
-                mydirs = self._files_db.retrieveContent(None, contentType = "dir")
-            except TypeError:
-                mydirs = set([x for x, y in self._files_db.retrieveContent(None,
-                    extended = True) if y == "dir"])
-            for mydir in mydirs:
-                mytree = os.path.join(self._root,mydir)
-                if os.path.isdir(mytree) and not client_repo.isFileAvailable(
-                    mydir):
-                    try:
-                        os.rmdir(mytree)
-                        change = True
-                    except OSError:
-                        pass
-            if not change:
-                break
-
-        # list installed packages and setup a package set
-        inst_packages = ['%s:%s\n' % (entropy.dep.dep_getkey(atom),slot,) \
-            for idpk, atom, slot, revision in client_repo.listAllPackages(
-                get_scope = True, order_by = "atom")]
-        # perfectly fine w/o self._root
-        pkgset_dir = SystemSettings.packages_sets_directory()
-        if not os.path.isdir(pkgset_dir):
-            os.makedirs(pkgset_dir, 0755)
-        set_name = "install_base"
-        set_filepath = os.path.join(pkgset_dir, set_name)
-        try:
-            f = open(set_filepath,"w")
-            f.writelines(inst_packages)
-            f.flush()
-            f.close()
-        except (IOError,):
-            pass
-
-        self._change_entropy_chroot()
-
-        self._progress.set_fraction(1)
-        self._progress.set_text(_("Installation complete"))
 
     def language_packs_install(self):
         langpacks = []
@@ -1228,7 +782,7 @@ blacklist nouveau
             log.info("nothing to install by language_packs_install")
             return
 
-        chroot = self._root
+        chroot = ROOT_PATH
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
@@ -1237,7 +791,6 @@ blacklist nouveau
 
             action = _("Installing Language Packs")
             self._progress.set_label(action)
-            self._progress.set_fraction(0.85)
 
             # update repos
             done = self.update_entropy_repositories()
@@ -1254,7 +807,7 @@ blacklist nouveau
 
             log.info("language packs install: %s" % (" ".join(langpacks),))
 
-            lang_matches = [self._entropy.atom_match(x) for x in langpacks]
+            lang_matches = [self._backend.entropy.atom_match(x) for x in langpacks]
             lang_matches = [x for x in lang_matches if x[0] != -1]
             if not lang_matches:
                 log.warning(
@@ -1263,7 +816,7 @@ blacklist nouveau
 
             # calculate deps, use relaxed algo
             try:
-                queue_obj = self._entropy.get_install_queue(lang_matches,
+                queue_obj = self._backend.entropy.get_install_queue(lang_matches,
                     False, False, relaxed = True)
                 if len(queue_obj) == 2:
                     install_queue, conflicts_queue = queue_obj
@@ -1281,7 +834,7 @@ blacklist nouveau
 
             # fetch packages
             for match in install_queue:
-                dbc = self._entropy.open_repository(match[1])
+                dbc = self._backend.entropy.open_repository(match[1])
                 langpack = dbc.retrieveAtom(match[0])
                 self._progress.set_text("%s: %s" % (
                     _("Downloading package"), langpack,))
@@ -1290,7 +843,7 @@ blacklist nouveau
 
             # install packages
             for match in install_queue:
-                dbc = self._entropy.open_repository(match[1])
+                dbc = self._backend.entropy.open_repository(match[1])
                 langpack = dbc.retrieveAtom(match[0])
                 self._progress.set_text("%s: %s" % (
                     _("Installing package"), langpack,))
@@ -1299,11 +852,10 @@ blacklist nouveau
         finally:
             if chroot != root:
                 self._change_entropy_chroot(root)
-            self._progress.set_fraction(0.9)
 
     def setup_entropy_mirrors(self):
 
-        if not hasattr(self._entropy, 'reorder_mirrors'):
+        if not hasattr(self._backend.entropy, 'reorder_mirrors'):
             # Entropy version does not support it
             return
         # disable by default, pkg.sabayon.org was always selected
@@ -1314,12 +866,12 @@ blacklist nouveau
         self._progress.set_label("%s: %s" % (
             _("Reordering Entropy mirrors"), _("can take some time..."),))
 
-        chroot = self._root
+        chroot = ROOT_PATH
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
         try:
-            self._entropy.reorder_mirrors(REPO_NAME)
+            self._backend.entropy.reorder_mirrors(REPO_NAME)
         except Exception as err:
             msg = "%s: %s" % (_("Error"), err)
             self._intf.messageWindow(_("Reordering Entropy mirrors"), msg,
@@ -1330,7 +882,8 @@ blacklist nouveau
 
     def update_entropy_repositories(self):
 
-        chroot = self._root
+        settings = SystemSettings()
+        chroot = ROOT_PATH
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
@@ -1342,12 +895,12 @@ blacklist nouveau
         oldstdout = sys.stdout
         if silent:
             sys.stdout = STDERR_LOG
-            _set_mute(True)
+            set_mute(True)
 
         try:
             # fetch_security = False => avoid spamming stdout
             try:
-                repo_intf = self._entropy.Repositories(fetch_security = False,
+                repo_intf = self._backend.entropy.Repositories(fetch_security = False,
                     entropy_updates_alert = False)
             except AttributeError:
                 msg = "%s: %s" % (_('No repositories specified in'),
@@ -1380,9 +933,9 @@ blacklist nouveau
 
             if silent:
                 sys.stdout = oldstdout
-                _set_mute(False)
-            self._entropy.close_repositories()
-            self._settings.clear()
+                set_mute(False)
+            self._backend.entropy.close_repositories()
+            settings.clear()
             if chroot != root:
                 self._change_entropy_chroot(root)
 
@@ -1413,13 +966,13 @@ blacklist nouveau
                 new_langpacks.add(langpack)
         langpacks = new_langpacks
 
-        client_repo = self._entropy.installed_repository()
+        client_repo = self._backend.entropy.installed_repository()
         for langpack in langpacks:
             matches, m_rc = client_repo.atomMatch(langpack, multiMatch = True)
             if m_rc != 0:
                 continue
             for pkg_id in matches:
-                valid = self._entropy.validate_package_removal(pkg_id)
+                valid = self._backend.entropy.validate_package_removal(pkg_id)
                 if not valid:
                     continue
                 yield pkg_id
@@ -1428,12 +981,12 @@ blacklist nouveau
         """
         This method must be called after having switched to install chroot.
         """
-        packages = self._entropy.packages_expand(ASIAN_FONTS_PACKAGES)
+        packages = self._backend.entropy.packages_expand(ASIAN_FONTS_PACKAGES)
         if not packages:
             log.error("tried to expand asian fonts packages, got nothing!")
             return []
 
-        client_repo = self._entropy.installed_repository()
+        client_repo = self._backend.entropy.installed_repository()
 
         def _pkg_filter(package):
             pkg_id, rc = client_repo.atomMatch(package)
@@ -1474,7 +1027,7 @@ blacklist nouveau
         # filter out unwanted packages
         # see sabayon.const
 
-        client_repo = self._entropy.installed_repository()
+        client_repo = self._backend.entropy.installed_repository()
 
         # KDE
         matches, m_rc = client_repo.atomMatch("kde-base/kdebase-startkde")
@@ -1510,7 +1063,7 @@ blacklist nouveau
     def _setup_packages_to_remove(self):
 
         # remove anaconda if installed
-        client_repo = self._entropy.installed_repository()
+        client_repo = self._backend.entropy.installed_repository()
         pkgs_rm = ["app-admin/anaconda", "app-misc/anaconda-runtime",
             "app-misc/anaconda-runtime-gui", "libselinux", "sys-process/audit"]
         for pkg_name in pkgs_rm:
@@ -1522,49 +1075,3 @@ blacklist nouveau
             localized_pkgs = self._get_removable_localized_packages()
             if localized_pkgs:
                 self._package_identifiers_to_remove.update(localized_pkgs)
-
-        if self._package_identifiers_to_remove:
-
-            current_counter = 0
-            total_counter = len(self._package_identifiers_to_remove)
-            self._progress.set_fraction(current_counter)
-            self._progress.set_text(_("Generating list of files to copy"))
-
-            for pkg in self._package_identifiers_to_remove:
-                current_counter += 1
-                self._progress.set_fraction(
-                    float(current_counter)/total_counter)
-                # get its files
-                mycontent = self._live_repo.retrieveContent(pkg,
-                    extended = True)
-                mydirs = [x[0] for x in mycontent if x[1] == "dir"]
-                for x in mydirs:
-                    if x.find("/usr/lib64") != -1:
-                        x = x.replace("/usr/lib64","/usr/lib")
-                    elif x.find("/lib64") != -1:
-                        x = x.replace("/lib64","/lib")
-                    self._add_file_to_ignore(x, "dir")
-                mycontent = [x[0] for x in mycontent if x[1] == "obj"]
-                for x in mycontent:
-                    if x.find("/usr/lib64") != -1:
-                        x = x.replace("/usr/lib64","/usr/lib")
-                    elif x.find("/lib64") != -1:
-                        x = x.replace("/lib64","/lib")
-                    self._add_file_to_ignore(x, "obj")
-                del mycontent
-
-            self._progress.set_fraction(1)
-
-        if hasattr(self._files_db, "commit"):
-            self._files_db.commit()
-        else:
-            self._files_db.commitChanges()
-        if hasattr(self._files_db, "setIndexing"):
-            self._files_db.setIndexing(True)
-        else:
-            self._files_db.indexing = True
-        self._files_db.createAllIndexes()
-
-    def _add_file_to_ignore(self, f_path, ctype):
-        self._files_db._cursor().execute(
-            'INSERT into content VALUES (?,?,?)' , ( None, f_path, ctype, ))

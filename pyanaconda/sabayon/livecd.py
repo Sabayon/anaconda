@@ -26,17 +26,21 @@ import stat
 import time
 import shutil
 import logging
+import threading
 
+from pyanaconda.anaconda import Anaconda
 from pyanaconda.anaconda_log import PROGRAM_LOG_FILE
+from pyanaconda.errors import errorHandler, ERROR_RAISE
 from pyanaconda import isys
-from pyanaconda.product import productPath as PRODUCT_PATH, \
-    productName as PRODUCT_NAME
+from pyanaconda.product import productName as PRODUCT_NAME
 from pyanaconda import iutil
 from pyanaconda import flags
 from pyanaconda.packaging import ImagePayload, PayloadSetupError, \
     PayloadInstallError
+from pyanaconda.threads import threadMgr, AnacondaThread
 from pyanaconda.i18n import _
-from pyanaconda.constants import ROOT_PATH
+from pyanaconda.constants import ROOT_PATH, INSTALL_TREE, THREAD_LIVE_PROGRESS
+from pyanaconda.progress import progressQ
 
 from blivet.size import Size
 import blivet.util
@@ -58,10 +62,22 @@ class LiveCDCopyBackend(ImagePayload):
     def __init__(self, *args, **kwargs):
         super(LiveCDCopyBackend, self).__init__(*args, **kwargs)
 
-        flags.livecdInstall = True
-        self._root = ROOT_PATH
+        # Used to adjust size of ROOT_PATH when files are already present
+        self._adj_size = 0
+        self.pct = 0
+        self.pct_lock = None
+        self._anaconda = None
 
-        self._entropy = Entropy()
+        self._entropy_prop = None
+        self._entropy_prop_lock = threading.RLock()
+
+    @property
+    def entropy(self):
+        with self._entropy_prop_lock:
+            if self._entropy_prop is None:
+                self._entropy_prop = Entropy()
+
+        return self._entropy_prop
 
     @property
     def kernelVersionList(self):
@@ -69,7 +85,8 @@ class LiveCDCopyBackend(ImagePayload):
 
     @property
     def spaceRequired(self):
-        return Size(bytes=iutil.getDirSize(PRODUCT_PATH) * 1024)
+        return Size(bytes=iutil.getDirSize(
+                os.path.realpath(INSTALL_TREE)) * 1024)
 
     def recreateInitrds(self, force=False):
         log.info("calling recreateInitrds()")
@@ -79,50 +96,93 @@ class LiveCDCopyBackend(ImagePayload):
 
     @property
     def repos(self):
-        return self._entropy.repositories()
-
-    # addOns, baseRepo, mirrorEnabled, getRepo, isRepoEnabled, getAddonRepo
-    # needsNetwork, updateBaseRepo, addRepo, removeRepo, enableRepo, disableRepo
+        return self.entropy.repositories()
 
     def setup(self, storage):
         super(LiveCDCopyBackend, self).setup(storage)
+        self._anaconda = Anaconda.INSTANCE
+
+    def progress(self):
+        """Monitor the amount of disk space used on the target and source and
+           update the hub's progress bar.
+        """
+        mountpoints = self.storage.mountpoints.copy()
+        last_pct = -1
+        while self.pct < 100:
+            dest_size = 0
+            for mnt in mountpoints:
+                mnt_stat = os.statvfs(ROOT_PATH+mnt)
+                dest_size += mnt_stat.f_frsize * (mnt_stat.f_blocks - mnt_stat.f_bfree)
+            if dest_size >= self._adj_size:
+                dest_size -= self._adj_size
+
+            pct = int(100 * dest_size / int(self._source_size))
+            if pct != last_pct:
+                with self.pct_lock:
+                    self.pct = pct
+                last_pct = pct
+                progressQ.send_message(_("Installing software") + (" %d%%") % (min(100, self.pct),))
+            time.sleep(0.777)
+
+    def preInstall(self, packages=None, groups=None):
+        """ Perform pre-installation tasks. """
+        super(LiveCDCopyBackend, self).preInstall(
+            packages=packages, groups=groups)
+        progressQ.send_message(_("Installing software") + (" %d%%") % (0,))
+
+        self._sabayon_install = utils.SabayonInstall(self)
+
+    def install(self):
+        """ Install the payload. """
+        self.pct_lock = threading.Lock()
+        self.pct = 0
+        self._source_size = self.spaceRequired
+
+        threadMgr.add(AnacondaThread(name=THREAD_LIVE_PROGRESS,
+                                     target=self.progress))
+
+        cmd = "rsync"
+        # preserve: permissions, owners, groups, ACL's, xattrs, times,
+        #           symlinks, hardlinks
+        # go recursively, include devices and special files, don't cross
+        # file system boundaries
+        args = ["-pogAXtlHrDx", "--exclude", "/dev/", "--exclude", "/proc/",
+                "--exclude", "/sys/", "--exclude", "/run/", "--exclude", "/boot/*rescue*",
+                "--exclude", "/etc/machine-id", INSTALL_TREE+"/", ROOT_PATH]
+        try:
+            rc = iutil.execWithRedirect(cmd, args)
+        except (OSError, RuntimeError) as e:
+            msg = None
+            err = str(e)
+            log.error(err)
+        else:
+            err = None
+            msg = "%s exited with code %d" % (cmd, rc)
+            log.info(msg)
+
+        if err or rc == 12:
+            exn = PayloadInstallError(err or msg)
+            if errorHandler.cb(exn) == ERROR_RAISE:
+                raise exn
+
+        # Wait for progress thread to finish
+        with self.pct_lock:
+            self.pct = 100
+        threadMgr.wait(THREAD_LIVE_PROGRESS)
 
     ### XXX ###
 
-    def preInstall(self, packages=None, groups=None):
-        self._progress = utils.SabayonProgress(anaconda)
-        self._progress.start()
-        self._entropy.connect_progress(self._progress)
-        self._sabayon_install = utils.SabayonInstall(anaconda)
-        # We use anaconda.upgrade as bootloader recovery step
-        self._bootloader_recovery = anaconda.upgrade
-        self._install_grub = not self.anaconda.dispatch.stepInSkipList(
-            "instbootloader")
+    def postInstall(self):
+        super(LiveCDCopyBackend, self).postInstall()
 
-    def install(self):
-
-        # Disable internal Anaconda bootloader setup, doesn't support GRUB2
-        anaconda.dispatch.skipStep("instbootloader", skip = 1)
-
-        if self._bootloader_recovery:
-            log.info("Preparing to recover Sabayon")
-            self._progress.set_label(_("Recovering Sabayon."))
-            self._progress.set_fraction(0.0)
-            return
-        else:
-            log.info("Preparing to install Sabayon")
+        log.info("Preparing to install Sabayon")
 
         self._progress.set_label(_("Installing Sabayon onto hard drive."))
         self._progress.set_fraction(0.0)
 
         # Actually install
-        self._sabayon_install.live_install()
         self._sabayon_install.setup_secureboot()
-        self._sabayon_install.setup_users()
         self._sabayon_install.setup_language() # before ldconfig, thx
-        # if simple networking is enabled, disable NetworkManager
-        if self.anaconda.instClass.simplenet:
-            self._sabayon_install.setup_manual_networking()
         self._sabayon_install.setup_keyboard()
 
         action = _("Configuring Sabayon")
@@ -131,7 +191,6 @@ class LiveCDCopyBackend(ImagePayload):
 
         self._sabayon_install.setup_sudo()
         self._sabayon_install.setup_audio()
-        self._sabayon_install.setup_xorg()
         self._sabayon_install.remove_proprietary_drivers()
         try:
             self._sabayon_install.setup_nvidia_legacy()
@@ -145,8 +204,8 @@ class LiveCDCopyBackend(ImagePayload):
         self._sabayon_install.spawn_chroot("locale-gen", silent = True)
         self._sabayon_install.spawn_chroot("ldconfig")
         # Fix a possible /tmp problem
-        self._sabayon_install.spawn("chmod a+w "+self._root+"/tmp")
-        var_tmp = self._root + "/var/tmp"
+        self._sabayon_install.spawn("chmod a+w "+ROOT_PATH+"/tmp")
+        var_tmp = ROOT_PATH + "/var/tmp"
         if not os.path.isdir(var_tmp): # wtf!
             os.makedirs(var_tmp)
         var_tmp_keep = os.path.join(var_tmp, ".keep")
@@ -157,22 +216,18 @@ class LiveCDCopyBackend(ImagePayload):
         action = _("Sabayon configuration complete")
         self._progress.set_label(action)
 
-    def postInstall(self):
-        super(LiveCDCopyBackend, self).postInstall()
-
-        if not self._bootloader_recovery:
-            self._sabayon_install.setup_entropy_mirrors()
-            self._sabayon_install.language_packs_install()
+        self._sabayon_install.setup_entropy_mirrors()
+        self._sabayon_install.language_packs_install()
 
         self._progress.set_fraction(1.0)
 
         self._sabayon_install.emit_install_done()
 
         self._sabayon_install.destroy()
-        if hasattr(self._entropy, "shutdown"):
-            self._entropy.shutdown()
+        if hasattr(self.entropy, "shutdown"):
+            self.entropy.shutdown()
         else:
-            self._entropy.destroy()
+            self.entropy.destroy()
             EntropyCacher().stop()
 
         const_kill_threads()
@@ -186,7 +241,7 @@ class LiveCDCopyBackend(ImagePayload):
 
         # Write critical configuration not automatically written
         # ignore crypt_filter_callback here
-        self.anaconda.storage.fsset.write()
+        self.storage.fsset.write()
 
         log.info("Do we need to run GRUB2 setup? => %s" % (self._install_grub,))
 
@@ -198,7 +253,7 @@ class LiveCDCopyBackend(ImagePayload):
 
         self._copy_logs()
         # also remove hw.hash
-        hwhash_file = os.path.join(self._root, "etc/entropy/.hw.hash")
+        hwhash_file = os.path.join(ROOT_PATH, "etc/entropy/.hw.hash")
         try:
             os.remove(hwhash_file)
         except (OSError, IOError):
@@ -210,7 +265,7 @@ class LiveCDCopyBackend(ImagePayload):
         isys.sync()
         config_files = ["/tmp/anaconda.log", "/tmp/lvmout", "/tmp/resize.out",
              "/tmp/program.log", "/tmp/storage.log"]
-        install_dir = self._root + "/var/log/installer"
+        install_dir = ROOT_PATH + "/var/log/installer"
         if not os.path.isdir(install_dir):
             os.makedirs(install_dir)
         for config_file in config_files:
@@ -271,7 +326,7 @@ class LiveCDCopyBackend(ImagePayload):
             "modeset=", "nomodeset", "domdadm", "dohyperv", "dovirtio"]
 
         # use reference, yeah
-        cmdline = self._sabayon_install.cmdline
+        cmdline = cmd_f.readline().strip().split()
         final_cmdline = []
 
         if self._sabayon_install.is_hyperv() and ("dohyperv" not in cmdline):
@@ -295,7 +350,7 @@ class LiveCDCopyBackend(ImagePayload):
                 cmdline.append("keymap=%s" % (gk_kbd,))
 
         # setup USB parameters, if installing on USB
-        root_is_removable = getattr(self.anaconda.storage.rootDevice,
+        root_is_removable = getattr(self.storage.rootDevice,
             "removable", False)
         if root_is_removable:
             cmdline.append("scandelay=10")
@@ -304,13 +359,13 @@ class LiveCDCopyBackend(ImagePayload):
         # check if root device is ext2, ext3 or ext4. In case,
         # add rootfstype=ext* to avoid genkernel crap to mount
         # it wrongly (for example: ext3 as ext2).
-        root_dev_type = getattr(self.anaconda.storage.rootDevice.format,
+        root_dev_type = getattr(self.storage.rootDevice.format,
             "name", "")
         if root_dev_type in ("ext2", "ext3", "ext4"):
             cmdline.append("rootfstype=" + root_dev_type)
 
-        raid_devs = self.anaconda.storage.mdarrays
-        raid_devs += self.anaconda.storage.mdcontainers
+        raid_devs = self.storage.mdarrays
+        raid_devs += self.storage.mdcontainers
         # only add domdadm if we managed to configure some kind of raid
         if raid_devs and "domdadm" not in cmdline:
             cmdline.append("domdadm")
@@ -331,10 +386,10 @@ class LiveCDCopyBackend(ImagePayload):
                             final_cmdline.remove(previous_vga)
                         previous_vga = arg
 
-        fsset = self.anaconda.storage.fsset
+        fsset = self.storage.fsset
         swap_devices = fsset.swapDevices or []
         # <storage.devices.Device> subclass
-        root_device = self.anaconda.storage.rootDevice
+        root_device = self.storage.rootDevice
         # device.format.mountpoint, device.format.type, device.format.mountable,
         # device.format.options, device.path, device.fstabSpec
         swap_crypto_dev = None
@@ -409,9 +464,9 @@ class LiveCDCopyBackend(ImagePayload):
         grub_target = self.anaconda.bootloader.getDevice()
         try:
             # <storage.device.PartitionDevice>
-            boot_device = self.anaconda.storage.mountpoints["/boot"]
+            boot_device = self.storage.mountpoints["/boot"]
         except KeyError:
-            boot_device = self.anaconda.storage.mountpoints["/"]
+            boot_device = self.storage.mountpoints["/"]
 
         cmdline_str = ' '.join(cmdline_args)
 
@@ -438,7 +493,7 @@ class LiveCDCopyBackend(ImagePayload):
         #    not x.startswith("vga=")])
 
         # Since Sabayon 5.4, we also write to /etc/default/sabayon-grub
-        grub_sabayon_file = self._root + "/etc/default/sabayon-grub"
+        grub_sabayon_file = ROOT_PATH + "/etc/default/sabayon-grub"
         grub_sabayon_dir = os.path.dirname(grub_sabayon_file)
         if not os.path.isdir(grub_sabayon_dir):
             os.makedirs(grub_sabayon_dir)
@@ -453,7 +508,7 @@ class LiveCDCopyBackend(ImagePayload):
         if self.anaconda.bootloader.password and self.anaconda.bootloader.pure:
             # still no proper support, so implement what can be implemented
             # XXX: unencrypted password support
-            pass_file = self._root + "/etc/grub.d/00_password"
+            pass_file = ROOT_PATH + "/etc/grub.d/00_password"
             f_w = open(pass_file, "w")
             f_w.write("""\
 set superuser="root"
@@ -463,7 +518,7 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             f_w.close()
 
         # remove device.map if found
-        dev_map = self._root + "/boot/grub/device.map"
+        dev_map = ROOT_PATH + "/boot/grub/device.map"
         if os.path.isfile(dev_map):
             os.remove(dev_map)
 
@@ -474,14 +529,14 @@ password root """+str(self.anaconda.bootloader.pure)+"""
             efi_args.append("--target=i386-pc")
 
         # this must be done before, otherwise gfx mode is not enabled
-        grub2_install = self._root + "/usr/sbin/grub2-install"
+        grub2_install = ROOT_PATH + "/usr/sbin/grub2-install"
         if os.path.lexists(grub2_install):
             iutil.execWithRedirect('/usr/sbin/grub2-install',
                                    ["/dev/" + grub_target,
                                     "--recheck", "--force"] + efi_args,
                                    stdout = PROGRAM_LOG_FILE,
                                    stderr = PROGRAM_LOG_FILE,
-                                   root = self._root
+                                   root = ROOT_PATH
                                    )
         else:
             iutil.execWithRedirect('/sbin/grub2-install',
@@ -489,23 +544,23 @@ password root """+str(self.anaconda.bootloader.pure)+"""
                                     "--recheck", "--force"] + efi_args,
                                    stdout = PROGRAM_LOG_FILE,
                                    stderr = PROGRAM_LOG_FILE,
-                                   root = self._root
+                                   root = ROOT_PATH
                                    )
 
-        grub2_mkconfig = self._root + "/usr/sbin/grub2-mkconfig"
+        grub2_mkconfig = ROOT_PATH + "/usr/sbin/grub2-mkconfig"
         if os.path.lexists(grub2_mkconfig):
             iutil.execWithRedirect('/usr/sbin/grub2-mkconfig',
                                    ["--output=%s" % (grub_cfg_noroot,)],
                                    stdout = PROGRAM_LOG_FILE,
                                    stderr = PROGRAM_LOG_FILE,
-                                   root = self._root
+                                   root = ROOT_PATH
                                    )
         else:
             iutil.execWithRedirect('/sbin/grub-mkconfig',
                                    ["--output=%s" % (grub_cfg_noroot,)],
                                    stdout = PROGRAM_LOG_FILE,
                                    stderr = PROGRAM_LOG_FILE,
-                                   root = self._root
+                                   root = ROOT_PATH
                                    )
 
         log.info("%s: %s => %s\n" % ("_write_grub2", "end", locals()))
