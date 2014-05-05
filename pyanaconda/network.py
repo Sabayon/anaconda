@@ -698,7 +698,14 @@ def copyFileToPath(fileName, destPath='', overwrite=False):
 # /etc/sysconfig/network-scripts/keys-*
 # TODO: routing info from /etc/sysconfig/network-scripts?
 def copyIfcfgFiles(destPath):
-    files = os.listdir(netscriptsDir)
+
+    try:
+        files = os.listdir(netscriptsDir)
+    except OSError as err:
+        if err.errno != errno.ENOENT:
+            raise
+        files = []
+
     for cfgFile in files:
         if cfgFile.startswith(("ifcfg-","keys-")):
             srcfile = os.path.join(netscriptsDir, cfgFile)
