@@ -1,5 +1,6 @@
 incomplete list [please also check configure.ac]:
 
+[b,r] !! virtual/pkgconfig
 [r] app-admin/sudo
 [b] app-arch/rpm
 [b,r] sys-apps/libselinux[python]
