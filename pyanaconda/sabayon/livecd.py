@@ -67,6 +67,8 @@ class LiveCDCopyBackend(ImagePayload):
         self.pct = 0
         self.pct_lock = None
 
+        self._packages = None
+
         self._entropy_prop = None
         self._entropy_prop_lock = threading.RLock()
 
@@ -129,6 +131,8 @@ class LiveCDCopyBackend(ImagePayload):
         progressQ.send_message(_("Installing software") + (" %d%%") % (0,))
         self._sabayon_install = utils.SabayonInstall(self)
 
+        self._packages = packages
+
     def install(self):
         """ Install the payload. """
         self.pct_lock = threading.Lock()
@@ -167,8 +171,6 @@ class LiveCDCopyBackend(ImagePayload):
             self.pct = 100
         threadMgr.wait(THREAD_LIVE_PROGRESS)
 
-    ### XXX ###
-
     def postInstall(self):
         super(LiveCDCopyBackend, self).postInstall()
 
@@ -179,10 +181,15 @@ class LiveCDCopyBackend(ImagePayload):
         self._sabayon_install.setup_nvidia_legacy()
         self._sabayon_install.configure_skel()
         self._sabayon_install.configure_services()
-        self._sabayon_install.env_update()
-        self._sabayon_install.spawn_chroot("ldconfig")
+        self._sabayon_install.spawn_chroot(["env-update"])
+        self._sabayon_install.spawn_chroot(["ldconfig"])
         self._sabayon_install.setup_entropy_mirrors()
+
         self._sabayon_install.cleanup_packages()
+
+        if self._packages:
+            self._sabayon_install.maybe_install_packages(self._packages)
+
         self._sabayon_install.emit_install_done()
 
         progressQ.send_message(_("Sabayon configuration complete"))
@@ -192,7 +199,7 @@ class LiveCDCopyBackend(ImagePayload):
 
         log.info("Preparing to configure Sabayon (backend configure)")
 
-        self._sabayon_install.spawn_chroot("locale-gen", silent = True)
+        self._sabayon_install.spawn_chroot(["locale-gen"])
 
         username = self.data.user.userList[0].name
         self._sabayon_install.configure_steambox(username)
@@ -204,9 +211,12 @@ class LiveCDCopyBackend(ImagePayload):
         except (OSError, IOError):
             pass
 
+    ### XXX ###
+
     def _get_bootloader_args(self):
 
         # XXX
+        # write cmdline to /etc/default/sabayon-grub
         
 
         # keymaps genkernel vs system map
@@ -245,7 +255,7 @@ class LiveCDCopyBackend(ImagePayload):
             'us': 'us',
         }
         console_kbd = self.data.keyboard.get()
-        gk_kbd = keymaps_map.get(console_kbd)
+        gk_kbd = keymaps_map.get(console_kbd, console_kbd)
 
         # look for kernel arguments we know should be preserved and add them
         ourargs = ["speakup_synth=", "apic", "noapic", "apm=", "ide=", "noht",
@@ -258,7 +268,8 @@ class LiveCDCopyBackend(ImagePayload):
             "modeset=", "nomodeset", "domdadm", "dohyperv", "dovirtio"]
 
         # use reference, yeah
-        cmdline = cmd_f.readline().strip().split()
+        with open("/proc/cmdline") as cmd_f:
+            cmdline = cmd_f.readline().strip().split()
         final_cmdline = []
 
         if self._sabayon_install.is_hyperv() and ("dohyperv" not in cmdline):

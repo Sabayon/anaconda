@@ -49,6 +49,7 @@ from entropy.core import Singleton
 from entropy.services.client import WebService
 
 # Anaconda imports
+from pyanaconda import iutil
 from pyanaconda.anaconda import Anaconda
 from pyanaconda.constants import INSTALL_TREE, ROOT_PATH
 from pyanaconda.progress import progressQ
@@ -58,7 +59,6 @@ from pyanaconda.i18n import _
 
 from blivet import arch
 
-STDERR_LOG = open("/tmp/anaconda.log","aw")
 log = logging.getLogger("packaging")
 
 
@@ -68,35 +68,9 @@ class SabayonInstall(object):
         self._backend = backend
         self._live_repo = self._open_live_installed_repository()
 
-    def spawn_chroot(self, args, silent = False):
-
-        pid = os.fork()
-        if pid == 0:
-
-            os.chroot(ROOT_PATH)
-            os.chdir("/")
-            do_shell = False
-            myargs = args
-            if not isinstance(args, (list, tuple)):
-                do_shell = True
-            if silent:
-                p = subprocess.Popen(args, stdout = STDERR_LOG,
-                    stderr = STDERR_LOG, shell = do_shell)
-            else:
-                p = subprocess.Popen(args, shell = do_shell)
-            rc = p.wait()
-            os._exit(rc)
-
-        else:
-
-            rcpid, rc = os.waitpid(pid,0)
-            return rc
-
-    def spawn(self, args):
-        myargs = args
-        if isinstance(args, (list, tuple)):
-            myargs = ' '.join(args)
-        return subprocess.call(myargs, shell = True)
+    def spawn_chroot(self, args):
+        return iutil.execWithRedirect(
+            args[0], args[1:], root=ROOT_PATH)
 
     def _open_live_installed_repository(self):
         dbpath = INSTALL_TREE + etpConst['etpdatabaseclientfilepath']
@@ -122,10 +96,7 @@ class SabayonInstall(object):
             chroot = ""
         self._backend.entropy.switch_chroot(chroot)
 
-    def remove_package(self, atom, match = None, silent = False):
-
-        if silent and os.getenv('SABAYON_DEBUG'):
-            silent = False
+    def remove_package(self, atom, match = None):
 
         chroot = ROOT_PATH
         root = etpSys['rootdir']
@@ -136,11 +107,6 @@ class SabayonInstall(object):
         if match is None:
             match = inst_repo.atomMatch(atom)
 
-        oldstdout = sys.stdout
-        if silent:
-            sys.stdout = STDERR_LOG
-            set_mute(True)
-
         try:
             action_factory = self._backend.entropy.PackageActionFactory()
             action = action_factory.REMOVE_ACTION
@@ -148,27 +114,21 @@ class SabayonInstall(object):
             action_factory = None
             action = "remove"
 
-        try:
-            rc = 0
-            if match[0] != -1:
+        rc = 0
+        if match[0] != -1:
 
-                if action_factory is not None:
-                    pkg = action_factory.get(
-                        action, (match[0], inst_repo.name))
-                    rc = pkg.start()
-                    pkg.finalize()
+            if action_factory is not None:
+                pkg = action_factory.get(
+                    action, (match[0], inst_repo.name))
+                rc = pkg.start()
+                pkg.finalize()
 
-                else:
-                    pkg = self._backend.entropy.Package()
-                    pkg.prepare((match[0],), "remove")
-                    if 'remove_installed_vanished' not in pkg.pkgmeta:
-                        rc = pkg.run()
-                        pkg.kill()
-
-        finally:
-            if silent:
-                sys.stdout = oldstdout
-                set_mute(False)
+            else:
+                pkg = self._backend.entropy.Package()
+                pkg.prepare((match[0],), "remove")
+                if 'remove_installed_vanished' not in pkg.pkgmeta:
+                    rc = pkg.run()
+                    pkg.kill()
 
         if chroot != root:
             self._change_entropy_chroot(root)
@@ -182,48 +142,66 @@ class SabayonInstall(object):
             self._change_entropy_chroot(chroot)
 
         try:
-            atomsfound = self._backend.entropy.add_package_repository(
-                package_file)
-        except EntropyPackageException:
-            return -1
+
+            try:
+                atomsfound = self._backend.entropy.add_package_repository(
+                    package_file)
+            except EntropyPackageException:
+                return -1
+
+            action_factory = self._backend.entropy.PackageActionFactory()
+            action = action_factory.INSTALL_ACTION
+
+            repo = 0
+            for match in atomsfound:
+                repo = match[1]
+
+                pkg = action_factory.get(
+                    action, match)
+                try:
+                    exit_st = pkg.start()
+                finally:
+                    pkg.finalize()
+
+                if exit_st != 0:
+                    return exit_st
+
+            if repo != 0:
+                self._backend.entropy.remove_repository(repo)
+
+        finally:
+            if chroot != root:
+                self._change_entropy_chroot(root)
+
+        return 0
+
+    def install_package(self, package):
+        chroot = ROOT_PATH
+        root = etpSys['rootdir']
+
+        if chroot != root:
+            self._change_entropy_chroot(chroot)
 
         try:
             action_factory = self._backend.entropy.PackageActionFactory()
             action = action_factory.INSTALL_ACTION
-        except AttributeError:
-            action_factory = None
-            action = "install"
 
-        repo = 0
-        for match in atomsfound:
-            repo = match[1]
+            match = self._backend.entropy.atom_match(package)
+            package_id, repository_id = match
+            if package_id == -1:
+                return -1
 
-            rc2 = 0
-
-            if action_factory is not None:
-                pkg = action_factory.get(
-                    action, match)
-                rc2 = pkg.start()
+            pkg = action_factory.get(action, match)
+            try:
+                exit_st = pkg.start()
+            finally:
                 pkg.finalize()
 
-            else:
-                pkg = self._backend.entropy.Package()
-                pkg.prepare(match, action)
-                rc2 = pkg.run()
-                pkg.kill()
+            return exit_st
 
-            if rc2 != 0:
-                if chroot != root:
-                    self._change_entropy_chroot(root)
-                return rc2
-
-        if chroot != root:
-            self._change_entropy_chroot(root)
-
-        if repo != 0:
-            self._backend.entropy.remove_repository(repo)
-
-        return 0
+        finally:
+            if chroot != root:
+                self._change_entropy_chroot(root)
 
     def configure_steambox(self, steambox_user):
 
@@ -280,47 +258,42 @@ class SabayonInstall(object):
         action = _("Configuring System Services")
         progressQ.send_message(action)
 
-        is_sabayon_mce = "1"
-        if not self._backend.entropy.is_sabayon_mce():
-            is_sabayon_mce = "0"
+         # Remove Installer services
+        disable_srvs = [
+            "installer-gui",
+            "installer-text",
+            "sabayonlive",
+            "music",
+            "cdeject",
 
-        # Remove Installer services
-        config_script = """\
-        systemctl --no-reload disable installer-gui.service
-        systemctl --no-reload disable installer-text.service
+            ]
+        enable_srvs = [
+            "x-setup",
+            "vixie-cron",
+            "oemsystem",
+            FIREWALL_SERVICE,
+            ]
 
-        systemctl --no-reload disable sabayonlive.service
-        systemctl --no-reload enable x-setup.service
-
-        systemctl --no-reload enable vixie-cron.service
-
-        systemctl --no-reload disable music.service
-
-        systemctl --no-reload disable cdeject.service
-
-        systemctl --no-reload enable oemsystem.service
-
-        if [ "0" = """+is_sabayon_mce+""" ]; then
-            systemctl --no-reload disable sabayon-mce.service
-        else
-            systemctl --no-reload enable NetworkManager-wait-online.service
-        fi
-        """
-        self.spawn_chroot(config_script, silent = True)
+        if self._backend.entropy.is_sabayon_mce():
+            enable_srvs.append("sabayon-mce")
+            enable_srvs.append("NetworkManager-wait-online")
+        else:
+            disable_srvs.append("sabayon-mce")
 
         if self.is_virtualbox():
-            self.spawn_chroot("""\
-            systemctl --no-reload enable virtualbox-guest-additions.service
-            """, silent = True)
+            enable_srvs.append("virtualbox-guest-additions")
         else:
-            self.spawn_chroot("""\
-            systemctl --no-reload disable virtualbox-guest-additions.service
-            """, silent = True)
+            disable_srvs.append("virtualbox-guest-additions")
 
-        # enable firewall by default
-        self.spawn_chroot("""\
-        systemctl --no-reload enable %s.service
-        """ % (FIREWALL_SERVICE,), silent = True)
+        for srv in disable_srvs:
+            self.spawn_chroot(
+                ["systemctl", "--no-reload", "disable",
+                 srv + ".service"])
+
+        for srv in enable_srvs:
+            self.spawn_chroot(
+                ["systemctl", "--no-reload", "enable",
+                 srv + ".service"])
 
         # XXX: hack
         # For GDM, set DefaultSession= to /etc/skel/.dmrc value
@@ -357,24 +330,33 @@ class SabayonInstall(object):
         xorg_x11 = self._get_opengl() == "xorg-x11"
 
         if xorg_x11 and not bb_enabled:
-            ogl_script = """
-                rm -f /etc/env.d/09ati
-                rm -rf /usr/lib/opengl/ati
-                rm -rf /usr/lib/opengl/nvidia
-            """
-            self.spawn_chroot(ogl_script)
-            self.remove_package("ati-drivers", silent = True)
-            self.remove_package("ati-userspace", silent = True)
-            self.remove_package("nvidia-settings", silent = True)
-            self.remove_package("nvidia-drivers", silent = True)
-            self.remove_package("nvidia-userspace", silent = True)
+
+            try:
+                os.remove(ROOT_PATH + "/etc/env.d/09ati")
+            except OSError:
+                pass
+
+            for d in ("ati", "nvidia"):
+                d = os.path.join(ROOT_PATH, "usr/lib/opengl", d)
+                try:
+                    shutil.rmtree(d, True)
+                except (shutil.Error, OSError):
+                    pass
+
+            self.remove_package("ati-drivers")
+            self.remove_package("ati-userspace")
+            self.remove_package("nvidia-settings")
+            self.remove_package("nvidia-drivers")
+            self.remove_package("nvidia-userspace")
 
         # bumblebee support
         if bb_enabled:
-            bb_script = """
-            systemctl --no-reload enable bumblebeed.service
-            """
-            self.spawn_chroot(bb_script, silent = True)
+            self.spawn_chroot(
+                [
+                    "systemctl", "--no-reload", "enable",
+                    "bumblebeed.service",
+                    ]
+                )
 
             udev_bl = ROOT_PATH + "/etc/modprobe.d/bbswitch-blacklist.conf"
             with open(udev_bl, "w") as bl_f:
@@ -416,7 +398,8 @@ blacklist nouveau
     def setup_sudo(self):
         sudoers_file = ROOT_PATH + '/etc/sudoers'
         if os.path.isfile(sudoers_file):
-            self.spawn("sed -i '/NOPASSWD/ s/^/#/' %s" % (sudoers_file,))
+            subprocess.call("sed -i '/NOPASSWD/ s/^/#/' %s" % (sudoers_file,),
+                            shell=True)
             with open(sudoers_file, "a") as sudo_f:
                 sudo_f.write("\n#Added by Sabayon Installer\n%wheel  ALL=ALL\n")
                 sudo_f.flush()
@@ -474,8 +457,8 @@ blacklist nouveau
             ]
 
         # remove current
-        self.remove_package("nvidia-drivers", silent = True)
-        self.remove_package("nvidia-userspace", silent = True)
+        self.remove_package("nvidia-drivers")
+        self.remove_package("nvidia-userspace")
 
         # install new
         packages = os.listdir(drivers_dir)
@@ -533,14 +516,8 @@ blacklist nouveau
                         f.write("%s\n" % (dep,))
 
         # force OpenGL reconfiguration
-        ogl_script = """
-            eselect opengl set xorg-x11 &> /dev/null
-            eselect opengl set nvidia &> /dev/null
-        """
-        self.spawn_chroot(ogl_script)
-
-    def env_update(self):
-        self.spawn_chroot("env-update &> /dev/null")
+        for t in ("xorg-x11", "nvidia"):
+            self.spawn_chroot(["eselect", "opengl", "set", t])
 
     def _get_entropy_webservice(self):
         factory = self._backend.entropy.WebServices()
@@ -559,11 +536,6 @@ blacklist nouveau
             log.error("Unable to emit_install_done(): %s" % err)
 
     def setup_entropy_mirrors(self):
-
-        # disable by default, pkg.sabayon.org was always selected
-        # as first, causing massive bandwidth usage
-        if not os.getenv('SABAYON_ENABLE_MIRROR_SORTING'):
-            return
 
         progressQ.send_message("%s: %s" % (
             _("Reordering Entropy mirrors"), _("can take some time..."),))
@@ -588,21 +560,13 @@ blacklist nouveau
         if chroot != root:
             self._change_entropy_chroot(chroot)
 
-        silent = True
-        if os.getenv('SABAYON_DEBUG'):
-            silent = False
-        # XXX add stdout silence
-        oldstdout = sys.stdout
-        if silent:
-            sys.stdout = STDERR_LOG
-            set_mute(True)
+        repos = list(settings['repositories']['available'].keys())
 
         try:
             # fetch_security = False => avoid spamming stdout
             try:
                 repo_intf = self._backend.entropy.Repositories(
-                    fetch_security = False,
-                    entropy_updates_alert = False)
+                    repos, fetch_security=False)
             except AttributeError as err:
                 log.error("No repositories in repositories.conf")
                 return False
@@ -619,17 +583,43 @@ blacklist nouveau
             if repo_intf.sync_errors or (update_rc != 0):
                 log.error("Cannot download repositories atm")
                 return False
-            return True
+
+            return update_rc == 0
 
         finally:
 
-            if silent:
-                sys.stdout = oldstdout
-                set_mute(False)
             self._backend.entropy.close_repositories()
             settings.clear()
             if chroot != root:
                 self._change_entropy_chroot(root)
+
+    def maybe_install_packages(self, packages):
+
+        chroot = ROOT_PATH
+        root = etpSys['rootdir']
+
+        install = []
+        self._change_entropy_chroot(chroot)
+        try:
+            repo = self._backend.entropy.installed_repository()
+
+            for package in packages:
+                pkg_id, pkg_rc = repo.atomMatch(package)
+                if pkg_id == -1:
+                    install.append(package)
+
+            if not install:
+                return
+
+            updated = self.update_entropy_repositories()
+            if not updated:
+                return # ouch
+
+            for package in install:
+                self.install_package(package)
+
+        finally:
+            self._change_entropy_chroot(root)
 
     def cleanup_packages(self):
 
@@ -657,7 +647,7 @@ blacklist nouveau
                 if pkg_id == -1:
                     continue
 
-                self.remove_package(package, silent=True)
+                self.remove_package(package)
 
         finally:
             self._change_entropy_chroot(root)
