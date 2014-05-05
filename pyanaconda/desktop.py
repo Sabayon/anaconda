@@ -57,7 +57,7 @@ class Desktop(object):
             os.unlink(default_target)
 
         sd_prefix = iutil.execWithCapture(
-            "pkg-config", ["--variable=prefix", "systemd"])
+            "pkg-config", ["--variable=prefix", "systemd"]).strip()
         if not sd_prefix:
             sd_prefix = "/usr"  # assume /usr in Gentoo/Sabayon
 
