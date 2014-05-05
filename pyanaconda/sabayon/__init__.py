@@ -20,6 +20,7 @@
 
 import os
 import sys
+import logging
 
 # add Entropy module path to PYTHONPATH
 sys.path.insert(0, '/usr/lib/entropy/libraries')
@@ -31,9 +32,10 @@ from entropy.output import nocolor
 from entropy.fetchers import UrlFetcher
 import entropy.tools
 
+log = logging.getLogger("packaging")
+
 class Entropy(Client):
 
-    _progress = None
     _oldcount = None
 
     def init_singleton(self):
@@ -42,36 +44,25 @@ class Entropy(Client):
         nocolor()
 
     @classmethod
-    def connect_progress(cls, progress):
-        Entropy._progress = progress
-
-    @classmethod
     def output(cls, text, header = "", footer = "", back = False,
         importance = 0, level = "info", count = None, percent = False):
-
-        if not Entropy._progress:
-            return
 
         if not Entropy._oldcount:
             Entropy._oldcount = (0, 100)
 
         progress_text = text
-        if len(progress_text) > 80:
-            progress_text = "%s..." % (progress_text[:80].rstrip(),)
+
         if count:
             try:
                 Entropy._oldcount = (int(count[0]), int(count[1]))
             except:
                 Entropy._oldcount = (0, 100)
+
             if not percent:
                 count_str = "(%s/%s) " % (str(count[0]),str(count[1]),)
-                progress_text = count_str+progress_text
+                progress_text = count_str + progress_text
 
-        percentage = float(Entropy._oldcount[0]) / Entropy._oldcount[1] * 100
-        percentage = round(percentage, 2)
-
-        Entropy._progress.set_fraction(percentage)
-        Entropy._progress.set_text(progress_text)
+        log.info(progress_text)
 
     def is_installed(self, package_name):
         match = self.installed_repository().atomMatch(package_name)
