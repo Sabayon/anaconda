@@ -20,6 +20,7 @@
 
 import os
 import sys
+import time
 import logging
 
 # add Entropy module path to PYTHONPATH
@@ -94,14 +95,13 @@ Client.__singleton_class__ = Entropy
 
 class InstallerUrlFetcher(UrlFetcher):
 
-    gui_last_avg = 0
-
     def __init__(self, *args, **kwargs):
         UrlFetcher.__init__(self, *args, **kwargs)
         self.__average = 0
         self.__downloadedsize = 0
         self.__remotesize = 0
         self.__datatransfer = 0
+        self.__last_t = time.time()
 
     def handle_statistics(self, th_id, downloaded_size, total_size,
             average, old_average, update_step, show_speed, data_transfer,
@@ -111,27 +111,21 @@ class InstallerUrlFetcher(UrlFetcher):
         self.__remotesize = total_size
         self.__datatransfer = data_transfer
 
-    def output(self):
-        """ backward compatibility """
-        return self.update()
-
     def update(self):
 
-        myavg = abs(int(round(float(self.__average), 1)))
-        if abs((myavg - InstallerUrlFetcher.gui_last_avg)) < 1:
+        cur_t = time.time()
+        if self.__last_t > (cur_t - 1.0):
             return
+        self.__last_t = cur_t
 
-        if (myavg > InstallerUrlFetcher.gui_last_avg) or (myavg < 2) or \
-            (myavg > 97):
+        cur_prog = float(self.__average)/100
+        cur_prog_str = str(int(self.__average))
 
-            cur_prog = float(self.__average)/100
-            cur_prog_str = str(int(self.__average))
+        human_dt = entropy.tools.bytes_into_human(self.__datatransfer)
+        prog_str = "%s/%s kB @ %s" % (
+                str(round(float(self.__downloadedsize)/1024, 1)),
+                str(round(self.__remotesize, 1)),
+                str(human_dt) + "/sec",
+            )
 
-            human_dt = entropy.tools.bytes_into_human(self.__datatransfer)
-            prog_str = "%s/%s kB @ %s" % (
-                    str(round(float(self.__downloadedsize)/1024, 1)),
-                    str(round(self.__remotesize, 1)),
-                    str(human_dt) + "/sec",
-                )
-            Entropy().output(prog_str)
-            InstallerUrlFetcher.gui_last_avg = myavg
+        log.info("Download: %s" % (prog_str,))
