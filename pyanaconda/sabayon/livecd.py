@@ -25,6 +25,7 @@ import threading
 
 from pyanaconda.errors import errorHandler, ERROR_RAISE
 from pyanaconda import iutil
+from pyanaconda.flags import flags
 from pyanaconda.packaging import ImagePayload, PayloadInstallError
 from pyanaconda.threads import threadMgr, AnacondaThread
 from pyanaconda.i18n import _
@@ -82,6 +83,7 @@ class LiveCDCopyBackend(ImagePayload):
 
     def dracutSetupArgs(self):
         log.info("calling dracutSetupArgs()")
+        return []
 
     @property
     def repos(self):
@@ -158,6 +160,17 @@ class LiveCDCopyBackend(ImagePayload):
         with self.pct_lock:
             self.pct = 100
         threadMgr.wait(THREAD_LIVE_PROGRESS)
+
+    def _setDefaultBootTarget(self):
+        """ Set the default systemd target for the system. """
+        # If X was already requested we don't have to continue
+        if self.data.xconfig.startX:
+            return
+
+        if not flags.usevnc:
+            # We only manipulate the ksdata.  The symlink is made later
+            # during the config write out.
+            self.data.xconfig.startX = True
 
     def postInstall(self):
         super(LiveCDCopyBackend, self).postInstall()

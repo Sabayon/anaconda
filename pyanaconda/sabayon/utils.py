@@ -596,7 +596,10 @@ blacklist nouveau
         root = etpSys['rootdir']
 
         install = []
-        self._change_entropy_chroot(chroot)
+
+        if chroot != root:
+            self._change_entropy_chroot(chroot)
+
         try:
             repo = self._backend.entropy.installed_repository()
 
@@ -618,7 +621,8 @@ blacklist nouveau
                 self.install_package(package)
 
         finally:
-            self._change_entropy_chroot(root)
+            if chroot != root:
+                self._change_entropy_chroot(root)
 
     def cleanup_packages(self):
 
@@ -638,7 +642,8 @@ blacklist nouveau
         chroot = ROOT_PATH
         root = etpSys['rootdir']
 
-        self._change_entropy_chroot(chroot)
+        if chroot != root:
+            self._change_entropy_chroot(chroot)
         try:
             repo = self._backend.entropy.installed_repository()
 
@@ -651,57 +656,21 @@ blacklist nouveau
                 self.remove_package(package)
 
         finally:
-            self._change_entropy_chroot(root)
+            if chroot != root:
+                self._change_entropy_chroot(root)
 
     def _get_base_kernel_cmdline(self):
 
-        # keymaps genkernel vs system map
-        keymaps_map = {
-            'azerty': 'azerty',
-            'be-latin1': 'be',
-            'bg_bds-utf8': 'bg',
-            'br-abnt2': 'br-a',
-            'by': 'by',
-            'cf': 'cf',
-            'croat': 'croat',
-            'cz-lat2': 'cz',
-            'de': 'de',
-            'dk': 'dk',
-            'es': 'es',
-            'et': 'et',
-            'fi': 'fi',
-            'fr-latin9': 'fr',
-            'gr': 'gr',
-            'hu': 'hu',
-            'is-latin1': 'is',
-            'it': 'it',
-            'jp106': 'jp',
-            'mk': 'mk',
-            'nl': 'nl',
-            'no': 'no',
-            'pl2': 'pl',
-            'pt-latin1': 'pt',
-            'ro': 'ro',
-            'ru': 'ru',
-            'sk-qwerty': 'sk-y',
-            'slovene': 'slovene',
-            'trq': 'trq',
-            'ua-utf': 'ua',
-            'uk': 'uk',
-            'us': 'us',
-        }
-        console_kbd = self._backend.data.keyboard.vc_keymap
-        gk_kbd = keymaps_map.get(console_kbd, console_kbd)
-
         # look for kernel arguments we know should be preserved and add them
         ourargs = ["speakup_synth=", "apic", "noapic", "apm=", "ide=", "noht",
-            "acpi=", "video=", "vga=", "gfxpayload=", "init=", "splash=",
-            "splash", "console=", "pci=routeirq", "irqpoll", "nohdparm", "pci=",
-            "floppy.floppy=", "all-generic-ide", "gentoo=", "res=", "hsync=",
-            "refresh=", "noddc", "xdriver=", "onlyvesa", "nvidia=", "dodmraid",
-            "dmraid", "sabayonmce", "steambox", "quiet", "scandelay=",
-            "doslowusb", "dokeymap", "keymap=", "radeon.modeset=",
-            "modeset=", "nomodeset", "domdadm", "dohyperv", "dovirtio"]
+                   "acpi=", "video=", "vga=", "gfxpayload=", "init=", "splash=",
+                   "splash", "console=", "pci=routeirq", "irqpoll", "nohdparm",
+                   "pci=", "floppy.floppy=", "all-generic-ide", "gentoo=",
+                   "res=", "hsync=", "refresh=", "noddc", "xdriver=",
+                   "onlyvesa", "nvidia=", "dodmraid", "dmraid", "sabayonmce",
+                   "steambox", "quiet", "scandelay=", "doslowusb",
+                   "radeon.modeset=", "modeset=", "nomodeset", "domdadm",
+                   "dohyperv", "dovirtio"]
 
         # use reference, yeah
         with open("/proc/cmdline") as cmd_f:
@@ -721,12 +690,6 @@ blacklist nouveau
         # Sabayon Steam Box support
         if Entropy.is_sabayon_steambox() and ("steambox" not in cmdline):
             cmdline.append("steambox")
-
-        # Setup genkernel (init) keyboard layout
-        if gk_kbd is not None:
-            if "dokeymap" not in cmdline:
-                cmdline.append("dokeymap")
-                cmdline.append("keymap=%s" % (gk_kbd,))
 
         # setup USB parameters, if installing on USB
         root_is_removable = getattr(self._backend.storage.rootDevice,
@@ -780,7 +743,6 @@ blacklist nouveau
             # must use fstabSpec now, since latest genkernel supports it
             final_cmdline.append("crypt_roots=%s" % (
                     root_crypto_dev.fstabSpec,))
-
 
         log.info("Found swap devices: %s" % (swap_devices,))
         for swap_dev in swap_devices:
@@ -838,12 +800,5 @@ blacklist nouveau
         
         # cmdline += self._get_encrypted_fs_boot_args()
 
-        # now write /etc/default/sabayon-grub
-        sabayon_grub = """\
-GRUB_CMDLINE_LINUX="${GRUB_CMDLINE_LINUX} %s"
-""" % (" ".join(cmdline),)
-
-        log.info("Generated boot cmdline: %s" % (cmdline,))
-
-        with open(ROOT_PATH + "/etc/default/sabayon-grub", "w") as f:
-            f.write(sabayon_grub)
+        log.info("Backend generated boot cmdline: %s" % (cmdline,))
+        self._backend.storage.bootloader.boot_args.update(cmdline)
