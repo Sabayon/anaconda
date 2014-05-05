@@ -18,19 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# Glib imports
-import glib
-
 # Python imports
 import os
-import sys
-import stat
-import sys
 import subprocess
 import shutil
-import statvfs
-import tempfile
-import time
+import commands
 try:
     import ConfigParser
 except ImportError:
@@ -38,23 +30,18 @@ except ImportError:
 import logging
 
 # Entropy imports
-from entropy.exceptions import EntropyPackageException, DependenciesNotFound, \
-    DependenciesCollision
+from entropy.exceptions import EntropyPackageException
 from entropy.const import etpConst, etpSys
-from entropy.output import set_mute
-import entropy.tools
-import entropy.dep
 from entropy.core.settings.base import SystemSettings
-from entropy.core import Singleton
 from entropy.services.client import WebService
 
 # Anaconda imports
 from pyanaconda import iutil
-from pyanaconda.anaconda import Anaconda
 from pyanaconda.constants import INSTALL_TREE, ROOT_PATH
 from pyanaconda.progress import progressQ
-from pyanaconda.sabayon.const import LIVE_USER, REPO_NAME, \
-    FIREWALL_SERVICE, SB_PRIVATE_KEY, SB_PUBLIC_X509, SB_PUBLIC_DER
+from pyanaconda.sabayon.const import REPO_NAME, \
+    SB_PRIVATE_KEY, SB_PUBLIC_X509, SB_PUBLIC_DER
+from pyanaconda.sabayon import Entropy
 from pyanaconda.i18n import _
 
 from blivet import arch
@@ -183,15 +170,25 @@ class SabayonInstall(object):
             self._change_entropy_chroot(chroot)
 
         try:
-            action_factory = self._backend.entropy.PackageActionFactory()
-            action = action_factory.INSTALL_ACTION
 
             match = self._backend.entropy.atom_match(package)
-            package_id, repository_id = match
+            package_id, _repository_id = match
             if package_id == -1:
                 return -1
 
-            pkg = action_factory.get(action, match)
+            action_factory = self._backend.entropy.PackageActionFactory()
+
+            pkg = action_factory.get(action_factory.FETCH_ACTION, match)
+            try:
+                exit_st = pkg.start()
+            finally:
+                pkg.finalize()
+
+            if exit_st != 0:
+                return exit_st
+
+            pkg = action_factory.get(
+                action_factory.INSTALL_ACTION, match)
             try:
                 exit_st = pkg.start()
             finally:
@@ -271,7 +268,6 @@ class SabayonInstall(object):
             "x-setup",
             "vixie-cron",
             "oemsystem",
-            FIREWALL_SERVICE,
             ]
 
         if self._backend.entropy.is_sabayon_mce():
@@ -295,7 +291,6 @@ class SabayonInstall(object):
                 ["systemctl", "--no-reload", "enable",
                  srv + ".service"])
 
-        # XXX: hack
         # For GDM, set DefaultSession= to /etc/skel/.dmrc value
         # This forces GDM to respect the default session and load Cinnamon
         # as default xsession. (This is equivalent of using:
@@ -504,13 +499,13 @@ blacklist nouveau
                 "etc/entropy/packages/package.unmask")
 
             if os.access(mask_file, os.W_OK) and os.path.isfile(mask_file):
-                with open(mask_file,"aw") as f:
+                with open(mask_file,"a+") as f:
                     f.write("\n# added by the Sabayon Installer\n")
                     f.write("x11-drivers/nvidia-drivers\n")
                     f.write("x11-drivers/nvidia-userspace\n")
 
             if os.access(unmask_file, os.W_OK) and os.path.isfile(unmask_file):
-                with open(unmask_file, "aw") as f:
+                with open(unmask_file, "a+") as f:
                     f.write("\n# added by the Sabayon Installer\n")
                     for dep in matches:
                         f.write("%s\n" % (dep,))
@@ -553,6 +548,8 @@ blacklist nouveau
                 self._change_entropy_chroot(root)
 
     def update_entropy_repositories(self):
+
+        progressQ.send_message(_("Downloading software repositories..."))
 
         settings = SystemSettings()
         chroot = ROOT_PATH
@@ -604,7 +601,7 @@ blacklist nouveau
             repo = self._backend.entropy.installed_repository()
 
             for package in packages:
-                pkg_id, pkg_rc = repo.atomMatch(package)
+                pkg_id, _pkg_rc = repo.atomMatch(package)
                 if pkg_id == -1:
                     install.append(package)
 
@@ -616,12 +613,16 @@ blacklist nouveau
                 return # ouch
 
             for package in install:
+                progressQ.send_message(
+                    _("Installing package: %s") % (package,))
                 self.install_package(package)
 
         finally:
             self._change_entropy_chroot(root)
 
     def cleanup_packages(self):
+
+        progressQ.send_message(_("Removing install packages..."))
 
         packages = [
             "app-admin/anaconda",
@@ -643,7 +644,7 @@ blacklist nouveau
 
             for package in packages:
 
-                pkg_id, pkg_rc = repo.atomMatch(package)
+                pkg_id, _pkg_rc = repo.atomMatch(package)
                 if pkg_id == -1:
                     continue
 
@@ -651,3 +652,198 @@ blacklist nouveau
 
         finally:
             self._change_entropy_chroot(root)
+
+    def _get_base_kernel_cmdline(self):
+
+        # keymaps genkernel vs system map
+        keymaps_map = {
+            'azerty': 'azerty',
+            'be-latin1': 'be',
+            'bg_bds-utf8': 'bg',
+            'br-abnt2': 'br-a',
+            'by': 'by',
+            'cf': 'cf',
+            'croat': 'croat',
+            'cz-lat2': 'cz',
+            'de': 'de',
+            'dk': 'dk',
+            'es': 'es',
+            'et': 'et',
+            'fi': 'fi',
+            'fr-latin9': 'fr',
+            'gr': 'gr',
+            'hu': 'hu',
+            'is-latin1': 'is',
+            'it': 'it',
+            'jp106': 'jp',
+            'mk': 'mk',
+            'nl': 'nl',
+            'no': 'no',
+            'pl2': 'pl',
+            'pt-latin1': 'pt',
+            'ro': 'ro',
+            'ru': 'ru',
+            'sk-qwerty': 'sk-y',
+            'slovene': 'slovene',
+            'trq': 'trq',
+            'ua-utf': 'ua',
+            'uk': 'uk',
+            'us': 'us',
+        }
+        console_kbd = self._backend.data.keyboard.get()
+        gk_kbd = keymaps_map.get(console_kbd, console_kbd)
+
+        # look for kernel arguments we know should be preserved and add them
+        ourargs = ["speakup_synth=", "apic", "noapic", "apm=", "ide=", "noht",
+            "acpi=", "video=", "vga=", "gfxpayload=", "init=", "splash=",
+            "splash", "console=", "pci=routeirq", "irqpoll", "nohdparm", "pci=",
+            "floppy.floppy=", "all-generic-ide", "gentoo=", "res=", "hsync=",
+            "refresh=", "noddc", "xdriver=", "onlyvesa", "nvidia=", "dodmraid",
+            "dmraid", "sabayonmce", "steambox", "quiet", "scandelay=",
+            "doslowusb", "dokeymap", "keymap=", "radeon.modeset=",
+            "modeset=", "nomodeset", "domdadm", "dohyperv", "dovirtio"]
+
+        # use reference, yeah
+        with open("/proc/cmdline") as cmd_f:
+            cmdline = cmd_f.readline().strip().split()
+        final_cmdline = []
+
+        if self.is_hyperv() and ("dohyperv" not in cmdline):
+            cmdline.append("dohyperv")
+
+        if self.is_kvm() and ("dovirtio" not in cmdline):
+            cmdline.append("dovirtio")
+
+        # Sabayon MCE install -> MCE support
+        if Entropy.is_sabayon_mce() and ("sabayonmce" not in cmdline):
+            cmdline.append("sabayonmce")
+
+        # Sabayon Steam Box support
+        if Entropy.is_sabayon_steambox() and ("steambox" not in cmdline):
+            cmdline.append("steambox")
+
+        # Setup genkernel (init) keyboard layout
+        if gk_kbd is not None:
+            if "dokeymap" not in cmdline:
+                cmdline.append("dokeymap")
+                cmdline.append("keymap=%s" % (gk_kbd,))
+
+        # setup USB parameters, if installing on USB
+        root_is_removable = getattr(self._backend.storage.rootDevice,
+            "removable", False)
+        if root_is_removable:
+            cmdline.append("scandelay=10")
+
+        # only add domdadm if we managed to configure some kind of raid
+        if self._backend.storage.mdarrays and "domdadm" not in cmdline:
+            cmdline.append("domdadm")
+
+        # setup LVM
+        lvscan_out = commands.getoutput("LANG=C LC_ALL=C lvscan").split(
+            "\n")[0].strip()
+        if not lvscan_out.startswith("No volume groups found"):
+            final_cmdline.append("dolvm")
+
+        previous_vga = None
+        for arg in cmdline:
+            for check in ourargs:
+                if arg.startswith(check):
+                    final_cmdline.append(arg)
+                    if arg.startswith("vga="):
+                        if previous_vga in final_cmdline:
+                            final_cmdline.remove(previous_vga)
+                        previous_vga = arg
+
+        return final_cmdline
+
+    def _get_encrypted_fs_boot_args(self):
+
+        final_cmdline = []
+
+        fsset = self._backend.storage.fsset
+        swap_devices = fsset.swapDevices or []
+        # <storage.devices.Device> subclass
+        root_device = self._backend.storage.rootDevice
+        # device.format.mountpoint, device.format.type, device.format.mountable,
+        # device.format.options, device.path, device.fstabSpec
+        swap_crypto_dev = None
+
+        root_crypto_devs = []
+        for name in fsset.cryptTab.mappings.keys():
+            root_crypto_dev = fsset.cryptTab[name]['device']
+            if root_device == root_crypto_dev or \
+                    root_device.dependsOn(root_crypto_dev):
+                root_crypto_devs.append(root_crypto_dev)
+
+        log.info("Found root crypt devices: %s" % (root_crypto_devs,))
+        for root_crypto_dev in root_crypto_devs:
+            # must use fstabSpec now, since latest genkernel supports it
+            final_cmdline.append("crypt_roots=%s" % (
+                    root_crypto_dev.fstabSpec,))
+
+
+        log.info("Found swap devices: %s" % (swap_devices,))
+        for swap_dev in swap_devices:
+
+            log.info("Working on swap device: %s" % (swap_dev,))
+
+            this_swap_crypted = False
+            for name in fsset.cryptTab.mappings.keys():
+                swap_crypto_dev = fsset.cryptTab[name]['device']
+                swap_depends = swap_dev.dependsOn(swap_crypto_dev)
+                log_s = "Checking cryptTab name=%s, swap_dev=%s,"
+                log_s += "swap_crypto_dev=%s {%s}, "
+                log_s += "swap_dev.dependsOn(swap)=%s"
+                log.info(log_s % (
+                        name, swap_dev, swap_crypto_dev,
+                        swap_crypto_dev.fstabSpec, swap_depends))
+                if swap_dev == swap_crypto_dev or swap_depends:
+                    this_swap_crypted = True
+                    break
+
+            log.info("this_swap_crypted set to %s" % (this_swap_crypted,))
+
+            # Use .path instead of fstabSpec for cmdline because
+            # genkernel must create an appropriate device node
+            # inside /dev/mapper/ that starts with luks-<UUID>
+            # so that the generic /dev/mapper/swap will not be used
+            # and systemd won't shit in its pants.
+            final_cmdline.append("resume=%s" % (swap_dev.path,))
+            if this_swap_crypted:
+                add_crypt_swap = True
+                for root_crypto_dev in root_crypto_devs:
+                    if root_crypto_dev.fstabSpec == swap_crypto_dev.fstabSpec:
+                        # due to genkernel initramfs stupidity,
+                        # when crypt_root = crypt_swap
+                        # do not add crypt_swap.
+                        add_crypt_swap = False
+                        break
+
+                if add_crypt_swap:
+                    # must use fstabSpec now, since latest genkernel supports it
+                    final_cmdline.append(
+                        "crypt_swaps=%s" % (swap_crypto_dev.fstabSpec,))
+                else:
+                    log.info("Not adding crypt_swap= because "
+                             "swap_crypto_dev is in root_crypto_devs")
+
+        log.info("Generated boot cmdline: %s" % (final_cmdline,))
+        return final_cmdline
+
+    def configure_boot_args(self):
+        """ Configure Sabayon extra boot args. """
+        cmdline = self._get_base_kernel_cmdline()
+
+        # XXX
+        
+        # cmdline += self._get_encrypted_fs_boot_args()
+
+        # now write /etc/default/sabayon-grub
+        sabayon_grub = """\
+GRUB_CMDLINE_LINUX="${GRUB_CMDLINE_LINUX} %s"
+""" % (" ".join(cmdline),)
+
+        log.info("Generated boot cmdline: %s" % (cmdline,))
+
+        with open(ROOT_PATH + "/etc/default/sabayon-grub") as f:
+            f.write(sabayon_grub)

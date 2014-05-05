@@ -41,7 +41,7 @@ LIVE_USER="${LIVE_USER:-sabayonuser}"
 # Source path - where to copy data from
 SRCROOT=${SRCROOT:-/mnt/livecd}
 # Name of the firewall service
-FIREWALL_SERVICE="ufw"
+FIREWALL_SERVICE="firewalld"
 # If source is a running system (otherwise it can be for example a mounted
 # squashfs image) - "1" for yes, "0" for no
 SOURCE_IS_LIVE_SYSTEM="1"

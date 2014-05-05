@@ -19,40 +19,22 @@
 #
 
 import os
-import statvfs
-import subprocess
-import commands
-import stat
 import time
-import shutil
 import logging
 import threading
 
-from pyanaconda.anaconda import Anaconda
-from pyanaconda.anaconda_log import PROGRAM_LOG_FILE
 from pyanaconda.errors import errorHandler, ERROR_RAISE
-from pyanaconda import isys
-from pyanaconda.product import productName as PRODUCT_NAME
 from pyanaconda import iutil
-from pyanaconda import flags
-from pyanaconda.packaging import ImagePayload, PayloadSetupError, \
-    PayloadInstallError
+from pyanaconda.packaging import ImagePayload, PayloadInstallError
 from pyanaconda.threads import threadMgr, AnacondaThread
 from pyanaconda.i18n import _
 from pyanaconda.constants import ROOT_PATH, INSTALL_TREE, THREAD_LIVE_PROGRESS
 from pyanaconda.progress import progressQ
 
 from blivet.size import Size
-import blivet.util
 
 from pyanaconda.sabayon import utils
 from pyanaconda.sabayon import Entropy
-
-# Entropy imports
-from entropy.const import etpConst, const_kill_threads
-from entropy.misc import TimeScheduled, ParallelTask
-from entropy.cache import EntropyCacher
-import entropy.tools
 
 log = logging.getLogger("packaging")
 
@@ -66,6 +48,8 @@ class LiveCDCopyBackend(ImagePayload):
         self._adj_size = 0
         self.pct = 0
         self.pct_lock = None
+        self._source_size = None
+        self._sabayon_install = None
 
         self._packages = None
 
@@ -82,7 +66,11 @@ class LiveCDCopyBackend(ImagePayload):
 
     @property
     def kernelVersionList(self):
-        return []
+        vers = []
+        for name in os.listdir("/boot"):
+            if name.startswith("kernel-genkernel-"):
+                vers.append(name[len("kernel-genkernel-"):])
+        return vers
 
     @property
     def spaceRequired(self):
@@ -185,10 +173,11 @@ class LiveCDCopyBackend(ImagePayload):
         self._sabayon_install.spawn_chroot(["ldconfig"])
         self._sabayon_install.setup_entropy_mirrors()
 
-        self._sabayon_install.cleanup_packages()
-
+        # TODO(lxnay): disable this in prod
         if self._packages:
             self._sabayon_install.maybe_install_packages(self._packages)
+
+        self._sabayon_install.configure_boot_args()
 
         self._sabayon_install.emit_install_done()
 
@@ -201,7 +190,10 @@ class LiveCDCopyBackend(ImagePayload):
 
         self._sabayon_install.spawn_chroot(["locale-gen"])
 
-        username = self.data.user.userList[0].name
+        try:
+            username = self.data.user.userList[0].name
+        except IndexError:
+            username = "root"  # if no admin user was created
         self._sabayon_install.configure_steambox(username)
 
         # also remove hw.hash
@@ -211,190 +203,4 @@ class LiveCDCopyBackend(ImagePayload):
         except (OSError, IOError):
             pass
 
-    ### XXX ###
-
-    def _get_bootloader_args(self):
-
-        # XXX
-        # write cmdline to /etc/default/sabayon-grub
-        
-
-        # keymaps genkernel vs system map
-        keymaps_map = {
-            'azerty': 'azerty',
-            'be-latin1': 'be',
-            'bg_bds-utf8': 'bg',
-            'br-abnt2': 'br-a',
-            'by': 'by',
-            'cf': 'cf',
-            'croat': 'croat',
-            'cz-lat2': 'cz',
-            'de': 'de',
-            'dk': 'dk',
-            'es': 'es',
-            'et': 'et',
-            'fi': 'fi',
-            'fr-latin9': 'fr',
-            'gr': 'gr',
-            'hu': 'hu',
-            'is-latin1': 'is',
-            'it': 'it',
-            'jp106': 'jp',
-            'mk': 'mk',
-            'nl': 'nl',
-            'no': 'no',
-            'pl2': 'pl',
-            'pt-latin1': 'pt',
-            'ro': 'ro',
-            'ru': 'ru',
-            'sk-qwerty': 'sk-y',
-            'slovene': 'slovene',
-            'trq': 'trq',
-            'ua-utf': 'ua',
-            'uk': 'uk',
-            'us': 'us',
-        }
-        console_kbd = self.data.keyboard.get()
-        gk_kbd = keymaps_map.get(console_kbd, console_kbd)
-
-        # look for kernel arguments we know should be preserved and add them
-        ourargs = ["speakup_synth=", "apic", "noapic", "apm=", "ide=", "noht",
-            "acpi=", "video=", "vga=", "gfxpayload=", "init=", "splash=",
-            "splash", "console=", "pci=routeirq", "irqpoll", "nohdparm", "pci=",
-            "floppy.floppy=", "all-generic-ide", "gentoo=", "res=", "hsync=",
-            "refresh=", "noddc", "xdriver=", "onlyvesa", "nvidia=", "dodmraid",
-            "dmraid", "sabayonmce", "steambox", "quiet", "scandelay=",
-            "doslowusb", "dokeymap", "keymap=", "radeon.modeset=",
-            "modeset=", "nomodeset", "domdadm", "dohyperv", "dovirtio"]
-
-        # use reference, yeah
-        with open("/proc/cmdline") as cmd_f:
-            cmdline = cmd_f.readline().strip().split()
-        final_cmdline = []
-
-        if self._sabayon_install.is_hyperv() and ("dohyperv" not in cmdline):
-            cmdline.append("dohyperv")
-
-        if self._sabayon_install.is_kvm() and ("dovirtio" not in cmdline):
-            cmdline.append("dovirtio")
-
-        # Sabayon MCE install -> MCE support
-        if Entropy.is_sabayon_mce() and ("sabayonmce" not in cmdline):
-            cmdline.append("sabayonmce")
-
-        # Sabayon Steam Box support
-        if Entropy.is_sabayon_steambox() and ("steambox" not in cmdline):
-            cmdline.append("steambox")
-
-        # Setup genkernel (init) keyboard layout
-        if gk_kbd is not None:
-            if "dokeymap" not in cmdline:
-                cmdline.append("dokeymap")
-                cmdline.append("keymap=%s" % (gk_kbd,))
-
-        # setup USB parameters, if installing on USB
-        root_is_removable = getattr(self.storage.rootDevice,
-            "removable", False)
-        if root_is_removable:
-            cmdline.append("scandelay=10")
-
-        # TODO(lxnay): drop this when genkernel-next-39 is rolled out
-        # check if root device is ext2, ext3 or ext4. In case,
-        # add rootfstype=ext* to avoid genkernel crap to mount
-        # it wrongly (for example: ext3 as ext2).
-        root_dev_type = getattr(self.storage.rootDevice.format,
-            "name", "")
-        if root_dev_type in ("ext2", "ext3", "ext4"):
-            cmdline.append("rootfstype=" + root_dev_type)
-
-        raid_devs = self.storage.mdarrays
-        raid_devs += self.storage.mdcontainers
-        # only add domdadm if we managed to configure some kind of raid
-        if raid_devs and "domdadm" not in cmdline:
-            cmdline.append("domdadm")
-
-        # setup LVM
-        lvscan_out = commands.getoutput("LANG=C LC_ALL=C lvscan").split(
-            "\n")[0].strip()
-        if not lvscan_out.startswith("No volume groups found"):
-            final_cmdline.append("dolvm")
-
-        previous_vga = None
-        for arg in cmdline:
-            for check in ourargs:
-                if arg.startswith(check):
-                    final_cmdline.append(arg)
-                    if arg.startswith("vga="):
-                        if previous_vga in final_cmdline:
-                            final_cmdline.remove(previous_vga)
-                        previous_vga = arg
-
-        fsset = self.storage.fsset
-        swap_devices = fsset.swapDevices or []
-        # <storage.devices.Device> subclass
-        root_device = self.storage.rootDevice
-        # device.format.mountpoint, device.format.type, device.format.mountable,
-        # device.format.options, device.path, device.fstabSpec
-        swap_crypto_dev = None
-
-        root_crypto_devs = []
-        for name in fsset.cryptTab.mappings.keys():
-            root_crypto_dev = fsset.cryptTab[name]['device']
-            if root_device == root_crypto_dev or \
-                    root_device.dependsOn(root_crypto_dev):
-                root_crypto_devs.append(root_crypto_dev)
-
-        log.info("Found root crypt devices: %s" % (root_crypto_devs,))
-        for root_crypto_dev in root_crypto_devs:
-            # must use fstabSpec now, since latest genkernel supports it
-            final_cmdline.append("crypt_roots=%s" % (
-                    root_crypto_dev.fstabSpec,))
-
-
-        log.info("Found swap devices: %s" % (swap_devices,))
-        for swap_dev in swap_devices:
-
-            log.info("Working on swap device: %s" % (swap_dev,))
-
-            this_swap_crypted = False
-            for name in fsset.cryptTab.mappings.keys():
-                swap_crypto_dev = fsset.cryptTab[name]['device']
-                swap_depends = swap_dev.dependsOn(swap_crypto_dev)
-                log_s = "Checking cryptTab name=%s, swap_dev=%s,"
-                log_s += "swap_crypto_dev=%s {%s}, "
-                log_s += "swap_dev.dependsOn(swap)=%s"
-                log.info(log_s % (
-                        name, swap_dev, swap_crypto_dev,
-                        swap_crypto_dev.fstabSpec, swap_depends))
-                if swap_dev == swap_crypto_dev or swap_depends:
-                    this_swap_crypted = True
-                    break
-
-            log.info("this_swap_crypted set to %s" % (this_swap_crypted,))
-
-            # Use .path instead of fstabSpec for cmdline because
-            # genkernel must create an appropriate device node
-            # inside /dev/mapper/ that starts with luks-<UUID>
-            # so that the generic /dev/mapper/swap will not be used
-            # and systemd won't shit in its pants.
-            final_cmdline.append("resume=%s" % (swap_dev.path,))
-            if this_swap_crypted:
-                add_crypt_swap = True
-                for root_crypto_dev in root_crypto_devs:
-                    if root_crypto_dev.fstabSpec == swap_crypto_dev.fstabSpec:
-                        # due to genkernel initramfs stupidity,
-                        # when crypt_root = crypt_swap
-                        # do not add crypt_swap.
-                        add_crypt_swap = False
-                        break
-
-                if add_crypt_swap:
-                    # must use fstabSpec now, since latest genkernel supports it
-                    final_cmdline.append(
-                        "crypt_swaps=%s" % (swap_crypto_dev.fstabSpec,))
-                else:
-                    log.info("Not adding crypt_swap= because "
-                             "swap_crypto_dev is in root_crypto_devs")
-
-        log.info("Generated boot cmdline: %s" % (final_cmdline,))
-        return final_cmdline
+        self._sabayon_install.cleanup_packages()

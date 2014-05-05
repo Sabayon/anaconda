@@ -17,10 +17,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# See Sabayon bug 2661
-FIREWALL_PACKAGE = "net-firewall/ufw"
-FIREWALL_SERVICE = "ufw"
-
 LIVE_USER = "sabayonuser"
 REPO_NAME = "sabayonlinux.org"
 
