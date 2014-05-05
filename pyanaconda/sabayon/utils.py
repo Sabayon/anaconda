@@ -690,7 +690,7 @@ blacklist nouveau
             'uk': 'uk',
             'us': 'us',
         }
-        console_kbd = self._backend.data.keyboard.get()
+        console_kbd = self._backend.data.keyboard.vc_keymap
         gk_kbd = keymaps_map.get(console_kbd, console_kbd)
 
         # look for kernel arguments we know should be preserved and add them
