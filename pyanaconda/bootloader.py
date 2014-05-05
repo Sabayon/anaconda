@@ -1349,7 +1349,7 @@ class GRUB2(GRUB):
     _config_file = "grub.cfg"
     _config_dir = "grub"
     config_file_mode = 0600
-    defaults_file = "/etc/default/grub"
+    defaults_file = "/etc/default/sabayon-grub"
     can_dual_boot = True
     can_update = True
     terminal_type = "console"
@@ -1440,10 +1440,9 @@ class GRUB2(GRUB):
     def write_defaults(self):
         defaults_file = "%s%s" % (ROOT_PATH, self.defaults_file)
         defaults = open(defaults_file, "w+")
+        defaults.write("# Anaconda installer generated bootloader parameters\n")
+
         defaults.write("GRUB_TIMEOUT=%d\n" % self.timeout)
-        defaults.write("GRUB_DISTRIBUTOR=\"$(sed 's, release .*$,,g' /etc/system-release)\"\n")
-        defaults.write("GRUB_DEFAULT=saved\n")
-        defaults.write("GRUB_DISABLE_SUBMENU=true\n")
         if self.console and self.console.startswith("ttyS"):
             defaults.write("GRUB_TERMINAL=\"serial console\"\n")
             defaults.write("GRUB_SERIAL_COMMAND=\"%s\"\n" % self.serial_command)
@@ -1454,9 +1453,8 @@ class GRUB2(GRUB):
         # linux installations or even multiple boot entries with different
         # boot arguments
         log.info("bootloader.py: used boot args: %s ", self.boot_args)
+
         defaults.write("GRUB_CMDLINE_LINUX=\"%s\"\n" % self.boot_args)
-        defaults.write("GRUB_DISABLE_RECOVERY=\"true\"\n")
-        #defaults.write("GRUB_THEME=\"/boot/grub2/themes/system/theme.txt\"\n")
         defaults.close()
 
     def _encrypt_password(self):
