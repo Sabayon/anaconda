@@ -176,6 +176,10 @@ class LiveCDCopyBackend(ImagePayload):
         super(LiveCDCopyBackend, self).postInstall()
 
         log.info("Preparing to configure Sabayon (backend postInstall)")
+
+        self._sabayon_install.spawn_chroot(
+            ["/usr/bin/systemd-machine-id-setup"]
+            )
         self._sabayon_install.setup_secureboot()
         self._sabayon_install.setup_sudo()
         self._sabayon_install.remove_proprietary_drivers()
