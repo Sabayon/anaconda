@@ -22,6 +22,7 @@
 
 import os
 from pyanaconda.constants import ROOT_PATH, RUNLEVELS
+from pyanaconda import iutil
 
 import logging
 log = logging.getLogger("anaconda")
@@ -54,5 +55,12 @@ class Desktop(object):
         default_target = ROOT_PATH + '/etc/systemd/system/default.target'
         if os.path.islink(default_target):
             os.unlink(default_target)
-        os.symlink('/lib/systemd/system/%s' % RUNLEVELS[self.runlevel],
+
+        sd_prefix = iutil.execWithCapture(
+            "pkg-config", ["--variable=prefix", "systemd"])
+        if not sd_prefix:
+            sd_prefix = "/usr"  # assume /usr in Gentoo/Sabayon
+
+        os.symlink('%s/lib/systemd/system/%s' % (
+                sd_prefix, RUNLEVELS[self.runlevel]),
                    default_target)
