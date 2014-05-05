@@ -235,8 +235,6 @@ class UserSpoke(FirstbootSpokeMixIn, NormalSpoke):
         groups = list(get_all_groups(LIVE_USER))
 
         for group_name in groups:
-            if group_name == "wheel":
-                continue
             group = self.data.GroupData(name = group_name)
             self._groupDict[group.name] = group
             self._user.groups.append(group.name)

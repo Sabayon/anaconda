@@ -123,8 +123,6 @@ class UserSpoke(FirstbootSpokeMixIn, EditTUISpoke):
         groups = list(get_all_groups(LIVE_USER))
 
         for group in groups:
-            if group == "wheel":
-                continue
             if group not in self.args.groups:
                 self.args.groups.append(group)
 
