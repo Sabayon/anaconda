@@ -1442,12 +1442,9 @@ class GRUB2(GRUB):
         defaults = open(defaults_file, "w+")
         defaults.write("# Anaconda installer generated bootloader parameters\n")
 
-        defaults.write("GRUB_TIMEOUT=%d\n" % self.timeout)
         if self.console and self.console.startswith("ttyS"):
             defaults.write("GRUB_TERMINAL=\"serial console\"\n")
             defaults.write("GRUB_SERIAL_COMMAND=\"%s\"\n" % self.serial_command)
-        else:
-            defaults.write("GRUB_TERMINAL_OUTPUT=\"%s\"\n" % self.terminal_type)
 
         # this is going to cause problems for systems containing multiple
         # linux installations or even multiple boot entries with different
