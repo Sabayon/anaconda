@@ -845,5 +845,5 @@ GRUB_CMDLINE_LINUX="${GRUB_CMDLINE_LINUX} %s"
 
         log.info("Generated boot cmdline: %s" % (cmdline,))
 
-        with open(ROOT_PATH + "/etc/default/sabayon-grub") as f:
+        with open(ROOT_PATH + "/etc/default/sabayon-grub", "w") as f:
             f.write(sabayon_grub)
