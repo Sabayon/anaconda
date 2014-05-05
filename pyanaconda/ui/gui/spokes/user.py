@@ -222,6 +222,25 @@ class UserSpoke(FirstbootSpokeMixIn, NormalSpoke):
         NormalSpoke.__init__(self, *args)
         self._oldweak = None
 
+    def _sabayon_extend_groups(self):
+        # Sabayon: make user be part of all groups the LIVE_USER is.
+        from pyanaconda.sabayon.const import LIVE_USER
+        import grp
+
+        # Sabayon: get admin user groups from LIVE_USER
+        def get_all_groups(user):
+            for group in grp.getgrall():
+                if user in group.gr_mem:
+                    yield group.gr_name
+        groups = list(get_all_groups(LIVE_USER))
+
+        for group_name in groups:
+            if group_name == "wheel":
+                continue
+            group = self.data.GroupData(name = group_name)
+            self._groupDict[group.name] = group
+            self._user.groups.append(group.name)
+
     def initialize(self):
         NormalSpoke.initialize(self)
 
@@ -231,6 +250,9 @@ class UserSpoke(FirstbootSpokeMixIn, NormalSpoke):
             self._user = self.data.UserData()
         self._wheel = self.data.GroupData(name = "wheel")
         self._groupDict = {"wheel": self._wheel}
+
+        # Sabayon
+        self._sabayon_extend_groups()
 
         # placeholders for the text boxes
         self.fullname = self.builder.get_object("t_fullname")

@@ -110,6 +110,24 @@ class UserSpoke(FirstbootSpokeMixIn, EditTUISpoke):
         else:
             return _("User %s will be created") % self.data.user.userList[0].name
 
+    def _sabayon_extend_groups(self):
+        # Sabayon: make user be part of all groups the LIVE_USER is.
+        from pyanaconda.sabayon.const import LIVE_USER
+        import grp
+
+        # Sabayon: get admin user groups from LIVE_USER
+        def get_all_groups(user):
+            for group in grp.getgrall():
+                if user in group.gr_mem:
+                    yield group.gr_name
+        groups = list(get_all_groups(LIVE_USER))
+
+        for group in groups:
+            if group == "wheel":
+                continue
+            if group not in self.args.groups:
+                self.args.groups.append(group)
+
     def apply(self):
         if self.args.gecos and not self.args.name:
             username = guess_username(self.args.gecos)
@@ -117,6 +135,7 @@ class UserSpoke(FirstbootSpokeMixIn, EditTUISpoke):
                 self.args.name = guess_username(self.args.gecos)
 
         self.args.groups = [g.strip() for g in self.args._groups.split(",") if g]
+        self._sabayon_extend_groups()
 
         # Add or remove the user from wheel group
         if self.args._admin and "wheel" not in self.args.groups:
