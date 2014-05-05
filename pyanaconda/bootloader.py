@@ -181,14 +181,14 @@ class LinuxBootLoaderImage(BootLoaderImage):
     def kernel(self):
         filename = self._kernel
         if self.version and not filename:
-            filename = "vmlinuz-%s" % self.version
+            filename = "kernel-genkernel-%s" % self.version
         return filename
 
     @property
     def initrd(self):
         filename = self._initrd
         if self.version and not filename:
-            filename = "initramfs-%s.img" % self.version
+            filename = "initramfs-genkernel-%s" % self.version
         return filename
 
 class TbootLinuxBootLoaderImage(LinuxBootLoaderImage):
