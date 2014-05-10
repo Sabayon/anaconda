@@ -629,6 +629,7 @@ blacklist nouveau
         progressQ.send_message(_("Removing install packages..."))
 
         packages = [
+            "app-arch/rpm",
             "app-admin/anaconda",
             "app-misc/anaconda-runtime",
             "app-misc/anaconda-runtime-gui",
