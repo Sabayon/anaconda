@@ -250,7 +250,7 @@ def lsblk_callback():
 def nmcli_dev_list_callback():
     """Callback to get info about network devices."""
 
-    return iutil.execWithCapture("nmcli", ["device", "show"])
+    return iutil.execWithCapture("nmcli", ["device", "list"])
 
 def journalctl_callback():
     """Callback to get logs from journalctl."""
