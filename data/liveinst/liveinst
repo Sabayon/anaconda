@@ -41,7 +41,7 @@ if [[ "$LIVECMD $*" =~ "--liveinst" ]]; then
     LIVE_INSTALL=1
 fi
 
-export ANACONDA_BUGURL="http://bugs.sabayon.org"
+export ANACONDA_BUGURL="https://bugs.sabayon.org"
 export PIXMAPPATH="/usr/share/anaconda/pixmaps"
 
 # create source dirs
@@ -76,7 +76,6 @@ export ANACONDA_PRODUCTNAME=$( cat /etc/system-release | sed -r -e 's/ *release.
 if [ $LIVE_INSTALL = 1 ]; then
     export ANACONDA_PRODUCTVERSION=$( cat /etc/system-release | sed -r -e 's/^.* ([0-9\.]+).*$/\1/' )
 fi
-export ANACONDA_BUGURL=${ANACONDA_BUGURL:="https://bugzilla.redhat.com/bugzilla/"}
 
 export ANACONDA_ISFINAL="true"
 export PATH=/sbin:/usr/sbin:$PATH
