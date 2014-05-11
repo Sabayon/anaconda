@@ -963,7 +963,7 @@ def networkInitialize(ksdata):
     log.debug("network: devices found %s", nm.nm_devices())
     logIfcfgFiles("network initialization")
 
-    if not flags.imageInstall:
+    if not flags.imageInstall and 0:  # sabayon
         if dumpMissingDefaultIfcfgs():
             logIfcfgFiles("ifcfgs created")
 
