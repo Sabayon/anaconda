@@ -633,6 +633,7 @@ blacklist nouveau
         packages = [
             "app-arch/rpm",
             "app-admin/anaconda",
+            "app-admin/authconfig",
             "app-misc/anaconda-runtime",
             "app-misc/anaconda-runtime-gui",
             "dev-python/python-blivet",
