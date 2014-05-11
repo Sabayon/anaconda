@@ -63,7 +63,9 @@ def doConfiguration(storage, payload, ksdata, instClass):
     # Now run the execute methods of ksdata that require an installed system
     # to be present first.
     with progress_report(_("Configuring installed system")):
-        ksdata.authconfig.execute(storage, ksdata, instClass)
+        if 0:  # sabayon
+            # authconfig causes massive breakage to Gentoo's pambase file
+            ksdata.authconfig.execute(storage, ksdata, instClass)
         ksdata.selinux.execute(storage, ksdata, instClass)
         ksdata.firstboot.execute(storage, ksdata, instClass)
         ksdata.services.execute(storage, ksdata, instClass)
@@ -158,7 +160,7 @@ def doInstall(storage, payload, ksdata, instClass):
     # system is bootable and configurable, and some other packages in order
     # to finish setting up the system.
     packages = storage.packages
-    packages += ["app-admin/authconfig", "net-firewall/firewalld"]
+    packages += ["net-firewall/firewalld"]
     packages += ksdata.realm.packages
 
     # don't try to install packages from the install class' ignored list
