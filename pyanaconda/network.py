@@ -859,7 +859,8 @@ def write_sysconfig_network(rootpath, overwrite=False):
 def write_network_config(storage, ksdata, instClass, rootpath):
     write_hostname(rootpath, ksdata, overwrite=flags.livecdInstall)
     set_hostname(ksdata.network.hostname)
-    write_sysconfig_network(rootpath, overwrite=flags.livecdInstall)
+    if 0:  # sabayon
+        write_sysconfig_network(rootpath, overwrite=flags.livecdInstall)
     disableIPV6(rootpath)
     if not flags.imageInstall:
         copyIfcfgFiles(rootpath)
