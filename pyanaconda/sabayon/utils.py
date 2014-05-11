@@ -734,6 +734,7 @@ blacklist nouveau
         # device.format.mountpoint, device.format.type, device.format.mountable,
         # device.format.options, device.path, device.fstabSpec
         swap_crypto_dev = None
+        crypt_uuids = set()
 
         root_crypto_devs = []
         for name in fsset.cryptTab.mappings.keys():
@@ -747,6 +748,7 @@ blacklist nouveau
             # must use fstabSpec now, since latest genkernel supports it
             final_cmdline.append("crypt_roots=%s" % (
                     root_crypto_dev.fstabSpec,))
+            crypt_uuids.add(root_crypto_dev.format.uuid)
 
         log.info("Found swap devices: %s" % (swap_devices,))
         for swap_dev in swap_devices:
@@ -789,20 +791,54 @@ blacklist nouveau
                     # must use fstabSpec now, since latest genkernel supports it
                     final_cmdline.append(
                         "crypt_swaps=%s" % (swap_crypto_dev.fstabSpec,))
+                    crypt_uuids.add(swap_crypto_dev.format.uuid)
                 else:
                     log.info("Not adding crypt_swap= because "
                              "swap_crypto_dev is in root_crypto_devs")
 
-        log.info("Generated boot cmdline: %s" % (final_cmdline,))
-        return final_cmdline
+        log.info("Generated boot cmdline: %s, crypt_uuids: %s" % (
+                final_cmdline, sorted(crypt_uuids),))
+        return final_cmdline, crypt_uuids
+
+    def _fixup_crypttab(self, crypt_uuids):
+        """
+        python-blivet writes to /etc/crypttab entries that are
+        already handled by genkernel. This causes some troubles with
+        both openrc and systemd. Both are trying to open them again.
+        """
+        log.info("called _fixup_crypttab with %s" % (crypt_uuids,))
+
+        crypt_file = ROOT_PATH + "/etc/crypttab"
+        if not os.path.isfile(crypt_file):
+            log.error("%s not found, aborting _fixup_crypttab" % (crypt_file,))
+            return
+
+        new_lines = []
+        with open(crypt_file, "r") as f:
+            for line in f.readlines():
+
+                found = False
+                for uuid in crypt_uuids:
+                    target = " UUID=%s " % (uuid,)
+                    if target in line:
+                        found = True
+                        break
+                if not found:
+                    log.info("Skipping line: %s" % (line,))
+                    new_lines.append(line)
+
+        with open(crypt_file, "w") as f:
+            f.writelines(new_lines)
 
     def configure_boot_args(self):
         """ Configure Sabayon extra boot args. """
         cmdline = self._get_base_kernel_cmdline()
 
-        # XXX
-        
-        # cmdline += self._get_encrypted_fs_boot_args()
+        parts_cmdline, crypt_uuids = self._get_encrypted_fs_boot_args()
+        cmdline += parts_cmdline
+
+        if crypt_uuids:
+            self._fixup_crypttab(crypt_uuids)
 
         log.info("Backend generated boot cmdline: %s" % (cmdline,))
         self._backend.storage.bootloader.boot_args.update(cmdline)
