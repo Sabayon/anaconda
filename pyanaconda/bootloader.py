@@ -2278,7 +2278,8 @@ def writeBootLoader(storage, payload, instClass, ksdata):
         storage.bootloader.efi_dir = instClass.efi_dir
 
     # write out /etc/sysconfig/kernel
-    writeSysconfigKernel(storage, version)
+    if 0:  # sabayon
+        writeSysconfigKernel(storage, version)
 
     if storage.bootloader.skip_bootloader:
         log.info("skipping bootloader install per user request")
