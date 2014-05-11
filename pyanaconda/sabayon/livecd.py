@@ -209,7 +209,10 @@ class LiveCDCopyBackend(ImagePayload):
 
         try:
             username = self.data.user.userList[0].name
-        except IndexError:
+        except IndexError as err:
+            log.error(
+                "Cannot get default username, default to root: %s" % (
+                    err,))
             username = "root"  # if no admin user was created
         self._sabayon_install.configure_steambox(username)
 
