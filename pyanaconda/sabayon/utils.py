@@ -202,6 +202,8 @@ class SabayonInstall(object):
 
     def configure_steambox(self, steambox_user):
 
+        log.info("Configuring SteamBox mode using user: %s" % (
+                steambox_user,))
         steambox_user_file = ROOT_PATH + "/etc/sabayon/steambox-user"
         steambox_user_dir = os.path.dirname(steambox_user_file)
         if not os.path.isdir(steambox_user_dir):
