@@ -53,9 +53,7 @@ incomplete list [please also check configure.ac]:
 [r] zenity
 [r] dev-python/python-ntplib
 [r] dev-libs/keybinder >=0.3.0-r300
-
-optional (headless):
-net-misc/tightvnc
+[r] net-misc/tightvnc
 
 tests: (cd ${S} && make check)
 [t] dev-python/mock
