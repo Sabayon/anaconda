@@ -85,6 +85,17 @@ class LiveCDCopyBackend(ImagePayload):
         log.info("calling dracutSetupArgs()")
         return []
 
+    def bootFilterArgs(self, boot_args):
+        log.info("calling bootFilterArgs with: %s" % (sorted(boot_args),))
+
+        drop_args = set()
+        for arg in boot_args:
+            if arg.startswith("rd."): # rd.luks, rd.lvm, rd.md
+                drop_args.add(arg)
+
+        log.info("bootFilterArgs, filtering: %s" % (sorted(drop_args),))
+        boot_args.difference_update(drop_args)
+
     @property
     def repos(self):
         return self.entropy.repositories()

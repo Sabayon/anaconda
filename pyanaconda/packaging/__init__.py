@@ -647,6 +647,10 @@ class Payload(object):
 
         return args
 
+    def bootFilterArgs(self, boot_args):
+        """ Filter out unwanted boot args by modifying the set in place. """
+        pass
+
     def postInstall(self):
         """ Perform post-installation tasks. """
 

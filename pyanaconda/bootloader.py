@@ -845,6 +845,10 @@ class BootLoader(object):
                 self.boot_args.add(setup_string)
                 self.dracut_args.add(setup_string)
 
+            # Sabayon, filter out unwanted / unsupported boot args
+            if hasattr(cfg_obj, "bootFilterArgs"):
+                cfg_obj.bootFilterArgs(self.boot_args)
+
         # This is needed for FCoE, bug #743784. The case:
         # We discover LUN on an iface which is part of multipath setup.
         # If the iface is disconnected after discovery anaconda doesn't
