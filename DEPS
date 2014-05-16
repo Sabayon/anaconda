@@ -54,6 +54,7 @@ incomplete list [please also check configure.ac]:
 [r] dev-python/python-ntplib
 [r] dev-libs/keybinder >=0.3.0-r300
 [r] net-misc/tightvnc
+[r] app-emulation/spice-vdagent
 
 tests: (cd ${S} && make check)
 [t] dev-python/mock
