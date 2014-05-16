@@ -46,16 +46,16 @@ export PIXMAPPATH="/usr/share/anaconda/pixmaps"
 
 # create source dirs
 if [ ! -e /mnt/install/source ]; then
-	mkdir -p /mnt/install
-	ln -sf /mnt/livecd /mnt/install/source
+    mkdir -p /mnt/install
+    ln -sf /mnt/livecd /mnt/install/source
 fi
 if [ ! -e /mnt/install/image/LiveOS ]; then
-	mkdir -p /mnt/install/image/LiveOS
-	ln -sf /mnt/cdrom/livecd.squashfs /mnt/install/image/LiveOS/livecd.img
+    mkdir -p /mnt/install/image/LiveOS
+    ln -sf /mnt/cdrom/livecd.squashfs /mnt/install/image/LiveOS/livecd.img
 fi
 if [ ! -e /mnt/install/isodir ]; then
-	mkdir -p /mnt/install
-	ln -sf /mnt/cdrom /mnt/install/isodir
+    mkdir -p /mnt/install
+    ln -sf /mnt/cdrom /mnt/install/isodir
 fi
 
 # lxnay: load UEFI efivars (so that Anaconda can detect EFI systems)
@@ -106,13 +106,17 @@ for opt in `cat /proc/cmdline` $*; do
     esac
 done
 
+if [ -z "$DISPLAY" ]; then
+    ANACONDA="$ANACONDA -T"
+fi
+
 # unmount anything that shouldn't be mounted prior to install
 anaconda-cleanup $ANACONDA $*
 
 # Prevents breakage if the hostname is changed during the install
 xhost +si:localuser:root
 
-if [ -x /usr/bin/udisks ]; then
+if [ -x /usr/bin/udisks -a -n "$DISPLAY" ]; then
     /usr/bin/udisks --inhibit -- $ANACONDA $*
 else
     $ANACONDA $*
