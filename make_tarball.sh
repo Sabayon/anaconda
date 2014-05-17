@@ -23,3 +23,5 @@ make dist || exit 1
 git checkout po/anaconda.pot || exit 1
 git checkout future || exit 1
 git branch -d archive-branch || exit 1
+
+rsync -avP anaconda-${ver}.tar.bz2 fabio@pkg.sabayon.org:/sabayon/rsync/rsync.sabayon.org/distfiles/app-admin/
