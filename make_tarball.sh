@@ -7,6 +7,10 @@ if [ -z "$ver" ]; then
 	exit 1
 fi
 
+# sed -i "s:^AC_INIT(\[anaconda.*:AC_INIT([anaconda], [$ver], [lxnay@sabayon.org]):g" configure.ac || exit 1
+# git commit configure.ac -m "Version bump to $ver" || exit 1
+# git push || exit 1
+
 git checkout -d archive-branch &> /dev/null
 git checkout -b archive-branch "anaconda-${ver}" || exit 1
 ./autogen.sh || exit 1
