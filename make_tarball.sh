@@ -14,4 +14,8 @@ git checkout -b archive-branch "anaconda-${ver}" || exit 1
 	--infodir=/usr/share/info --datadir=/usr/share --sysconfdir=/etc \
 	--localstatedir=/var/lib --sbindir=/sbin --datarootdir=/usr/share \
 	--disable-static --enable-introspection --enable-gtk-doc || exit 1
+make po-pull || exit 1
 make dist || exit 1
+git checkout po/anaconda.pot || exit 1
+git checkout future || exit 1
+git branch -d archive-branch || exit 1
