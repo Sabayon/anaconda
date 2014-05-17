@@ -265,6 +265,8 @@ def parseOptions(argv=None, cmdline=None):
     op.add_option("--vncconnect")
     op.add_option("--vncpassword", default="")
     op.add_option("--xdriver", dest="xdriver", action="store", type="string", default=None)
+    # sabayon, no longer used but keep for backward compatibility with autostart scripts
+    op.add_option("--fullscreen", action="store_true", default=False)
 
     # Language
     op.add_option("--keymap")
