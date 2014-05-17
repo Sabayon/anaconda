@@ -199,10 +199,9 @@ class LiveCDCopyBackend(ImagePayload):
         self._sabayon_install.configure_services()
         self._sabayon_install.spawn_chroot(["env-update"])
         self._sabayon_install.spawn_chroot(["ldconfig"])
-        self._sabayon_install.setup_entropy_mirrors()
 
-        # TODO(lxnay): disable this in prod
         if self._packages:
+            self._sabayon_install.setup_entropy_mirrors()
             self._sabayon_install.maybe_install_packages(self._packages)
 
         self._sabayon_install.configure_boot_args()
