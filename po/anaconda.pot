@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: anaconda 20.25\n"
+"Project-Id-Version: anaconda 20.26\n"
 "Report-Msgid-Bugs-To: anaconda-devel-list@redhat.com\n"
-"POT-Creation-Date: 2013-10-16 16:03-0700\n"
+"POT-Creation-Date: 2014-05-17 08:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,7 +93,7 @@ msgstr ""
 msgid "%(desc)s cannot be of type %(type)s"
 msgstr ""
 
-#: pyanaconda/bootloader.py:1601
+#: pyanaconda/bootloader.py:1598
 #, python-format
 msgid ""
 "%(deviceName)s may not have enough space for grub2 to embed core.img when "
@@ -167,50 +167,54 @@ msgstr ""
 msgid "Configuring installed system"
 msgstr ""
 
-#: pyanaconda/install.py:77
+#: pyanaconda/install.py:79
 msgid "Writing network configuration"
 msgstr ""
 
-#: pyanaconda/install.py:81
+#: pyanaconda/install.py:83
 msgid "Creating users"
 msgstr ""
 
-#: pyanaconda/install.py:88
+#: pyanaconda/install.py:90
 msgid "Configuring addons"
 msgstr ""
 
-#: pyanaconda/install.py:92
+#: pyanaconda/install.py:94
+msgid "Configuring system"
+msgstr ""
+
+#: pyanaconda/install.py:97
 msgid "Generating initramfs"
 msgstr ""
 
-#: pyanaconda/install.py:96
+#: pyanaconda/install.py:101
 #, python-format
 msgid "Joining realm: %s"
 msgstr ""
 
-#: pyanaconda/install.py:99
+#: pyanaconda/install.py:104
 msgid "Running post-installation scripts"
 msgstr ""
 
-#: pyanaconda/install.py:129
+#: pyanaconda/install.py:134
 #, python-format
 msgid "Waiting for %s threads to finish"
 msgstr ""
 
-#: pyanaconda/install.py:133
+#: pyanaconda/install.py:138
 msgid "Setting up the installation environment"
 msgstr ""
 
-#: pyanaconda/install.py:151
+#: pyanaconda/install.py:156
 msgid "Discovering realm to join"
 msgstr ""
 
-#: pyanaconda/install.py:167 pyanaconda/packaging/livepayload.py:147
+#: pyanaconda/install.py:174 pyanaconda/packaging/livepayload.py:147
 #: pyanaconda/packaging/yumpayload.py:1377
 msgid "Performing post-installation setup tasks"
 msgstr ""
 
-#: pyanaconda/install.py:172
+#: pyanaconda/install.py:179
 msgid "Installing bootloader"
 msgstr ""
 
@@ -233,75 +237,75 @@ msgstr ""
 msgid "%s is missing. Cannot setup firewall."
 msgstr ""
 
-#: pyanaconda/kickstart.py:1713
+#: pyanaconda/kickstart.py:1714
 msgid "Running pre-installation scripts"
 msgstr ""
 
-#: pyanaconda/network.py:106
+#: pyanaconda/network.py:107
 msgid "Hostname cannot be None or an empty string."
 msgstr ""
 
-#: pyanaconda/network.py:109
+#: pyanaconda/network.py:110
 msgid "Hostname must be 255 or fewer characters in length."
 msgstr ""
 
-#: pyanaconda/network.py:114
+#: pyanaconda/network.py:115
 msgid ""
 "Hostname must start with a valid character in the ranges 'a-z', 'A-Z', or "
 "'0-9'"
 msgstr ""
 
-#: pyanaconda/network.py:122
+#: pyanaconda/network.py:123
 msgid ""
 "Hostnames can only contain the characters 'a-z', 'A-Z', '0-9', '-', or '.', "
 "parts between periods must contain something and cannot start or end with "
 "'-'."
 msgstr ""
 
-#: pyanaconda/network.py:1054 pyanaconda/ui/gui/spokes/custom.py:999
+#: pyanaconda/network.py:1070 pyanaconda/ui/gui/spokes/custom.py:999
 #: pyanaconda/ui/gui/spokes/network.py:640
 #: pyanaconda/ui/gui/spokes/lib/accordion.py:59
 msgid "Unknown"
 msgstr ""
 
-#: pyanaconda/network.py:1058
+#: pyanaconda/network.py:1074
 msgid "Connecting..."
 msgstr ""
 
-#: pyanaconda/network.py:1060
+#: pyanaconda/network.py:1076
 msgid "Disconnecting..."
 msgstr ""
 
-#: pyanaconda/network.py:1080
+#: pyanaconda/network.py:1096
 #, python-format
 msgid "Wired (%(interface_name)s) connected"
 msgstr ""
 
-#: pyanaconda/network.py:1083
+#: pyanaconda/network.py:1099
 #, python-format
 msgid "Wireless connected to %(access_point)s"
 msgstr ""
 
-#: pyanaconda/network.py:1086
+#: pyanaconda/network.py:1102
 #, python-format
 msgid "Bond %(interface_name)s (%(list_of_slaves)s) connected"
 msgstr ""
 
-#: pyanaconda/network.py:1092
+#: pyanaconda/network.py:1108
 #, python-format
 msgid "Vlan %(interface_name)s (%(parent_device)s, ID %(vlanid)s) connected"
 msgstr ""
 
-#: pyanaconda/network.py:1105
+#: pyanaconda/network.py:1121
 #, python-format
 msgid "Connected: %(list_of_interface_names)s"
 msgstr ""
 
-#: pyanaconda/network.py:1108
+#: pyanaconda/network.py:1124
 msgid "Not connected"
 msgstr ""
 
-#: pyanaconda/network.py:1111 pyanaconda/ui/gui/spokes/network.glade.h:43
+#: pyanaconda/network.py:1127 pyanaconda/ui/gui/spokes/network.glade.h:43
 msgid "No network devices available"
 msgstr ""
 
@@ -530,7 +534,8 @@ msgid "Red Hat Enterprise Linux"
 msgstr ""
 
 #: pyanaconda/packaging/livepayload.py:83
-#: pyanaconda/packaging/livepayload.py:106
+#: pyanaconda/packaging/livepayload.py:106 pyanaconda/sabayon/livecd.py:125
+#: pyanaconda/sabayon/livecd.py:132
 msgid "Installing software"
 msgstr ""
 
@@ -571,11 +576,11 @@ msgstr ""
 msgid "Installation"
 msgstr ""
 
-#: pyanaconda/ui/tui/hubs/summary.py:40
+#: pyanaconda/ui/tui/hubs/summary.py:41
 msgid "Starting automated install"
 msgstr ""
 
-#: pyanaconda/ui/tui/hubs/summary.py:63
+#: pyanaconda/ui/tui/hubs/summary.py:64
 msgid "Can't have a question in command line mode!"
 msgstr ""
 
@@ -1125,11 +1130,11 @@ msgstr ""
 msgid "Password set."
 msgstr ""
 
-#: pyanaconda/ui/gui/__init__.py:657
+#: pyanaconda/ui/gui/__init__.py:656
 msgid "_Exit Installer"
 msgstr ""
 
-#: pyanaconda/ui/gui/__init__.py:666 pyanaconda/ui/gui/hubs/progress.py:203
+#: pyanaconda/ui/gui/__init__.py:665 pyanaconda/ui/gui/hubs/progress.py:203
 #: pyanaconda/ui/gui/spokes/software.py:405
 #: pyanaconda/ui/gui/spokes/storage.py:933 widgets/src/StandaloneWindow.c:54
 #: pyanaconda/ui/gui/spokes/welcome.glade.h:1
@@ -1137,11 +1142,11 @@ msgstr ""
 msgid "_Quit"
 msgstr ""
 
-#: pyanaconda/ui/gui/__init__.py:681
+#: pyanaconda/ui/gui/__init__.py:679
 msgid "_No"
 msgstr ""
 
-#: pyanaconda/ui/gui/__init__.py:681
+#: pyanaconda/ui/gui/__init__.py:679
 msgid "_Yes"
 msgstr ""
 
@@ -2000,28 +2005,28 @@ msgstr ""
 msgid "_USER CREATION"
 msgstr ""
 
-#: pyanaconda/ui/gui/spokes/user.py:273 pyanaconda/ui/gui/spokes/user.py:274
+#: pyanaconda/ui/gui/spokes/user.py:293 pyanaconda/ui/gui/spokes/user.py:294
 msgid "The password was set by kickstart."
 msgstr ""
 
-#: pyanaconda/ui/gui/spokes/user.py:300
+#: pyanaconda/ui/gui/spokes/user.py:320
 msgid "Invalid username"
 msgstr ""
 
-#: pyanaconda/ui/gui/spokes/user.py:302
+#: pyanaconda/ui/gui/spokes/user.py:322
 msgid "Full name cannot contain colon characters"
 msgstr ""
 
-#: pyanaconda/ui/gui/spokes/user.py:333
+#: pyanaconda/ui/gui/spokes/user.py:353
 msgid "No user will be created"
 msgstr ""
 
-#: pyanaconda/ui/gui/spokes/user.py:335
+#: pyanaconda/ui/gui/spokes/user.py:355
 #, python-format
 msgid "Administrator %s will be created"
 msgstr ""
 
-#: pyanaconda/ui/gui/spokes/user.py:337
+#: pyanaconda/ui/gui/spokes/user.py:357
 #, python-format
 msgid "User %s will be created"
 msgstr ""
@@ -3825,4 +3830,33 @@ msgstr ""
 
 #: data/liveinst/gnome/fedora-welcome:132
 msgid "Close"
+msgstr ""
+
+#: pyanaconda/sabayon/livecd.py:212
+msgid "Sabayon configuration complete"
+msgstr ""
+
+#: pyanaconda/sabayon/utils.py:257
+msgid "Configuring System Services"
+msgstr ""
+
+#: pyanaconda/sabayon/utils.py:538
+msgid "Reordering Entropy mirrors"
+msgstr ""
+
+#: pyanaconda/sabayon/utils.py:538
+msgid "can take some time..."
+msgstr ""
+
+#: pyanaconda/sabayon/utils.py:554
+msgid "Downloading software repositories..."
+msgstr ""
+
+#: pyanaconda/sabayon/utils.py:622
+#, python-format
+msgid "Installing package: %s"
+msgstr ""
+
+#: pyanaconda/sabayon/utils.py:631
+msgid "Removing install packages..."
 msgstr ""
