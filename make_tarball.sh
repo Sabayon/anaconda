@@ -7,6 +7,7 @@ if [ -z "$ver" ]; then
 	exit 1
 fi
 
+git checkout -d archive-branch &> /dev/null
 git checkout -b archive-branch "anaconda-${ver}" || exit 1
 ./autogen.sh || exit 1
 make -j4 || exit 1
