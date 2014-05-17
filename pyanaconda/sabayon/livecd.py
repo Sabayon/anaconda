@@ -201,6 +201,8 @@ class LiveCDCopyBackend(ImagePayload):
         self._sabayon_install.spawn_chroot(["ldconfig"])
 
         if self._packages:
+            log.info("Preparing to install these packages: %s" % (
+                    self._packages,))
             self._sabayon_install.setup_entropy_mirrors()
             self._sabayon_install.maybe_install_packages(self._packages)
 
