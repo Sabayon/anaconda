@@ -636,6 +636,8 @@ blacklist nouveau
             "app-admin/authconfig",
             "app-misc/anaconda-runtime",
             "app-misc/anaconda-runtime-gui",
+            "dev-libs/libreport",
+            "dev-libs/satyr",
             "dev-python/python-blivet",
             "dev-python/python-meh",
             "dev-util/pykickstart",
