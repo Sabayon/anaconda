@@ -1612,74 +1612,9 @@ class EFIGRUB(GRUB2):
     stage2_is_valid_stage1 = False
     stage2_bootable = False
 
-    @property
-    def _config_dir(self):
-        return "efi/EFI/%s" % (self.efi_dir,)
-
     def __init__(self):
         super(EFIGRUB, self).__init__()
         self.efi_dir = 'BOOT'
-
-    def efibootmgr(self, *args, **kwargs):
-        if kwargs.pop("capture", False):
-            exec_func = iutil.execWithCapture
-        else:
-            exec_func = iutil.execWithRedirect
-
-        return exec_func("efibootmgr", list(args), **kwargs)
-
-    #
-    # installation
-    #
-
-    def remove_efi_boot_target(self):
-        buf = self.efibootmgr(capture=True)
-        for line in buf.splitlines():
-            try:
-                (slot, _product) = line.split(None, 1)
-            except ValueError:
-                continue
-
-            if _product == productName:
-                slot_id = slot[4:8]
-                # slot_id is hex, we can't use .isint and use this regex:
-                if not re.match("^[0-9a-fA-F]+$", slot_id):
-                    log.warning("failed to parse efi boot slot (%s)", slot)
-                    continue
-
-                rc = self.efibootmgr("-b", slot_id, "-B",
-                                     root=ROOT_PATH)
-                if rc:
-                    raise BootLoaderError("failed to remove old efi boot entry")
-
-    @property
-    def efi_dir_as_efifs_dir(self):
-        ret = self._config_dir.replace('efi/', '')
-        return "\\" + ret.replace('/', '\\')
-
-    def add_efi_boot_target(self):
-        if self.stage1_device.type == "partition":
-            boot_disk = self.stage1_device.disk
-            boot_part_num = self.stage1_device.partedPartition.number
-        elif self.stage1_device.type == "mdarray":
-            # FIXME: I'm just guessing here. This probably needs the full
-            #        treatment, ie: multiple targets for each member.
-            boot_disk = self.stage1_device.parents[0].disk
-            boot_part_num = self.stage1_device.parents[0].partedPartition.number
-        boot_part_num = str(boot_part_num)
-
-        rc = self.efibootmgr("-c", "-w", "-L", productName,
-                             "-d", boot_disk.path, "-p", boot_part_num,
-                             "-l",
-                             self.efi_dir_as_efifs_dir + "\\shim.efi",
-                             root=ROOT_PATH)
-        if rc:
-            raise BootLoaderError("failed to set new efi boot target")
-
-    def install(self, args=None):
-        if not flags.leavebootorder:
-            self.remove_efi_boot_target()
-        self.add_efi_boot_target()
 
     def update(self):
         self.install()
