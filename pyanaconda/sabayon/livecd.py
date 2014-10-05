@@ -117,7 +117,10 @@ class LiveCDCopyBackend(ImagePayload):
             if dest_size >= self._adj_size:
                 dest_size -= self._adj_size
 
-            pct = int(100 * dest_size / int(self._source_size))
+            pct = 0
+            source_size = int(self._source_size)
+            if source_size:
+                pct = int(100 * dest_size / source_size)
             if pct != last_pct:
                 with self.pct_lock:
                     self.pct = pct
