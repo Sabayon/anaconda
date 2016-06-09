@@ -19,6 +19,7 @@
 #
 
 # Python imports
+import errno
 import os
 import subprocess
 import shutil
@@ -844,3 +845,11 @@ blacklist nouveau
 
         log.info("Backend generated boot cmdline: %s" % (cmdline,))
         self._backend.storage.bootloader.boot_args.update(cmdline)
+
+        # Make sure that /boot/grub is present
+        boot_grub = os.path.join(ROOT_PATH, "boot/grub")
+        try:
+            os.makedirs(boot_grub, 0o755)
+        except OSError as err:
+            if err.errno != errno.EEXIST:
+                raise
