@@ -28,7 +28,7 @@ git checkout -b archive-branch "anaconda-${new_tag}"
 ./configure --prefix=/usr --mandir=/usr/share/man \
 	--infodir=/usr/share/info --datadir=/usr/share --sysconfdir=/etc \
 	--localstatedir=/var/lib --sbindir=/sbin --datarootdir=/usr/share \
-	--disable-static --enable-introspection --enable-gtk-doc
+	--disable-static --disable-dependency-tracking
 make po-pull
 make dist
 git checkout po/anaconda.pot
