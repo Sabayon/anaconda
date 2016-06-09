@@ -21,7 +21,7 @@ m4_define(python_required_version, 2.5)
 m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
 
 AC_PREREQ([2.63])
-AC_INIT([anaconda], [anaconda-20.27.8], [lxnay@sabayon.org])
+AC_INIT([anaconda], [20.27.5], [lxnay@sabayon.org])
 AM_INIT_AUTOMAKE([foreign no-dist-gzip dist-bzip2 tar-ustar])
 
 AC_CONFIG_HEADERS([config.h])
