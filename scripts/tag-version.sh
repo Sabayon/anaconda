@@ -14,7 +14,7 @@ for cur_tag in `git tag`; do
 	[[ "$cur_tag" == "$new_tag" ]] && echo "$new_tag already tagged" && exit 1
 done
 
-git checkout future
+git checkout master
 git checkout -d archive-branch &> /dev/null || true
 
 sed -i "s:^AC_INIT(\[anaconda.*:AC_INIT([anaconda], [$new_tag], [lxnay@sabayon.org]):g" configure.ac
@@ -32,7 +32,7 @@ git checkout -b archive-branch "anaconda-${new_tag}"
 make po-pull
 make dist
 git checkout po/anaconda.pot
-git checkout future
+git checkout master
 git branch -d archive-branch
 
 rsync -avP anaconda-${new_tag}.tar.bz2 fabio@pkg.sabayon.org:/sabayon/rsync/rsync.sabayon.org/distfiles/app-admin/
