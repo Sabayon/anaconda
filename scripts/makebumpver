@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 #
 # makebumpver - Increment version number and add in RPM spec file changelog
 #               block.  Ensures rhel*-branch commits reference RHEL bugs.
 #
-# Copyright (C) 2009  Red Hat, Inc.
+# Copyright (C) 2009-2015  Red Hat, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published
@@ -26,23 +26,29 @@ log = logging.getLogger("bugzilla")
 log.setLevel(logging.INFO)
 
 import bugzilla
+from contextlib import closing
 import datetime
 import getopt
 import getpass
+import json
 import os
 import re
 import subprocess
 import sys
 import textwrap
+import urllib
 
 class MakeBumpVer:
     def __init__(self, *args, **kwargs):
         log.debug("%s", kwargs)
         self.bzserver = 'bugzilla.redhat.com'
         self.bzurl = "https://%s/xmlrpc.cgi" % self.bzserver
+        self.jenkins = None
+        self.jenkins_proxy = None
         self.username = None
         self.password = None
         self.bz = None
+        self._bz_cache = {}
 
         authfile = os.path.realpath(os.getenv('HOME') + '/.rhbzauth')
         if os.path.isfile(authfile):
@@ -55,6 +61,10 @@ class MakeBumpVer:
                     self.username = line[10:].strip('"\'')
                 elif line.startswith('RHBZ_PASSWORD='):
                     self.password = line[14:].strip('"\'')
+                elif line.startswith('JENKINS='):
+                    self.jenkins = line[8:].strip('"\'')
+                elif line.startswith('JENKINS_PROXY='):
+                    self.jenkins_proxy = line[14:].strip('"\'')
 
         self.gituser = self._gitConfig('user.name')
         self.gitemail = self._gitConfig('user.email')
@@ -76,6 +86,21 @@ class MakeBumpVer:
 
         self.configure = kwargs.get('configure')
         self.spec = kwargs.get('spec')
+        self.skip_acks = kwargs.get('skip_acks', False)
+        self.skip_all = kwargs.get('skip_all', False)
+        self.zanata_config = kwargs.get('zanata_config')
+        self.skip_zanata = kwargs.get("skip_zanata", False)
+        self.skip_jenkins = kwargs.get("skip_jenkins", False)
+
+        if self.skip_all:
+            self.skip_acks = True
+            self.skip_jenkins = True
+            self.skip_zanata = True
+
+        self.git_branch = None
+
+        # RHEL release number or None (also fills in self.git_branch)
+        self.rhel = self._isRHEL()
 
     def _gitConfig(self, field):
         proc = subprocess.Popen(['git', 'config', field],
@@ -101,10 +126,15 @@ class MakeBumpVer:
 
         fields = lines[0].split(' ')
 
+        if len(fields) == 2:
+            self.git_branch = fields[1]
+
         if len(fields) == 2 and fields[1].startswith('rhel'):
-            return True
-        else:
-            return False
+            branch_pattern=r"^rhel(\d+)-(.*)"
+            m = re.match(branch_pattern, fields[1])
+            if m:
+                return m.group(1)
+        return False
 
     def _getCommitDetail(self, commit, field):
         proc = subprocess.Popen(['git', 'log', '-1',
@@ -123,7 +153,7 @@ class MakeBumpVer:
 
         return ret
 
-    def _queryBug(self, bug):
+    def _queryBug(self, bugid):
         if not self.bz:
             sys.stdout.write("Connecting to %s...\n" % self.bzserver)
 
@@ -135,7 +165,7 @@ class MakeBumpVer:
             if not self.password:
                 self.password = getpass.getpass()
 
-            bzclass = bugzilla.getBugzillaClassForURL(self.bzurl)
+            bzclass = bugzilla.Bugzilla
             self.bz = bzclass(url=self.bzurl)
             print
 
@@ -143,60 +173,81 @@ class MakeBumpVer:
             rc = self.bz.login(self.username, self.password)
             log.debug("login rc = %s", rc)
 
-        bugs = self.bz.query({'bug_id': bug})
-        log.debug("bugs = %s", bugs)
+        if bugid in self._bz_cache:
+            return self._bz_cache[bugid]
 
-        if len(bugs) != 1:
+        bug = self.bz.getbug(bugid, extra_fields="flags")
+        log.debug("bug = %s", bug)
+
+        if not bug:
             return None
         else:
-            return bugs[0]
+            self._bz_cache[bugid] = bug
+            return bug
 
     def _isRHELBug(self, bug, commit, summary):
         bzentry = self._queryBug(bug)
 
         if not bzentry:
-            print "*** Bugzilla query for %s failed.\n" % bug
+            print("*** Bugzilla query for %s failed.\n" % bug)
             return False
 
         if bzentry.product.startswith('Red Hat Enterprise Linux'):
             return True
         else:
-            print "*** Bug %s is not a RHEL bug." % bug
-            print "***     Commit: %s" % commit
-            print "***     %s\n" % summary
+            print("*** Bug %s is not a RHEL bug." % bug)
+            print("***     Commit: %s" % commit)
+            print("***     %s\n" % summary)
             return False
 
     def _isRHELBugInCorrectState(self, bug, commit, summary):
         bzentry = self._queryBug(bug)
 
         if not bzentry:
-            print "*** Bugzilla query for %s failed.\n" % bug
+            print("*** Bugzilla query for %s failed.\n" % bug)
             return False
 
         if bzentry.bug_status in ['MODIFIED', 'ON_QA']:
             return True
         else:
-            print "*** Bug %s is not in MODIFIED or ON_QA." % bug
-            print "***     Commit: %s" % commit
-            print "***     %s\n" % summary
+            print("*** Bug %s is not in MODIFIED or ON_QA." % bug)
+            print("***     Commit: %s" % commit)
+            print("***     %s\n" % summary)
             return False
 
     def _isRHELBugFixedInVersion(self, bug, commit, summary, fixedIn):
         bzentry = self._queryBug(bug)
 
         if not bzentry:
-            print "*** Bugzilla query for %s failed.\n" % bug
+            print("*** Bugzilla query for %s failed.\n" % bug)
             return False
 
         if bzentry.fixed_in == fixedIn:
             return True
         else:
-            print "*** Bug %s does not have correct Fixed In Version." % bug
-            print "***     Found:     %s" % bzentry.fixed_in
-            print "***     Expected:  %s" % fixedIn
-            print "***     Commit:    %s" % commit
-            print "***     %s\n" % summary
+            print("*** Bug %s does not have correct Fixed In Version." % bug)
+            print("***     Found:     %s" % bzentry.fixed_in)
+            print("***     Expected:  %s" % fixedIn)
+            print("***     Commit:    %s" % commit)
+            print("***     %s\n" % summary)
             return False
+
+    def _isRHELBugAcked(self, bug, commit, summary):
+        """ Check the bug's ack state
+        """
+        if not self.rhel or self.skip_acks:
+            return True
+
+        bzentry = self._queryBug(bug)
+        ack_pattern=r"rhel-%s\.\d+\.\d+" % self.rhel
+        for f in bzentry.flags:
+            if re.match(ack_pattern, f['name']) and f['status'] == '+':
+                return True
+
+        print("*** Bug %s does not have ACK" % bug)
+        print("***     Commit: %s" % commit)
+        print("***     %s\n" % summary)
+        return False
 
     def _rpmLog(self, fixedIn):
         git_range = "%s-%s-%s.." % (self.name, self.version, self.release)
@@ -210,11 +261,11 @@ class MakeBumpVer:
 
         if self.ignore and self.ignore != '':
             for commit in self.ignore.split(','):
-                lines = filter(lambda x: not x.startswith(commit), lines)
+                lines = filter(lambda x, c=commit: not x.startswith(c), lines)
 
         rpm_log = []
+        bad_bump = False
         bad = False
-        rhel = self._isRHEL()
 
         for line in lines:
             if not line:
@@ -228,8 +279,9 @@ class MakeBumpVer:
                 body = [body]
             author = self._getCommitDetail(commit, "%aE")
 
-            if rhel:
+            if self.rhel:
                 rhbz = set()
+                bad = False
 
                 # look for a bug in the summary line, validate if found
                 m = re.search(r"\(#\d+(\,.*)*\)", summary)
@@ -257,24 +309,31 @@ class MakeBumpVer:
                             author = tmp
 
                     ckbug = self.bugmap.get(bug, bug)
-                    valid = self._isRHELBug(ckbug, commit, summary)
+
+                    valid = self.skip_all or self._isRHELBug(ckbug, commit, summary)
 
                     if valid:
                         summary = summary.replace(fullbug, "(%s)" % author)
                         rhbz.add("Resolves: rhbz#%s" % ckbug)
 
-                        if not self._isRHELBugInCorrectState(ckbug, commit,
-                                                             summary):
-                            bad = True
+                        if not self.skip_all:
+                            if not self._isRHELBugInCorrectState(ckbug, commit,
+                                                                 summary):
+                                bad = True
 
-                        if not self._isRHELBugFixedInVersion(ckbug, commit,
-                                                             summary, fixedIn):
-                            bad = True
+                            if not self._isRHELBugFixedInVersion(ckbug, commit,
+                                                                 summary, fixedIn):
+                                bad = True
+
+                            if not self._isRHELBugAcked(ckbug, commit, summary):
+                                bad = True
                     else:
                         bad = True
+                    summary_bug = ckbug
                 else:
                     summary = summary.strip()
                     summary += " (%s)" % author
+                    summary_bug = None
 
                 for bodyline in body:
                     m = re.match(r"^(Resolves|Related|Conflicts):\ +rhbz#\d+.*$",
@@ -289,30 +348,54 @@ class MakeBumpVer:
                         action = actionre.group()
                         bug = bugre.group()
                         ckbug = self.bugmap.get(bug, bug)
-                        valid = self._isRHELBug(ckbug, commit, summary)
+
+                        valid = self.skip_all or self._isRHELBug(ckbug, commit, summary)
 
                         if valid:
                             rhbz.add("%s: rhbz#%s" % (action, ckbug))
+
+                            # Remove the summary bug's Resolves action if it is for the same bug
+                            if action != 'Resolves':
+                                summary_str = "Resolves: rhbz#%s" % summary_bug
+                                if summary_bug and ckbug == summary_bug and summary_str in rhbz:
+                                    rhbz.remove(summary_str)
                         else:
                             bad = True
+
+                        if self.skip_all:
+                            print "*** Bug %s Related commit %s is allowed\n" % (bug, commit)
+                            continue
 
                         if valid and action == 'Resolves' and \
                            (not self._isRHELBugInCorrectState(ckbug, commit,
                                                               summary) or \
                             not self._isRHELBugFixedInVersion(ckbug, commit,
                                                               summary,
-                                                              fixedIn)):
+                                                              fixedIn) or \
+                            not self._isRHELBugAcked(ckbug, commit, summary)):
                             bad = True
+                        elif valid and action == 'Related':
+                            # A related bug needs to have acks, and if it is the same as the summary
+                            # It overrides the summary having different fixed-in or state
+                            if self._isRHELBugAcked(ckbug, commit, summary):
+                                print("*** Bug %s Related commit %s is allowed\n" % (bug, commit))
+                                if ckbug == summary_bug:
+                                    bad = False
+                            else:
+                                bad = True
 
-                if len(rhbz) == 0:
-                    print "*** No bugs referenced in commit %s\n" % commit
+                if len(rhbz) == 0 and not self.skip_all:
+                    print("*** No bugs referenced in commit %s\n" % commit)
                     bad = True
 
                 rpm_log.append((summary.strip(), list(rhbz)))
             else:
                 rpm_log.append(("%s (%s)" % (summary.strip(), author), None))
 
-        if bad:
+            if bad:
+                bad_bump = True
+
+        if bad_bump:
             sys.exit(1)
 
         return rpm_log
@@ -368,7 +451,83 @@ class MakeBumpVer:
         f.writelines(bottom)
         f.close()
 
+    def check_jenkins(self):
+        if not self.git_branch:
+            log.error("No git branch, cannot check jenkins")
+            return False
+
+        if not self.jenkins:
+            log.warning("No jenkins defined, skipping")
+            return True
+
+        ret = False
+
+        if self.jenkins_proxy:
+            proxies = { "http": self.jenkins_proxy }
+        else:
+            proxies = {}
+
+        try:
+            with closing(urllib.urlopen(self.jenkins, proxies=proxies)) as f:
+                contents = f.readlines()
+
+                try:
+                    j = json.loads(contents[0])
+                except (TypeError, ValueError):
+                    pass
+                else:
+                    # Get the name of the job we should be looking for in jenkins.
+                    # This name is composed from the name of the project, plus the
+                    # branch of the project without any "-branch" stuff at the end.
+                    targetJob = self.name + "-" + self.git_branch
+                    if targetJob.endswith("-branch"):
+                        targetJob = targetJob[:-7]
+
+                    for job in j["jobs"]:
+                        if job["name"] == targetJob:
+                            ret = job["color"] == "blue"
+                            break
+        except IOError as e:
+            log.error("Jenkins check failed: %s", e)
+            return False
+
+        return ret
+
+    def check_zanata(self):
+        """
+        Make sure that the zanata project-version matches the current git branch
+
+        This is to prevent accidentally pushing translations to the wrong branch,
+        eg. when branching for a new release and zanata.xml hasn't been updated
+        """
+        if not self.git_branch:
+            log.error("No git branch, cannot check zanata config")
+            return False
+
+        version_re = re.compile("<project-version>(.*)</project-version>")
+        ret = False
+        with open(self.zanata_config, "r") as f:
+            for line in f:
+                m = version_re.match(line.strip())
+                if m and m.group(1) == self.git_branch:
+                    ret = True
+                    break
+                elif m:
+                    log.error("zanata.xml branch (%s) does not match current branch: %s", m.group(1), self.git_branch)
+                    break
+            else:
+                log.error("zanata.xml does not have a project-version")
+
+        return ret
+
     def run(self):
+        if not self.skip_zanata and not self.check_zanata():
+            sys.exit(1)
+
+        # For now, jenkins is in an advisory role so do not require it to pass.
+        if not self.skip_jenkins and not self.check_jenkins():
+            log.warning("jenkins test results do not pass; ignoring for now")
+
         newVersion = self._incrementVersion()
         fixedIn = "%s-%s-%s" % (self.name, newVersion, self.release)
         rpmlog = self._rpmLog(fixedIn)
@@ -385,7 +544,11 @@ def usage(cmd):
     sys.stdout.write("    -b, --bugreport  Bug reporting email address.\n")
     sys.stdout.write("    -i, --ignore     Comma separated list of git commits to ignore.\n")
     sys.stdout.write("    -m, --map        Comma separated list of FEDORA_BZ=RHEL_BZ mappings.\n")
+    sys.stdout.write("    -s, --skip-acks  Skip checking for rhel-X.X.X ack flag\n")
+    sys.stdout.write("    -S, --skip-all   Skip all checks\n")
     sys.stdout.write("    -d, --debug      Turn on debug logging to stdout\n")
+    sys.stdout.write("    --skip-zanata    Skip checking Zanata config for branch name\n")
+    sys.stdout.write("    --skip-jenkins   Skip checking Jenkins for test results\n")
     sys.stdout.write("\nThe -i switch is intended for use with utility commits that we do not need to\n")
     sys.stdout.write("reference in the spec file changelog.  The -m switch is used to map a Fedora\n")
     sys.stdout.write("BZ number to a RHEL BZ number for the spec file changelog.  Use -m if you have\n")
@@ -397,16 +560,17 @@ def main(argv):
     cwd = os.getcwd()
     configure = os.path.realpath(cwd + '/configure.ac')
     spec = os.path.realpath(cwd + '/anaconda.spec.in')
+    zanata_config = os.path.realpath(cwd + '/zanata.xml')
     name, version, release, bugreport = None, None, None, None
     ignore, bugmap = None, None
-    show_help, unknown = False, False
+    show_help, unknown, skip_acks, skip_all, skip_zanata, skip_jenkins = False, False, False, False, False, False
     opts = []
 
     try:
-        opts, _args = getopt.getopt(sys.argv[1:], 'n:v:r:b:i:m:d?',
+        opts, _args = getopt.getopt(sys.argv[1:], 'n:v:r:b:i:m:sSd?',
                                    ['name=', 'version=', 'release=',
                                     'bugreport=', 'ignore=', 'map=',
-                                    'debug', 'help'])
+                                    'debug', 'help', 'skip-zanata', 'skip-jenkins'])
     except getopt.GetoptError:
         show_help = True
 
@@ -423,8 +587,16 @@ def main(argv):
             ignore = a
         elif o in ('-m', '--map'):
             bugmap = a
+        elif o in ('-s', '--skip-acks'):
+            skip_acks = True
+        elif o in ('-S', '--skip-all'):
+            skip_all = True
         elif o in ('-d', '--debug'):
             log.setLevel(logging.DEBUG)
+        elif o == '--skip-zanata':
+            skip_zanata = True
+        elif o  == '--skip-jenkins':
+            skip_jenkins = True
         elif o in ('-?', '--help'):
             show_help = True
         else:
@@ -460,7 +632,9 @@ def main(argv):
 
     mbv = MakeBumpVer(name=name, version=version, release=release,
                       bugreport=bugreport, ignore=ignore, bugmap=bugmap,
-                      configure=configure, spec=spec)
+                      configure=configure, spec=spec, skip_acks=skip_acks,
+                      skip_all=skip_all, zanata_config=zanata_config, skip_zanata=skip_zanata,
+                      skip_jenkins=skip_jenkins)
     mbv.run()
 
 if __name__ == "__main__":

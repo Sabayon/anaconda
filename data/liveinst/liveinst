@@ -41,7 +41,6 @@ if [[ "$LIVECMD $*" =~ "--liveinst" ]]; then
     LIVE_INSTALL=1
 fi
 
-export ANACONDA_BUGURL="https://bugs.sabayon.org"
 export PIXMAPPATH="/usr/share/anaconda/pixmaps"
 
 # create source dirs
@@ -72,13 +71,15 @@ ANACONDA=${LIVECMD:=anaconda --liveinst --noselinux --method=hd://:///mnt/instal
 # load modules that would get loaded by the initramfs (#230945)
 for i in raid0 raid1 raid5 raid6 raid456 raid10 dm-mod dm-zero dm-mirror dm-snapshot dm-multipath dm-round-robin vfat dm-crypt cbc sha256 lrw xts iscsi_tcp iscsi_ibft; do /sbin/modprobe $i 2>/dev/null ; done
 
-export ANACONDA_PRODUCTNAME=$( cat /etc/system-release | sed -r -e 's/ *release.*//' )
-if [ $LIVE_INSTALL = 1 ]; then
+if [ -f /etc/system-release ]; then
+    export ANACONDA_PRODUCTNAME=$( cat /etc/system-release | sed -r -e 's/ *release.*//' )
     export ANACONDA_PRODUCTVERSION=$( cat /etc/system-release | sed -r -e 's/^.* ([0-9\.]+).*$/\1/' )
 fi
+export ANACONDA_BUGURL=${ANACONDA_BUGURL:="https://bugs.sabayon.org/"}
 
 export ANACONDA_ISFINAL="true"
 export PATH=/sbin:/usr/sbin:$PATH
+export PYTHONPATH=/usr/share/anaconda/site-python
 
 if [ -x /usr/sbin/getenforce ]; then
     current=$(/usr/sbin/getenforce)

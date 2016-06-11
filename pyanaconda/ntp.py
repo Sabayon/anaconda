@@ -23,6 +23,8 @@ Module facilitating the work with NTP servers and NTP daemon's configuration
 
 """
 
+from __future__ import division
+
 import re
 import os
 import tempfile
@@ -31,6 +33,7 @@ import ntplib
 import socket
 
 from pyanaconda import isys
+from pyanaconda import iutil
 from pyanaconda.threads import threadMgr, AnacondaThread
 from pyanaconda.constants import THREAD_SYNC_TIME_BASENAME
 
@@ -38,7 +41,10 @@ NTP_CONFIG_FILE = "/etc/chrony.conf"
 
 #example line:
 #server 0.fedora.pool.ntp.org iburst
-SRV_LINE_REGEXP = re.compile(r"^\s*server\s*([-a-zA-Z.0-9]+)\s*[a-zA-Z]+\s*$")
+SRV_LINE_REGEXP = re.compile(r"^\s*(server|pool)\s*([-a-zA-Z.0-9]+)\s*[a-zA-Z]+\s*$")
+
+#treat pools as four servers with the same name
+SERVERS_PER_POOL = 4
 
 class NTPconfigError(Exception):
     """Exception class for NTP related problems"""
@@ -61,10 +67,40 @@ def ntp_server_working(server):
         client.request(server)
     except ntplib.NTPException:
         return False
+    # address related error
     except socket.gaierror:
+        return False
+    # socket related error
+    # (including "Network is unreachable")
+    except socket.error:
         return False
 
     return True
+
+def pools_servers_to_internal(pools, servers):
+    ret = []
+    for pool in pools:
+        ret.extend(SERVERS_PER_POOL * [pool])
+    ret.extend(servers)
+
+    return ret
+
+def internal_to_pools_and_servers(pools_servers):
+    server_nums = dict()
+    pools = []
+    servers = []
+
+    for item in pools_servers:
+        server_nums[item] = server_nums.get(item, 0) + 1
+
+    for item in server_nums.keys():
+        if server_nums[item] >= SERVERS_PER_POOL:
+            pools.extend((server_nums[item] // SERVERS_PER_POOL) * [item])
+            servers.extend((server_nums[item] % SERVERS_PER_POOL) * [item])
+        else:
+            servers.extend(server_nums[item] * [item])
+
+    return (pools, servers)
 
 def get_servers_from_config(conf_file_path=NTP_CONFIG_FILE,
                             srv_regexp=SRV_LINE_REGEXP):
@@ -77,29 +113,34 @@ def get_servers_from_config(conf_file_path=NTP_CONFIG_FILE,
 
     """
 
-    ret = list()
+    pools = list()
+    servers = list()
 
     try:
         with open(conf_file_path, "r") as conf_file:
             for line in conf_file:
                 match = srv_regexp.match(line)
                 if match:
-                    ret.append(match.group(1))
+                    if match.group(1) == "pool":
+                        pools.append(match.group(2))
+                    else:
+                        servers.append(match.group(2))
 
     except IOError as ioerr:
         msg = "Cannot open config file %s for reading (%s)" % (conf_file_path,
                                                                ioerr.strerror)
         raise NTPconfigError(msg)
 
-    return ret
+    return (pools, servers)
 
-def save_servers_to_config(servers, conf_file_path=NTP_CONFIG_FILE,
+def save_servers_to_config(pools, servers, conf_file_path=NTP_CONFIG_FILE,
                            srv_regexp=SRV_LINE_REGEXP, out_file_path=None):
     """
-    Replaces the servers defined in the chronyd's configuration file with
-    the given ones. If the out_file is not None, then it is used for the
+    Replaces the pools and servers defined in the chronyd's configuration file
+    with the given ones. If the out_file is not None, then it is used for the
     resulting config.
 
+    :type pools: iterable
     :type servers: iterable
     :param out_file_path: path to the file used for the resulting config
 
@@ -135,7 +176,10 @@ def save_servers_to_config(servers, conf_file_path=NTP_CONFIG_FILE,
     #write info about the origin of the following lines
     new_conf_file.write(heading)
 
-    #write new servers
+    #write new servers and pools
+    for pool in pools:
+        new_conf_file.write("pool " + pool + " iburst\n")
+
     for server in servers:
         new_conf_file.write("server " + server + " iburst\n")
 
@@ -152,7 +196,7 @@ def save_servers_to_config(servers, conf_file_path=NTP_CONFIG_FILE,
             stat = os.stat(conf_file_path)
             # Use copy rather then move to get the correct selinux context
             shutil.copy(temp_path, conf_file_path)
-            os.chmod(conf_file_path, stat.st_mode)
+            iutil.eintr_retry_call(os.chmod, conf_file_path, stat.st_mode)
             os.unlink(temp_path)
 
         except OSError as oserr:

@@ -18,26 +18,28 @@
 #
 
 from pyanaconda.installclass import BaseInstallClass
-from pyanaconda.i18n import N_
-
 from pyanaconda.sabayon import Entropy
+
 
 class InstallClass(BaseInstallClass):
 
     id = "sabayon_fluxbox"
-    name = N_("Sabayon Fluxbox")
+    name = "Sabayon Fluxbox"
     sortPriority = 9999
 
     _l10n_domain = "anaconda"
 
     efi_dir = "sabayon"
 
+    help_placeholder = "SabayonPlaceholder.html"
+    help_placeholder_with_links = "SabayonPlaceholderWithLinks.html"
+
     dmrc = "fluxbox"
     if Entropy().is_sabayon_steambox():
         dmrc = "steambox"
 
     if not Entropy().is_installed("x11-wm/fluxbox"):
-        hidden = 1
+        hidden = True
 
     def configure(self, anaconda):
         BaseInstallClass.configure(self, anaconda)

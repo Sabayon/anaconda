@@ -18,8 +18,9 @@
 # Author: Kalev Lember <kalevlember@gmail.com>
 
 welcomedir              = $(datadir)/$(PACKAGE_NAME)/gnome
-dist_welcome_DATA       = fedora-welcome.desktop install-button.png
+dist_welcome_DATA       = install-button.png
 dist_welcome_SCRIPTS    = fedora-welcome
+welcome_DATA            = fedora-welcome.desktop
 
 EXTRA_DIST = fedora-welcome.desktop.in
 
@@ -28,3 +29,9 @@ CLEANFILES = fedora-welcome.desktop
 MAINTAINERCLEANFILES = Makefile.in
 
 @INTLTOOL_DESKTOP_RULE@
+
+# Files generated for gettext need to be included in the distribution
+EXTRA_DIST += $(srcdir)/fedora-welcome.po $(srcdir)/fedora-welcome.desktop.in.h
+$(srcdir)/fedora-welcome.po $(srcdir)/fedora-welcome.desktop.in.h: \
+	$(srcdir)/fedora-welcome $(srcdir)/fedora-welcome.desktop.in
+	@$(MAKE) -C $(top_builddir)/po $(abs_top_srcdir)/$(subdir)/$$(basename $@)

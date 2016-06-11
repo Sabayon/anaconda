@@ -17,6 +17,8 @@
  * Author: Chris Lumens <clumens@redhat.com>
  */
 
+#include "config.h"
+
 /* This file contains code called by glade when it creates, reads, writes, or
  * otherwise manipulates anaconda-specific widgets.  Each function in this file
  * that glade should call must be referenced in a glade-widget-class stanza of
@@ -60,34 +62,14 @@ void anaconda_standalone_window_post_create(GladeWidgetAdaptor *adaptor,
 
     alignment_widget = glade_widget_get_from_gobject(anaconda_base_window_get_alignment(window));
 
+    glade_widget_property_set(alignment_widget, "xalign", 0.5);
+    glade_widget_property_set(alignment_widget, "yalign", 0.0);
+    glade_widget_property_set(alignment_widget, "xscale", 1.0);
+    glade_widget_property_set(alignment_widget, "yscale", 1.0);
+
+    /* Set padding on hubs */
     if (ANACONDA_IS_HUB_WINDOW(object)) {
-        glade_widget_property_set(alignment_widget, "xalign", 0.5);
-        glade_widget_property_set(alignment_widget, "yalign", 0.0);
-        glade_widget_property_set(alignment_widget, "xscale", 0.5);
-        glade_widget_property_set(alignment_widget, "yscale", 0.5);
-    } else {
-        glade_widget_property_set(alignment_widget, "xalign", 0.5);
-        glade_widget_property_set(alignment_widget, "yalign", 0.0);
-        glade_widget_property_set(alignment_widget, "xscale", 1.0);
-        glade_widget_property_set(alignment_widget, "yscale", 1.0);
+        glade_widget_property_set(alignment_widget, "left-padding", 12);
+        glade_widget_property_set(alignment_widget, "right-padding", 6);
     }
-}
-
-void anaconda_standalone_window_write_widget(GladeWidgetAdaptor *adaptor,
-                                             GladeWidget *widget,
-                                             GladeXmlContext *context, GladeXmlNode *node) {
-    GladeProperty *startup_id_prop;
-
-    if (!glade_xml_node_verify (node, GLADE_XML_TAG_WIDGET))
-        return;
-
-    /* Set a bogus startup-id in the output XML file.  This doesn't really seem
-     * like it should be necessary, but glade will crash if I don't.
-     */
-    startup_id_prop = glade_widget_get_property(widget, "startup-id");
-    glade_property_set(startup_id_prop, "filler");
-    glade_property_write(startup_id_prop, context, node);
-
-    /* Chain up and write the parent's properties */
-    GWA_GET_CLASS (GTK_TYPE_WINDOW)->write_widget (adaptor, widget, context, node);
 }

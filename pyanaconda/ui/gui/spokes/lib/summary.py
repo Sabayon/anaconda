@@ -1,6 +1,6 @@
 # Action summary dialog
 #
-# Copyright (C) 2013  Red Hat, Inc.
+# Copyright (C) 2013-2014  Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -20,6 +20,8 @@
 #
 
 from pyanaconda.ui.gui import GUIObject
+from pyanaconda.ui.gui.utils import escape_markup
+from pyanaconda.i18n import _
 
 from blivet.deviceaction import ACTION_TYPE_DESTROY, ACTION_TYPE_RESIZE, ACTION_OBJECT_FORMAT
 
@@ -34,25 +36,40 @@ class ActionSummaryDialog(GUIObject):
         GUIObject.__init__(self, data)
         self._store = self.builder.get_object("actionStore")
 
-    # pylint: disable-msg=W0221
+    # pylint: disable=arguments-differ
     def initialize(self, actions):
         for (i, action) in enumerate(actions, start=1):
             mountpoint = ""
 
             if action.type in [ACTION_TYPE_DESTROY, ACTION_TYPE_RESIZE]:
-                typeString = """<span foreground='red'>%s</span>""" % action.typeDesc.title()
+                typeString = """<span foreground='red'>%s</span>""" % \
+                        escape_markup(action.typeDesc.title())
             else:
-                typeString = """<span foreground='green'>%s</span>""" % action.typeDesc.title()
+                typeString = """<span foreground='green'>%s</span>""" % \
+                        escape_markup(action.typeDesc.title())
                 if action.obj == ACTION_OBJECT_FORMAT:
                     mountpoint = getattr(action.device.format, "mountpoint", "")
+
+            if hasattr(action.device, "description"):
+                desc = _("%(description)s (%(deviceName)s)") % {"deviceName": action.device.name,
+                                                                "description": action.device.description}
+                serial = action.device.serial
+            elif hasattr(action.device, "disk"):
+                desc = _("%(deviceName)s on %(container)s") % {"deviceName": action.device.name,
+                                                               "container": action.device.disk.description}
+                serial = action.device.disk.serial
+            else:
+                desc = action.device.name
+                serial = action.device.serial
 
             self._store.append([i,
                                 typeString,
                                 action.objectTypeString,
-                                action.device.name,
-                                mountpoint])
+                                desc,
+                                mountpoint,
+                                serial])
 
-    # pylint: disable-msg=W0221
+    # pylint: disable=arguments-differ
     def refresh(self, actions):
         GUIObject.refresh(self)
 

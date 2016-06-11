@@ -18,9 +18,8 @@
 #
 
 from pyanaconda.installclass import BaseInstallClass
-from pyanaconda.i18n import N_
-
 from pyanaconda.sabayon import Entropy
+
 
 class InstallClass(BaseInstallClass):
 
@@ -32,12 +31,15 @@ class InstallClass(BaseInstallClass):
 
     efi_dir = "sabayon"
 
+    help_placeholder = "SabayonPlaceholder.html"
+    help_placeholder_with_links = "SabayonPlaceholderWithLinks.html"
+
     dmrc = "xfce"
     if Entropy().is_sabayon_steambox():
         dmrc = "steambox"
 
     if not Entropy().is_installed("xfce-base/xfce-utils"):
-        hidden = 1
+        hidden = True
 
     def configure(self, anaconda):
         BaseInstallClass.configure(self, anaconda)

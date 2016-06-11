@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/python2
+# pylint: disable=bad-preconf-access
 #
 # Copyright (C) 2013  Red Hat, Inc.
 #
@@ -21,12 +22,16 @@
 import os
 import sys
 import argparse
+import time
 import rpm
 import rpmUtils
 import yum
 from urlgrabber.grabber import URLGrabError
+from pyanaconda.iutil import xprogressive_delay, eintr_retry_call
 
-YUM_PLUGINS = ["blacklist", "whiteout", "fastestmirror", "langpacks"]
+YUM_PLUGINS = ["fastestmirror", "langpacks"]
+
+MAX_DOWNLOAD_RETRIES = 10
 
 def setup_parser():
     """ Setup argparse with supported arguments
@@ -42,12 +47,13 @@ def setup_parser():
     parser.add_argument("-i", "--installroot", help="Path to top directory of installroot", default="/mnt/sysimage")
     parser.add_argument("-T", "--test", action="store_true", help="Test transaction, don't actually install")
     parser.add_argument("-d", "--debug", action="store_true", help="Extra debugging output")
+    parser.add_argument("-m", "--macro", action="append", metavar=('NAME', 'VALUE'), nargs=2, help="Macros to add to the rpm transaction")
 
     return parser
 
 
 def run_yum_transaction(release, arch, yum_conf, install_root, ts_file, script_log,
-                        testing=False, debug=False):
+                        testing=False, debug=False, macros=None):
     """ Execute a yum transaction loaded from a transaction file
 
         :param release: The release version to use
@@ -64,6 +70,10 @@ def run_yum_transaction(release, arch, yum_conf, install_root, ts_file, script_l
         :type script_log: string
         :param testing: True sets RPMTRANS_FLAG_TEST (default is false)
         :type testing: bool
+        :param debug: True set verbosity to "debug"
+        :type debug: bool
+        :param macros: Macros to define in the rpm transaction
+        :type macros: list
         :returns: Nothing
 
         This is used to run the yum transaction in a separate process, preventing
@@ -72,10 +82,16 @@ def run_yum_transaction(release, arch, yum_conf, install_root, ts_file, script_l
     from yum.Errors import PackageSackError, RepoError, YumBaseError, YumRPMTransError
 
     # remove some environmental variables that can cause problems with package scripts
+    # pylint: disable=environment-modify
     env_remove = ('DISPLAY', 'DBUS_SESSION_BUS_ADDRESS')
     for k in env_remove:
         if k in os.environ:
             os.environ.pop(k)
+
+    # Initialize the rpm macros
+    if macros:
+        for macro in macros:
+            rpm.addMacro(macro[0], macro[1])
 
     try:
         # Setup the basics, point to the config file and install_root
@@ -109,24 +125,40 @@ def run_yum_transaction(release, arch, yum_conf, install_root, ts_file, script_l
         if rpmUtils and rpmUtils.arch.isMultiLibArch():
             yb.ts.ts.setColor(3)
 
-        print("DEBUG: populate transaction set")
-        try:
-            # uses dsCallback.transactionPopulation
-            yb.populateTs(keepold=0)
-        except RepoError as e:
-            print("ERROR: error populating transaction: %s" % e)
-            print("QUIT:")
+        print("INFO: populate transaction set")
+        xdelay = xprogressive_delay()
+
+        for retry_count in range(0, MAX_DOWNLOAD_RETRIES+1):
+            # retry count == 0 -> first attempt
+            # retry count > 0  -> retry
+            if retry_count:
+                # retry after waiting a bit
+                time.sleep(next(xdelay))
+                print("PROGRESS_INSTALL: error populating transaction, retrying (%d/%d)"
+                      % (retry_count, MAX_DOWNLOAD_RETRIES))
+            try:
+                # uses dsCallback.transactionPopulation
+                yb.populateTs(keepold=0)
+                break
+            except RepoError as e:
+                continue
+        else:
+            # else = no break called = no successful attempt
+            print("ERROR: error populating transaction after %d retries: %s"
+                  % (retry_count, e))
+            # we don't need to print "QUIT:" there, the finally clause
+            # of the toplevel try-block will do that for us
             return
 
-        print("DEBUG: check transaction set")
+        print("INFO: check transaction set")
         yb.ts.check()
-        print("DEBUG: order transaction set")
+        print("INFO: order transaction set")
         yb.ts.order()
         yb.ts.clean()
 
         # Write scriptlet output to a file to be logged later
-        logfile = open(script_log, "w")
-        yb.ts.ts.scriptFd = logfile.fileno()
+        logfile = eintr_retry_call(os.open, script_log, os.O_WRONLY|os.O_CREAT)
+        yb.ts.ts.scriptFd = logfile
         rpm.setLogFile(logfile)
 
         # create the install callback
@@ -152,11 +184,9 @@ def run_yum_transaction(release, arch, yum_conf, install_root, ts_file, script_l
             print("INFO: transaction complete")
         finally:
             yb.ts.close()
-            logfile.close()
+            eintr_retry_call(os.close, logfile)
     except YumBaseError as e:
         print("ERROR: transaction error: %s" % e)
-    except Exception as e:
-        print("ERROR: unexpected error: %s" % e)
     finally:
         print("QUIT:")
 
@@ -185,14 +215,14 @@ class RPMCallback(object):
     def __init__(self, yb, arch, log, debug=False):
         """ :param yb: YumBase object
             :type yb: YumBase
-            :param log: script logfile
-            :type log: string
+            :param log: file-descriptor of script logfile
+            :type log: int
             :param statusQ: status communication back to other process
             :type statusQ: Queue
         """
         self.yb = yb                # yum.YumBase
         self.base_arch = arch
-        self.install_log = log      # logfile for yum script logs
+        self.install_log = log      # fd of logfile for yum script logs
         self.debug = debug
 
         self.package_file = None    # file instance (package file management)
@@ -248,17 +278,28 @@ class RPMCallback(object):
             log_msg = msg_format % (txmbr.po,
                                     self.completed_actions,
                                     self.total_actions)
-            self.install_log.write(log_msg+"\n")
+            eintr_retry_call(os.write, self.install_log, log_msg+"\n")
             print("PROGRESS_INSTALL: %s" % progress_msg)
 
         try:
             repo = self.yb.repos.getRepo(txmbr.po.repoid)
-        except Exception as e:
+        except yum.Errors.RepoError as e:
             print("ERROR: getRepo failed: %s" % e)
             raise Exception("rpmcallback getRepo failed")
 
         self.package_file = None
-        while self.package_file is None:
+        retry_message = ""
+        error_message = ""
+        exception_message = ""
+        xdelay = xprogressive_delay()
+
+        for retry_count in range(0, MAX_DOWNLOAD_RETRIES+1):
+            # retry count == 0 -> first attempt
+            # retry count > 0  -> retry
+            if retry_count and retry_message:
+                time.sleep(next(xdelay))  # wait a bit before retry
+                print("PROGRESS_INSTALL: %s (%d/%d)" % (retry_message, retry_count, MAX_DOWNLOAD_RETRIES))
+
             try:
                 # checkfunc gets passed to yum's use of URLGrabber which
                 # then calls it with the file being fetched. verifyPkg
@@ -274,21 +315,47 @@ class RPMCallback(object):
                 if self.debug:
                     print("DEBUG: getPackage %s" % txmbr.name)
                 package_path = repo.getPackage(txmbr.po, checkfunc=checkfunc)
+                break
             except URLGrabError as e:
-                print("ERROR: URLGrabError: %s" % e)
-                raise Exception("rpmcallback failed")
-            except (yum.Errors.NoMoreMirrorsRepoError, IOError) as e:
-                if os.path.exists(txmbr.po.localPkg()):
-                    os.unlink(txmbr.po.localPkg())
-                    print("DEBUG: retrying download of %s" % txmbr.po)
-                    continue
-                print("ERROR: getPackage error: %s" % e)
-                raise Exception("getPackage failed")
-            except yum.Errors.RepoError as e:
-                print("DEBUG: RepoError: %s" % e)
-                continue
+                if retry_count < MAX_DOWNLOAD_RETRIES:
+                    retry_message = "rpmcallback failed (URLGrabError), retrying"
+                else:
+                    # run out of retries
+                    error_message = "rpmcallback failed (URLGrabError) after %d retries: %s" % \
+                                    (retry_count, e)
+                    exception_message = "rpmcallback failed"
 
-            self.package_file = open(package_path)
+            except (yum.Errors.NoMoreMirrorsRepoError, IOError) as e:
+                # for some reason, this is the exception you will get if
+                # the package file you want to download vanishes, not URLGrabError
+
+                if retry_count < MAX_DOWNLOAD_RETRIES:
+                    retry_message = "retrying download of %s" % txmbr.po
+                    # remove any unfinished downloads of this package
+                    if os.path.exists(txmbr.po.localPkg()):
+                        os.unlink(txmbr.po.localPkg())
+                else:
+                    # run out of retries
+                    error_message = "getPackage error after %d retries: %s" % \
+                                    (retry_count, e)
+                    exception_message = "getPackage failed"
+
+            except yum.Errors.RepoError as e:
+                if retry_count < MAX_DOWNLOAD_RETRIES:
+                    retry_message = "RepoError, retrying: %s" % e
+                else:
+                    # run out of retries
+                    error_message = "RepoError after %d retries: %s" % \
+                                    (retry_count, e)
+                    exception_message = "too many (%d) consecutive repo errors" % \
+                                        retry_count
+
+        else:  # report what went wrong & abort installation
+            print("ERROR: %s" % error_message)
+            raise Exception(exception_message)
+
+        # if we got this far, there should be a package available
+        self.package_file = open(package_path)
 
         if self.debug:
             print("DEBUG: opening package %s" % self.package_file.name)
@@ -314,6 +381,9 @@ class RPMCallback(object):
         # display the message.
         if self.completed_actions == self.total_actions:
             print("PROGRESS_POST:")
+        elif self.completed_actions is not None and self.total_actions is not None:
+            pct = 100 * (self.completed_actions / float(self.total_actions))
+            print("PERCENT: %f" % pct)
 
     def cpio_error(self, amount, total, key, data):
         name = self._get_txmbr(key)[0]
@@ -334,12 +404,15 @@ class RPMCallback(object):
 
 
 if __name__ == "__main__":
-    arg_parser = setup_parser()
-    args = arg_parser.parse_args()
+    try:
+        arg_parser = setup_parser()
+        args = arg_parser.parse_args()
 
-    # force output to be flushed
-    sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
+        # force output to be flushed
+        sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
 
-    run_yum_transaction(args.release, args.arch, args.config, args.installroot,
-                        args.tsfile, args.rpmlog, args.test, args.debug)
-
+        run_yum_transaction(args.release, args.arch, args.config, args.installroot,
+                            args.tsfile, args.rpmlog, args.test, args.debug, args.macro)
+        # pylint: disable=broad-except
+    except Exception as e:
+        print("ERROR: unexpected error: %s" % e)

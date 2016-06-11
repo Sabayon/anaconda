@@ -1,12 +1,16 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # python-deps - find the dependencies of a given python script.
 
+import copy
 import os, sys
 from modulefinder import ModuleFinder
+# pylint: disable=wildcard-import
 from distutils.sysconfig import *
 
 sitedir = get_python_lib()
 libdir = get_config_var('LIBDEST')
+
+alsoNeeded = { libdir+"/urllib.py": libdir+"/urllib2.py" }
 
 # A couple helper functions...
 def moduledir(pyfile):
@@ -18,9 +22,10 @@ def moduledir(pyfile):
         if modname not in ('..', 'site-packages'):
             return os.path.join(topdir, modname)
 
+# pylint: disable=redefined-outer-name
 def pyfiles(moddir):
     '''basically, "find $moddir -type f -name "*.py"'''
-    for curdir, dirs, files in os.walk(moddir):
+    for curdir, _dirs, files in os.walk(moddir):
         for f in files:
             if f.endswith(".py"):
                 yield os.path.join(curdir, f)
@@ -28,10 +33,15 @@ def pyfiles(moddir):
 # OK. Use modulefinder to find all the modules etc. this script uses!
 mods = []
 deps = []
-for script in sys.argv[1:]:
+
+scripts = copy.copy(sys.argv[1:])
+
+while scripts:
+    script = scripts.pop()
+
     finder = ModuleFinder()
     finder.run_script(script) # parse the script
-    for name, mod in finder.modules.iteritems():
+    for mod in finder.modules.itervalues():
         if not mod.__file__: # this module is builtin, so we can skip it
             continue
 
@@ -43,12 +53,15 @@ for script in sys.argv[1:]:
             deps += list(pyfiles(moddir)) # ...get the whole module
             mods.append(moddir)
 
+        if mod.__file__ in alsoNeeded and alsoNeeded[mod.__file__] not in deps:
+            scripts.append(alsoNeeded[mod.__file__])
+
 # Include some bits that the python install itself needs
-print get_makefile_filename()
-print get_config_h_filename()
-print os.path.join(libdir,'site.py')
-print os.path.join(libdir,'sysconfig.py')
+print(get_makefile_filename())
+print(get_config_h_filename())
+print(os.path.join(libdir,'site.py'))
+print(os.path.join(libdir,'sysconfig.py'))
 
 # And print the list of deps.
 for d in deps:
-    print d
+    print(d)

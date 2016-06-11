@@ -25,11 +25,10 @@ from pyanaconda import iutil
 import shutil
 import time
 import re
-import subprocess
 
 from snack import ButtonChoiceWindow, ListboxChoiceWindow,SnackScreen
 
-from pyanaconda.constants import ANACONDA_CLEANUP, ROOT_PATH
+from pyanaconda.constants import ANACONDA_CLEANUP
 from pyanaconda.constants_text import TEXT_OK_BUTTON, TEXT_NO_BUTTON, TEXT_YES_BUTTON
 from pyanaconda.text import WaitWindow, OkCancelWindow, ProgressWindow, PassphraseEntryWindow
 from pyanaconda.flags import flags
@@ -37,11 +36,13 @@ from pyanaconda.installinterfacebase import InstallInterfaceBase
 from pyanaconda.i18n import _
 from pyanaconda.kickstart import runPostScripts
 
-from blivet import mountExistingSystem
+from blivet import osinstall
 from blivet.errors import StorageError
 from blivet.devices import LUKSDevice
+from blivet.osinstall import storageInitialize, mountExistingSystem
 
 from pykickstart.constants import KS_REBOOT, KS_SHUTDOWN
+from gi.repository import BlockDev as blockdev
 
 import meh.ui.text
 
@@ -177,7 +178,7 @@ def runShell(screen = None, msg=""):
 
     print
     if msg:
-        print (msg)
+        print(msg)
 
     if flags.imageInstall:
         print(_("Run %s to unmount the system when you are finished.")
@@ -190,8 +191,7 @@ def runShell(screen = None, msg=""):
     proc = None
 
     if os.path.exists("/usr/bin/firstaidkit-qs"):
-        proc = subprocess.Popen(["/usr/bin/firstaidkit-qs"])
-        proc.wait()
+        iutil.execWithRedirect("/usr/bin/firstaidkit-qs", [])
 
     if proc is None or proc.returncode!=0:
         if os.path.exists("/bin/bash"):
@@ -246,8 +246,8 @@ def _unlock_devices(intf, storage):
                         unlocked = True
                         # try to use the same passhprase for other devices
                         try_passphrase = passphrase
-                    except StorageError as serr:
-                        log.error("Failed to unlock %s: %s", device.name, serr)
+                    except (StorageError, blockdev.CryptoError) as err:
+                        log.error("Failed to unlock %s: %s", device.name, err)
                         device.teardown(recursive=True)
                         device.format.passphrase = None
                         try_passphrase = None
@@ -295,7 +295,7 @@ def doRescue(intf, rescue_mount, ksdata):
                   "\n\n"
                   "If for some reason this process fails you can choose 'Skip' "
                   "and this step will be skipped and you will go directly to a "
-                  "command shell.\n\n") % (ROOT_PATH,),
+                  "command shell.\n\n") % (iutil.getSysroot(),),
                   [_("Continue"), _("Read-Only"), _("Skip")] )
 
             if rc == _("Skip").lower():
@@ -307,9 +307,9 @@ def doRescue(intf, rescue_mount, ksdata):
             break
 
     sto = blivet.Blivet(ksdata=ksdata)
-    blivet.storageInitialize(sto, ksdata, [])
+    storageInitialize(sto, ksdata, [])
     _unlock_devices(intf, sto)
-    roots = blivet.findExistingInstallations(sto.devicetree)
+    roots = osinstall.findExistingInstallations(sto.devicetree)
 
     if not roots:
         root = None
@@ -343,11 +343,6 @@ def doRescue(intf, rescue_mount, ksdata):
 
     if root:
         try:
-            # TODO: add a callback to warn about dirty filesystems
-            mountExistingSystem(sto.fsset, root.device,
-                                allowDirty = True,
-                                readOnly = readOnly)
-
             if not flags.imageInstall:
                 msg = _("The system will reboot automatically when you exit "
                         "from the shell.")
@@ -355,80 +350,71 @@ def doRescue(intf, rescue_mount, ksdata):
                 msg = _("Run %s to unmount the system "
                         "when you are finished.") % ANACONDA_CLEANUP
 
-            if rc == -1:
-                if flags.automatedInstall:
-                    log.error("System had dirty file systems which you chose not to mount")
-                else:
-                    ButtonChoiceWindow(intf.screen, _("Rescue"),
-                        _("Your system had dirty file systems which you chose not "
-                          "to mount.  Press return to get a shell from which "
-                          "you can fsck and mount your partitions. %s") % msg,
-                        [_("OK")], width = 50)
-                rootmounted = False
+            mountExistingSystem(sto.fsset, root.device, readOnly=readOnly)
+
+            if flags.automatedInstall:
+                log.info("System has been mounted under: %s", iutil.getSysroot())
             else:
-                if flags.automatedInstall:
-                    log.info("System has been mounted under: %s", ROOT_PATH)
-                else:
-                    ButtonChoiceWindow(intf.screen, _("Rescue"),
-                       _("Your system has been mounted under %(rootPath)s.\n\n"
-                         "Press <return> to get a shell. If you would like to "
-                         "make your system the root environment, run the command:\n\n"
-                         "\tchroot %(rootPath)s\n\n%(msg)s") %
-                                       {'rootPath': ROOT_PATH,
-                                        'msg': msg},
-                                       [_("OK")] )
-                rootmounted = True
+                ButtonChoiceWindow(intf.screen, _("Rescue"),
+                   _("Your system has been mounted under %(rootPath)s.\n\n"
+                     "Press <return> to get a shell. If you would like to "
+                     "make your system the root environment, run the command:\n\n"
+                     "\tchroot %(rootPath)s\n\n%(msg)s") %
+                                   {'rootPath': iutil.getSysroot(),
+                                    'msg': msg},
+                                   [_("OK")] )
+            rootmounted = True
 
-                # now turn on swap
-                if not readOnly:
-                    try:
-                        sto.turnOnSwap()
-                    except StorageError:
-                        log.error("Error enabling swap")
-
-                # and selinux too
-                if flags.selinux:
-                    # we have to catch the possible exception
-                    # because we support read-only mounting
-                    try:
-                        fd = open("%s/.autorelabel" % ROOT_PATH, "w+")
-                        fd.close()
-                    except IOError:
-                        log.warning("cannot touch /.autorelabel")
-
-                # set a library path to use mounted fs
-                libdirs = os.environ.get("LD_LIBRARY_PATH", "").split(":")
-                mounted = map(lambda dir: "/mnt/sysimage%s" % dir, libdirs)
-                os.environ["LD_LIBRARY_PATH"] = ":".join(libdirs + mounted)
-
-                # find groff data dir
-                gversion = None
+            # now turn on swap
+            if not readOnly:
                 try:
-                    glst = os.listdir("/mnt/sysimage/usr/share/groff")
-                except OSError:
-                    pass
-                else:
-                    # find a directory which is a numeral, its where
-                    # data files are
-                    for gdir in glst:
-                        if re.match(r'\d[.\d]+\d$', gdir):
-                            gversion = gdir
-                            break
+                    sto.turnOnSwap()
+                except StorageError:
+                    log.error("Error enabling swap")
 
-                if gversion is not None:
-                    gpath = "/mnt/sysimage/usr/share/groff/"+gversion
-                    os.environ["GROFF_FONT_PATH"] = gpath + '/font'
-                    os.environ["GROFF_TMAC_PATH"] = "%s:/mnt/sysimage/usr/share/groff/site-tmac" % (gpath + '/tmac',)
-
-                # do we have bash?
+            # and selinux too
+            if flags.selinux:
+                # we have to catch the possible exception
+                # because we support read-only mounting
                 try:
-                    if os.access("/usr/bin/bash", os.R_OK):
-                        os.symlink ("/usr/bin/bash", "/bin/bash")
-                except OSError:
-                    pass
+                    fd = open("%s/.autorelabel" % iutil.getSysroot(), "w+")
+                    fd.close()
+                except IOError:
+                    log.warning("cannot touch /.autorelabel")
+
+            # set a library path to use mounted fs
+            libdirs = os.environ.get("LD_LIBRARY_PATH", "").split(":")
+            mounted = ["/mnt/sysimage%s" % mdir for mdir in libdirs]
+            iutil.setenv("LD_LIBRARY_PATH", ":".join(libdirs + mounted))
+
+            # find groff data dir
+            gversion = None
+            try:
+                glst = os.listdir("/mnt/sysimage/usr/share/groff")
+            except OSError:
+                pass
+            else:
+                # find a directory which is a numeral, its where
+                # data files are
+                for gdir in glst:
+                    if re.match(r'\d[.\d]+\d$', gdir):
+                        gversion = gdir
+                        break
+
+            if gversion is not None:
+                gpath = "/mnt/sysimage/usr/share/groff/"+gversion
+                iutil.setenv("GROFF_FONT_PATH", gpath + '/font')
+                iutil.setenv("GROFF_TMAC_PATH", "%s:/mnt/sysimage/usr/share/groff/site-tmac" % (gpath + '/tmac',))
+
+            # do we have bash?
+            try:
+                if os.access("/usr/bin/bash", os.R_OK):
+                    os.symlink ("/usr/bin/bash", "/bin/bash")
+            except OSError:
+                pass
         except (ValueError, LookupError, SyntaxError, NameError):
             raise
-        except Exception as e:
+        except Exception as e:    # pylint: disable=broad-except
             log.error("doRescue caught exception: %s", e)
             if flags.automatedInstall:
                 log.error("An error occurred trying to mount some or all of your system")
@@ -443,7 +429,7 @@ def doRescue(intf, rescue_mount, ksdata):
                 ButtonChoiceWindow(intf.screen, _("Rescue"),
                     _("An error occurred trying to mount some or all of your "
                       "system. Some of it may be mounted under %s.\n\n"
-                      "Press <return> to get a shell.") % ROOT_PATH + msg,
+                      "Press <return> to get a shell.") % iutil.getSysroot() + msg,
                       [_("OK")] )
     else:
         if flags.automatedInstall and ksdata.reboot.action in [KS_REBOOT, KS_SHUTDOWN]:
@@ -467,10 +453,10 @@ def doRescue(intf, rescue_mount, ksdata):
     if rootmounted and not readOnly:
         sto.makeMtab()
         try:
-            makeResolvConf(ROOT_PATH)
+            makeResolvConf(iutil.getSysroot())
         except (OSError, IOError) as e:
             log.error("error making a resolv.conf: %s", e)
-        msgStr = _("Your system is mounted under the %s directory.") % (ROOT_PATH,)
+        msgStr = _("Your system is mounted under the %s directory.") % (iutil.getSysroot(),)
         ButtonChoiceWindow(intf.screen, _("Rescue"), msgStr, [_("OK")] )
 
     # we do not need ncurses anymore, shut them down

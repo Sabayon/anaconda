@@ -24,6 +24,8 @@ log = logging.getLogger("anaconda")
 
 import threading
 
+_WORKER_THREAD_PREFIX = "AnaWorkerThread"
+
 class ThreadManager(object):
     """A singleton class for managing threads and processes.
 
@@ -38,6 +40,7 @@ class ThreadManager(object):
     """
     def __init__(self):
         self._objs = {}
+        self._objs_lock = threading.RLock()
         self._errors = {}
         self._main_thread = threading.current_thread()
 
@@ -48,43 +51,71 @@ class ThreadManager(object):
         """Given a Thread or Process object, add it to the list of known objects
            and start it.  It is assumed that obj.name is unique and descriptive.
         """
-        if obj.name in self._objs:
-            raise KeyError("Cannot add thread '%s', a thread with the same name already running" % obj.name)
 
-        self._objs[obj.name] = obj
-        self._errors[obj.name] = None
-        obj.start()
+        # we need to lock the thread dictionary when adding a new thread,
+        # so that callers can't get & join threads that are not yet started
+        with self._objs_lock:
+            if obj.name in self._objs:
+                raise KeyError("Cannot add thread '%s', a thread with the same name already running" % obj.name)
+
+            self._objs[obj.name] = obj
+            obj.start()
+
+        return obj.name
 
     def remove(self, name):
         """Removes a thread from the list of known objects.  This should only
            be called when a thread exits, or there will be no way to get a
            handle on it.
         """
-        self._objs.pop(name)
+        with self._objs_lock:
+            self._objs.pop(name)
 
     def exists(self, name):
         """Determine if a thread or process exists with the given name."""
-        return name in self._objs
+
+        # thread in the ThreadManager only officially exists once started
+        with self._objs_lock:
+            return name in self._objs
 
     def get(self, name):
         """Given an object name, see if it exists and return the object.
            Return None if no such object exists.  Additionally, this method
            will re-raise any uncaught exception in the thread.
         """
-        obj = self._objs.get(name)
-        if obj:
-            self.raise_error(name)
 
-        return obj
+        # without the lock it would be possible to get & join
+        # a thread that was not yet started
+        with self._objs_lock:
+            obj = self._objs.get(name)
+            if obj:
+                self.raise_if_error(name)
+
+            return obj
 
     def wait(self, name):
         """Wait for the thread to exit and if the thread exited with an error
            re-raise it here.
         """
-        if self.exists(name):
-            self.get(name).join()
 
-        self.raise_error(name)
+        ret_val = True
+
+        # we don't need a lock here,
+        # because get() acquires it itself
+        try:
+            self.get(name).join()
+        except AttributeError:
+            ret_val = False
+        # - if there is a thread object for the given name,
+        #   we join it
+        # - if there is not a thread object for the given name,
+        #   we get None, try to join it, suppress the AttributeError
+        #   and return immediately
+
+        self.raise_if_error(name)
+
+        # return True if we waited for the thread, False otherwise
+        return ret_val
 
     def wait_all(self):
         """Wait for all threads to exit and if there was an error re-raise it.
@@ -94,6 +125,12 @@ class ThreadManager(object):
                 continue
             log.debug("Waiting for thread %s to exit", name)
             self.wait(name)
+
+        if self.any_errors:
+            thread_names = ", ".join(thread_name for thread_name in self._errors.keys()
+                                     if self._errors[thread_name])
+            msg = "Unhandled errors from the following threads detected: %s" % thread_names
+            raise RuntimeError(msg)
 
     def set_error(self, name, *exc_info):
         """Set the error data for a thread
@@ -107,17 +144,23 @@ class ThreadManager(object):
         """
         return self._errors.get(name)
 
+    @property
     def any_errors(self):
         """Return True of there have been any errors in any threads
         """
         return any(self._errors.values())
 
-    def raise_error(self, name):
+    def raise_if_error(self, name):
         """If a thread has failed due to an exception, raise it into the main
-           thread.
+           thread and remove it from errors.
         """
-        if self._errors.get(name):
-            raise self._errors[name][0], self._errors[name][1], self._errors[name][2]
+        if name not in self._errors:
+            # no errors found for the thread
+            return
+
+        exc_info = self._errors.pop(name)
+        if exc_info:
+            raise exc_info[0], exc_info[1], exc_info[2]
 
     def in_main_thread(self):
         """Return True if it is run in the main thread."""
@@ -132,7 +175,8 @@ class ThreadManager(object):
             :returns: number of running threads
             :rtype:   int
         """
-        return len(self._objs)
+        with self._objs_lock:
+            return len(self._objs)
 
     @property
     def names(self):
@@ -141,7 +185,19 @@ class ThreadManager(object):
             :returns: list of thread names
             :rtype:   list of strings
         """
-        return self._objs.keys()
+        with self._objs_lock:
+            return self._objs.keys()
+
+    def wait_for_error_threads(self):
+        """
+        Waits for all threads that caused exceptions. In other words, waits for
+        exception handling (possibly interactive) to be finished.
+
+        """
+
+        for thread_name in self._errors.keys():
+            thread = self._objs[thread_name]
+            thread.join()
 
 class AnacondaThread(threading.Thread):
     """A threading.Thread subclass that exists only for a couple purposes:
@@ -155,7 +211,27 @@ class AnacondaThread(threading.Thread):
        (3) All created threads are made daemonic, which means anaconda will quit
            when the main process is killed.
     """
+
+    # class-wide dictionary ensuring unique thread names
+    _prefix_thread_counts = dict()
+
     def __init__(self, *args, **kwargs):
+        # if neither name nor prefix is given, use the worker prefix
+        if "name" not in kwargs and "prefix" not in kwargs:
+            kwargs["prefix"] = _WORKER_THREAD_PREFIX
+
+        # if prefix is specified, use it to construct new thread name
+        prefix = kwargs.pop("prefix", None)
+        if prefix:
+            thread_num = self._prefix_thread_counts.get(prefix, 0) + 1
+            self._prefix_thread_counts[prefix] = thread_num
+            kwargs["name"] = prefix + str(thread_num)
+
+        if "fatal" in kwargs:
+            self._fatal = kwargs.pop("fatal")
+        else:
+            self._fatal = True
+
         threading.Thread.__init__(self, *args, **kwargs)
         self.daemon = True
 
@@ -166,11 +242,11 @@ class AnacondaThread(threading.Thread):
         log.info("Running Thread: %s (%s)", self.name, self.ident)
         try:
             threading.Thread.run(self, *args, **kwargs)
-        except KeyboardInterrupt:
-            raise
+        # pylint: disable=bare-except
         except:
             threadMgr.set_error(self.name, *sys.exc_info())
-            sys.excepthook(*sys.exc_info())
+            if self._fatal:
+                sys.excepthook(*sys.exc_info())
         finally:
             threadMgr.remove(self.name)
             log.info("Thread Done: %s (%s)", self.name, self.ident)

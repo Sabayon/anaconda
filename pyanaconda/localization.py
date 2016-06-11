@@ -24,9 +24,12 @@ import gettext
 import os
 import re
 import langtable
+import locale as locale_mod
 import glob
+from collections import namedtuple
 
-from pyanaconda.iutil import upcase_first_letter
+from pyanaconda import constants
+from pyanaconda.iutil import upcase_first_letter, setenv
 
 import logging
 log = logging.getLogger("anaconda")
@@ -149,7 +152,7 @@ def find_best_locale_match(locale, langcodes):
         if not locale_parts or not langcode_parts:
             return score
 
-        for part, part_score in score_map.iteritems():
+        for part, part_score in score_map.items():
             if locale_parts[part] and langcode_parts[part]:
                 if locale_parts[part] == langcode_parts[part]:
                     # match
@@ -184,6 +187,9 @@ def setup_locale(locale, lang=None):
     ksdata.lang object (if given). DOES NOT PERFORM ANY CHECKS OF THE GIVEN
     LOCALE.
 
+    $LANG must be set by the caller in order to set the language used by gettext.
+    Doing this in a thread-safe way is up to the caller.
+
     :param locale: locale to setup
     :type locale: str
     :param lang: ksdata.lang object or None
@@ -195,7 +201,8 @@ def setup_locale(locale, lang=None):
     if lang:
         lang.lang = locale
 
-    os.environ["LANG"] = locale
+    setenv("LANG", locale)
+    locale_mod.setlocale(locale_mod.LC_ALL, locale)
 
 def get_english_name(locale):
     """
@@ -240,6 +247,7 @@ def get_native_name(locale):
                                    territoryId=parts.get("territory", ""),
                                    scriptId=parts.get("script", ""),
                                    languageIdQuery=parts["language"],
+                                   territoryIdQuery=parts.get("territory", ""),
                                    scriptIdQuery=parts.get("script", ""))
 
     return upcase_first_letter(name)
@@ -369,6 +377,29 @@ def get_locale_territory(locale):
 
     return parts.get("territory", None)
 
+def get_xlated_timezone(tz_spec_part):
+    """
+    Function returning translated name of a region, city or complete timezone
+    name according to the current value of the $LANG variable.
+
+    :param tz_spec_part: a region, city or complete timezone name
+    :type tz_spec_part: str
+    :return: translated name of the given region, city or timezone
+    :rtype: str
+
+    """
+
+    locale = os.environ.get("LANG", constants.DEFAULT_LANG)
+    parts = parse_langcode(locale)
+    if "language" not in parts:
+        raise InvalidLocaleSpec("'%s' is not a valid locale" % locale)
+
+    xlated = langtable.timezone_name(tz_spec_part, languageIdQuery=parts["language"],
+                                     territoryIdQuery=parts.get("territory", ""),
+                                     scriptIdQuery=parts.get("script", ""))
+
+    return xlated
+
 def write_language_configuration(lang, root):
     """
     Write language configuration to the $root/etc/locale.conf file.
@@ -410,6 +441,8 @@ def load_firmware_language(lang):
     Procedure that loads firmware language information (if any). It stores the
     information in the given ksdata.lang object and sets the $LANG environment
     variable.
+
+    This method must be run before any other threads are started.
 
     :param lang: ksdata.lang object
     :return: None
@@ -461,3 +494,91 @@ def load_firmware_language(lang):
 
     log.debug("Using UEFI PlatformLang '%s' ('%s') as our language.", d, locales[0])
     setup_locale(locales[0], lang)
+
+    os.environ["LANG"] = locales[0] # pylint: disable=environment-modify
+
+_DateFieldSpec = namedtuple("DateFieldSpec", ["format", "suffix"])
+
+def resolve_date_format(year, month, day, fail_safe=True):
+    """
+    Puts the year, month and day objects in the right order according to the
+    currently set locale and provides format specification for each of the
+    fields.
+
+    :param year: any object or value representing year
+    :type year: any
+    :param month: any object or value representing month
+    :type month: any
+    :param day: any object or value representing day
+    :type day: any
+    :param bool fail_safe: whether to fall back to default in case of invalid
+                           format or raise exception instead
+    :returns: a pair where the first field contains a tuple with the year, month
+              and day objects/values put in the right order and where the second
+              field contains a tuple with three :class:`_DateFieldSpec` objects
+              specifying formats respectively to the first (year, month, day)
+              field, e.g. ((year, month, day), (y_fmt, m_fmt, d_fmt))
+    :rtype: tuple
+    :raise ValueError: in case currently set locale has unsupported date
+                       format and fail_safe is set to False
+
+    """
+
+    FAIL_SAFE_DEFAULT = "%Y-%m-%d"
+
+    def order_terms_formats(fmt_str):
+        # see date (1), 'O' (not '0') is a mystery, 'E' is Buddhist calendar, '(.*)'
+        # is an arbitrary suffix
+        field_spec_re = re.compile(r'([-_0OE^#]*)([yYmbBde])(.*)')
+
+        # see date (1)
+        fmt_str = fmt_str.replace("%F", "%Y-%m-%d")
+
+        # e.g. "%d.%m.%Y" -> ['d.', 'm.', 'Y']
+        fields = fmt_str.split("%")[1:]
+
+        ordered_terms = []
+        ordered_formats = []
+        for field in fields:
+            match = field_spec_re.match(field)
+            if not match:
+                # ignore fields we are not interested in (like %A for weekday name, etc.)
+                continue
+
+            prefix, item, suffix = match.groups()
+            if item in ("d", "e"):
+                # "e" is the same as "_d"
+                ordered_terms.append(day)
+            elif item in ("Y", "y"):
+                # 4-digit year, 2-digit year
+                ordered_terms.append(year)
+            elif item in ("m", "b", "B"):
+                # month number, short month name, long month name
+                ordered_terms.append(month)
+
+            # "%" + prefix + item gives a format for date/time formatting functions
+            ordered_formats.append(_DateFieldSpec("%" + prefix + item, suffix.strip()))
+
+        if len(ordered_terms) != 3 or len(ordered_formats) != 3:
+            raise ValueError("Not all fields successfully identified in the format '%s'" % fmt_str)
+
+        return (tuple(ordered_terms), tuple(ordered_formats))
+
+    fmt_str = locale_mod.nl_langinfo(locale_mod.D_FMT)
+
+    if not fmt_str or "%" not in fmt_str:
+        if fail_safe:
+            # use some sane default
+            fmt_str = FAIL_SAFE_DEFAULT
+        else:
+            raise ValueError("Invalid date format string for current locale: '%s'" % fmt_str)
+
+    try:
+        return order_terms_formats(fmt_str)
+    except ValueError:
+        if not fail_safe:
+            raise
+        else:
+            # if this call fails too, something is going terribly wrong and we
+            # should be informed about it
+            return order_terms_formats(FAIL_SAFE_DEFAULT)

@@ -25,7 +25,7 @@ import mock
 class TimezonesListings(unittest.TestCase):
     def string_timezones_test(self):
         """Check if returned timezones are plain strings, not unicode objects."""
-        for (region, zones) in timezone.get_all_regions_and_timezones().iteritems():
+        for (region, zones) in timezone.get_all_regions_and_timezones().items():
             self.assertIsInstance(region, str)
 
             for zone in zones:
@@ -34,7 +34,7 @@ class TimezonesListings(unittest.TestCase):
     def all_timezones_valid_test(self):
         """Check if all returned timezones are considered valid timezones."""
 
-        for (region, zones) in timezone.get_all_regions_and_timezones().iteritems():
+        for (region, zones) in timezone.get_all_regions_and_timezones().items():
             for zone in zones:
                 self.assertTrue(timezone.is_valid_timezone(region + "/" + zone))
 
@@ -56,9 +56,9 @@ class s390HWclock(unittest.TestCase):
         self.arch_mock.isS390.return_value = True
         self.iutil_mock = mock.Mock()
 
-        # pylint: disable-msg=E1101
+        # pylint: disable=no-member
         timezone.save_hw_clock.func_globals["arch"] = self.arch_mock
-        # pylint: disable-msg=E1101
+        # pylint: disable=no-member
         timezone.save_hw_clock.func_globals["iutil"] = self.iutil_mock
 
     def s390_save_hw_clock_test(self):
@@ -67,7 +67,7 @@ class s390HWclock(unittest.TestCase):
         timezone.save_hw_clock(mock.Mock())
         self.assertFalse(self.iutil_mock.execWithRedirect.called)
 
-    def s390_time_initalize_test(self):
+    def s390_time_initialize_test(self):
         """Check that time_initialize doesn't call hwclock on s390."""
 
         timezone.time_initialize(mock.Mock(), mock.Mock(), mock.Mock())

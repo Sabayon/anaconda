@@ -29,64 +29,46 @@ except ImportError:
     # up PYTHONPATH and just do this basic import.
     import _isys
 
-import os
-import os.path
-import socket
-import stat
-import posix
-import sys
-from pyanaconda import iutil
 import blivet.arch
-import re
-import struct
-import dbus
 import time
 import datetime
+import pytz
 
 import logging
 log = logging.getLogger("anaconda")
 
-if blivet.arch.getArch() in ("ppc64"):
-    MIN_RAM = 768 * 1024
-    GUI_INSTALL_EXTRA_RAM = 512 * 1024
+if blivet.arch.getArch() in ["ppc64", "ppc64le"]:
+    MIN_RAM = 768
+    GUI_INSTALL_EXTRA_RAM = 512
 else:
-    MIN_RAM = 512 * 1024
-    GUI_INSTALL_EXTRA_RAM = 0
+    MIN_RAM = 320
+    GUI_INSTALL_EXTRA_RAM = 90
 
 MIN_GUI_RAM = MIN_RAM + GUI_INSTALL_EXTRA_RAM
-EARLY_SWAP_RAM = 896 * 1024
-
-## Get the amount of free space available under a directory path.
-# @param path The directory path to check.
-# @return The amount of free space available, in 
-def pathSpaceAvailable(path):
-    return _isys.devSpaceFree(path)
-
-def resetResolv():
-    return _isys.resetresolv()
-
-def modulesWithPaths():
-    mods = []
-    for modline in open("/proc/modules", "r"):
-        modName = modline.split(" ", 1)[0]
-        modInfo = iutil.execWithCapture("modinfo",
-                ["-F", "filename", modName]).splitlines()
-        modPaths = [ line.strip() for line in modInfo if line!="" ]
-        mods.extend(modPaths)
-    return mods
-
-def isPseudoTTY (fd):
-    return _isys.isPseudoTTY (fd)
+SQUASHFS_EXTRA_RAM = 750
+NO_SWAP_EXTRA_RAM = 200
 
 ## Flush filesystem buffers.
 def sync ():
+    # TODO: This can be replaced with os.sync in Python 3.3
     return _isys.sync ()
+
+ISO_BLOCK_SIZE = 2048
 
 ## Determine if a file is an ISO image or not.
 # @param file The full path to a file to check.
 # @return True if ISO image, False otherwise.
 def isIsoImage(path):
-    return _isys.isisoimage(path)
+    try:
+        with open(path, "rb") as isoFile:
+            for blockNum in range(16, 100):
+                isoFile.seek(blockNum * ISO_BLOCK_SIZE + 1)
+                if isoFile.read(5) == "CD001":
+                    return True
+    except IOError:
+        pass
+
+    return False
 
 isPAE = None
 def isPaeAvailable():
@@ -117,9 +99,6 @@ def isLpaeAvailable():
 
     return False
 
-def getAnacondaVersion():
-    return _isys.getAnacondaVersion()
-
 def set_system_time(secs):
     """
     Set system time to time given as a number of seconds since the Epoch.
@@ -130,41 +109,72 @@ def set_system_time(secs):
     """
 
     _isys.set_system_time(secs)
-    log.info("System time set to %s", time.ctime(secs))
+    log.info("System time set to %s UTC", time.asctime(time.gmtime(secs)))
 
 def set_system_date_time(year=None, month=None, day=None, hour=None, minute=None,
-                         second=None, utc=False):
+                         second=None, tz=None):
     """
     Set system date and time given by the parameters as numbers. If some
     parameter is missing or None, the current system date/time field is used
     instead (i.e. the value is not changed by this function).
 
     :type year, month, ..., second: int
-    :param utc: wheter the other parameters specify UTC or local time
-    :type utc: bool
 
     """
 
+    # If no timezone is set, use UTC
+    if not tz:
+        tz = pytz.UTC
+
     # get the right values
-    local = 0 if utc else 1
-    now = datetime.datetime.now()
-    year = year or now.year
-    month = month or now.month
-    day = day or now.day
-    hour = hour or now.hour
-    minute = minute or now.minute
-    second = second or now.second
+    now = datetime.datetime.now(tz)
+    year = year if year is not None else now.year
+    month = month if month is not None else now.month
+    day = day if day is not None else now.day
+    hour = hour if hour is not None else now.hour
+    minute = minute if minute is not None else now.minute
+    second = second if second is not None else now.second
 
-    # struct fields -> year, month, day, hour, minute, second, week_day, year_day, local
-    time_struct = time.struct_time((year, month, day, hour, minute, second, 0, 0, local))
-    set_system_time(int(time.mktime(time_struct)))
+    set_date = datetime.datetime(year, month, day, hour, minute, second, tzinfo=tz)
 
-auditDaemon = _isys.auditdaemon
+    # Calculate the number of seconds between this time and timestamp 0
+    epoch = datetime.datetime.fromtimestamp(0, pytz.UTC)
+    timestamp = (set_date - epoch).total_seconds()
 
-handleSegv = _isys.handleSegv
+    set_system_time(timestamp)
 
-printObject = _isys.printObject
-bind_textdomain_codeset = _isys.bind_textdomain_codeset
-isVioConsole = _isys.isVioConsole
-initLog = _isys.initLog
-total_memory = _isys.total_memory
+def total_memory():
+    """Returns total system memory in kB (given to us by /proc/meminfo)"""
+
+    with open("/proc/meminfo", "r") as fobj:
+        for line in fobj:
+            if not line.startswith("MemTotal"):
+                # we are only interested in the MemTotal: line
+                continue
+
+            fields = line.split()
+            if len(fields) != 3:
+                log.error("unknown format for MemTotal line in /proc/meminfo: %s", line.rstrip())
+                raise RuntimeError("unknown format for MemTotal line in /proc/meminfo: %s" % line.rstrip())
+
+            try:
+                memsize = int(fields[1])
+            except ValueError:
+                log.error("ivalid value of MemTotal /proc/meminfo: %s", fields[1])
+                raise RuntimeError("ivalid value of MemTotal /proc/meminfo: %s" % fields[1])
+
+            # Because /proc/meminfo only gives us the MemTotal (total physical
+            # RAM minus the kernel binary code), we need to round this
+            # up. Assuming every machine has the total RAM MB number divisible
+            # by 128.
+            memsize /= 1024
+            memsize = (memsize / 128 + 1) * 128
+            memsize *= 1024
+
+            log.info("%d kB (%d MB) are available", memsize, memsize / 1024)
+            return memsize
+
+        log.error("MemTotal: line not found in /proc/meminfo")
+        raise RuntimeError("MemTotal: line not found in /proc/meminfo")
+
+installSyncSignalHandlers = _isys.installSyncSignalHandlers

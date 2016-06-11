@@ -38,7 +38,7 @@ from entropy.services.client import WebService
 
 # Anaconda imports
 from pyanaconda import iutil
-from pyanaconda.constants import INSTALL_TREE, ROOT_PATH
+from pyanaconda.constants import INSTALL_TREE
 from pyanaconda.progress import progressQ
 from pyanaconda.sabayon.const import REPO_NAME, \
     SB_PRIVATE_KEY, SB_PUBLIC_X509, SB_PUBLIC_DER
@@ -58,7 +58,7 @@ class SabayonInstall(object):
 
     def spawn_chroot(self, args):
         return iutil.execWithRedirect(
-            args[0], args[1:], root=ROOT_PATH)
+            args[0], args[1:], root=iutil.getSysroot())
 
     def _open_live_installed_repository(self):
         dbpath = INSTALL_TREE + etpConst['etpdatabaseclientfilepath']
@@ -86,7 +86,7 @@ class SabayonInstall(object):
 
     def remove_package(self, atom, match = None):
 
-        chroot = ROOT_PATH
+        chroot = iutil.getSysroot()
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
@@ -124,7 +124,7 @@ class SabayonInstall(object):
         return rc
 
     def install_package_file(self, package_file):
-        chroot = ROOT_PATH
+        chroot = iutil.getSysroot()
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
@@ -164,7 +164,7 @@ class SabayonInstall(object):
         return 0
 
     def install_package(self, package):
-        chroot = ROOT_PATH
+        chroot = iutil.getSysroot()
         root = etpSys['rootdir']
 
         if chroot != root:
@@ -205,7 +205,7 @@ class SabayonInstall(object):
 
         log.info("Configuring SteamBox mode using user: %s" % (
                 steambox_user,))
-        steambox_user_file = ROOT_PATH + "/etc/sabayon/steambox-user"
+        steambox_user_file = iutil.getSysroot() + "/etc/sabayon/steambox-user"
         steambox_user_dir = os.path.dirname(steambox_user_file)
         if not os.path.isdir(steambox_user_dir):
             os.makedirs(steambox_user_dir, 0755)
@@ -216,9 +216,9 @@ class SabayonInstall(object):
     def configure_skel(self):
 
         # copy Rigo on the desktop
-        rigo_desktop = ROOT_PATH+"/usr/share/applications/rigo.desktop"
+        rigo_desktop = iutil.getSysroot()+"/usr/share/applications/rigo.desktop"
         if os.path.isfile(rigo_desktop):
-            rigo_user_desktop = ROOT_PATH+"/etc/skel/Desktop/rigo.desktop"
+            rigo_user_desktop = iutil.getSysroot()+"/etc/skel/Desktop/rigo.desktop"
             shutil.copy2(rigo_desktop, rigo_user_desktop)
             try:
                 os.chmod(rigo_user_desktop, 0775)
@@ -298,8 +298,8 @@ class SabayonInstall(object):
         # This forces GDM to respect the default session and load Cinnamon
         # as default xsession. (This is equivalent of using:
         # /usr/libexec/gdm-set-default-session
-        custom_gdm = os.path.join(ROOT_PATH, "etc/gdm/custom.conf")
-        skel_dmrc = os.path.join(ROOT_PATH, "etc/skel/.dmrc")
+        custom_gdm = os.path.join(iutil.getSysroot(), "etc/gdm/custom.conf")
+        skel_dmrc = os.path.join(iutil.getSysroot(), "etc/skel/.dmrc")
         if os.path.isfile(custom_gdm) and os.path.isfile(skel_dmrc):
             skel_config = ConfigParser.ConfigParser()
             skel_session = None
@@ -315,7 +315,7 @@ class SabayonInstall(object):
                         gdm_config.write(gdm_f)
 
         # drop /install-data now, bug 4019
-        install_data_dir = os.path.join(ROOT_PATH, "install-data")
+        install_data_dir = os.path.join(iutil.getSysroot(), "install-data")
         if os.path.isdir(install_data_dir):
             shutil.rmtree(install_data_dir, True)
 
@@ -330,12 +330,12 @@ class SabayonInstall(object):
         if xorg_x11 and not bb_enabled:
 
             try:
-                os.remove(ROOT_PATH + "/etc/env.d/09ati")
+                os.remove(iutil.getSysroot() + "/etc/env.d/09ati")
             except OSError:
                 pass
 
             for d in ("ati", "nvidia"):
-                d = os.path.join(ROOT_PATH, "usr/lib/opengl", d)
+                d = os.path.join(iutil.getSysroot(), "usr/lib/opengl", d)
                 try:
                     shutil.rmtree(d, True)
                 except (shutil.Error, OSError):
@@ -356,7 +356,7 @@ class SabayonInstall(object):
                     ]
                 )
 
-            udev_bl = ROOT_PATH + "/etc/modprobe.d/bbswitch-blacklist.conf"
+            udev_bl = iutil.getSysroot() + "/etc/modprobe.d/bbswitch-blacklist.conf"
             with open(udev_bl, "w") as bl_f:
                 bl_f.write("""\
 # Added by the Sabayon Installer to avoid a race condition
@@ -394,7 +394,7 @@ blacklist nouveau
         return "xorg-x11"
 
     def setup_sudo(self):
-        sudoers_file = ROOT_PATH + '/etc/sudoers'
+        sudoers_file = iutil.getSysroot() + '/etc/sudoers'
         if os.path.isfile(sudoers_file):
             subprocess.call("sed -i '/NOPASSWD/ s/^/#/' %s" % (sudoers_file,),
                             shell=True)
@@ -408,9 +408,9 @@ blacklist nouveau
             return
 
         make = "/usr/lib/quickinst/make-secureboot.sh"
-        private = ROOT_PATH + SB_PRIVATE_KEY
-        public = ROOT_PATH + SB_PUBLIC_X509
-        der = ROOT_PATH + SB_PUBLIC_DER
+        private = iutil.getSysroot() + SB_PRIVATE_KEY
+        public = iutil.getSysroot() + SB_PUBLIC_X509
+        der = iutil.getSysroot() + SB_PUBLIC_DER
 
         orig_der = der[:]
         count = 0
@@ -476,7 +476,7 @@ blacklist nouveau
                 continue
 
             dest_pkg_filepath = os.path.join(
-                ROOT_PATH + "/", pkg_file)
+                iutil.getSysroot() + "/", pkg_file)
             shutil.copy2(pkg_filepath, dest_pkg_filepath)
 
             rc = self.install_package_file(dest_pkg_filepath)
@@ -496,9 +496,9 @@ blacklist nouveau
         if completed:
             # mask all the nvidia-drivers, this avoids having people
             # updating their drivers resulting in a non working system
-            mask_file = os.path.join(ROOT_PATH+'/',
+            mask_file = os.path.join(iutil.getSysroot()+'/',
                 "etc/entropy/packages/package.mask")
-            unmask_file = os.path.join(ROOT_PATH+'/',
+            unmask_file = os.path.join(iutil.getSysroot()+'/',
                 "etc/entropy/packages/package.unmask")
 
             if os.access(mask_file, os.W_OK) and os.path.isfile(mask_file):
@@ -538,7 +538,7 @@ blacklist nouveau
         progressQ.send_message("%s: %s" % (
             _("Reordering Entropy mirrors"), _("can take some time..."),))
 
-        chroot = ROOT_PATH
+        chroot = iutil.getSysroot()
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
@@ -555,7 +555,7 @@ blacklist nouveau
         progressQ.send_message(_("Downloading software repositories..."))
 
         settings = SystemSettings()
-        chroot = ROOT_PATH
+        chroot = iutil.getSysroot()
         root = etpSys['rootdir']
         if chroot != root:
             self._change_entropy_chroot(chroot)
@@ -595,7 +595,7 @@ blacklist nouveau
 
     def maybe_install_packages(self, packages):
 
-        chroot = ROOT_PATH
+        chroot = iutil.getSysroot()
         root = etpSys['rootdir']
 
         install = []
@@ -648,7 +648,7 @@ blacklist nouveau
             "sys-process/audit",
             ]
 
-        chroot = ROOT_PATH
+        chroot = iutil.getSysroot()
         root = etpSys['rootdir']
 
         if chroot != root:
@@ -813,7 +813,7 @@ blacklist nouveau
         """
         log.info("called _fixup_crypttab with %s" % (crypt_uuids,))
 
-        crypt_file = ROOT_PATH + "/etc/crypttab"
+        crypt_file = iutil.getSysroot() + "/etc/crypttab"
         if not os.path.isfile(crypt_file):
             log.error("%s not found, aborting _fixup_crypttab" % (crypt_file,))
             return
@@ -849,7 +849,7 @@ blacklist nouveau
         self._backend.storage.bootloader.boot_args.update(cmdline)
 
         # Make sure that /boot/grub is present
-        boot_grub = os.path.join(ROOT_PATH, "boot/grub")
+        boot_grub = os.path.join(iutil.getSysroot(), "boot/grub")
         try:
             os.makedirs(boot_grub, 0o755)
         except OSError as err:

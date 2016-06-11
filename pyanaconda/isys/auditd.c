@@ -21,6 +21,8 @@
 
 #define _GNU_SOURCE 1
 
+#include "config.h"
+
 #include <sys/types.h>
 #include <sys/syscall.h>
 #include <sys/poll.h>
@@ -29,13 +31,13 @@
 #include <signal.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <errno.h>
 
 #include <libaudit.h>
 
 #include "auditd.h"
 
-#ifdef USESELINUX
 static int done;
 
 static void sig_done(int sig)
@@ -89,44 +91,47 @@ static void do_auditd(int fd) {
     }
     return;
 }
-#endif /* USESELINUX */
 
 int audit_daemonize(void) {
-#ifdef USESELINUX
     int fd;
     pid_t child;
+
+/* I guess we should actually do something with the output of AC_FUNC_FORK */
+#ifndef HAVE_WORKING_FORK
+#error "Autoconf could not find a working fork. Please fix this."
+#endif
+
     if ((child = fork()) > 0)
         return 0;
 
-#ifndef STANDALONE 
-    for (fd = 0; fd < getdtablesize(); fd++)
-        close(fd);
-    signal(SIGTTOU, SIG_IGN);
-    signal(SIGTTIN, SIG_IGN);
-    signal(SIGTSTP, SIG_IGN);
-#endif /* !defined(STANDALONE) */
+    if (child < 0)
+        return -1;
 
-    if ((fd = open("/proc/self/oom_adj", O_RDWR)) >= 0) {
-        write(fd, "-17", 3);
+    /* Close stdin and friends */
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+
+    if ((fd = open("/proc/self/oom_score_adj", O_RDWR)) >= 0) {
+        write(fd, "-1000", 5);
         close(fd);
     }
     fd = audit_open();
     do_auditd(fd);
     audit_close(fd);
 
-#ifndef STANDALONE
-    exit(0);
-#endif /* !defined(STANDALONE) */
-
-#endif /* USESELINUX */
     return 0;
 }
 
-#ifdef STANDALONE
 int main(void) {
-    return audit_daemonize();
+    if (audit_daemonize() < 0)
+    {
+        perror("fork");
+        return 1;
+    }
+
+    return 0;
 }
-#endif /* STANDALONE */
 
 /*
  * vim:ts=8:sw=4:sts=4:et

@@ -1,7 +1,7 @@
 #
 # iutil.py - generic install utility functions
 #
-# Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007
+# Copyright (C) 1999-2014
 # Red Hat, Inc.  All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -27,14 +27,22 @@ import os.path
 import errno
 import subprocess
 import unicodedata
-import string
+# Used for ascii_lowercase, ascii_uppercase constants
+import string # pylint: disable=deprecated-module
+import tempfile
 import types
-from threading import Thread
-from Queue import Queue, Empty
+import re
+from urllib import quote, unquote
+import gettext
+import signal
+
+from gi.repository import GLib
 
 from pyanaconda.flags import flags
-from pyanaconda.constants import DRACUT_SHUTDOWN_EJECT, ROOT_PATH, TRANSLATIONS_UPDATE_DIR, UNSUPPORTED_HW
-from pyanaconda.regexes import PROXY_URL_PARSE
+from pyanaconda.constants import DRACUT_SHUTDOWN_EJECT, TRANSLATIONS_UPDATE_DIR, UNSUPPORTED_HW
+from pyanaconda.regexes import URL_PARSE
+
+from pyanaconda.i18n import _
 
 import logging
 log = logging.getLogger("anaconda")
@@ -42,70 +50,273 @@ program_log = logging.getLogger("program")
 
 from pyanaconda.anaconda_log import program_log_lock
 
+_child_env = {}
+
+def setenv(name, value):
+    """ Set an environment variable to be used by child processes.
+
+        This method does not modify os.environ for the running process, which
+        is not thread-safe. If setenv has already been called for a particular
+        variable name, the old value is overwritten.
+
+        :param str name: The name of the environment variable
+        :param str value: The value of the environment variable
+    """
+
+    _child_env[name] = value
+
 def augmentEnv():
     env = os.environ.copy()
-    env.update({"LC_ALL": "C",
-                "ANA_INSTALL_PATH": ROOT_PATH
-               })
+    env.update({"ANA_INSTALL_PATH": getSysroot()})
+    env.update(_child_env)
     return env
 
-def _run_program(argv, root='/', stdin=None, stdout=None, env_prune=None):
-    """ Run an external program, log the output and return it to the caller
-        @param argv The command to run and argument
-        @param root The directory to chroot to before running command.
-        @param stdin The file object to read stdin from.
-        @param stdout Optional file object to write stdout and stderr to.
-        @param env_prune environment variable to remove before execution
-        @return The return code of the command and the output
+_root_path = "/mnt/sysimage"
+
+def getTargetPhysicalRoot():
+    """Returns the path to the "physical" storage root, traditionally /mnt/sysimage.
+
+    This may be distinct from the sysroot, which could be a
+    chroot-type subdirectory of the physical root.  This is used for
+    example by all OSTree-based installations.
+    """
+
+    # We always use the traditional /mnt/sysimage - the physical OS
+    # target is never mounted anywhere else.  This API call just
+    # allows us to have a clean "git grep ROOT_PATH" in other parts of
+    # the code.
+    return _root_path
+
+def setTargetPhysicalRoot(path):
+    """Change the physical root path
+
+    :param string path: Path to use instead of /mnt/sysimage/
+    """
+    global _root_path
+    _root_path = path
+
+_sysroot = _root_path
+
+def getSysroot():
+    """Returns the path to the target OS installation.
+
+    For ordinary package-based installations, this is the same as the
+    target root.
+    """
+    return _sysroot
+
+def setSysroot(path):
+    """Change the OS root path.
+       :param path: The new OS root path
+
+    This should only be used by Payload subclasses which install operating
+    systems to non-default roots.
+    """
+    global _sysroot
+    _sysroot = path
+
+def startProgram(argv, root='/', stdin=None, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        env_prune=None, env_add=None, reset_handlers=True, reset_lang=True, **kwargs):
+    """ Start an external program and return the Popen object.
+
+        The root and reset_handlers arguments are handled by passing a
+        preexec_fn argument to subprocess.Popen, but an additional preexec_fn
+        can still be specified and will be run. The user preexec_fn will be run
+        last.
+
+        :param argv: The command to run and argument
+        :param root: The directory to chroot to before running command.
+        :param stdin: The file object to read stdin from.
+        :param stdout: The file object to write stdout to.
+        :param stderr: The file object to write stderr to.
+        :param env_prune: environment variables to remove before execution
+        :param env_add: environment variables to add before execution
+        :param reset_handlers: whether to reset to SIG_DFL any signal handlers set to SIG_IGN
+        :param reset_lang: whether to set the locale of the child process to C
+        :param kwargs: Additional parameters to pass to subprocess.Popen
+        :return: A Popen object for the running command.
     """
     if env_prune is None:
         env_prune = []
 
-    def chroot():
-        if root and root != '/':
-            os.chroot(root)
+    # Transparently redirect callers requesting root=_root_path to the
+    # configured system root.
+    target_root = root
+    if target_root == _root_path:
+        target_root = getSysroot()
+
+    # Check for and save a preexec_fn argument
+    preexec_fn = kwargs.pop("preexec_fn", None)
+
+    def preexec():
+        # If a target root was specificed, chroot into it
+        if target_root and target_root != '/':
+            os.chroot(target_root)
             os.chdir("/")
+
+        # Signal handlers set to SIG_IGN persist across exec. Reset
+        # these to SIG_DFL if requested. In particular this will include the
+        # SIGPIPE handler set by python.
+        if reset_handlers:
+            for signum in range(1, signal.NSIG):
+                if signal.getsignal(signum) == signal.SIG_IGN:
+                    signal.signal(signum, signal.SIG_DFL)
+
+        # If the user specified an additional preexec_fn argument, run it
+        if preexec_fn is not None:
+            preexec_fn()
 
     with program_log_lock:
         program_log.info("Running... %s", " ".join(argv))
 
-        env = augmentEnv()
-        for var in env_prune:
-            env.pop(var, None)
+    env = augmentEnv()
+    for var in env_prune:
+        env.pop(var, None)
 
-        try:
-            proc = subprocess.Popen(argv,
-                                    stdin=stdin,
-                                    stdout=subprocess.PIPE,
-                                    stderr=subprocess.STDOUT,
-                                    preexec_fn=chroot, cwd=root, env=env)
+    if reset_lang:
+        env.update({"LC_ALL": "C"})
 
-            out = proc.communicate()[0]
-            if out:
-                for line in out.splitlines():
-                    program_log.info(line)
-                    if stdout:
-                        stdout.write(line)
-                        stdout.write("\n")
+    if env_add:
+        env.update(env_add)
 
-        except OSError as e:
+    return subprocess.Popen(argv,
+                            stdin=stdin,
+                            stdout=stdout,
+                            stderr=stderr,
+                            close_fds=True,
+                            preexec_fn=preexec, cwd=root, env=env, **kwargs)
+
+def startX(argv, output_redirect=None):
+    """ Start X and return once X is ready to accept connections.
+
+        X11, if SIGUSR1 is set to SIG_IGN, will send SIGUSR1 to the parent
+        process once it is ready to accept client connections. This method
+        sets that up and waits for the signal or bombs out if nothing happens
+        for a minute. The process will also be added to the list of watched
+        processes.
+
+        :param argv: The command line to run, as a list
+        :param output_redirect: file or file descriptor to redirect stdout and stderr to
+    """
+    # Use a list so the value can be modified from the handler function
+    x11_started = [False]
+    def sigusr1_handler(num, frame):
+        log.debug("X server has signalled a successful start.")
+        x11_started[0] = True
+
+    # Fail after, let's say a minute, in case something weird happens
+    # and we don't receive SIGUSR1
+    def sigalrm_handler(num, frame):
+        # Check that it didn't make it under the wire
+        if x11_started[0]:
+            return
+        log.error("Timeout trying to start %s", argv[0])
+        raise ExitError("Timeout trying to start %s" % argv[0])
+
+    # preexec_fn to add the SIGUSR1 handler in the child
+    def sigusr1_preexec():
+        signal.signal(signal.SIGUSR1, signal.SIG_IGN)
+
+    try:
+        old_sigusr1_handler = signal.signal(signal.SIGUSR1, sigusr1_handler)
+        old_sigalrm_handler = signal.signal(signal.SIGALRM, sigalrm_handler)
+
+        # Start the timer
+        signal.alarm(60)
+
+        childproc = startProgram(argv, stdout=output_redirect, stderr=output_redirect,
+                preexec_fn=sigusr1_preexec)
+        watchProcess(childproc, argv[0])
+
+        # Wait for SIGUSR1
+        while not x11_started[0]:
+            signal.pause()
+
+    finally:
+        # Put everything back where it was
+        signal.alarm(0)
+        signal.signal(signal.SIGUSR1, old_sigusr1_handler)
+        signal.signal(signal.SIGALRM, old_sigalrm_handler)
+
+def _run_program(argv, root='/', stdin=None, stdout=None, env_prune=None, log_output=True,
+        binary_output=False, filter_stderr=False):
+    """ Run an external program, log the output and return it to the caller
+        :param argv: The command to run and argument
+        :param root: The directory to chroot to before running command.
+        :param stdin: The file object to read stdin from.
+        :param stdout: Optional file object to write the output to.
+        :param env_prune: environment variable to remove before execution
+        :param log_output: whether to log the output of command
+        :param binary_output: whether to treat the output of command as binary data
+        :param filter_stderr: whether to exclude the contents of stderr from the returned output
+        :return: The return code of the command and the output
+    """
+    try:
+        if filter_stderr:
+            stderr = subprocess.PIPE
+        else:
+            stderr = subprocess.STDOUT
+
+        proc = startProgram(argv, root=root, stdin=stdin, stdout=subprocess.PIPE, stderr=stderr,
+                env_prune=env_prune)
+
+        (output_string, err_string) = proc.communicate()
+        if output_string:
+            if binary_output:
+                output_lines = [output_string]
+            else:
+                if output_string[-1] != "\n":
+                    output_string = output_string + "\n"
+                output_lines = output_string.splitlines(True)
+
+            if log_output:
+                with program_log_lock:
+                    for line in output_lines:
+                        program_log.info(line.strip())
+
+            if stdout:
+                stdout.write(output_string)
+
+        # If stderr was filtered, log it separately
+        if filter_stderr and err_string and log_output:
+            err_lines = err_string.splitlines(True)
+
+            with program_log_lock:
+                for line in err_lines:
+                    program_log.info(line.strip())
+
+    except OSError as e:
+        with program_log_lock:
             program_log.error("Error running %s: %s", argv[0], e.strerror)
-            raise
+        raise
 
+    with program_log_lock:
         program_log.debug("Return code: %d", proc.returncode)
 
-    return (proc.returncode, out)
+    return (proc.returncode, output_string)
+
+def execInSysroot(command, argv, stdin=None):
+    """ Run an external program in the target root.
+        :param command: The command to run
+        :param argv: The argument list
+        :param stdin: The file object to read stdin from.
+        :return: The return code of the command
+    """
+
+    return execWithRedirect(command, argv, stdin=stdin, root=getSysroot())
 
 def execWithRedirect(command, argv, stdin=None, stdout=None,
-                     root='/', env_prune=None):
+                     root='/', env_prune=None, log_output=True, binary_output=False):
     """ Run an external program and redirect the output to a file.
-        @param command The command to run
-        @param argv The argument list
-        @param stdin The file object to read stdin from.
-        @param stdout Optional file object to redirect stdout and stderr to.
-        @param root The directory to chroot to before running command.
-        @param env_prune environment variable to remove before execution
-        @return The return code of the command
+        :param command: The command to run
+        :param argv: The argument list
+        :param stdin: The file object to read stdin from.
+        :param stdout: Optional file object to redirect stdout and stderr to.
+        :param root: The directory to chroot to before running command.
+        :param env_prune: environment variable to remove before execution
+        :param log_output: whether to log the output of command
+        :param binary_output: whether to treat the output of command as binary data
+        :return: The return code of the command
     """
     if flags.testing:
         log.info("not running command because we're testing: %s %s",
@@ -113,15 +324,18 @@ def execWithRedirect(command, argv, stdin=None, stdout=None,
         return 0
 
     argv = [command] + argv
-    return _run_program(argv, stdin=stdin, stdout=stdout, root=root, env_prune=env_prune)[0]
+    return _run_program(argv, stdin=stdin, stdout=stdout, root=root, env_prune=env_prune,
+            log_output=log_output, binary_output=binary_output)[0]
 
-def execWithCapture(command, argv, stdin=None, root='/'):
+def execWithCapture(command, argv, stdin=None, root='/', log_output=True, filter_stderr=False):
     """ Run an external program and capture standard out and err.
-        @param command The command to run
-        @param argv The argument list
-        @param stdin The file object to read stdin from.
-        @param root The directory to chroot to before running command.
-        @return The output of the command
+        :param command: The command to run
+        :param argv: The argument list
+        :param stdin: The file object to read stdin from.
+        :param root: The directory to chroot to before running command.
+        :param log_output: Whether to log the output of command
+        :param filter_stderr: Whether stderr should be excluded from the returned output
+        :return: The output of the command
     """
     if flags.testing:
         log.info("not running command because we're testing: %s %s",
@@ -129,83 +343,234 @@ def execWithCapture(command, argv, stdin=None, root='/'):
         return ""
 
     argv = [command] + argv
-    return _run_program(argv, stdin=stdin, root=root)[1]
+    return _run_program(argv, stdin=stdin, root=root, log_output=log_output,
+            filter_stderr=filter_stderr)[1]
 
 def execReadlines(command, argv, stdin=None, root='/', env_prune=None):
     """ Execute an external command and return the line output of the command
         in real-time.
 
-        @param command The command to run
-        @param argv The argument list
-        @param stdin The file object to read stdin from.
-        @param stdout Optional file object to redirect stdout and stderr to.
-        @param stderr not used
-        @param root The directory to chroot to before running command.
-        @param env_prune environment variable to remove before execution
+        This method assumes that there is a reasonably low delay between the
+        end of output and the process exiting. If the child process closes
+        stdout and then keeps on truckin' there will be problems.
+
+        :param command: The command to run
+        :param argv: The argument list
+        :param stdin: The file object to read stdin from.
+        :param stdout: Optional file object to redirect stdout and stderr to.
+        :param stderr: not used
+        :param root: The directory to chroot to before running command.
+        :param env_prune: environment variable to remove before execution
 
         Output from the file is not logged to program.log
-        This returns a generator with the lines from the command until it has finished
+        This returns an iterator with the lines from the command until it has finished
     """
-    if env_prune is None:
-        env_prune = []
 
-    # Return the lines from stdout via a Queue
-    def queue_lines(out, queue):
-        for line in iter(out.readline, b''):
-            queue.put(line.strip())
-        out.close()
+    class ExecLineReader(object):
+        """Iterator class for returning lines from a process and cleaning
+           up the process when the output is no longer needed.
+        """
 
-    def chroot():
-        if root and root != '/':
-            os.chroot(root)
-            os.chdir("/")
+        def __init__(self, proc, argv):
+            self._proc = proc
+            self._argv = argv
+
+        def __iter__(self):
+            return self
+
+        def __del__(self):
+            # See if the process is still running
+            if self._proc.poll() is None:
+                # Stop the process and ignore any problems that might arise
+                try:
+                    self._proc.terminate()
+                except OSError:
+                    pass
+
+        def next(self):
+            # Read the next line, blocking if a line is not yet available
+            line = self._proc.stdout.readline()
+            if line == '':
+                # Output finished, wait for the process to end
+                self._proc.communicate()
+
+                # Check for successful exit
+                if self._proc.returncode < 0:
+                    raise OSError("process '%s' was killed by signal %s" %
+                            (self._argv, -self._proc.returncode))
+                elif self._proc.returncode > 0:
+                    raise OSError("process '%s' exited with status %s" %
+                            (self._argv, self._proc.returncode))
+                raise StopIteration
+
+            return line.strip()
 
     argv = [command] + argv
-    with program_log_lock:
-        program_log.info("Running... %s", " ".join(argv))
 
-    env = augmentEnv()
-    for var in env_prune:
-        env.pop(var, None)
     try:
-        proc = subprocess.Popen(argv,
-                                stdin=stdin,
-                                stdout=subprocess.PIPE,
-                                stderr=subprocess.STDOUT,
-                                bufsize=1,
-                                preexec_fn=chroot, cwd=root, env=env)
+        proc = startProgram(argv, root=root, stdin=stdin, env_prune=env_prune, bufsize=1)
     except OSError as e:
-        program_log.error("Error running %s: %s", argv[0], e.strerror)
+        with program_log_lock:
+            program_log.error("Error running %s: %s", argv[0], e.strerror)
         raise
 
-    q = Queue()
-    t = Thread(target=queue_lines, args=(proc.stdout, q))
-    t.daemon = True # thread dies with the program
-    t.start()
-
-    while True:
-        try:
-            line = q.get(timeout=.1)
-            yield line
-            q.task_done()
-        except Empty:
-            if proc.poll() is not None:
-                break
-    q.join()
-
+    return ExecLineReader(proc, argv)
 
 ## Run a shell.
 def execConsole():
     try:
-        proc = subprocess.Popen(["/bin/sh"])
+        proc = startProgram(["/bin/sh"], stdout=None, stderr=None, reset_lang=False)
         proc.wait()
     except OSError as e:
         raise RuntimeError("Error running /bin/sh: " + e.strerror)
 
+# Dictionary of processes to watch in the form {pid: [name, GLib event source id], ...}
+_forever_pids = {}
+# Set to True if process watching is handled by GLib
+_watch_process_glib = False
+_watch_process_handler_set = False
+
+class ExitError(RuntimeError):
+    pass
+
+# Raise an error on process exit. The argument is a list of tuples
+# of the form [(name, status), ...] with statuses in the subprocess
+# format (>=0 is return codes, <0 is signal)
+def _raise_exit_error(statuses):
+    exn_message = []
+
+    for proc_name, status in statuses:
+        if status >= 0:
+            status_str = "with status %s" % status
+        else:
+            status_str = "on signal %s" % -status
+
+        exn_message.append("%s exited %s" % (proc_name, status_str))
+
+    raise ExitError(", ".join(exn_message))
+
+# Signal handler used with watchProcess
+def _sigchld_handler(num=None, frame=None):
+    # Check whether anything in the list of processes being watched has
+    # exited. We don't want to call waitpid(-1), since that would break
+    # anything else using wait/waitpid (like the subprocess module).
+    exited_pids = []
+    exit_statuses = []
+
+    for child_pid in _forever_pids:
+        try:
+            pid_result, status = eintr_retry_call(os.waitpid, child_pid, os.WNOHANG)
+        except OSError as e:
+            if e.errno == errno.ECHILD:
+                continue
+
+        if pid_result:
+            proc_name = _forever_pids[child_pid][0]
+            exited_pids.append(child_pid)
+
+            # Convert the wait-encoded status to the format used by subprocess
+            if os.WIFEXITED(status):
+                sub_status = os.WEXITSTATUS(status)
+            else:
+                # subprocess uses negative return codes to indicate signal exit
+                sub_status = -os.WTERMSIG(status)
+
+            exit_statuses.append((proc_name, sub_status))
+
+    for child_pid in exited_pids:
+        if _forever_pids[child_pid][1]:
+            GLib.source_remove(_forever_pids[child_pid][1])
+        del _forever_pids[child_pid]
+
+    if exit_statuses:
+        _raise_exit_error(exit_statuses)
+
+# GLib callback used with watchProcess
+def _watch_process_cb(pid, status, proc_name):
+    # Convert the wait-encoded status to the format used by subprocess
+    if os.WIFEXITED(status):
+        sub_status = os.WEXITSTATUS(status)
+    else:
+        # subprocess uses negative return codes to indicate signal exit
+        sub_status = -os.WTERMSIG(status)
+
+    _raise_exit_error([(proc_name, sub_status)])
+
+def watchProcess(proc, name):
+    """Watch for a process exit, and raise a ExitError when it does.
+
+       This method installs a SIGCHLD signal handler and thus interferes
+       the child_watch_add methods in GLib. Use watchProcessGLib to convert
+       to GLib mode if using a GLib main loop.
+
+       Since the SIGCHLD handler calls wait() on the watched process, this call
+       cannot be combined with Popen.wait() or Popen.communicate, and also
+       doing so wouldn't make a whole lot of sense.
+
+       :param proc: The Popen object for the process
+       :param name: The name of the process
+    """
+    global _watch_process_handler_set
+
+    if not _watch_process_glib and not _watch_process_handler_set:
+        signal.signal(signal.SIGCHLD, _sigchld_handler)
+        _watch_process_handler_set = True
+
+    # Add the PID to the dictionary
+    # The second item in the list is for the GLib event source id and will be
+    # replaced with the id once we have one.
+    _forever_pids[proc.pid] = [name, None]
+
+    # If GLib is watching processes, add a watcher. child_watch_add checks if
+    # the process has already exited.
+    if _watch_process_glib:
+        _forever_pids[proc.id][1] = GLib.child_watch_add(proc.pid, _watch_process_cb, name)
+    else:
+        # Check that the process didn't already exit
+        if proc.poll() is not None:
+            del _forever_pids[proc.pid]
+            _raise_exit_error([(name, proc.returncode)])
+
+def watchProcessGLib():
+    """Convert process watching to GLib mode.
+
+       This allows anaconda modes that use GLib main loops to use
+       GLib.child_watch_add and continue to watch processes started before the
+       main loop.
+    """
+
+    global _watch_process_glib
+
+    # The first call to child_watch_add will replace our SIGCHLD handler, and
+    # child_watch_add checks if the process has already exited before it returns,
+    # which will handle processes that exit while we're in the loop.
+
+    _watch_process_glib = True
+    for child_pid in _forever_pids:
+        _forever_pids[child_pid][1] = GLib.child_watch_add(child_pid, _watch_process_cb,
+                _forever_pids[child_pid])
+
+def unwatchProcess(proc):
+    """Unwatch a process watched by watchProcess.
+
+       :param proc: The Popen object for the process.
+    """
+    if _forever_pids[proc.pid][1]:
+        GLib.source_remove(_forever_pids[proc.pid][1])
+    del _forever_pids[proc.pid]
+
+def unwatchAllProcesses():
+    """Clear the watched process list."""
+    global _forever_pids
+    for child_pid in _forever_pids:
+        if _forever_pids[child_pid][1]:
+            GLib.source_remove(_forever_pids[child_pid][1])
+    _forever_pids = {}
+
 def getDirSize(directory):
     """ Get the size of a directory and all its subdirectories.
-    @param dir The name of the directory to find the size of.
-    @return The size of the directory in kilobytes.
+    :param dir: The name of the directory to find the size of.
+    :return: The size of the directory in kilobytes.
     """
     def getSubdirSize(directory):
         # returns size in bytes
@@ -242,10 +607,14 @@ def getDirSize(directory):
     return getSubdirSize(directory)/1024
 
 ## Create a directory path.  Don't fail if the directory already exists.
-# @param dir The directory path to create.
 def mkdirChain(directory):
+    """
+    :param dir: The directory path to create
+
+    """
+
     try:
-        os.makedirs(directory, 0755)
+        os.makedirs(directory, 0o755)
     except OSError as e:
         try:
             if e.errno == errno.EEXIST and stat.S_ISDIR(os.stat(directory).st_mode):
@@ -276,22 +645,6 @@ def isConsoleOnVirtualTerminal(dev="console"):
     consoletype = console.rstrip('0123456789') # remove the number
     return consoletype == 'tty'
 
-def strip_markup(text):
-    if text.find("<") == -1:
-        return text
-    r = ""
-    inTag = False
-    for c in text:
-        if c == ">" and inTag:
-            inTag = False
-            continue
-        elif c == "<" and not inTag:
-            inTag = True
-            continue
-        elif not inTag:
-            r += c
-    return r.encode("utf-8")
-
 def reIPL(ipldev):
     try:
         rc = execWithRedirect("chreipl", ["node", "/dev/" + ipldev])
@@ -306,7 +659,7 @@ def reIPL(ipldev):
         log.info("reIPL configuration successful")
 
 def resetRpmDb():
-    for rpmfile in glob.glob("%s/var/lib/rpm/__db.*" % ROOT_PATH):
+    for rpmfile in glob.glob("%s/var/lib/rpm/__db.*" % getSysroot()):
         try:
             os.unlink(rpmfile)
         except OSError as e:
@@ -328,7 +681,7 @@ def parseNfsUrl(nfsurl):
 
     return (options, host, path)
 
-def add_po_path(module, directory):
+def add_po_path(directory):
     """ Looks to see what translations are under a given path and tells
     the gettext module to use that path as the base dir """
     for d in os.listdir(directory):
@@ -340,27 +693,12 @@ def add_po_path(module, directory):
             if not basename.endswith(".mo"):
                 continue
             log.info("setting %s as translation source for %s", directory, basename[:-3])
-            module.bindtextdomain(basename[:-3], directory)
+            gettext.bindtextdomain(basename[:-3], directory)
 
-def setup_translations(module):
+def setup_translations():
     if os.path.isdir(TRANSLATIONS_UPDATE_DIR):
-        add_po_path(module, TRANSLATIONS_UPDATE_DIR)
-    module.textdomain("anaconda")
-
-def fork_orphan():
-    """Forks an orphan.
-
-    Returns 1 in the parent and 0 in the orphaned child.
-    """
-    intermediate = os.fork()
-    if not intermediate:
-        if os.fork():
-            # the intermediate child dies
-            os._exit(0)
-        return 0
-    # the original process waits for the intermediate child
-    os.waitpid(intermediate, 0)
-    return 1
+        add_po_path(TRANSLATIONS_UPDATE_DIR)
+    gettext.textdomain("anaconda")
 
 def _run_systemctl(command, service):
     """
@@ -409,7 +747,7 @@ def dracut_eject(device):
 
         f.write("eject %s\n" % (device,))
         f.close()
-        os.chmod(DRACUT_SHUTDOWN_EJECT, 0755)
+        eintr_retry_call(os.chmod, DRACUT_SHUTDOWN_EJECT, 0o755)
         log.info("Wrote dracut shutdown eject hook for %s", device)
     except (IOError, OSError) as e:
         log.error("Error writing dracut shutdown eject hook for %s: %s", device, e)
@@ -470,7 +808,7 @@ class ProxyString(object):
         if url:
             self.parse_url()
         elif not host:
-            raise ProxyStringError("No host url")
+            raise ProxyStringError(_("No host url"))
         else:
             self.parse_components()
 
@@ -479,39 +817,35 @@ class ProxyString(object):
         """
         # NOTE: If this changes, update tests/regex/proxy.py
         #
-        # proxy=[protocol://][username[:password]@]host[:port][path]
-        # groups
+        # proxy=[protocol://][username[:password]@]host[:port][path][?query][#fragment]
+        # groups (both named and numbered)
         # 1 = protocol
-        # 2 = username:password@
-        # 3 = username
-        # 4 = password
-        # 5 = hostname
-        # 6 = port
-        # 7 = extra
-        m = PROXY_URL_PARSE.match(self.url)
+        # 2 = username
+        # 3 = password
+        # 4 = host
+        # 5 = port
+        # 6 = path
+        # 7 = query
+        # 8 = fragment
+        m = URL_PARSE.match(self.url)
         if not m:
-            raise ProxyStringError("malformed url, cannot parse it.")
+            raise ProxyStringError(_("malformed URL, cannot parse it."))
 
         # If no protocol was given default to http.
-        if m.group(1):
-            self.protocol = m.group(1)
+        self.protocol = m.group("protocol") or "http://"
+
+        if m.group("username"):
+            self.username = unquote(m.group("username"))
+
+        if m.group("password"):
+            self.password = unquote(m.group("password"))
+
+        if m.group("host"):
+            self.host = m.group("host")
+            if m.group("port"):
+                self.port = m.group("port")
         else:
-            self.protocol = "http://"
-
-        if m.group(3):
-            self.username = m.group(3)
-
-        if m.group(4):
-            # Skip the leading colon
-            self.password = m.group(4)[1:]
-
-        if m.group(5):
-            self.host = m.group(5)
-            if m.group(6):
-                # Skip the leading colon
-                self.port = m.group(6)[1:]
-        else:
-            raise ProxyStringError("url has no host component")
+            raise ProxyStringError(_("URL has no host component"))
 
         self.parse_components()
 
@@ -519,8 +853,8 @@ class ProxyString(object):
         """ Parse the components of a proxy url into url and noauth_url
         """
         if self.username or self.password:
-            self.proxy_auth = "%s:%s@" % (self.username or "",
-                                          self.password or "")
+            self.proxy_auth = "%s:%s@" % (quote(self.username) or "",
+                                          quote(self.password) or "")
 
         self.url = self.protocol + self.proxy_auth + self.host + ":" + self.port
         self.noauth_url = self.protocol + self.host + ":" + self.port
@@ -674,11 +1008,11 @@ def chown_dir_tree(root, uid, gid, from_uid_only=None, from_gid_only=None):
             return
 
         # UID and GID matching or not required
-        os.chown(path, uid, gid)
+        eintr_retry_call(os.chown, path, uid, gid)
 
     if not from_uid_only and not from_gid_only:
         # the easy way
-        dir_tree_map(root, lambda path: os.chown(path, uid, gid))
+        dir_tree_map(root, lambda path: eintr_retry_call(os.chown, path, uid, gid))
     else:
         # conditional chown
         dir_tree_map(root, lambda path: conditional_chown(path, uid, gid,
@@ -692,9 +1026,9 @@ def is_unsupported_hw():
         :rtype:     bool
     """
     try:
-        tainted = long(open("/proc/sys/kernel/tainted").read())
+        tainted = int(open("/proc/sys/kernel/tainted").read())
     except (IOError, ValueError):
-        tainted = 0L
+        tainted = 0
 
     status = bool(tainted & UNSUPPORTED_HW)
     if status:
@@ -758,3 +1092,139 @@ def upcase_first_letter(text):
         return text.upper()
     else:
         return text[0].upper() + text[1:]
+
+def get_mount_paths(devnode):
+    '''given a device node, return a list of all active mountpoints.'''
+    devno = os.stat(devnode).st_rdev
+    majmin = "%d:%d" % (os.major(devno),os.minor(devno))
+    mountinfo = (line.split() for line in open("/proc/self/mountinfo"))
+    return [info[4] for info in mountinfo if info[2] == majmin]
+
+def have_word_match(str1, str2):
+    """Tells if all words from str1 exist in str2 or not."""
+
+    if str1 is None or str2 is None:
+        # None never matches
+        return False
+
+    if str1 == "":
+        # empty string matches everything except from None
+        return True
+    elif str2 == "":
+        # non-empty string cannot be found in an empty string
+        return False
+
+    # Convert both arguments to unicode if not already
+    if isinstance(str1, str):
+        str1 = str1.decode('utf-8')
+    if isinstance(str2, str):
+        str2 = str2.decode('utf-8')
+
+    str1 = str1.lower()
+    str1_words = str1.split()
+    str2 = str2.lower()
+
+    return all(word in str2 for word in str1_words)
+
+class DataHolder(dict):
+    """ A dict that lets you also access keys using dot notation. """
+    def __init__(self, **kwargs):
+        """ kwargs are set as keys for the dict. """
+        dict.__init__(self)
+
+        for attr, value in kwargs.items():
+            self[attr] = value
+
+    def __getattr__(self, attr):
+        return self[attr]
+
+    def __setattr__(self, attr, value):
+        self[attr] = value
+
+    def copy(self):
+        return DataHolder(**dict.copy(self))
+
+def xprogressive_delay():
+    """ A delay generator, the delay starts short and gets longer
+        as the internal counter increases.
+        For example for 10 retries, the delay will increases from
+        0.5 to 256 seconds.
+
+        :param int retry_number: retry counter
+        :returns float: time to wait in seconds
+    """
+    counter = 1
+    while True:
+        yield 0.25*(2**counter)
+        counter += 1
+
+def get_platform_groupid():
+    """ Return a platform group id string
+
+        This runs systemd-detect-virt and if the result is not 'none' it
+        prefixes the lower case result with "platform-" for use as a group id.
+
+        :returns: Empty string or a group id for the detected platform
+        :rtype: str
+    """
+    try:
+        platform = execWithCapture("systemd-detect-virt", []).strip()
+    except (IOError, AttributeError):
+        return ""
+
+    if platform == "none":
+        return ""
+
+    return "platform-" + platform.lower()
+
+def persistent_root_image():
+    """:returns: whether we are running from a persistent (not in RAM) root.img"""
+
+    for line in execReadlines("losetup", ["--list"]):
+        # if there is an active loop device for a curl-fetched file that has
+        # been deleted, it means we run from a non-persistent root image
+        # EXAMPLE line:
+        # /dev/loop0  0 0 0 1 /tmp/curl_fetch_url0/my_comps_squashfs.img (deleted)
+        if re.match(r'.*curl_fetch_url.*\(deleted\)\s*$', line):
+            return False
+
+    return True
+
+_supports_ipmi = None
+
+def ipmi_report(event):
+    global _supports_ipmi
+    if _supports_ipmi is None:
+        _supports_ipmi = os.path.exists("/dev/ipmi0") and os.path.exists("/usr/bin/ipmitool")
+
+    if not _supports_ipmi:
+        return
+
+    (fd, path) = tempfile.mkstemp()
+
+    # EVM revision - always 0x4
+    # Sensor type - always 0x1F for Base OS Boot/Installation Status
+    # Sensor num - passed in event
+    # Event dir & type - always 0x0 for anaconda's purposes
+    # Event data 1, 2, 3 - 0x0 for now
+    eintr_retry_call(os.write, fd, "0x4 0x1F %#x 0x0 0x0 0x0 0x0\n" % event)
+    eintr_retry_call(os.close, fd)
+
+    execWithCapture("ipmitool", ["sel", "add", path])
+
+    os.remove(path)
+
+# Copied from python's subprocess.py
+def eintr_retry_call(func, *args):
+    """Retry an interruptible system call if interrupted."""
+    while True:
+        try:
+            return func(*args)
+        except (OSError, IOError) as e:
+            if e.errno == errno.EINTR:
+                continue
+            raise
+
+def parent_dir(directory):
+    """Return the parent's path"""
+    return "/".join(os.path.normpath(directory).split("/")[:-1])

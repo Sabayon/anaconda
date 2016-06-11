@@ -29,7 +29,7 @@ from pyanaconda.flags import flags
 from pyanaconda.packaging import ImagePayload, PayloadInstallError
 from pyanaconda.threads import threadMgr, AnacondaThread
 from pyanaconda.i18n import _
-from pyanaconda.constants import ROOT_PATH, INSTALL_TREE, THREAD_LIVE_PROGRESS
+from pyanaconda.constants import INSTALL_TREE, THREAD_LIVE_PROGRESS
 from pyanaconda.progress import progressQ
 
 from blivet.size import Size
@@ -45,7 +45,7 @@ class LiveCDCopyBackend(ImagePayload):
     def __init__(self, *args, **kwargs):
         super(LiveCDCopyBackend, self).__init__(*args, **kwargs)
 
-        # Used to adjust size of ROOT_PATH when files are already present
+        # Used to adjust size of iutil.getSysroot() when files are already present
         self._adj_size = 0
         self.pct = 0
         self.pct_lock = None
@@ -112,7 +112,7 @@ class LiveCDCopyBackend(ImagePayload):
         while self.pct < 100:
             dest_size = 0
             for mnt in mountpoints:
-                mnt_stat = os.statvfs(ROOT_PATH+mnt)
+                mnt_stat = os.statvfs(iutil.getSysroot()+mnt)
                 dest_size += mnt_stat.f_frsize * (mnt_stat.f_blocks - mnt_stat.f_bfree)
             if dest_size >= self._adj_size:
                 dest_size -= self._adj_size
@@ -153,7 +153,7 @@ class LiveCDCopyBackend(ImagePayload):
         # file system boundaries
         args = ["-pogAXtlHrDx", "--exclude", "/dev/", "--exclude", "/proc/",
                 "--exclude", "/sys/", "--exclude", "/run/",
-                "--exclude", "/etc/machine-id", INSTALL_TREE+"/", ROOT_PATH]
+                "--exclude", "/etc/machine-id", INSTALL_TREE+"/", iutil.getSysroot()]
         try:
             rc = iutil.execWithRedirect(cmd, args)
         except (OSError, RuntimeError) as e:
@@ -232,7 +232,7 @@ class LiveCDCopyBackend(ImagePayload):
         self._sabayon_install.configure_steambox(username)
 
         # also remove hw.hash
-        hwhash_file = os.path.join(ROOT_PATH, "etc/entropy/.hw.hash")
+        hwhash_file = os.path.join(iutil.getSysroot(), "etc/entropy/.hw.hash")
         try:
             os.remove(hwhash_file)
         except (OSError, IOError):

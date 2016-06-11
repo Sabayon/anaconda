@@ -33,6 +33,8 @@ import sys
 import site
 import Queue
 import meh.ui.text
+import logging
+log = logging.getLogger("anaconda")
 
 def exception_msg_handler(event, data):
     """
@@ -79,7 +81,7 @@ class TextUserInterface(ui.UserInterface):
                         as final (True) or development
                         (False) version.
         :type isFinal: bool
-        
+
         :param quitMessage: The text to be used in quit
                             dialog question. It should not
                             be translated to allow for change
@@ -97,19 +99,22 @@ class TextUserInterface(ui.UserInterface):
         self.isFinal = isFinal
         self.quitMessage = quitMessage
 
-    basemask = "pyanaconda.ui.tui"
+    basemask = "pyanaconda.ui"
     basepath = os.path.dirname(__file__)
-    updatepath = "/tmp/updates/pyanaconda/ui/tui"
-    sitepackages = [os.path.join(dir, "pyanaconda", "ui", "tui")
+    updatepath = "/tmp/updates/pyanaconda/ui"
+    sitepackages = [os.path.join(dir, "pyanaconda", "ui")
                     for dir in site.getsitepackages()]
     pathlist = set([updatepath, basepath] + sitepackages)
 
     paths = ui.UserInterface.paths + {
-            "spokes": [(basemask + ".spokes.%s",
-                        os.path.join(path, "spokes"))
+            "categories": [(basemask + ".categories.%s",
+                        os.path.join(path, "categories"))
                         for path in pathlist],
-            "hubs": [(basemask + ".hubs.%s",
-                      os.path.join(path, "hubs"))
+            "spokes": [(basemask + ".tui.spokes.%s",
+                        os.path.join(path, "tui/spokes"))
+                        for path in pathlist],
+            "hubs": [(basemask + ".tui.hubs.%s",
+                      os.path.join(path, "tui/hubs"))
                       for path in pathlist]
             }
 
@@ -146,7 +151,6 @@ class TextUserInterface(ui.UserInterface):
         _hubs = self._list_hubs()
 
         # First, grab a list of all the standalone spokes.
-        path = os.path.join(os.path.dirname(__file__), "spokes")
         spokes = self._collectActionClasses(self.paths["spokes"], StandaloneSpoke)
         actionClasses = self._orderActionClasses(spokes, _hubs)
 
@@ -162,6 +166,7 @@ class TextUserInterface(ui.UserInterface):
 
             if hasattr(obj, "set_path"):
                 obj.set_path("spokes", self.paths["spokes"])
+                obj.set_path("categories", self.paths["categories"])
 
             should_schedule = obj.setup(self.ENVIRONMENT)
 
@@ -255,6 +260,11 @@ class TextUserInterface(ui.UserInterface):
     def _showError(self, message):
         """Internal helper function that MUST BE CALLED FROM THE MAIN THREAD"""
 
+        if flags.automatedInstall and not flags.ksprompt:
+            log.error(message)
+            # If we're in cmdline mode, just exit.
+            return
+
         error_window = ErrorDialog(self._app, message)
         self._app.switch_screen_modal(error_window)
 
@@ -285,6 +295,7 @@ class TextUserInterface(ui.UserInterface):
         """Internal helper function that MUST BE CALLED FROM THE MAIN THREAD"""
 
         if flags.automatedInstall and not flags.ksprompt:
+            log.error(message)
             # If we're in cmdline mode, just say no.
             return False
 

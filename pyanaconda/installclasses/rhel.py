@@ -17,20 +17,19 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from pyanaconda.i18n import N_
 from pyanaconda.installclass import BaseInstallClass
 from pyanaconda.product import productName
+from pyanaconda import network
+from pyanaconda import nm
 
-class InstallClass(BaseInstallClass):
-    # name has underscore used for mnemonics, strip if you dont need it
-    id = "rhel"
-    name = N_("Red Hat Enterprise Linux")
+class RHELBaseInstallClass(BaseInstallClass):
+    name = "Red Hat Enterprise Linux"
     sortPriority = 10000
-    hidden = 1
+    if not productName.startswith("Red Hat "):
+        hidden = True
     defaultFS = "xfs"
 
     bootloaderTimeoutDefault = 5
-    bootloaderExtraArgs = []
 
     ignoredPackages = ["ntfsprogs"]
 
@@ -40,9 +39,27 @@ class InstallClass(BaseInstallClass):
 
     efi_dir = "redhat"
 
+    help_placeholder = "RHEL7Placeholder.html"
+    help_placeholder_with_links = "RHEL7PlaceholderWithLinks.html"
+
     def configure(self, anaconda):
         BaseInstallClass.configure(self, anaconda)
         BaseInstallClass.setDefaultPartitioning(self, anaconda.storage)
+
+    def setNetworkOnbootDefault(self, ksdata):
+        if ksdata.method.method not in ("url", "nfs"):
+            return
+        if network.has_some_wired_autoconnect_device():
+            return
+        # choose the device used during installation
+        # (ie for majority of cases the one having the default route)
+        dev = network.default_route_device()
+        if not dev:
+            return
+        # ignore wireless (its ifcfgs would need to be handled differently)
+        if nm.nm_device_type_is_wifi(dev):
+            return
+        network.update_onboot_value(dev, "yes", ksdata)
 
     def __init__(self):
         BaseInstallClass.__init__(self)

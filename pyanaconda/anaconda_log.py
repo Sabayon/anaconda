@@ -23,24 +23,22 @@
 #
 
 import logging
-from logging.handlers import SysLogHandler, SYSLOG_UDP_PORT
+from logging.handlers import SysLogHandler, SocketHandler, SYSLOG_UDP_PORT
 import os
 import sys
 import types
 import warnings
 
 from pyanaconda.flags import flags
+from pyanaconda.constants import LOGLVL_LOCK
 
-DEFAULT_TTY_LEVEL = logging.INFO
+DEFAULT_LEVEL = logging.INFO
 ENTRY_FORMAT = "%(asctime)s,%(msecs)03d %(levelname)s %(name)s: %(message)s"
-TTY_FORMAT = "%(levelname)s %(name)s: %(message)s"
 STDOUT_FORMAT = "%(asctime)s %(message)s"
 DATE_FORMAT = "%H:%M:%S"
 
 MAIN_LOG_FILE = "/tmp/anaconda.log"
-MAIN_LOG_TTY = "/dev/tty3"
 PROGRAM_LOG_FILE = "/tmp/program.log"
-PROGRAM_LOG_TTY = "/dev/tty5"
 STORAGE_LOG_FILE = "/tmp/storage.log"
 PACKAGING_LOG_FILE = "/tmp/packaging.log"
 SENSITIVE_INFO_LOG_FILE = "/tmp/sensitive-info.log"
@@ -49,8 +47,11 @@ ANACONDA_SYSLOG_FACILITY = SysLogHandler.LOG_LOCAL1
 from threading import Lock
 program_log_lock = Lock()
 
-logLevelMap = {"debug": logging.DEBUG, "info": logging.INFO,
-               "warning": logging.WARNING, "error": logging.ERROR,
+logLevelMap = {"lock": LOGLVL_LOCK,
+               "debug": logging.DEBUG,
+               "info": logging.INFO,
+               "warning": logging.WARNING,
+               "error": logging.ERROR,
                "critical": logging.CRITICAL}
 
 # sets autoSetLevel for the given handler
@@ -63,6 +64,11 @@ def setHandlersLevel(logr, level):
         filter (lambda hdlr: hasattr(hdlr, "autoSetLevel") and hdlr.autoSetLevel, logr.handlers))
 
 class AnacondaSyslogHandler(SysLogHandler):
+    # syslog doesn't understand these level names
+    levelMap = { "ERR": "error",
+                 "CRIT": "critical",
+                 "LOCK": "debug"}
+
     def __init__(self,
                  address=('localhost', SYSLOG_UDP_PORT),
                  facility=SysLogHandler.LOG_USER,
@@ -76,17 +82,26 @@ class AnacondaSyslogHandler(SysLogHandler):
         SysLogHandler.emit(self, record)
         record.msg = original_msg
 
+    def mapPriority(self, level):
+        """Map the priority level to a syslog level """
+        return self.levelMap.get(level, SysLogHandler.mapPriority(self, level))
+
+class AnacondaSocketHandler(SocketHandler):
+    def makePickle(self, record):
+        return self.formatter.format(record) + "\n"
+
 class AnacondaLog:
     SYSLOG_CFGFILE  = "/etc/rsyslog.conf"
     VIRTIO_PORT = "/dev/virtio-ports/org.fedoraproject.anaconda.log.0"
 
     def __init__ (self):
-        self.tty_loglevel = DEFAULT_TTY_LEVEL
+        self.loglevel = DEFAULT_LEVEL
         self.remote_syslog = None
         # Rename the loglevels so they are the same as in syslog.
         logging.addLevelName(logging.WARNING, "WARN")
         logging.addLevelName(logging.ERROR, "ERR")
         logging.addLevelName(logging.CRITICAL, "CRIT")
+        logging.addLevelName(LOGLVL_LOCK, "LOCK")
 
         # Create the base of the logger hierarchy.
         self.anaconda_logger = logging.getLogger("anaconda")
@@ -103,29 +118,20 @@ class AnacondaLog:
         for logr in [self.anaconda_logger, storage_logger]:
             logr.setLevel(logging.DEBUG)
             self.forwardToSyslog(logr)
-            # Logging of basic stuff and storage to tty3.
-            # XXX Use os.uname here since it's too early to be importing the
-            #     storage module.
-            if not os.uname()[4].startswith('s390') and os.access(MAIN_LOG_TTY, os.W_OK):
-                self.addFileHandler(MAIN_LOG_TTY, logr,
-                                    fmtStr=TTY_FORMAT,
-                                    autoLevel=True)
 
         # External program output log
         program_logger = logging.getLogger("program")
         program_logger.setLevel(logging.DEBUG)
         self.addFileHandler(PROGRAM_LOG_FILE, program_logger,
                             minLevel=logging.DEBUG)
-        self.addFileHandler(PROGRAM_LOG_TTY, program_logger,
-                            fmtStr=TTY_FORMAT,
-                            autoLevel=True)
         self.forwardToSyslog(program_logger)
 
         # Create the packaging logger.
         packaging_logger = logging.getLogger("packaging")
-        packaging_logger.setLevel(logging.DEBUG)
+        packaging_logger.setLevel(LOGLVL_LOCK)
         self.addFileHandler(PACKAGING_LOG_FILE, packaging_logger,
-                            minLevel=logging.DEBUG)
+                            minLevel=logging.INFO,
+                            autoLevel=True)
         self.forwardToSyslog(packaging_logger)
 
         # Create the yum logger and link it to packaging
@@ -160,7 +166,7 @@ class AnacondaLog:
                             fmtStr=STDOUT_FORMAT, minLevel=logging.INFO)
 
     # Add a simple handler - file or stream, depending on what we're given.
-    def addFileHandler (self, dest, addToLogger, minLevel=DEFAULT_TTY_LEVEL,
+    def addFileHandler (self, dest, addToLogger, minLevel=DEFAULT_LEVEL,
                         fmtStr=ENTRY_FORMAT,
                         autoLevel=False):
         try:
@@ -179,7 +185,7 @@ class AnacondaLog:
     def forwardToSyslog(self, logr):
         """Forward everything that goes in the logger to the syslog daemon.
         """
-        if flags.imageInstall:
+        if flags.imageInstall or flags.dirInstall:
             # don't clutter up the system logs when doing an image install
             return
 
@@ -190,7 +196,7 @@ class AnacondaLog:
         syslogHandler.setLevel(logging.DEBUG)
         logr.addHandler(syslogHandler)
 
-    # pylint: disable-msg=W0622
+    # pylint: disable=redefined-builtin
     def showwarning(self, message, category, filename, lineno,
                       file=sys.stderr, line=None):
         """ Make sure messages sent through python's warnings module get logged.
@@ -198,11 +204,19 @@ class AnacondaLog:
             The warnings mechanism is used by some libraries we use,
             notably pykickstart.
         """
-        self.anaconda_logger.warning("%s" % warnings.formatwarning(
+        self.anaconda_logger.warning("%s", warnings.formatwarning(
                 message, category, filename, lineno, line))
 
+    def setup_remotelog(self, host, port):
+        remotelog = AnacondaSocketHandler(host, port)
+        remotelog.setFormatter(logging.Formatter(ENTRY_FORMAT, DATE_FORMAT))
+        remotelog.setLevel(logging.DEBUG)
+        logging.getLogger().addHandler(remotelog)
+
     def restartSyslog(self):
-        os.system("systemctl restart rsyslog.service")
+        # Import here instead of at the module level to avoid an import loop
+        from pyanaconda.iutil import execWithRedirect
+        execWithRedirect("systemctl", ["restart", "rsyslog.service"])
 
     def updateRemote(self, remote_syslog):
         """Updates the location of remote rsyslogd to forward to.
@@ -222,12 +236,13 @@ class AnacondaLog:
         """
         TEMPLATE = "*.* %s;anaconda_syslog\n"
 
-        if not os.path.exists(self.VIRTIO_PORT) \
-           or not os.access(self.VIRTIO_PORT, os.W_OK):
+        vport = flags.cmdline.get('virtiolog', self.VIRTIO_PORT)
+
+        if not os.access(vport, os.W_OK):
             return
 
         with open(self.SYSLOG_CFGFILE, 'a') as cfgfile:
-            cfgfile.write(TEMPLATE % (self.VIRTIO_PORT,))
+            cfgfile.write(TEMPLATE % (vport,))
         self.restartSyslog()
 
 

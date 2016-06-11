@@ -2,7 +2,6 @@
 *.bak
 *.desktop.in.h
 *.gir
-*.glade.h
 *.la
 *.lo
 *.o
@@ -24,6 +23,7 @@ anaconda*.tar.bz2
 anaconda*.tar.gz
 anaconda.spec
 autom4te.cache
+compile
 config.guess
 config.h
 config.h.in
@@ -35,7 +35,6 @@ configure
 data/liveinst/gnome/fedora-welcome.desktop
 depcomp
 dirbrowser
-gtk-doc.m4
 install-sh
 keymaps-override-*
 libtool
@@ -72,10 +71,13 @@ py-compile
 stamp-h1
 tags
 test-driver
+tests/*/*/*.log
+tests/*/*/*.trs
 tests/*/*.log
 tests/*/*.trs
 tests/*.log
 tests/*.trs
+tests/pylint/.pylint.d
 tests/test-suite.log
 updates.img
 utils/dd/dd_extract
@@ -89,3 +91,4 @@ widgets/gtk-doc.make
 widgets/src/gettext.h
 anaconda.po
 data/liveinst/gnome/fedora-welcome.po
+pyanaconda/version.py

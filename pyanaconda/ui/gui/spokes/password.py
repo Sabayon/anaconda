@@ -1,6 +1,6 @@
 # root password spoke class
 #
-# Copyright (C) 2012 Red Hat, Inc.
+# Copyright (C) 2012-2014 Red Hat, Inc.
 #
 # This copyrighted material is made available to anyone wishing to use,
 # modify, copy, or redistribute it subject to the terms and conditions of
@@ -17,48 +17,56 @@
 # Red Hat, Inc.
 #
 # Red Hat Author(s): Jesse Keating <jkeating@redhat.com>
+#                    Chris Lumens <clumens@redhat.com>
 #
 
-from pyanaconda.i18n import _, N_
+from pyanaconda.flags import flags
+from pyanaconda.i18n import _, CN_
 from pyanaconda.users import cryptPassword, validatePassword
 
-from pyanaconda.ui.gui import GUICheck
 from pyanaconda.ui.gui.spokes import NormalSpoke
-from pyanaconda.ui.gui.categories.user_settings import UserSettingsCategory
+from pyanaconda.ui.categories.user_settings import UserSettingsCategory
+from pyanaconda.ui.gui.helpers import GUISpokeInputCheckHandler
 from pyanaconda.ui.common import FirstbootSpokeMixIn
+from pyanaconda.ui.helpers import InputCheck
 
 from pyanaconda.constants import PASSWORD_EMPTY_ERROR, PASSWORD_CONFIRM_ERROR_GUI,\
         PASSWORD_STRENGTH_DESC, PASSWORD_WEAK, PASSWORD_WEAK_WITH_ERROR,\
-        PASSWORD_WEAK_CONFIRM, PASSWORD_WEAK_CONFIRM_WITH_ERROR
+        PASSWORD_WEAK_CONFIRM, PASSWORD_WEAK_CONFIRM_WITH_ERROR, PASSWORD_DONE_TWICE,\
+        PW_ASCII_CHARS, PASSWORD_ASCII
 
 __all__ = ["PasswordSpoke"]
 
 
-class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke):
+class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke, GUISpokeInputCheckHandler):
     builderObjects = ["passwordWindow"]
 
     mainWidgetName = "passwordWindow"
+    focusWidgetName = "pw"
     uiFile = "spokes/password.glade"
+    helpFile = "PasswordSpoke.xml"
 
     category = UserSettingsCategory
 
     icon = "dialog-password-symbolic"
-    title = N_("_ROOT PASSWORD")
+    title = CN_("GUI|Spoke", "_ROOT PASSWORD")
 
     def __init__(self, *args):
         NormalSpoke.__init__(self, *args)
+        GUISpokeInputCheckHandler.__init__(self)
         self._kickstarted = False
 
     def initialize(self):
         NormalSpoke.initialize(self)
         # place holders for the text boxes
         self.pw = self.builder.get_object("pw")
-        self.confirm = self.builder.get_object("confirm")
+        self.confirm = self.builder.get_object("confirmPW")
 
         # Install the password checks:
         # - Has a password been specified?
         # - If a password has been specified and there is data in the confirm box, do they match?
         # - How strong is the password?
+        # - Does the password contain non-ASCII characters?
         # - Is there any data in the confirm box?
         self.add_check(self.pw, self._checkPasswordEmpty)
 
@@ -71,14 +79,16 @@ class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke):
         self._confirm_check = self.add_check(self.confirm, self._checkPasswordConfirm)
         self._password_check = self.add_check(self.pw, self._checkPasswordConfirm)
 
-        # Keep a reference for this check, since it has to be manually run for the
+        # Keep a reference for these checks, since they have to be manually run for the
         # click Done twice check.
         self._pwStrengthCheck = self.add_check(self.pw, self._checkPasswordStrength)
+        self._pwASCIICheck = self.add_check(self.pw, self._checkPasswordASCII)
 
         self.add_check(self.confirm, self._checkPasswordEmpty)
 
-        # Counter for the click Done twice check override
-        self._waivePasswordClicks = 0
+        # Counters for checks that ask the user to click Done to confirm
+        self._waiveStrengthClicks = 0
+        self._waiveASCIIClicks = 0
 
         # Password validation data
         self._pwq_error = None
@@ -97,13 +107,19 @@ class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke):
         self.pw_bar.add_offset_value("medium", 3)
         self.pw_bar.add_offset_value("high", 4)
 
+        # Configure the password policy, if available. Otherwise use defaults.
+        self.policy = self.data.anaconda.pwpolicy.get_policy("root")
+        if not self.policy:
+            self.policy = self.data.anaconda.PwPolicyData()
+
     def refresh(self):
         # Enable the input checks in case they were disabled on the last exit
         for check in self.checks:
-            check.enable()
+            check.enabled = True
 
         self.pw.grab_focus()
         self.pw.emit("changed")
+        self.confirm.emit("changed")
 
     @property
     def status(self):
@@ -121,16 +137,20 @@ class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
     def apply(self):
         pw = self.pw.get_text()
-        if not pw:
-            return
-
-        self.data.rootpw.password = cryptPassword(pw)
-        self.data.rootpw.isCrypted = True
-        self.data.rootpw.lock = False
 
         # value from the kickstart changed
         self.data.rootpw.seen = False
         self._kickstarted = False
+
+        self.data.rootpw.lock = False
+
+        if not pw:
+            self.data.rootpw.password = ''
+            self.data.rootpw.isCrypted = False
+            return
+
+        self.data.rootpw.password = cryptPassword(pw)
+        self.data.rootpw.isCrypted = True
 
         self.pw.set_placeholder_text("")
         self.confirm.set_placeholder_text("")
@@ -139,47 +159,49 @@ class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke):
     def completed(self):
         return bool(self.data.rootpw.password or self.data.rootpw.lock)
 
-    def _checkPasswordEmpty(self, editable, data):
+    @property
+    def sensitive(self):
+        return not (self.completed and flags.automatedInstall
+                    and self.data.rootpw.seen)
+
+    def _checkPasswordEmpty(self, inputcheck):
         """Check whether a password has been specified at all."""
 
         # If the password was set by kickstart, skip this check
-        if self._kickstarted:
-            return GUICheck.CHECK_OK
+        if self._kickstarted and not self.policy.changesok:
+            return InputCheck.CHECK_OK
 
-        if not editable.get_text():
-            if editable == self.pw:
+        if not self.get_input(inputcheck.input_obj):
+            if inputcheck.input_obj == self.pw:
                 return _(PASSWORD_EMPTY_ERROR)
             else:
                 return _(PASSWORD_CONFIRM_ERROR_GUI)
         else:
-            return GUICheck.CHECK_OK
+            return InputCheck.CHECK_OK
 
-    def _checkPasswordConfirm(self, editable=None, reset_status=None):
+    def _checkPasswordConfirm(self, inputcheck):
         """Check whether the password matches the confirmation data."""
-
-        # This check is triggered by changes to either the password field or the
-        # confirmation field. If this method is being run from a successful check
-        # to reset the status, just return success
-        if reset_status:
-            return GUICheck.CHECK_OK
 
         pw = self.pw.get_text()
         confirm = self.confirm.get_text()
 
         # Skip the check if no password is required
         if (not pw and not confirm) and self._kickstarted:
-            result = GUICheck.CHECK_OK
+            result = InputCheck.CHECK_OK
         elif confirm and (pw != confirm):
             result = _(PASSWORD_CONFIRM_ERROR_GUI)
         else:
-            result = GUICheck.CHECK_OK
+            result = InputCheck.CHECK_OK
 
         # If the check succeeded, reset the status of the other check object
-        if result == GUICheck.CHECK_OK:
-            if editable == self.confirm:
-                self._password_check.update_check_status(check_data=True)
+        # Disable the current check to prevent a cycle
+        inputcheck.enabled = False
+        if result == InputCheck.CHECK_OK:
+            if inputcheck == self._confirm_check:
+                self._password_check.update_check_status()
             else:
-                self._confirm_check.update_check_status(check_data=True)
+                self._confirm_check.update_check_status()
+        inputcheck.enabled = True
 
         return result
 
@@ -192,10 +214,11 @@ class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
         pwtext = self.pw.get_text()
 
-        # Reset the counter used for the "press Done twice" logic
-        self._waivePasswordClicks = 0
+        # Reset the counters used for the "press Done twice" logic
+        self._waiveStrengthClicks = 0
+        self._waiveASCIIClicks = 0
 
-        self._pwq_valid, strength, self._pwq_error = validatePassword(pwtext, "root")
+        self._pwq_valid, strength, self._pwq_error = validatePassword(pwtext, "root", minlen=self.policy.minlen)
 
         if not pwtext:
             val = 0
@@ -212,7 +235,7 @@ class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke):
         self.pw_bar.set_value(val)
         self.pw_label.set_text(text)
 
-    def _checkPasswordStrength(self, editable=None, data=None):
+    def _checkPasswordStrength(self, inputcheck):
         """Update the error message based on password strength.
 
            Convert the strength set by _updatePwQuality into an error message.
@@ -223,39 +246,70 @@ class PasswordSpoke(FirstbootSpokeMixIn, NormalSpoke):
 
         # Skip the check if no password is required
         if (not pw and not confirm) and self._kickstarted:
-            return GUICheck.CHECK_OK
+            return InputCheck.CHECK_OK
 
         # Check for validity errors
         if (not self._pwq_valid) and (self._pwq_error):
             return self._pwq_error
 
-        pwstrength = self.pw_bar.get_value()
+        # use strength from policy, not bars
+        _valid, pwstrength, _error = validatePassword(pw, "root", minlen=self.policy.minlen)
 
-        if pwstrength < 2:
+        if pwstrength < self.policy.minquality:
             # If Done has been clicked twice, waive the check
-            if self._waivePasswordClicks > 1:
-                return GUICheck.CHECK_OK
-            elif self._waivePasswordClicks == 1:
+            if self._waiveStrengthClicks > 1:
+                return InputCheck.CHECK_OK
+            elif self._waiveStrengthClicks == 1:
                 if self._pwq_error:
                     return _(PASSWORD_WEAK_CONFIRM_WITH_ERROR) % self._pwq_error
                 else:
                     return _(PASSWORD_WEAK_CONFIRM)
             else:
-                if self._pwq_error:
-                    return _(PASSWORD_WEAK_WITH_ERROR) % self._pwq_error
+                # non-strict allows done to be clicked twice
+                if self.policy.strict:
+                    done_msg = ""
                 else:
-                    return _(PASSWORD_WEAK)
+                    done_msg = _(PASSWORD_DONE_TWICE)
+
+                if self._pwq_error:
+                    return _(PASSWORD_WEAK_WITH_ERROR) % (self._pwq_error, done_msg)
+                else:
+                    return _(PASSWORD_WEAK) % done_msg
         else:
-            return GUICheck.CHECK_OK
+            return InputCheck.CHECK_OK
+
+    def _checkPasswordASCII(self, inputcheck):
+        """Set an error message if the password contains non-ASCII characters.
+
+           Like the password strength check, this check can be bypassed by
+           pressing Done twice.
+        """
+
+        # If Done has been clicked, waive the check
+        if self._waiveASCIIClicks > 0:
+            return InputCheck.CHECK_OK
+
+        password = self.get_input(inputcheck.input_obj)
+        if password and any(char not in PW_ASCII_CHARS for char in password):
+            return _(PASSWORD_ASCII)
+
+        return InputCheck.CHECK_OK
 
     def on_back_clicked(self, button):
-        # Add a click and re-check the password strength
-        self._waivePasswordClicks += 1
-        self._pwStrengthCheck.update_check_status()
+        # If the failed check is for password strength or non-ASCII
+        # characters, add a click to the counter and check again
+        failed_check = next(self.failed_checks_with_message, None)
+        if not self.policy.strict and failed_check == self._pwStrengthCheck:
+            self._waiveStrengthClicks += 1
+            self._pwStrengthCheck.update_check_status()
+        elif failed_check == self._pwASCIICheck:
+            self._waiveASCIIClicks += 1
+            self._pwASCIICheck.update_check_status()
 
         # If neither the password nor the confirm field are set, skip the checks
         if (not self.pw.get_text()) and (not self.confirm.get_text()):
             for check in self.checks:
-                check.disable()
+                check.enabled = False
 
-        NormalSpoke.on_back_clicked(self, button)
+        if GUISpokeInputCheckHandler.on_back_clicked(self, button):
+            NormalSpoke.on_back_clicked(self, button)

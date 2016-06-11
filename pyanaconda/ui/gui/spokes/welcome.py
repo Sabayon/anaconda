@@ -23,10 +23,12 @@
 import sys
 import re
 import langtable
+import os
 
 from pyanaconda.ui.gui.hubs.summary import SummaryHub
 from pyanaconda.ui.gui.spokes import StandaloneSpoke
-from pyanaconda.ui.gui.utils import enlightbox, setup_gtk_direction
+from pyanaconda.ui.gui.utils import setup_gtk_direction, escape_markup, gtk_action_wait
+from pyanaconda.ui.gui.xkl_wrapper import XklWrapper
 from pyanaconda.ui.gui.spokes.lib.lang_locale_handler import LangLocaleHandler
 
 from pyanaconda import localization
@@ -34,9 +36,9 @@ from pyanaconda.product import distributionText, isFinal, productName, productVe
 from pyanaconda import keyboard
 from pyanaconda import flags
 from pyanaconda import geoloc
-from pyanaconda.i18n import _
-from pyanaconda.iutil import is_unsupported_hw
-from pyanaconda.constants import DEFAULT_LANG, DEFAULT_KEYBOARD
+from pyanaconda.i18n import _, C_
+from pyanaconda.iutil import is_unsupported_hw, ipmi_report
+from pyanaconda.constants import DEFAULT_LANG, DEFAULT_KEYBOARD, IPMI_ABORTED
 
 import logging
 log = logging.getLogger("anaconda")
@@ -45,7 +47,9 @@ __all__ = ["WelcomeLanguageSpoke"]
 
 class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
     mainWidgetName = "welcomeWindow"
+    focusWidgetName = "languageEntry"
     uiFile = "spokes/welcome.glade"
+    helpFile = "WelcomeSpoke.xml"
     builderObjects = ["languageStore", "languageStoreFilter", "localeStore",
                       "welcomeWindow", "betaWarnDialog", "unsupportedHardwareDialog"]
 
@@ -55,13 +59,14 @@ class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
     def __init__(self, *args, **kwargs):
         StandaloneSpoke.__init__(self, *args, **kwargs)
         LangLocaleHandler.__init__(self)
-        self._xklwrapper = keyboard.XklWrapper.get_instance()
+        self._xklwrapper = XklWrapper.get_instance()
         self._origStrings = {}
 
     def apply(self):
         (store, itr) = self._localeSelection.get_selected()
 
         locale = store[itr][1]
+        self._set_lang(locale)
         localization.setup_locale(locale, self.data.lang)
 
         # Skip timezone and keyboard default setting for kickstart installs.
@@ -81,9 +86,6 @@ class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
             # current language
             self.data.timezone.timezone = loc_timezones[0]
 
-        # setup Gtk direction (RTL/LTR) now that we have the language
-        # configuration applied
-        setup_gtk_direction()
         self._set_keyboard_defaults(self.data.lang.lang)
 
     def _set_keyboard_defaults(self, locale):
@@ -139,7 +141,7 @@ class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
 
     @property
     def completed(self):
-        if flags.flags.automatedInstall:
+        if flags.flags.automatedInstall and self.data.lang.seen:
             return self.data.lang.lang and self.data.lang.lang != ""
         else:
             return False
@@ -194,6 +196,7 @@ class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
         # if there are no translations for the given locales,
         # use default
         if not langs_with_translations:
+            self._set_lang(DEFAULT_LANG)
             localization.setup_locale(DEFAULT_LANG, self.data.lang)
             lang_itr, _locale_itr = self._select_locale(self.data.lang.lang)
             langs_with_translations[DEFAULT_LANG] = lang_itr
@@ -218,10 +221,11 @@ class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
         store.set(newItr, 0, "", 1, "", 2, "", 3, True)
 
         # setup the "best" locale
+        self._set_lang(locales[0])
         localization.setup_locale(locales[0], self.data.lang)
         self._select_locale(self.data.lang.lang)
 
-    def _retranslate_one(self, widgetName):
+    def _retranslate_one(self, widgetName, context=None):
         widget = self.builder.get_object(widgetName)
         if not widget:
             return
@@ -230,26 +234,29 @@ class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
             self._origStrings[widget] = widget.get_label()
 
         before = self._origStrings[widget]
-        widget.set_label(_(before))
+        if context is not None:
+            widget.set_label(C_(context, before))
+        else:
+            widget.set_label(_(before))
 
-    def retranslate(self, lang):
+    def retranslate(self):
         # Change the translations on labels and buttons that do not have
         # substitution text.
-        for name in ["pickLanguageLabel", "betaWarnTitle", "betaWarnDesc",
-                     "quitButton", "continueButton"]:
+        for name in ["pickLanguageLabel", "betaWarnTitle", "betaWarnDesc"]:
             self._retranslate_one(name)
+
+        # It would be nice to be able to read the translation context from the
+        # widget, but we live in an imperfect world.
+        # See also: https://bugzilla.gnome.org/show_bug.cgi?id=729066
+        for name in ["quitButton", "continueButton"]:
+            self._retranslate_one(name, "GUI|Welcome|Beta Warn Dialog")
 
         # The welcome label is special - it has text that needs to be
         # substituted.
         welcomeLabel = self.builder.get_object("welcomeLabel")
 
-        if not welcomeLabel in self._origStrings:
-            self._origStrings[welcomeLabel] = welcomeLabel.get_label()
-
-        before = self._origStrings[welcomeLabel]
-        # pylint: disable-msg=E1103
-        xlated = _(before) % {"name" : productName.upper(), "version" : productVersion}
-        welcomeLabel.set_label(xlated)
+        welcomeLabel.set_text(_("WELCOME TO %(name)s %(version)s.") %
+                {"name" : productName.upper(), "version" : productVersion})
 
         # Retranslate the language (filtering) entry's placeholder text
         languageEntry = self.builder.get_object("languageEntry")
@@ -260,7 +267,7 @@ class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
 
         # And of course, don't forget the underlying window.
         self.window.set_property("distribution", distributionText().upper())
-        self.window.retranslate(lang)
+        self.window.retranslate()
 
     def refresh(self):
         self._select_locale(self.data.lang.lang)
@@ -268,11 +275,15 @@ class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
         self._languageStoreFilter.refilter()
 
     def _add_language(self, store, native, english, lang):
-        native_span = '<span lang="%s">%s</span>' % (lang, native)
+        native_span = '<span lang="%s">%s</span>' % \
+                (escape_markup(lang),
+                 escape_markup(native))
         store.append([native_span, english, lang, False])
 
     def _add_locale(self, store, native, locale):
-        native_span = '<span lang="%s">%s</span>' % (re.sub(r'\..*', '', locale), native)
+        native_span = '<span lang="%s">%s</span>' % \
+                (escape_markup(re.sub(r'\..*', '', locale)),
+                 escape_markup(native))
         store.append([native_span, locale])
 
     # Signal handlers.
@@ -290,28 +301,60 @@ class WelcomeLanguageSpoke(LangLocaleHandler, StandaloneSpoke):
 
         if selected:
             lang = store[selected[0]][1]
+            self._set_lang(lang)
             localization.setup_locale(lang)
-            self.retranslate(lang)
+            self.retranslate()
+
+            # Reset the text direction
+            setup_gtk_direction()
+
+            # Redraw the window to reset the sidebar to where it needs to be
+            self.window.queue_draw()
 
     # Override the default in StandaloneSpoke so we can display the beta
     # warning dialog first.
-    def _on_continue_clicked(self, cb):
+    def _on_continue_clicked(self, window, user_data=None):
         # Don't display the betanag dialog if this is the final release.
         if not isFinal:
             dlg = self.builder.get_object("betaWarnDialog")
-            with enlightbox(self.window, dlg):
+            with self.main_window.enlightbox(dlg):
                 rc = dlg.run()
                 dlg.destroy()
-            if rc == 0:
+            if rc != 1:
+                ipmi_report(IPMI_ABORTED)
                 sys.exit(0)
 
-        if productName.startswith("Red Hat Enterprise Linux") and \
+        if productName.startswith("Red Hat ") and \
           is_unsupported_hw() and not self.data.unsupportedhardware.unsupported_hardware:
             dlg = self.builder.get_object("unsupportedHardwareDialog")
-            with enlightbox(self.window, dlg):
+            with self.main_window.enlightbox(dlg):
                 rc = dlg.run()
                 dlg.destroy()
-            if rc == 0:
+            if rc != 1:
+                ipmi_report(IPMI_ABORTED)
                 sys.exit(0)
 
-        StandaloneSpoke._on_continue_clicked(self, cb)
+        StandaloneSpoke._on_continue_clicked(self, window, user_data)
+
+    @gtk_action_wait
+    def _set_lang(self, lang):
+        # This is *hopefully* safe. The only threads that might be running
+        # outside of the GIL are those doing file operations, the Gio dbus
+        # proxy thread, and calls from the Gtk main loop. The file operations
+        # won't be doing things that may access the environment, fingers
+        # crossed, the GDbus thread shouldn't be doing anything weird since all
+        # of our dbus calls are from python and synchronous. Using
+        # gtk_action_wait ensures that this is Gtk main loop thread, and it's
+        # holding the GIL.
+        #
+        # There is a lot of uncertainty and weasliness in those statements.
+        # This is not good code.
+        #
+        # We cannot get around setting $LANG. Python's gettext implementation
+        # differs from C in that consults only the environment for the current
+        # language and not the data set via setlocale. If we want translations
+        # from python modules to work, something needs to be set in the
+        # environment when the language changes.
+
+        # pylint: disable=environment-modify
+        os.environ["LANG"] = lang

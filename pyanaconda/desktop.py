@@ -21,7 +21,7 @@
 #
 
 import os
-from pyanaconda.constants import ROOT_PATH, RUNLEVELS
+from pyanaconda.constants import RUNLEVELS, SYSTEMD_PREFIX
 from pyanaconda import iutil
 
 import logging
@@ -45,14 +45,14 @@ class Desktop(object):
 
     def write(self):
         if self.desktop:
-            with open(ROOT_PATH + "/etc/sysconfig/desktop", "w") as f:
+            with open(iutil.getSysroot() + "/etc/sysconfig/desktop", "w") as f:
                 f.write("DESKTOP=%s\n" % self.desktop)
 
-        if not os.path.isdir(ROOT_PATH + '/etc/systemd/system'):
+        if not os.path.isdir(iutil.getSysroot() + '/etc/systemd/system'):
             log.warning("there is no /etc/systemd/system directory, cannot update default.target!")
             return
 
-        default_target = ROOT_PATH + '/etc/systemd/system/default.target'
+        default_target = iutil.getSysroot() + '/etc/systemd/system/default.target'
         if os.path.islink(default_target):
             os.unlink(default_target)
 
@@ -61,6 +61,5 @@ class Desktop(object):
         if not sd_prefix:
             sd_prefix = "/usr"  # assume /usr in Gentoo/Sabayon
 
-        os.symlink('%s/lib/systemd/system/%s' % (
-                sd_prefix, RUNLEVELS[self.runlevel]),
+        os.symlink('%s/%s' % (SYSTEMD_PREFIX, RUNLEVELS[self.runlevel]),
                    default_target)

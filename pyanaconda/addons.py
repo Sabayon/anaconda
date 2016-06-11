@@ -22,8 +22,8 @@
 __all__ = ["AddonSection", "AddonRegistry", "AddonData", "collect_addon_paths"]
 
 import os
+import functools
 from pykickstart.sections import Section
-from pykickstart.options import KSOptionParser
 
 def collect_addon_paths(toplevel_addon_paths, ui_subdir="gui"):
     """This method looks into the directories present
@@ -46,7 +46,7 @@ def collect_addon_paths(toplevel_addon_paths, ui_subdir="gui"):
             directories = os.listdir(path)
         except OSError:
             directories = []
-                
+
         for addon_id in directories:
             addon_ks_path = os.path.join(path, addon_id, "ks")
             if os.path.isdir(addon_ks_path):
@@ -56,9 +56,9 @@ def collect_addon_paths(toplevel_addon_paths, ui_subdir="gui"):
             if os.path.isdir(addon_spoke_path):
                 module_paths["spokes"].append(("%s.%s.spokes.%%s" % (addon_id, ui_subdir), addon_spoke_path))
 
-            addon_category_path = os.path.join(path, addon_id, ui_subdir, "categories")
-            if os.path.isdir(addon_spoke_path):
-                module_paths["categories"].append(("%s.%s.categories.%%s" % (addon_id, ui_subdir), addon_category_path))
+            addon_category_path = os.path.join(path, addon_id, "categories")
+            if os.path.isdir(addon_category_path):
+                module_paths["categories"].append(("%s.categories.%%s" % addon_id, addon_category_path))
 
     return module_paths
 
@@ -74,18 +74,18 @@ class AddonRegistry(object):
         self.__dict__ = dictionary
 
     def __str__(self):
-        return reduce(lambda acc,(id, addon): acc + str(addon),
-                      self.__dict__.iteritems(), "")
+        return functools.reduce(lambda acc, (id, addon): acc + str(addon),
+                                self.__dict__.items(), "")
 
     def execute(self, storage, ksdata, instClass, users):
         """This method calls execute on all the registered addons."""
-        for v in self.__dict__.itervalues():
+        for v in self.__dict__.values():
             if hasattr(v, "execute"):
                 v.execute(storage, ksdata, instClass, users)
 
     def setup(self, storage, ksdata, instClass):
         """This method calls setup on all the registered addons."""
-        for v in self.__dict__.itervalues():
+        for v in self.__dict__.values():
             if hasattr(v, "setup"):
                 v.setup(storage, ksdata, instClass)
 
@@ -109,9 +109,10 @@ class AddonData(object):
     def __init__(self, name):
         self.name = name
         self.content = ""
+        self.header_args = ""
 
     def __str__(self):
-        return "%%addon %s\n%s%%end\n" % (self.name, self.content)
+        return "%%addon %s %s\n%s%%end\n" % (self.name, self.header_args, self.content)
 
     def setup(self, storage, ksdata, instClass):
         """Make the changes to the install system.
@@ -128,6 +129,24 @@ class AddonData(object):
            setup phase.
         """
         pass
+
+    def handle_header(self, lineno, args):
+        """Process additional arguments to the %addon line.
+
+           This function receives any arguments on the %addon line after the
+           addon ID. For example, for the line:
+
+               %addon com_example_foo --argument='example'
+
+           This function would be called with args=["--argument='example'"].
+
+           By default AddonData.handle_header just preserves the passed
+           arguments by storing them and adding them to the __str__ output.
+
+        """
+
+        if args:
+            self.header_args += " ".join(args)
 
     def handle_line(self, line):
         """Process one kickstart line."""
@@ -160,13 +179,15 @@ class AddonSection(Section):
     def handleHeader(self, lineno, args):
         """Process the arguments to the %addon header."""
         Section.handleHeader(self, lineno, args)
-        op = KSOptionParser(version=self.version)
-        (_opts, extra) = op.parse_args(args=args[1:], lineno=lineno)
-        self.addon_id = extra[0]
+        self.addon_id = args[1]
 
         # if the addon is not registered, create dummy placeholder for it
         if self.addon_id and not hasattr(self.handler.addons, self.addon_id):
             setattr(self.handler.addons, self.addon_id, AddonData(self.addon_id))
+
+        # Parse additional arguments to %addon with the AddonData handler
+        addon = getattr(self.handler.addons, self.addon_id)
+        addon.handle_header(lineno, args[2:])
 
     def finalize(self):
         """Let addon know no additional data will come."""

@@ -18,19 +18,21 @@
 #
 
 from pyanaconda.installclass import BaseInstallClass
-from pyanaconda.i18n import N_
-
 from pyanaconda.sabayon import Entropy
+
 
 class InstallClass(BaseInstallClass):
 
     id = "sabayon_corecd"
-    name = N_("Sabayon Core")
+    name = "Sabayon Core"
     sortPriority = 9998
 
     _l10n_domain = "anaconda"
 
     efi_dir = "sabayon"
+
+    help_placeholder = "SabayonPlaceholder.html"
+    help_placeholder_with_links = "SabayonPlaceholderWithLinks.html"
 
     dmrc = None
 

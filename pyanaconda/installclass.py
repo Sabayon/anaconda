@@ -26,18 +26,18 @@ import os, sys
 import imputil
 
 from blivet.partspec import PartSpec
-from blivet.devicelibs import swap
+from blivet.autopart import swapSuggestion
 from blivet.platform import platform
+from blivet.size import Size
 
 import logging
 log = logging.getLogger("anaconda")
 
-from pyanaconda.flags import flags
 from pyanaconda.kickstart import getAvailableDiskSpace
 
 class BaseInstallClass(object):
     # default to not being hidden
-    hidden = 0
+    hidden = False
     name = "base"
     bootloaderTimeoutDefault = None
     bootloaderExtraArgs = []
@@ -58,8 +58,17 @@ class BaseInstallClass(object):
     # Blivet uses by default.
     defaultFS = None
 
-    # don't select this class by default
-    default = 0
+    # help
+    help_folder = "/usr/share/anaconda/help"
+    help_main_page = "Installation_Guide.xml"
+    help_placeholder = None
+    help_placeholder_with_links = None
+
+    # path to the installclass stylesheet, if any
+    stylesheet = None
+
+    # comps environment id to select by default
+    defaultPackageEnvironment = None
 
     @property
     def l10n_domain(self):
@@ -79,10 +88,14 @@ class BaseInstallClass(object):
 
     def setDefaultPartitioning(self, storage):
         autorequests = [PartSpec(mountpoint="/", fstype=storage.defaultFSType,
-                                 size=1024, maxSize=50*1024, grow=True,
+                                 size=Size("1GiB"),
+                                 maxSize=Size("50GiB"),
+                                 grow=True,
                                  btr=True, lv=True, thin=True, encrypted=True),
-                        PartSpec(mountpoint="/home", fstype=storage.defaultFSType,
-                                 size=500, grow=True, requiredSpace=50*1024,
+                        PartSpec(mountpoint="/home",
+                                 fstype=storage.defaultFSType,
+                                 size=Size("500MiB"), grow=True,
+                                 requiredSpace=Size("50GiB"),
                                  btr=True, lv=True, thin=True, encrypted=True)]
 
         bootreqs = platform.setDefaultPartitioning()
@@ -91,7 +104,7 @@ class BaseInstallClass(object):
 
 
         disk_space = getAvailableDiskSpace(storage)
-        swp = swap.swapSuggestion(disk_space=disk_space)
+        swp = swapSuggestion(disk_space=disk_space)
         autorequests.append(PartSpec(fstype="swap", size=swp, grow=False,
                                      lv=True, encrypted=True))
 
@@ -118,8 +131,8 @@ class BaseInstallClass(object):
 allClasses = []
 allClasses_hidden = []
 
-# returns ( className, classObject, classLogo ) tuples
-def availableClasses(showHidden=0):
+# returns ( className, classObject ) tuples
+def availableClasses(showHidden=False):
     global allClasses
     global allClasses_hidden
 
@@ -177,35 +190,27 @@ def availableClasses(showHidden=0):
         if fileName[-3:] != ".py" and fileName[-4:-1] != ".py":
             continue
         mainName = fileName.split(".")[0]
-        if done.has_key(mainName):
+        if mainName in done:
             continue
         done[mainName] = 1
 
-
         try:
             found = imputil.imp.find_module(mainName)
-        except ImportError as err:
-            log.warning ("module import of %s failed: %s, %s",
-                         mainName, sys.exc_type, err)
+        except ImportError:
+            log.warning ("module import of %s failed: %s", mainName, sys.exc_info()[0])
             continue
 
         try:
             loaded = imputil.imp.load_module(mainName, found[0], found[1], found[2])
 
-            obj = loaded.InstallClass
-
-            if obj.__dict__.has_key('sortPriority'):
-                sortOrder = obj.sortPriority
-            else:
-                sortOrder = 0
-
-            if obj.hidden == 0 or showHidden == 1:
-                lst.append(((obj.name, obj), sortOrder))
-        except (ImportError, AttributeError) as err:
-            log.warning ("module import of %s failed: %s, %s",
-                         mainName, sys.exc_type, err)
-            if flags.debug: raise
-            else: continue
+            for (_key, obj) in loaded.__dict__.items():
+                # If it's got these two methods, it's an InstallClass.
+                if hasattr(obj, "setDefaultPartitioning") and hasattr(obj, "setPackageSelection"):
+                    sortOrder = getattr(obj, "sortPriority", 0)
+                    if not obj.hidden or showHidden:
+                        lst.append(((obj.name, obj), sortOrder))
+        except (ImportError, AttributeError):
+            log.warning ("module import of %s failed: %s", mainName, sys.exc_info()[0])
 
     lst.sort(_ordering)
     for (item, _) in lst:
@@ -221,8 +226,8 @@ def availableClasses(showHidden=0):
 
 def getBaseInstallClass():
     # figure out what installclass we should base on.
-    allavail = availableClasses(showHidden = 1)
-    avail = availableClasses(showHidden = 0)
+    allavail = availableClasses(showHidden=True)
+    avail = availableClasses(showHidden=False)
 
     if len(avail) == 1:
         (cname, cobject) = avail[0]
@@ -238,8 +243,6 @@ def getBaseInstallClass():
     elif len(allavail) > 1:
         (cname, cobject) = allavail.pop()
         log.info('%s is the highest priority installclass, using it', cname)
-
-    # Default to the base installclass if nothing else is found.
     else:
         raise RuntimeError("Unable to find an install class to use!!!")
 

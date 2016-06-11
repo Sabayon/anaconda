@@ -24,17 +24,16 @@
 #            David Cantrell <dcantrell@redhat.com>
 #            Radek Vykydal <rvykydal@redhat.com>
 
-import string
 import shutil
 from pyanaconda import iutil
 import socket
 import os
-import errno
 import time
 import threading
 import re
 import dbus
 import IPy
+from uuid import uuid4
 import itertools
 
 from pyanaconda.simpleconfig import SimpleConfigFile
@@ -45,6 +44,7 @@ from pyanaconda import nm
 from pyanaconda import constants
 from pyanaconda.flags import flags, can_touch_runtime_system
 from pyanaconda.i18n import _
+from pyanaconda.regexes import HOSTNAME_PATTERN_WITHOUT_ANCHORS
 
 from gi.repository import NetworkManager
 
@@ -59,10 +59,6 @@ ipv6ConfFile = "/etc/sysctl.d/anaconda.conf"
 ifcfgLogFile = "/tmp/ifcfg.log"
 DEFAULT_HOSTNAME = "localhost.localdomain"
 
-# part of a valid hostname between two periods (cannot start nor end with '-')
-# for more info about '(?!-)' and '(?<!-)' see 're' module documentation
-HOSTNAME_PART_RE = re.compile(r"(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)
-
 ifcfglog = None
 
 network_connected = None
@@ -75,11 +71,6 @@ def setup_ifcfg_log():
     logger = logging.getLogger("ifcfg")
     logger.setLevel(logging.DEBUG)
     anaconda_log.logger.addFileHandler(ifcfgLogFile, logger, logging.DEBUG)
-    if os.access("/dev/tty3", os.W_OK):
-        anaconda_log.logger.addFileHandler("/dev/tty3", logger,
-                                           anaconda_log.DEFAULT_TTY_LEVEL,
-                                           anaconda_log.TTY_FORMAT,
-                                           autoLevel=True)
     anaconda_log.logger.forwardToSyslog(logger)
 
     ifcfglog = logging.getLogger("ifcfg")
@@ -104,23 +95,13 @@ def sanityCheckHostname(hostname):
     """
 
     if not hostname:
-        return (False, _("Hostname cannot be None or an empty string."))
+        return (False, _("Host name cannot be None or an empty string."))
 
     if len(hostname) > 255:
-        return (False, _("Hostname must be 255 or fewer characters in length."))
+        return (False, _("Host name must be 255 or fewer characters in length."))
 
-    validStart = string.ascii_letters + string.digits
-
-    if hostname[0] not in validStart:
-        return (False, _("Hostname must start with a valid character in the "
-                         "ranges 'a-z', 'A-Z', or '0-9'"))
-
-    if hostname.endswith("."):
-        # hostname can end with '.', but the regexp used below would not match
-        hostname = hostname[:-1]
-
-    if not all(HOSTNAME_PART_RE.match(part) for part in hostname.split(".")):
-        return (False, _("Hostnames can only contain the characters 'a-z', "
+    if not (re.match('^' + HOSTNAME_PATTERN_WITHOUT_ANCHORS + '$', hostname)):
+        return (False, _("Host names can only contain the characters 'a-z', "
                          "'A-Z', '0-9', '-', or '.', parts between periods "
                          "must contain something and cannot start or end with "
                          "'-'."))
@@ -129,15 +110,17 @@ def sanityCheckHostname(hostname):
 
 # Return a list of IP addresses for all active devices.
 def getIPs():
-    ips = []
+    ipv4_addresses = []
+    ipv6_addresses = []
     for devname in nm.nm_activated_devices():
         try:
-            ips += (nm.nm_device_ip_addresses(devname, version=4) +
-                    nm.nm_device_ip_addresses(devname, version=6))
+            ipv4_addresses += nm.nm_device_ip_addresses(devname, version=4)
+            ipv6_addresses += nm.nm_device_ip_addresses(devname, version=6)
         except (dbus.DBusException, ValueError) as e:
             log.warning("Got an exception trying to get the ip addr "
                         "of %s: %s", devname, e)
-    return ips
+    # prefer IPv4 addresses to IPv6 addresses
+    return ipv4_addresses + ipv6_addresses
 
 # Return the first real non-local IP we find
 def getFirstRealIP():
@@ -209,14 +192,7 @@ def logIfcfgFile(path, message=""):
 
 def _ifcfg_files(directory):
     rv = []
-    try:
-        files = os.listdir(directory)
-    except OSError as err:
-        if err.errno != errno.ENOENT:
-            raise
-        return rv
-
-    for name in files:
+    for name in os.listdir(directory):
         if name.startswith("ifcfg-"):
             if name == "ifcfg-lo":
                 continue
@@ -226,9 +202,11 @@ def _ifcfg_files(directory):
 def logIfcfgFiles(message=""):
     ifcfglog.debug("content of files (%s):", message)
     for path in _ifcfg_files(netscriptsDir):
+        ifcfglog.debug("%s:", path)
         with open(path, "r") as f:
-            content = f.read()
-        ifcfglog.debug("%s:\n%s", path, content)
+            for line in f:
+                ifcfglog.debug("  %s", line.strip())
+    ifcfglog.debug("all settings: %s", nm.nm_get_all_settings())
 
 class IfcfgFile(SimpleConfigFile):
     def __init__(self, filename):
@@ -277,10 +255,10 @@ def dumpMissingDefaultIfcfgs():
     and dump its ifcfg file. (For server, default auto connections will
     be turned off in NetworkManager.conf.)
     The connection id (and consequently ifcfg file) is set to device name.
-    Returns True if any ifcfg file was dumped.
+    Returns list of devices for which ifcfg file was dumped.
 
     """
-    rv = False
+    rv = []
 
     for devname in nm.nm_devices():
         # for each ethernet device
@@ -290,10 +268,10 @@ def dumpMissingDefaultIfcfgs():
 
         # check that device has connection without ifcfg file
         try:
-            con_uuid = nm.nm_device_setting_value(devname, "connection", "uuid")
-        except nm.DeviceSettingsNotFoundError:
+            nm.nm_device_setting_value(devname, "connection", "uuid")
+        except nm.SettingsNotFoundError:
             continue
-        if find_ifcfg_file([("UUID", con_uuid)], root_path=""):
+        if find_ifcfg_file_of_device(devname):
             continue
 
         try:
@@ -301,9 +279,9 @@ def dumpMissingDefaultIfcfgs():
             log.debug("network: dumping ifcfg file for default autoconnection on %s", devname)
             nm.nm_update_settings_of_device(devname, [['connection', 'autoconnect', False, None]])
             log.debug("network: setting autoconnect of %s to False" , devname)
-        except nm.DeviceSettingsNotFoundError:
+        except nm.SettingsNotFoundError:
             log.debug("network: no ifcfg file for %s", devname)
-        rv = True
+        rv.append(devname)
 
     return rv
 
@@ -355,28 +333,35 @@ def dracutBootArguments(devname, ifcfg, storage_ipaddr, hostname=None):
                     gateway = "[%s]" % ifcfg.get('IPV6_DEFAULTGW')
                 else:
                     gateway = ""
-                netargs.add("ip=%s::%s:%s:%s:%s:none" % (ipaddr, gateway,
-                           ifcfg.get('PREFIX'), hostname, devname))
+                netargs.add("ip=%s::%s::%s:%s:none" % (ipaddr, gateway,
+                            hostname, devname))
         else:
             if iutil.lowerASCII(ifcfg.get('bootproto')) == 'dhcp':
                 netargs.add("ip=%s:dhcp" % devname)
             else:
-                if ifcfg.get('GATEWAY'):
-                    gateway = ifcfg.get('GATEWAY')
+                cfgidx = ''
+                if ifcfg.get('IPADDR0'):
+                    cfgidx = '0'
+                if ifcfg.get('GATEWAY%s' % cfgidx):
+                    gateway = ifcfg.get('GATEWAY%s' % cfgidx)
                 else:
                     gateway = ""
-
-                netmask = ifcfg.get('netmask')
-                prefix  = ifcfg.get('prefix')
+                netmask = ifcfg.get('NETMASK%s' % cfgidx)
+                prefix  = ifcfg.get('PREFIX%s' % cfgidx)
                 if not netmask and prefix:
                     netmask = prefix2netmask(int(prefix))
-
-                netargs.add("ip=%s::%s:%s:%s:%s:none" % (ifcfg.get('ipaddr'),
-                           gateway, netmask, hostname, devname))
+                ipaddr = ifcfg.get('IPADDR%s' % cfgidx)
+                netargs.add("ip=%s::%s:%s:%s:%s:none" %
+                            (ipaddr, gateway, netmask, hostname, devname))
 
         hwaddr = ifcfg.get("HWADDR")
         if hwaddr:
             netargs.add("ifname=%s:%s" % (devname, hwaddr.lower()))
+
+        if ifcfg.get("TYPE") == "Team" or ifcfg.get("DEVICETYPE") == "Team":
+            slaves = get_team_slaves([devname, ifcfg.get("UUID")])
+            netargs.add("team=%s:%s" % (devname,
+                                        ",".join(dev for dev, _cfg in slaves)))
 
     nettype = ifcfg.get("NETTYPE")
     subchannels = ifcfg.get("SUBCHANNELS")
@@ -390,33 +375,34 @@ def dracutBootArguments(devname, ifcfg, storage_ipaddr, hostname=None):
 
     return netargs
 
-def update_settings_with_ksdata(devname, networkdata):
-
-    new_values = []
+def _get_ip_setting_values_from_ksdata(networkdata):
+    values = []
 
     # ipv4 settings
     method4 = "auto"
     if networkdata.bootProto == "static":
         method4 = "manual"
-    new_values.append(["ipv4", "method", method4, "s"])
+    values.append(["ipv4", "method", method4, "s"])
 
     if method4 == "manual":
         addr4 = nm.nm_ipv4_to_dbus_int(networkdata.ip)
         gateway4 = nm.nm_ipv4_to_dbus_int(networkdata.gateway)
         prefix4 = netmask2prefix(networkdata.netmask)
-        new_values.append(["ipv4", "addresses", [[addr4, prefix4, gateway4]], "aau"])
+        values.append(["ipv4", "addresses", [[addr4, prefix4, gateway4]], "aau"])
 
     # ipv6 settings
     if networkdata.noipv6:
         method6 = "ignore"
     else:
-        if networkdata.ipv6 == "auto":
+        if not networkdata.ipv6:
+            method6 = "auto"
+        elif networkdata.ipv6 == "auto":
             method6 = "auto"
         elif networkdata.ipv6 == "dhcp":
             method6 = "dhcp"
         else:
             method6 = "manual"
-    new_values.append(["ipv6", "method", method6, "s"])
+    values.append(["ipv6", "method", method6, "s"])
 
     if method6 == "manual":
         addr6, _slash, prefix6 = networkdata.ipv6.partition("/")
@@ -429,7 +415,7 @@ def update_settings_with_ksdata(devname, networkdata):
             gateway6 = nm.nm_ipv6_to_dbus_ay(networkdata.ipv6gateway)
         else:
             gateway6 = [0] * 16
-        new_values.append(["ipv6", "addresses", [(addr6, prefix6, gateway6)], "a(ayuay)"])
+        values.append(["ipv6", "addresses", [(addr6, prefix6, gateway6)], "a(ayuay)"])
 
     # nameservers
     nss4 = []
@@ -440,38 +426,165 @@ def update_settings_with_ksdata(devname, networkdata):
                 nss6.append(nm.nm_ipv6_to_dbus_ay(ns))
             else:
                 nss4.append(nm.nm_ipv4_to_dbus_int(ns))
-    new_values.append(["ipv4", "dns", nss4, "au"])
-    new_values.append(["ipv6", "dns", nss6, "aay"])
+    values.append(["ipv4", "dns", nss4, "au"])
+    values.append(["ipv6", "dns", nss6, "aay"])
 
-    # onboot
+    return values
+
+def update_settings_with_ksdata(devname, networkdata):
+    new_values = _get_ip_setting_values_from_ksdata(networkdata)
     new_values.append(['connection', 'autoconnect', networkdata.onboot, None])
-
+    uuid = nm.nm_device_setting_value(devname, "connection", "uuid")
     nm.nm_update_settings_of_device(devname, new_values)
+    return uuid
 
-def ksdata_from_ifcfg(devname):
+def bond_options_ksdata_to_dbus(opts_str):
+    retval = {}
+    for option in opts_str.split(";" if ';' in opts_str else ","):
+        key, _sep, value = option.partition("=")
+        retval[key] = value
+    return retval
+
+def add_connection_for_ksdata(networkdata, devname):
+
+    added_connections = []
+    con_uuid = str(uuid4())
+    values = _get_ip_setting_values_from_ksdata(networkdata)
+    # HACK preventing NM to autoactivate the connection
+    #values.append(['connection', 'autoconnect', networkdata.onboot, 'b'])
+    values.append(['connection', 'autoconnect', False, 'b'])
+    values.append(['connection', 'uuid', con_uuid, 's'])
+
+    # type "bond"
+    if networkdata.bondslaves:
+        # bond connection is autoactivated
+        values.append(['connection', 'type', 'bond', 's'])
+        values.append(['connection', 'id', devname, 's'])
+        values.append(['bond', 'interface-name', devname, 's'])
+        options = bond_options_ksdata_to_dbus(networkdata.bondopts)
+        values.append(['bond', 'options', options, 'a{ss}'])
+        for slave in networkdata.bondslaves.split(","):
+            suuid = _add_slave_connection('bond', slave, devname, networkdata.activate)
+            added_connections.append((suuid, slave))
+        dev_spec = None
+    # type "team"
+    elif networkdata.teamslaves:
+        values.append(['connection', 'type', 'team', 's'])
+        values.append(['connection', 'id', devname, 's'])
+        values.append(['team', 'interface-name', devname, 's'])
+        values.append(['team', 'config', networkdata.teamconfig, 's'])
+        for (slave, cfg) in networkdata.teamslaves:
+            values = [['team-port', 'config', cfg, 's']]
+            suuid = _add_slave_connection('team', slave, devname, networkdata.activate, values)
+            added_connections.append((suuid, slave))
+        dev_spec = None
+    # type "vlan"
+    elif networkdata.vlanid:
+        values.append(['vlan', 'parent', networkdata.parent, 's'])
+        values.append(['connection', 'type', 'vlan', 's'])
+        values.append(['connection', 'id', devname, 's'])
+        values.append(['vlan', 'interface-name', devname, 's'])
+        values.append(['vlan', 'id', int(networkdata.vlanid), 'u'])
+        dev_spec = None
+    # type "bridge"
+    elif networkdata.bridgeslaves:
+        # bridge connection is autoactivated
+        values.append(['connection', 'type', 'bridge', 's'])
+        values.append(['connection', 'id', devname, 's'])
+        values.append(['bridge', 'interface-name', devname, 's'])
+        for opt in networkdata.bridgeopts.split(","):
+            key, _sep, value = opt.partition("=")
+            if key == "stp":
+                if value == "yes":
+                    values.append(['bridge', key, True, 'b'])
+                elif value == "no":
+                    values.append(['bridge', key, False, 'b'])
+                continue
+            try:
+                value = int(value)
+            except ValueError:
+                log.error("Invalid bridge option %s", opt)
+                continue
+            values.append(['bridge', key, int(value), 'u'])
+        for slave in networkdata.bridgeslaves.split(","):
+            suuid = _add_slave_connection('bridge', slave, devname, networkdata.activate)
+            added_connections.append((suuid, slave))
+        dev_spec = None
+    # type "802-3-ethernet"
+    else:
+        mac = nm.nm_device_perm_hwaddress(devname)
+        if flags.cmdline.get("ifname", "").upper() == "{0}:{1}".format(devname, mac).upper():
+            mac = [int(b, 16) for b in mac.split(":")]
+            values.append(['802-3-ethernet', 'mac-address', mac, 'ay'])
+        else:
+            values.append(['802-3-ethernet', 'name', devname, 's'])
+        values.append(['connection', 'type', '802-3-ethernet', 's'])
+        values.append(['connection', 'id', devname, 's'])
+        values.append(['connection', 'interface-name', devname, 's'])
+
+        dev_spec = devname
+
+    try:
+        nm.nm_add_connection(values)
+    except nm.BondOptionsError as e:
+        log.error(e)
+        return []
+    added_connections.insert(0, (con_uuid, dev_spec))
+    return added_connections
+
+def _add_slave_connection(slave_type, slave, master, activate, values=None):
+    values = values or []
+    #slave_name = "%s slave %d" % (devname, slave_idx)
+    slave_name = slave
+
+    values = []
+    suuid =  str(uuid4())
+    # assume ethernet, TODO: infiniband, wifi, vlan
+    values.append(['connection', 'uuid', suuid, 's'])
+    values.append(['connection', 'id', slave_name, 's'])
+    values.append(['connection', 'slave-type', slave_type, 's'])
+    values.append(['connection', 'master', master, 's'])
+    values.append(['connection', 'type', '802-3-ethernet', 's'])
+    mac = nm.nm_device_perm_hwaddress(slave)
+    mac = [int(b, 16) for b in mac.split(":")]
+    values.append(['802-3-ethernet', 'mac-address', mac, 'ay'])
+
+    # disconnect slaves
+    if activate:
+        try:
+            nm.nm_disconnect_device(slave)
+        except nm.DeviceNotActiveError:
+            pass
+    # remove ifcfg file
+    ifcfg_path = find_ifcfg_file_of_device(slave)
+    if ifcfg_path and os.access(ifcfg_path, os.R_OK):
+        os.unlink(ifcfg_path)
+
+    nm.nm_add_connection(values)
+
+    return suuid
+
+def ksdata_from_ifcfg(devname, uuid=None):
+
+    if devname not in nm.nm_devices():
+        return None
 
     if nm.nm_device_is_slave(devname):
         return None
+    if nm.nm_device_type_is_wifi(devname):
+        # wifi from kickstart is not supported yet
+        return None
 
-    ifcfg_path = None
+    if not uuid:
+        # Find ifcfg file for the device.
+        # If the device is active, use uuid of its active connection.
+        uuid = nm.nm_device_active_con_uuid(devname)
 
-    # Find ifcfg file for the device.
-    # If the device is active, use uuid of its active connection.
-    uuid = nm.nm_device_active_con_uuid(devname)
     if uuid:
         ifcfg_path = find_ifcfg_file([("UUID", uuid)])
     else:
-        # If not, look it up by other values depending on its type
-        if nm.nm_device_type_is_ethernet(devname):
-            ifcfg_path = find_ifcfg_file_of_device(devname)
-        elif nm.nm_device_type_is_wifi(devname):
-            ssid = nm.nm_device_active_ssid(devname)
-            if ssid:
-                ifcfg_path = find_ifcfg_file([("ESSID", ssid)])
-        elif nm.nm_device_type_is_bond(devname):
-            ifcfg_path = find_ifcfg_file([("DEVICE", devname)])
-        elif nm.nm_device_type_is_vlan(devname):
-            ifcfg_path = find_ifcfg_file([("DEVICE", devname)])
+        # look it up by other values depending on its type
+        ifcfg_path = find_ifcfg_file_of_device(devname)
 
     if not ifcfg_path:
         return None
@@ -489,8 +602,13 @@ def ksdata_from_ifcfg(devname):
         nm.device = ""
     elif nm.nm_device_type_is_bond(devname):
         nd.device = devname
+    elif nm.nm_device_type_is_team(devname):
+        nd.device = devname
+    elif nm.nm_device_type_is_bridge(devname):
+        nd.device = devname
     elif nm.nm_device_type_is_vlan(devname):
-        nd.device = devname.split(".")[0]
+        if devname != default_ks_vlan_interface_name(nd.device, nd.vlanid):
+            nd.interfacename = devname
 
     return nd
 
@@ -502,6 +620,12 @@ def ifcfg_to_ksdata(ifcfg, devname):
 
     # no network command for bond slaves
     if ifcfg.get("MASTER"):
+        return None
+    # no network command for team slaves
+    if ifcfg.get("TEAM_MASTER"):
+        return None
+    # no network command for bridge slaves
+    if ifcfg.get("BRIDGE"):
         return None
 
     # ipv4 and ipv6
@@ -581,7 +705,7 @@ def ifcfg_to_ksdata(ifcfg, devname):
     # bonding
     # FIXME: dracut has only BOND_OPTS
     if ifcfg.get("BONDING_MASTER") == "yes" or ifcfg.get("TYPE") == "Bond":
-        slaves = get_bond_slaves_from_ifcfgs([devname, ifcfg.get("UUID")])
+        slaves = get_slaves_from_ifcfgs("MASTER", [devname, ifcfg.get("UUID")])
         if slaves:
             kwargs["bondslaves"] = ",".join(slaves)
         bondopts = ifcfg.get("BONDING_OPTS")
@@ -596,33 +720,84 @@ def ifcfg_to_ksdata(ifcfg, devname):
         kwargs["device"] = ifcfg.get("PHYSDEV")
         kwargs["vlanid"] = ifcfg.get("VLAN_ID")
 
-    # pylint: disable-msg=E1101
-    return handler.NetworkData(**kwargs)
+    # bridging
+    if ifcfg.get("TYPE") == "Bridge":
+        slaves = get_slaves_from_ifcfgs("BRIDGE", [devname, ifcfg.get("UUID")])
+        if slaves:
+            kwargs["bridgeslaves"] = ",".join(slaves)
+
+        bridgeopts = ifcfg.get("BRIDGING_OPTS").replace('_', '-').split()
+        if ifcfg.get("STP"):
+            bridgeopts.append("%s=%s" % ("stp", ifcfg.get("STP")))
+        if ifcfg.get("DELAY"):
+            bridgeopts.append("%s=%s" % ("forward-delay", ifcfg.get("DELAY")))
+        if bridgeopts:
+            kwargs["bridgeopts"] = ",".join(bridgeopts)
+
+    # pylint: disable=no-member
+    nd = handler.NetworkData(**kwargs)
+
+    # teaming
+    if ifcfg.get("TYPE") == "Team" or ifcfg.get("DEVICETYPE") == "Team":
+        slaves = get_team_slaves([devname, ifcfg.get("UUID")])
+        for dev, cfg in slaves:
+            nd.teamslaves.append((dev, cfg))
+
+        teamconfig = nm.nm_device_setting_value(devname, "team", "config")
+        if teamconfig:
+            nd.teamconfig = teamconfig
+
+    return nd
 
 def hostname_ksdata(hostname):
     from pyanaconda.kickstart import AnacondaKSHandler
     handler = AnacondaKSHandler()
-    # pylint: disable-msg=E1101
+    # pylint: disable=no-member
     return handler.NetworkData(hostname=hostname, bootProto="")
 
 def find_ifcfg_file_of_device(devname, root_path=""):
     ifcfg_path = None
 
-    try:
-        hwaddr = nm.nm_device_hwaddress(devname)
-    except nm.PropertyNotFoundError:
-        hwaddr = None
-    if hwaddr:
-        hwaddr_check = lambda mac: mac.upper() == hwaddr.upper()
-        nonempty = lambda x: x
-        # slave configration created in GUI takes precedence
-        ifcfg_path = find_ifcfg_file([("HWADDR", hwaddr_check),
-                                      ("MASTER", nonempty)],
-                                     root_path)
+    if devname not in nm.nm_devices():
+        return None
+
+    if nm.nm_device_type_is_wifi(devname):
+        ssid = nm.nm_device_active_ssid(devname)
+        if ssid:
+            ifcfg_path = find_ifcfg_file([("ESSID", ssid)])
+    elif nm.nm_device_type_is_bond(devname):
+        ifcfg_path = find_ifcfg_file([("DEVICE", devname)])
+    elif nm.nm_device_type_is_team(devname):
+        ifcfg_path = find_ifcfg_file([("DEVICE", devname)])
+    elif nm.nm_device_type_is_vlan(devname):
+        ifcfg_path = find_ifcfg_file([("DEVICE", devname)])
+    elif nm.nm_device_type_is_bridge(devname):
+        ifcfg_path = find_ifcfg_file([("DEVICE", devname)])
+    elif nm.nm_device_type_is_ethernet(devname):
+        try:
+            hwaddr = nm.nm_device_perm_hwaddress(devname)
+        except nm.PropertyNotFoundError:
+            hwaddr = None
+        if hwaddr:
+            hwaddr_check = lambda mac: mac.upper() == hwaddr.upper()
+            nonempty = lambda x: x
+            # slave configration created in GUI takes precedence
+            ifcfg_path = find_ifcfg_file([("HWADDR", hwaddr_check),
+                                          ("MASTER", nonempty)],
+                                         root_path)
+            if not ifcfg_path:
+                ifcfg_path = find_ifcfg_file([("HWADDR", hwaddr_check),
+                                              ("TEAM_MASTER", nonempty)],
+                                             root_path)
+            if not ifcfg_path:
+                ifcfg_path = find_ifcfg_file([("HWADDR", hwaddr_check),
+                                              ("BRIDGE", nonempty)],
+                                             root_path)
+            if not ifcfg_path:
+                ifcfg_path = find_ifcfg_file([("HWADDR", hwaddr_check)], root_path)
         if not ifcfg_path:
-            ifcfg_path = find_ifcfg_file([("HWADDR", hwaddr_check)], root_path)
-    if not ifcfg_path:
-        ifcfg_path = find_ifcfg_file([("DEVICE", devname)], root_path)
+            ifcfg_path = find_ifcfg_file([("DEVICE", devname)], root_path)
+
     return ifcfg_path
 
 def find_ifcfg_file(values, root_path=""):
@@ -640,9 +815,10 @@ def find_ifcfg_file(values, root_path=""):
             return filepath
     return None
 
-def get_bond_slaves_from_ifcfgs(master_specs):
-    """List of slave device names of master specified by master_specs.
+def get_slaves_from_ifcfgs(master_option, master_specs):
+    """List of slaves of master specified by master_specs in master_option.
 
+       master_option is ifcfg option containing spec of master
        master_specs is a list containing device name of master (dracut)
        and/or master's connection uuid
     """
@@ -651,7 +827,7 @@ def get_bond_slaves_from_ifcfgs(master_specs):
     for filepath in _ifcfg_files(netscriptsDir):
         ifcfg = IfcfgFile(filepath)
         ifcfg.read()
-        master = ifcfg.get("MASTER")
+        master = ifcfg.get(master_option)
         if master in master_specs:
             device = ifcfg.get("DEVICE")
             if device:
@@ -669,6 +845,39 @@ def get_bond_slaves_from_ifcfgs(master_specs):
                         break
     return slaves
 
+# why not from ifcfg? because we want config json value without escapes
+def get_team_slaves(master_specs):
+    """List of slaves of master specified by master_specs (name, opts).
+
+       master_specs is a list containing device name of master (dracut)
+       and/or master's connection uuid
+    """
+    slaves = []
+
+    for master in master_specs:
+        slave_settings = nm.nm_get_settings(master, "connection", "master")
+        for settings in slave_settings:
+            try:
+                cfg = settings["team-port"]["config"]
+            except KeyError:
+                cfg = ""
+            devname = settings["connection"].get("interface-name")
+            #nm-c-e doesn't save device name
+            # TODO: wifi, infiniband
+            if not devname:
+                ty = settings["connection"]["type"]
+                if ty == "802-3-ethernet":
+                    hwaddr = settings["802-3-ethernet"]["mac-address"]
+                    hwaddr = ":".join("%02X" % b for b in hwaddr)
+                    devname = nm.nm_hwaddr_to_device_name(hwaddr)
+            if devname:
+                slaves.append((devname, cfg))
+            else:
+                uuid = settings["connection"].get("uuid")
+                log.debug("network: can't get team slave device name of %s", uuid)
+
+    return slaves
+
 def ifaceForHostIP(host):
     route = iutil.execWithCapture("ip", [ "route", "get", "to", host ])
     if not route:
@@ -682,6 +891,23 @@ def ifaceForHostIP(host):
         return ""
 
     return routeInfo[routeInfo.index("dev") + 1]
+
+def default_route_device():
+    routes = iutil.execWithCapture("ip", ["route", "show"])
+    if not routes:
+        log.error("Could not get default route device")
+        return None
+
+    for line in routes.split("\n"):
+        if line.startswith("default"):
+            parts = line.split()
+            if len(parts) >= 5 and parts[3] == "dev":
+                return parts[4]
+            else:
+                log.error("Could not parse default route device: %s", line)
+                return None
+
+    return None
 
 def copyFileToPath(fileName, destPath='', overwrite=False):
     if not os.path.isfile(fileName):
@@ -698,14 +924,7 @@ def copyFileToPath(fileName, destPath='', overwrite=False):
 # /etc/sysconfig/network-scripts/keys-*
 # TODO: routing info from /etc/sysconfig/network-scripts?
 def copyIfcfgFiles(destPath):
-
-    try:
-        files = os.listdir(netscriptsDir)
-    except OSError as err:
-        if err.errno != errno.ENOENT:
-            raise
-        files = []
-
+    files = os.listdir(netscriptsDir)
     for cfgFile in files:
         if cfgFile.startswith(("ifcfg-","keys-")):
             srcfile = os.path.join(netscriptsDir, cfgFile)
@@ -718,55 +937,59 @@ def copyDhclientConfFiles(destPath):
         dhclientfile = os.path.join("/etc/dhcp/dhclient-%s.conf" % devName)
         copyFileToPath(dhclientfile, destPath)
 
-def get_ksdevice_name(ksspec=""):
+def ks_spec_to_device_name(ksspec=""):
+    """
+    Find the first network device which matches the kickstart specification.
+    Will not match derived types such as bonds and vlans.
 
-    if not ksspec:
-        ksspec = flags.cmdline.get('ksdevice', "")
-    ksdevice = ksspec
+    :param ksspec: kickstart-specified device name
+    :returns: a string naming a physical device, or "" meaning none matched
+    :rtype: str
 
+    """
     bootif_mac = ''
-    if ksdevice == 'bootif' and "BOOTIF" in flags.cmdline:
+    if ksspec == 'bootif' and "BOOTIF" in flags.cmdline:
         bootif_mac = flags.cmdline["BOOTIF"][3:].replace("-", ":").upper()
     for dev in sorted(nm.nm_devices()):
         # "eth0"
-        if ksdevice == dev:
+        if ksspec == dev:
             break
-        # "link"
-        elif ksdevice == 'link':
+        # "link" - match the first device which is plugged (has a carrier)
+        elif ksspec == 'link':
             try:
                 link_up = nm.nm_device_carrier(dev)
             except ValueError as e:
-                log.debug("get_ksdevice_name: %s", e)
+                log.debug("ks_spec_to_device_name: %s", e)
                 continue
             if link_up:
-                ksdevice = dev
+                ksspec = dev
                 break
         # "XX:XX:XX:XX:XX:XX" (mac address)
-        elif ':' in ksdevice:
+        elif ':' in ksspec:
             try:
-                hwaddr = nm.nm_device_hwaddress(dev)
+                hwaddr = nm.nm_device_perm_hwaddress(dev)
             except ValueError as e:
-                log.debug("get_ksdevice_name: %s", e)
+                log.debug("ks_spec_to_device_name: %s", e)
                 continue
-            if ksdevice.lower() == hwaddr.lower():
-                ksdevice = dev
+            if ksspec.lower() == hwaddr.lower():
+                ksspec = dev
                 break
         # "bootif" and BOOTIF==XX:XX:XX:XX:XX:XX
-        elif ksdevice == 'bootif':
+        elif ksspec == 'bootif':
             try:
-                hwaddr = nm.nm_device_hwaddress(dev)
+                hwaddr = nm.nm_device_perm_hwaddress(dev)
             except ValueError as e:
-                log.debug("get_ksdevice_name: %s", e)
+                log.debug("ks_spec_to_device_name: %s", e)
                 continue
             if bootif_mac.lower() == hwaddr.lower():
-                ksdevice = dev
+                ksspec = dev
                 break
 
-    return ksdevice
+    return ksspec
 
 def set_hostname(hn):
     if can_touch_runtime_system("set hostname", touch_live=True):
-        log.info("setting installation environment hostname to %s", hn)
+        log.info("setting installation environment host name to %s", hn)
         iutil.execWithRedirect("hostnamectl", ["set-hostname", hn])
 
 def write_hostname(rootpath, ksdata, overwrite=False):
@@ -862,19 +1085,16 @@ def write_network_config(storage, ksdata, instClass, rootpath):
     if 0:  # sabayon
         write_sysconfig_network(rootpath, overwrite=flags.livecdInstall)
     disableIPV6(rootpath)
-    if not flags.imageInstall:
-        copyIfcfgFiles(rootpath)
-        copyDhclientConfFiles(rootpath)
-        copyFileToPath("/etc/resolv.conf", rootpath, overwrite=flags.livecdInstall)
-    # TODO the default for ONBOOT needs to be lay down
-    # before newui we didn't set it for kickstart installs
+    copyIfcfgFiles(rootpath)
+    copyDhclientConfFiles(rootpath)
+    copyFileToPath("/etc/resolv.conf", rootpath, overwrite=flags.livecdInstall)
     instClass.setNetworkOnbootDefault(ksdata)
     # NM_CONTROLLED is not mirrored in ksdata
     disableNMForStorageDevices(rootpath, storage)
     autostartFCoEDevices(rootpath, storage, ksdata)
 
 def update_hostname_data(ksdata, hostname):
-    log.debug("updating hostname %s", hostname)
+    log.debug("updating host name %s", hostname)
     hostname_found = False
     for nd in ksdata.network.network:
         if nd.hostname:
@@ -884,93 +1104,128 @@ def update_hostname_data(ksdata, hostname):
         nd = hostname_ksdata(hostname)
         ksdata.network.network.append(nd)
 
-def get_device_name(devspec):
+def get_device_name(network_data):
+    """
+    Find the first network device which matches the kickstart specification.
 
-    devices = nm.nm_devices()
-    devname = None
+    :param network_data: A pykickstart NetworkData object
+    :returns: a string naming a physical device, or "" meaning none matched
+    :rtype: str
 
-    if not devspec:
-        if "ksdevice" in flags.cmdline:
-            msg = "ksdevice boot parameter"
-            devname = get_ksdevice_name(flags.cmdline["ksdevice"])
-        elif nm.nm_is_connected():
-            # device activated in stage 1 by network kickstart command
-            msg = "first active device"
-            try:
-                devname = nm.nm_activated_devices()[0]
-            except IndexError:
-                log.debug("get_device_name: NM is connected but no activated devices found")
-        else:
-            msg = "first device found"
-            devname = min(devices)
-        log.info("unspecified network --device in kickstart, using %s (%s)",
-                 devname, msg)
-    else:
-        if iutil.lowerASCII(devspec) == "ibft":
-            devname = ""
-        if iutil.lowerASCII(devspec) == "link":
-            for dev in sorted(devices):
-                try:
-                    link_up = nm.nm_device_carrier(dev)
-                except ValueError as e:
-                    log.debug("get_device_name: %s", e)
-                    continue
-                if link_up:
-                    devname = dev
-                    break
-            else:
-                log.error("Kickstart: No network device with link found")
-        elif iutil.lowerASCII(devspec) == "bootif":
-            if "BOOTIF" in flags.cmdline:
-                # MAC address like 01-aa-bb-cc-dd-ee-ff
-                devname = flags.cmdline["BOOTIF"][3:]
-                devname = devname.replace("-",":")
-            else:
-                log.error("Using --device=bootif without BOOTIF= boot option supplied")
-        else: devname = devspec
-
-    if devname and devname not in devices:
-        for d in devices:
-            try:
-                hwaddr = nm.nm_device_hwaddress(d)
-            except ValueError as e:
-                log.debug("get_device_name: %s", e)
-                continue
-            if hwaddr.lower() == devname.lower():
-                devname = d
-                break
-        else:
+    """
+    ksspec = network_data.device or flags.cmdline.get('ksdevice') or ""
+    dev_name = ks_spec_to_device_name(ksspec)
+    if not dev_name:
+        return ""
+    if dev_name not in nm.nm_devices():
+        if not any((network_data.vlanid, network_data.bondslaves, network_data.teamslaves, network_data.bridgeslaves)):
             return ""
+    if network_data.vlanid:
+        network_data.parent = dev_name
+        dev_name = network_data.interfacename or default_ks_vlan_interface_name(network_data.parent, network_data.vlanid)
 
-    return devname
+    return dev_name
 
 def setOnboot(ksdata):
+    updated_devices = []
     for network_data in ksdata.network.network:
 
-        devname = get_device_name(network_data.device)
+        devname = get_device_name(network_data)
         if not devname:
-            log.error("Kickstart: The provided network interface %s does not exist", network_data.device)
+            log.warning("network: set ONBOOT: --device %s does not exist", network_data.device)
             continue
 
+        updated_devices.append(devname)
         try:
             nm.nm_update_settings_of_device(devname, [['connection', 'autoconnect', network_data.onboot, None]])
-            ifcfglog.debug("setting autoconnect (ONBOOT) of %s to %s" , devname, network_data.onboot)
-        except nm.DeviceSettingsNotFoundError as e:
+        except (nm.SettingsNotFoundError, nm.UnknownDeviceError) as e:
             log.debug("setOnboot: %s", e)
+    return updated_devices
+
+def apply_kickstart(ksdata):
+    applied_devices = []
+
+    for i, network_data in enumerate(ksdata.network.network):
+
+        # TODO: wireless not supported yet
+        if network_data.essid:
+            continue
+
+        dev_name = get_device_name(network_data)
+        if not dev_name:
+            log.warning("network: apply kickstart: --device %s does not exist", network_data.device)
+            continue
+
+        ifcfg_path = find_ifcfg_file_of_device(dev_name)
+        if ifcfg_path:
+            with open(ifcfg_path, 'r') as f:
+                # If we have kickstart ifcfg from initramfs
+                if "Generated by parse-kickstart" in f.read():
+                    # and we should activate the device
+                    if i == 0 or network_data.activate:
+                        ifcfg = IfcfgFile(ifcfg_path)
+                        ifcfg.read()
+                        con_uuid = ifcfg.get("UUID")
+                        # and the ifcfg had not been already applied to device by NM
+                        if con_uuid != nm.nm_device_active_con_uuid(dev_name):
+                            # apply it overriding configuration generated by NM
+                            # taking over connection activated in initramfs
+                            log.debug("network: kickstart - reactivating device %s with %s", dev_name, con_uuid)
+                            try:
+                                nm.nm_activate_device_connection(dev_name, con_uuid)
+                            except nm.UnknownConnectionError:
+                                log.warning("network: kickstart - can't activate connection %s on %s",
+                                            con_uuid, dev_name)
+                    continue
+
+        # If we don't have kickstart ifcfg from initramfs the command was added
+        # in %pre section after switch root, so apply it now
+        applied_devices.append(dev_name)
+        if ifcfg_path:
+            # if the device was already configured in initramfs update the settings
+            log.debug("network: pre kickstart - updating settings of device %s", dev_name)
+            con_uuid = update_settings_with_ksdata(dev_name, network_data)
+            added_connections = [(con_uuid, dev_name)]
+        else:
+            log.debug("network: pre kickstart - adding connection for %s", dev_name)
+            # Virtual devices (eg vlan, bond) return dev_name == None
+            added_connections = add_connection_for_ksdata(network_data, dev_name)
+
+        if network_data.activate:
+            for con_uuid, dev_name in added_connections:
+                try:
+                    nm.nm_activate_device_connection(dev_name, con_uuid)
+                except (nm.UnknownConnectionError, nm.UnknownDeviceError) as e:
+                    log.warning("network: pre kickstart: can't activate connection %s on %s: %s",
+                                con_uuid, dev_name, e)
+    return applied_devices
 
 def networkInitialize(ksdata):
+    if not can_touch_runtime_system("networkInitialize", touch_live=True):
+        return
 
     log.debug("network: devices found %s", nm.nm_devices())
     logIfcfgFiles("network initialization")
 
-    if not flags.imageInstall and 0:  # sabayon
-        if dumpMissingDefaultIfcfgs():
-            logIfcfgFiles("ifcfgs created")
+    devnames = apply_kickstart(ksdata)
+    if devnames:
+        msg = "kickstart pre section applied for devices %s" % devnames
+        log.debug("network: %s", msg)
+        logIfcfgFiles(msg)
+    devnames = dumpMissingDefaultIfcfgs()
+    if devnames:
+        msg = "missing ifcfgs created for devices %s" % devnames
+        log.debug("network: %s", msg)
+        logIfcfgFiles(msg)
 
     # For kickstart network --activate option we set ONBOOT=yes
     # in dracut to get devices activated by NM. The real network --onboot
     # value is set here.
-    setOnboot(ksdata)
+    devnames = setOnboot(ksdata)
+    if devnames:
+        msg = "setting real kickstart ONBOOT value for devices %s" % devnames
+        log.debug("network: %s", msg)
+        logIfcfgFiles(msg)
 
     if ksdata.network.hostname is None:
         hostname = getHostname()
@@ -987,12 +1242,13 @@ def _get_ntp_servers_from_dhcp(ksdata):
             hostname = socket.gethostbyaddr(server_address)[0]
         except socket.error:
             # getting hostname failed, just use the address returned from DHCP
-            log.debug("getting NTP server hostname failed for address: %s",
+            log.debug("getting NTP server host name failed for address: %s",
                       server_address)
             hostname = server_address
         hostnames.append(hostname)
     # check if some NTP servers were specified from kickstart
-    if not ksdata.timezone.ntpservers:
+    if not ksdata.timezone.ntpservers \
+       and not (flags.imageInstall or flags.dirInstall):
         # no NTP servers were specified, add those from DHCP
         ksdata.timezone.ntpservers = hostnames
 
@@ -1000,7 +1256,7 @@ def _wait_for_connecting_NM():
     """If NM is in connecting state, wait for connection.
     Return value: NM has got connection."""
 
-    if nm.nm_is_connected:
+    if nm.nm_is_connected():
         return True
 
     if nm.nm_is_connecting():
@@ -1102,10 +1358,18 @@ def status_message():
                     msg = _("Bond %(interface_name)s (%(list_of_slaves)s) connected") \
                           % {"interface_name": devname, \
                              "list_of_slaves": ",".join(slaves[devname])}
+                elif nm.nm_device_type_is_team(devname):
+                    msg = _("Team%(interface_name)s (%(list_of_slaves)s) connected") \
+                          % {"interface_name": devname, \
+                             "list_of_slaves": ",".join(slaves[devname])}
+                elif nm.nm_device_type_is_bridge(devname):
+                    msg = _("Bridge%(interface_name)s (%(list_of_slaves)s) connected") \
+                          % {"interface_name": devname, \
+                             "list_of_slaves": ",".join(slaves[devname])}
                 elif nm.nm_device_type_is_vlan(devname):
                     parent = nm.nm_device_setting_value(devname, "vlan", "parent")
                     vlanid = nm.nm_device_setting_value(devname, "vlan", "id")
-                    msg = _("Vlan %(interface_name)s (%(parent_device)s, ID %(vlanid)s) connected") \
+                    msg = _("VLAN %(interface_name)s (%(parent_device)s, ID %(vlanid)s) connected") \
                           % {"interface_name": devname, "parent_device": parent, "vlanid": vlanid}
             elif len(nonslaves) > 1:
                 devlist = []
@@ -1115,6 +1379,10 @@ def status_message():
                     elif nm.nm_device_type_is_wifi(devname):
                         devlist.append("%s" % ssids[devname])
                     elif nm.nm_device_type_is_bond(devname):
+                        devlist.append("%s (%s)" % (devname, ",".join(slaves[devname])))
+                    elif nm.nm_device_type_is_team(devname):
+                        devlist.append("%s (%s)" % (devname, ",".join(slaves[devname])))
+                    elif nm.nm_device_type_is_bridge(devname):
                         devlist.append("%s (%s)" % (devname, ",".join(slaves[devname])))
                     elif nm.nm_device_type_is_vlan(devname):
                         devlist.append("%s" % devname)
@@ -1127,3 +1395,40 @@ def status_message():
         msg = _("No network devices available")
 
     return msg
+
+def default_ks_vlan_interface_name(parent, vlanid):
+    return "%s.%s" % (parent, vlanid)
+
+def has_some_wired_autoconnect_device():
+    """Is there a wired network device with autoconnect?"""
+    for dev in nm.nm_devices():
+        if nm.nm_device_type_is_wifi(dev):
+            continue
+        try:
+            onboot = nm.nm_device_setting_value(dev, "connection", "autoconnect")
+        except nm.SettingsNotFoundError:
+            continue
+        # None means the setting was not found, which means NM is using
+        # default (True)
+        if onboot == True or onboot is None:
+            return True
+    return False
+
+def update_onboot_value(devname, value, ksdata):
+    """Update onboot value in ifcfg files and ksdata"""
+    log.debug("network: setting ONBOOT value of %s to %s", devname, value)
+    ifcfg_path = find_ifcfg_file_of_device(devname, root_path=iutil.getSysroot())
+    if not ifcfg_path:
+        log.debug("network: can't find ifcfg file of %s", devname)
+        return
+    ifcfg = IfcfgFile(ifcfg_path)
+    ifcfg.read()
+    ifcfg.set(('ONBOOT', 'yes'))
+    ifcfg.write()
+    for nd in ksdata.network.network:
+        if nd.device == devname:
+            nd.onboot = True
+            break
+
+def is_using_team_device():
+    return any(nm.nm_device_type_is_team(d) for d in nm.nm_devices())

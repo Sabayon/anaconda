@@ -18,27 +18,28 @@
 #
 
 from pyanaconda.installclass import BaseInstallClass
-from pyanaconda.i18n import N_
-
 from pyanaconda.sabayon import Entropy
+
 
 class InstallClass(BaseInstallClass):
 
     id = "sabayon_gnome"
-    name = N_("Sabayon GNOME Desktop")
+    name = "Sabayon GNOME Desktop"
     sortPriority = 10000
 
     _l10n_domain = "anaconda"
 
     efi_dir = "sabayon"
 
+    help_placeholder = "SabayonPlaceholder.html"
+    help_placeholder_with_links = "SabayonPlaceholderWithLinks.html"
+
     dmrc = "gnome"
     if Entropy().is_sabayon_steambox():
         dmrc = "steambox"
 
-    # check if GNOME is available on the system
     if not Entropy().is_installed("gnome-base/gnome-session"):
-        hidden = 1
+        hidden = True
 
     def configure(self, anaconda):
         BaseInstallClass.configure(self, anaconda)

@@ -20,17 +20,20 @@
 #
 from pyanaconda.ui.tui import simpleline as tui
 from pyanaconda.ui.tui.tuiobject import TUIObject, YesNoDialog
-from pyanaconda.ui.common import Spoke, StandaloneSpoke, NormalSpoke, PersonalizationSpoke, collect
+from pyanaconda.ui.common import Spoke, StandaloneSpoke, NormalSpoke
 from pyanaconda.users import validatePassword, cryptPassword
 import re
 from collections import namedtuple
 from pyanaconda.iutil import setdeepattr, getdeepattr
-from pyanaconda.i18n import _
-from pyanaconda.constants import PASSWORD_CONFIRM_ERROR_TUI
+from pyanaconda.i18n import N_, _
+from pyanaconda.constants import PASSWORD_CONFIRM_ERROR_TUI, PW_ASCII_CHARS
+from pyanaconda.constants import PASSWORD_WEAK, PASSWORD_WEAK_WITH_ERROR
 
-__all__ = ["TUISpoke", "EditTUISpoke", "EditTUIDialog", "EditTUISpokeEntry", "StandaloneSpoke", "NormalSpoke", "PersonalizationSpoke",
-           "collect_spokes", "collect_categories"]
+__all__ = ["TUISpoke", "EditTUISpoke", "EditTUIDialog", "EditTUISpokeEntry",
+           "StandaloneSpoke", "NormalTUISpoke"]
 
+# Inherit abstract methods from Spoke
+# pylint: disable=abstract-method
 class TUISpoke(TUIObject, tui.Widget, Spoke):
     """Base TUI Spoke class implementing the pyanaconda.ui.common.Spoke API.
     It also acts as a Widget so we can easily add it to Hub, where is shows
@@ -43,13 +46,15 @@ class TUISpoke(TUIObject, tui.Widget, Spoke):
     :type category: string
     """
 
-    title = _("Default spoke title")
-    category = u""
+    title = N_("Default spoke title")
 
     def __init__(self, app, data, storage, payload, instclass):
+        if self.__class__ is TUISpoke:
+            raise TypeError("TUISpoke is an abstract class")
+
         TUIObject.__init__(self, app, data)
         tui.Widget.__init__(self)
-        Spoke.__init__(self, data, storage, payload, instclass)
+        Spoke.__init__(self, storage, payload, instclass)
 
     @property
     def status(self):
@@ -73,13 +78,15 @@ class TUISpoke(TUIObject, tui.Widget, Spoke):
 
         if self.mandatory and not self.completed:
             key = "!"
-        else:
+        elif self.completed:
             key = "x"
+        else:
+            key = " "
 
         # always set completed = True here; otherwise key value won't be
         # displayed if completed (spoke value from above) is False
         c = tui.CheckboxWidget(key = key, completed = True,
-                               title = self.title, text = self.status)
+                               title = _(self.title), text = self.status)
         c.render(width)
         self.draw(c)
 
@@ -88,15 +95,25 @@ class NormalTUISpoke(TUISpoke, NormalSpoke):
 
 EditTUISpokeEntry = namedtuple("EditTUISpokeEntry", ["title", "attribute", "aux", "visible"])
 
+# Inherit abstract methods from NormalTUISpoke
+# pylint: disable=abstract-method
 class EditTUIDialog(NormalTUISpoke):
     """Spoke/dialog used to read new value of textual or password data"""
 
-    title = _("New value")
+    title = N_("New value")
     PASSWORD = re.compile(".*")
 
-    def __init__(self, app, data, storage, payload, instclass):
+    def __init__(self, app, data, storage, payload, instclass, policy_name=""):
+        if self.__class__ is EditTUIDialog:
+            raise TypeError("EditTUIDialog is an abstract class")
+
         NormalTUISpoke.__init__(self, app, data, storage, payload, instclass)
         self.value = None
+
+        # Configure the password policy, if available. Otherwise use defaults.
+        self.policy = self.data.anaconda.pwpolicy.get_policy(policy_name)
+        if not self.policy:
+            self.policy = self.data.anaconda.PwPolicyData()
 
     def refresh(self, args = None):
         self._window = []
@@ -119,23 +136,40 @@ class EditTUIDialog(NormalTUISpoke):
                 print(_(PASSWORD_CONFIRM_ERROR_TUI))
                 return None
 
-            valid, strength, message = validatePassword(pw, user=None)
+            # If an empty password was provided, unset the value
+            if not pw:
+                self.value = ""
+                return None
+
+            valid, strength, message = validatePassword(pw, user=None, minlen=self.policy.minlen)
 
             if not valid:
                 print(message)
                 return None
 
-            if strength < 50:
-                if message:
-                    error = _("You have provided a weak password: %s\n"
-                              "Would you like to use it anyway?") % message
+            if strength < self.policy.minquality:
+                if self.policy.strict:
+                    done_msg = ""
                 else:
-                    error = _("You have provided a weak password.\n"
-                              "Would you like to use it anyway?")
-                question_window = YesNoDialog(self._app, error)
-                self._app.switch_screen_modal(question_window)
-                if not question_window.answer:
+                    done_msg = _("\nWould you like to use it anyway?")
+
+                if message:
+                    error = _(PASSWORD_WEAK_WITH_ERROR) % (message, done_msg)
+                else:
+                    error = _(PASSWORD_WEAK) % done_msg
+
+                if not self.policy.strict:
+                    question_window = YesNoDialog(self._app, error)
+                    self._app.switch_screen_modal(question_window)
+                    if not question_window.answer:
+                        return None
+                else:
+                    print(error)
                     return None
+
+            if any(char not in PW_ASCII_CHARS for char in pw):
+                print(_("You have provided a password containing non-ASCII characters.\n"
+                        "You may not be able to switch between keyboard layouts to login.\n"))
 
             self.value = cryptPassword(pw)
             return None
@@ -148,6 +182,8 @@ class EditTUIDialog(NormalTUISpoke):
             self.close()
             return True
         else:
+            print(_("You have provided an invalid user name: %s\n"
+                    "Tip: Keep your user name shorter than 32 characters and do not use spaces.\n") % key)
             return NormalTUISpoke.input(self, entry, key)
 
 class OneShotEditTUIDialog(EditTUIDialog):
@@ -165,6 +201,8 @@ class OneShotEditTUIDialog(EditTUIDialog):
 
         return ret
 
+# Inherit abstract methods from NormalTUISpoke
+# pylint: disable=abstract-method
 class EditTUISpoke(NormalTUISpoke):
     """Spoke with declarative semantics, it contains
        a list of titles, attribute names and regexps
@@ -198,13 +236,32 @@ class EditTUISpoke(NormalTUISpoke):
     edit_fields = [
     ]
 
-    def __init__(self, app, data, storage, payload, instclass):
+    def __init__(self, app, data, storage, payload, instclass, policy_name=""):
+        if self.__class__ is EditTUISpoke:
+            raise TypeError("EditTUISpoke is an abstract class")
+
         NormalTUISpoke.__init__(self, app, data, storage, payload, instclass)
-        self.dialog = OneShotEditTUIDialog(app, data, storage, payload, instclass)
+        self.dialog = OneShotEditTUIDialog(app, data, storage, payload, instclass, policy_name=policy_name)
 
         # self.args should hold the object this Spoke is supposed
         # to edit
         self.args = None
+
+    @property
+    def visible_fields(self):
+        """Get the list of currently visible entries"""
+
+        # it would be nice to have this a static list, but visibility of the
+        # entries often depends on the current state of the spoke and thus
+        # changes dynamically
+        ret = []
+        for entry in self.edit_fields:
+            if callable(entry.visible) and entry.visible(self, self.args):
+                ret.append(entry)
+            elif not callable(entry.visible) and entry.visible:
+                ret.append(entry)
+
+        return ret
 
     def refresh(self, args = None):
         NormalTUISpoke.refresh(self, args)
@@ -241,12 +298,7 @@ class EditTUISpoke(NormalTUISpoke):
 
             return tui.ColumnWidget([(3, [number]), (None, [title, value])], 1)
 
-        for idx,entry in enumerate(self.edit_fields):
-            if callable(entry.visible) and not entry.visible(self, self.args):
-                continue
-            elif not callable(entry.visible) and not entry.visible:
-                continue
-
+        for idx, entry in enumerate(self.visible_fields):
             entry_type = entry.aux
             if entry_type == self.PASSWORD:
                 w = _prep_password(idx+1, entry)
@@ -262,16 +314,16 @@ class EditTUISpoke(NormalTUISpoke):
     def input(self, args, key):
         try:
             idx = int(key) - 1
-            if idx >= 0 and idx < len(self.edit_fields):
-                if self.edit_fields[idx].aux == self.CHECK:
-                    setdeepattr(self.args, self.edit_fields[idx].attribute,
-                                not getdeepattr(self.args, self.edit_fields[idx][1]))
+            if idx >= 0 and idx < len(self.visible_fields):
+                if self.visible_fields[idx].aux == self.CHECK:
+                    setdeepattr(self.args, self.visible_fields[idx].attribute,
+                                not getdeepattr(self.args, self.visible_fields[idx][1]))
                     self.app.redraw()
                     self.apply()
                 else:
-                    self.app.switch_screen_modal(self.dialog, self.edit_fields[idx])
+                    self.app.switch_screen_modal(self.dialog, self.visible_fields[idx])
                     if self.dialog.value is not None:
-                        setdeepattr(self.args, self.edit_fields[idx].attribute,
+                        setdeepattr(self.args, self.visible_fields[idx].attribute,
                                     self.dialog.value)
                         self.apply()
                 return True
@@ -282,24 +334,3 @@ class EditTUISpoke(NormalTUISpoke):
 
 class StandaloneTUISpoke(TUISpoke, StandaloneSpoke):
     pass
-
-class PersonalizationTUISpoke(TUISpoke, PersonalizationSpoke):
-    pass
-
-def collect_spokes(mask_paths, category):
-    """Return a list of all spoke subclasses that should appear for a given
-       category.
-    """
-    spokes = []
-    for mask, path in mask_paths:
-        spokes.extend(collect(mask, path, lambda obj: hasattr(obj, "category") and obj.category != None and obj.category == category))
-        
-    return spokes
-        
-def collect_categories(mask_paths):
-    classes = []
-    for mask, path in mask_paths:
-        classes.extend(collect(mask, path, lambda obj: hasattr(obj, "category") and obj.category != None and obj.category != ""))
-        
-    categories = set(c.category for c in classes)
-    return categories

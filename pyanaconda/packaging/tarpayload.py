@@ -36,9 +36,11 @@ except ImportError:
     log.error("import of tarfile failed")
     tarfile = None
 
-from pyanaconda.constants import ROOT_PATH
-from pyanaconda.packaging import ArchivePayload, PayloadError
+from pyanaconda.packaging import ArchivePayload, PayloadError, versionCmp
+from pyanaconda import iutil
 
+# TarPayload is not yet fully implemented
+# pylint: disable=abstract-method
 class TarPayload(ArchivePayload):
     """ A TarPayload unpacks a single tar archive onto the target system. """
     def __init__(self, data):
@@ -49,8 +51,8 @@ class TarPayload(ArchivePayload):
         self.archive = None
         self.image_file = None
 
-    def setup(self, storage):
-        super(TarPayload, self).setup(storage)
+    def setup(self, storage, instClass):
+        super(TarPayload, self).setup(storage, instClass)
 
         try:
             self.archive = tarfile.open(self.image_file)
@@ -58,6 +60,10 @@ class TarPayload(ArchivePayload):
             # maybe we only need to catch ReadError and CompressionError here
             log.error("opening tar archive %s: %s", self.image_file, e)
             raise PayloadError("invalid payload format")
+
+    def unsetup(self):
+        super(TarPayload, self).unsetup()
+        self.archive = None
 
     @property
     def requiredSpace(self):
@@ -67,12 +73,14 @@ class TarPayload(ArchivePayload):
     @property
     def kernelVersionList(self):
         names = self.archive.getnames()
-        kernels = [n for n in names if "boot/vmlinuz-" in n]
-        return kernels
+
+        # Strip out vmlinuz- from the names
+        return sorted((n.split("/")[-1][8:] for n in names if "boot/vmlinuz-" in n),
+                cmp=versionCmp)
 
     def install(self):
         try:
-            self.archive.extractall(path=ROOT_PATH)
+            self.archive.extractall(path=iutil.getSysroot())
         except (tarfile.ExtractError, tarfile.CompressionError) as e:
             log.error("extracting tar archive %s: %s", self.image_file, e)
 

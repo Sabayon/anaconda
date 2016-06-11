@@ -18,10 +18,9 @@
 # Author: David Cantrell <dcantrell@redhat.com>
 
 m4_define(python_required_version, 2.5)
-m4_ifndef([AM_SILENT_RULES], [m4_define([AM_SILENT_RULES],[])])
 
 AC_PREREQ([2.63])
-AC_INIT([anaconda], [20.27.10], [lxnay@sabayon.org])
+AC_INIT([anaconda], [22.20.13], [anaconda-devel-list@redhat.com])
 AM_INIT_AUTOMAKE([foreign no-dist-gzip dist-bzip2 tar-ustar])
 
 AC_CONFIG_HEADERS([config.h])
@@ -30,14 +29,14 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_DEFINE_UNQUOTED([BUILD_DATE], ["`date +%m%d%Y`"], [Date of anaconda build])
 AM_SILENT_RULES([yes]) # make --enable-silent-rules the default.
 
+AC_USE_SYSTEM_EXTENSIONS
+AC_SYS_LARGEFILE
+
 # Checks for programs.
-AC_PROG_AWK
-AC_PROG_GREP
 AC_PROG_CC
-AC_PROG_INSTALL
 AC_PROG_LN_S
-AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
+AC_PROG_MKDIR_P
 
 # Check for the intltool programs
 # These checks and subsitutions are adapted IT_PROG_INTLTOOL provided in
@@ -45,7 +44,7 @@ AC_PROG_LIBTOOL
 AC_PATH_PROG([INTLTOOL_EXTRACT], [intltool-extract])
 AC_PATH_PROG([INTLTOOL_MERGE], [intltool-merge])
 AS_IF([test -z "$INTLTOOL_EXTRACT" -o -z "$INTLTOOL_MERGE"],
-      [AC_MSG_ERROR([*** intltool not found])])
+      [ANACONDA_SOFT_FAILURE([intltool not found])])
 
 # Add the bits for Makefile rules
 INTLTOOL_V_MERGE='$(INTLTOOL__v_MERGE_$(V))'
@@ -65,141 +64,56 @@ INTLTOOL_DESKTOP_RULE='%.desktop:  %.desktop.in  $(INTLTOOL_MERGE) $(wildcard $(
 AC_SUBST(INTLTOOL_DESKTOP_RULE)
 
 AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.18.1])
-
-# Checks for libraries.
-AC_CHECK_LIB([X11], [XGetWindowAttributes],
-             [AC_SUBST(X11_LIBS, [-lX11])],
-             [AC_MSG_FAILURE([*** libX11 not usable.])])
-
-AC_CHECK_LIB([audit], [audit_open],
-             [AC_SUBST(AUDIT_LIBS, [-laudit])],
-             [AC_MSG_FAILURE([*** libaudit not usable.])])
-
-AC_CHECK_LIB([z], [zlibVersion],
-             [AC_SUBST(ZLIB_LIBS, [-lz])],
-             [AC_MSG_FAILURE([*** libz not usable.])])
+# Also update in gettextver in anaconda.spec.in
+AM_GNU_GETTEXT_VERSION([0.18.3])
 
 # Checks for header files.
-AC_PATH_X
-AC_FUNC_ALLOCA
-AC_HEADER_RESOLV
-AC_HEADER_MAJOR
-AC_CHECK_HEADERS([argz.h arpa/inet.h fcntl.h inttypes.h libintl.h limits.h \
-                  malloc.h netdb.h netinet/in.h stddef.h stdint.h stdlib.h \
-                  string.h strings.h sys/ioctl.h sys/mount.h sys/param.h \
-                  sys/socket.h sys/time.h sys/vfs.h syslog.h termios.h \
-                  unistd.h utime.h wchar.h],
+AC_CHECK_HEADERS([fcntl.h stdlib.h string.h sys/time.h unistd.h],
                  [],
-                 [AC_MSG_FAILURE([*** Header file $ac_header not found.])],
+                 [ANACONDA_SOFT_FAILURE([Header file $ac_header not found.])],
                  [])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_TYPE_UID_T
-AC_C_INLINE
-AC_TYPE_INT32_T
-AC_TYPE_MODE_T
-AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
-AC_CHECK_MEMBERS([struct stat.st_rdev])
-AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
-AC_TYPE_UINT64_T
-AC_TYPE_UINT8_T
 AC_TYPE_INT64_T
 
 # Checks for library functions.
-AC_FUNC_CHOWN
-AC_FUNC_ERROR_AT_LINE
 AC_FUNC_FORK
-AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
-AC_FUNC_MALLOC
-AC_FUNC_MMAP
-AC_FUNC_REALLOC
-AC_CHECK_FUNCS([dup2 fdatasync ftruncate getcwd gethostbyname gettimeofday \
-                lchown memmove memset mkdir mkfifo munmap realpath select \
-                setenv sethostname socket strcasecmp strchr strcspn strdup \
-                strerror strncasecmp strndup strrchr strstr strtol strtoul \
-                strverscmp uname utime wcwidth],
+AC_CHECK_FUNCS([getcwd memset mkdir strchr strdup],
                [],
-               [AC_MSG_FAILURE([*** Required function $ac_func not found.])])
+               [ANACONDA_SOFT_FAILURE([Function $ac_func not found.])])
+
+AC_CHECK_LIB([audit], [audit_open], [:],
+             [ANACONDA_SOFT_FAILURE([libaudit not found])])
 
 AM_PATH_PYTHON(python_required_version)
 
 # Check for the python extension paths
-PKG_CHECK_MODULES([PYTHON], [python-2.7], [
+PKG_CHECK_MODULES([PYTHON], [python], [
     LIBS_save="$LIBS"
     LIBS="$LIBS $PYTHON_LIBS"
     AC_MSG_CHECKING([Python libraries])
     AC_TRY_LINK_FUNC([Py_Initialize], 
                      [AC_MSG_RESULT([yes])], 
                      [AC_MSG_RESULT([no])
-                      AC_MSG_FAILURE([*** Unable to use python library])])
+                      ANACONDA_SOFT_FAILURE([Unable to use python library])])
     LIBS="$LIBS_save"
     ],
-    [AC_MSG_FAILURE([*** Unable to find python library])])
+    [ANACONDA_SOFT_FAILURE([Unable to find python library])])
 
 # Check for libraries we need that provide pkg-config scripts
-PKG_PROG_PKG_CONFIG([0.23])
-PKG_CHECK_MODULES([X11], [x11 >= 1.3])
-PKG_CHECK_MODULES([XCOMPOSITE], [xcomposite >= 0.4.1])
-PKG_CHECK_MODULES([GLIB], [glib-2.0 >= 2.16.1])
-PKG_CHECK_MODULES([GTK_X11], [gtk+-x11-3.0 >= 3.0])
-PKG_CHECK_MODULES([GDK], [gdk-3.0])
-PKG_CHECK_MODULES([NETWORKMANAGER], [NetworkManager >= 0.7.1])
-PKG_CHECK_MODULES([LIBNL], [libnl-1 >= 1.0])
-PKG_CHECK_MODULES([LIBNM_GLIB], [libnm-glib >= 0.7.1 libnm-util >= 0.7.1])
-PKG_CHECK_MODULES([RPM], [rpm >= 4.10.0])
-PKG_CHECK_MODULES([LIBARCHIVE], [libarchive >= 3.0.4])
-
-# NFS support can, in theory, be enabled or disabled
-AC_ARG_ENABLE(nfs,
-    AC_HELP_STRING([--enable-nfs],
-                   [enable NFS support (default is yes)]),
-    [nfs=$enableval],
-    [nfs=yes])
-
-# IPv6 support can be enabled or disabled
-AC_ARG_ENABLE(ipv6,
-    AC_HELP_STRING([--enable-ipv6],
-                   [enable IPv6 support (default is yes)]),
-    [ipv6=$enableval],
-    [ipv6=yes])
-if test x$ipv6 = xyes ; then
-    AC_SUBST(IPV6_CFLAGS, [-DENABLE_IPV6])
-fi
+ANACONDA_PKG_CHECK_MODULES([RPM], [rpm >= 4.10.0])
+ANACONDA_PKG_CHECK_MODULES([LIBARCHIVE], [libarchive >= 3.0.4])
 
 # GCC likes to bomb out on some ridiculous warnings.  Add your favorites
 # here.
 SHUT_UP_GCC="-Wno-unused-result"
 
 # Add remaining compiler flags we want to use
-CFLAGS="$CFLAGS -Wall -Werror $SHUT_UP_GCC -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
-
-# Filter CFLAGS (remove duplicate flags)
-cflags_filter() {
-    have=
-    first=1
-    for flag in $* ; do
-        if test -z "`echo $have | grep -- $flag`" ; then
-            if test x$first == x1 ; then
-                first=2
-            else
-                echo -n " "
-            fi
-            echo -n $flag
-            have="$have $flag"
-        fi
-    done
-}
-CFLAGS="`cflags_filter $CFLAGS`"
-
-# Unset $(LIBS) because different programs and libraries will have different
-# lists of libraries to link with, we don't want everything linking against
-# all libraries we checked for.
-LIBS=
+CFLAGS="$CFLAGS -Wall -Werror $SHUT_UP_GCC"
 
 # Get the release number from the spec file
 rel="`awk '/Release:/ { split($2, r, "%"); print r[[1]] }' $srcdir/anaconda.spec.in`"
@@ -210,7 +124,7 @@ AC_CANONICAL_BUILD
 s_arch="`echo $build_cpu | sed -e s/i.86/i386/ -e s/powerpc.*/ppc/`"
 
 AM_CONDITIONAL(IS_LIVEINST_ARCH,
-  [test x$s_arch = xppc || test x$s_arch = xi386 || test x$s_arch = xx86_64])
+  [test x$s_arch = xppc || test x$s_arch = xppc64 || test x$s_arch = xppc64le || test x$s_arch = xi386 || test x$s_arch = xx86_64])
 
 AC_CONFIG_SUBDIRS([widgets])
 
@@ -225,46 +139,33 @@ AC_CONFIG_FILES([Makefile
                  data/liveinst/console.apps/Makefile
                  data/liveinst/gnome/Makefile
                  data/liveinst/pam.d/Makefile
-                 data/pixmaps/Makefile
-                 data/pixmaps/rnotes/Makefile
-                 data/icons/Makefile
-                 data/icons/hicolor/Makefile
-                 data/icons/hicolor/16x16/Makefile
-                 data/icons/hicolor/16x16/apps/Makefile
-                 data/icons/hicolor/22x22/Makefile
-                 data/icons/hicolor/22x22/apps/Makefile
-                 data/icons/hicolor/24x24/Makefile
-                 data/icons/hicolor/24x24/apps/Makefile
-                 data/icons/hicolor/32x32/Makefile
-                 data/icons/hicolor/32x32/apps/Makefile
-                 data/icons/hicolor/48x48/Makefile
-                 data/icons/hicolor/48x48/apps/Makefile
-                 data/icons/hicolor/256x256/Makefile
-                 data/icons/hicolor/256x256/apps/Makefile
                  data/systemd/Makefile
+                 data/window-manager/Makefile
+                 data/window-manager/config/Makefile
+                 data/window-manager/theme/Makefile
                  po/Makefile.in
                  scripts/Makefile
                  pyanaconda/Makefile
+                 pyanaconda/version.py
                  pyanaconda/isys/Makefile
                  pyanaconda/packaging/Makefile
-                 pyanaconda/sabayon/Makefile
-                 pyanaconda/sabayon/quickinst/Makefile
                  pyanaconda/ui/Makefile
+                 pyanaconda/ui/categories/Makefile
                  pyanaconda/ui/lib/Makefile
-                 pyanaconda/ui/gui/categories/Makefile
                  pyanaconda/ui/gui/hubs/Makefile
                  pyanaconda/ui/gui/spokes/Makefile
                  pyanaconda/ui/gui/spokes/advstorage/Makefile
                  pyanaconda/ui/gui/spokes/lib/Makefile
-                 pyanaconda/ui/gui/tools/Makefile
                  pyanaconda/ui/gui/Makefile
                  pyanaconda/ui/tui/hubs/Makefile
                  pyanaconda/ui/tui/simpleline/Makefile
                  pyanaconda/ui/tui/spokes/Makefile
-                 pyanaconda/ui/tui/tools/Makefile
                  pyanaconda/ui/tui/Makefile
                  data/post-scripts/Makefile
                  tests/Makefile
                  utils/Makefile
                  utils/dd/Makefile])
 AC_OUTPUT
+
+# Gently advise the user about the build failures they are about to encounter
+ANACONDA_FAILURES

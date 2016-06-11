@@ -19,7 +19,7 @@
 # Red Hat Author(s): Martin Sivak <msivak@redhat.com>
 #
 
-from pyanaconda.i18n import _
+from pyanaconda.i18n import N_, _
 from pyanaconda.ui import common
 from pyanaconda.ui.tui import simpleline as tui
 from pyanaconda.constants_text import INPUT_PROCESSED
@@ -27,7 +27,7 @@ from pyanaconda.constants_text import INPUT_PROCESSED
 class ErrorDialog(tui.UIScreen):
     """Dialog screen for reporting errors to user."""
 
-    title = _("Error")
+    title = N_("Error")
 
     def __init__(self, app, message):
         """
@@ -58,7 +58,7 @@ class ErrorDialog(tui.UIScreen):
 class YesNoDialog(tui.UIScreen):
     """Dialog screen for Yes - No questions."""
 
-    title = _("Question")
+    title = N_("Question")
 
     def __init__(self, app, message):
         """
@@ -115,15 +115,6 @@ class TUIObject(tui.UIScreen, common.UIObject):
     @property
     def showable(self):
         return True
-
-    def teardown(self):
-        pass
-
-    def initialize(self):
-        """This method gets called whenever Hub or UserInterface prepares
-        all found objects for use. It is called only once and has no direct
-        connection to rendering."""
-        pass
 
     def refresh(self, args = None):
         """Put everything to display into self.window list."""

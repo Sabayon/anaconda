@@ -22,10 +22,11 @@
 
 
 from pyanaconda.flags import can_touch_runtime_system
+from pyanaconda.ui.categories.system import SystemCategory
 from pyanaconda.ui.tui.spokes import EditTUISpoke, OneShotEditTUIDialog
 from pyanaconda.ui.tui.spokes import EditTUISpokeEntry as Entry
 from pyanaconda.ui.tui.simpleline import TextWidget, ColumnWidget
-from pyanaconda.i18n import _
+from pyanaconda.i18n import N_, _
 from pyanaconda import network
 from pyanaconda import nm
 
@@ -39,8 +40,8 @@ __all__ = ["NetworkSpoke"]
 
 class NetworkSpoke(EditTUISpoke):
     """ Spoke used to configure network settings. """
-    title = _("Network settings")
-    category = "system"
+    title = N_("Network configuration")
+    category = SystemCategory
 
     def __init__(self, app, data, storage, payload, instclass):
         EditTUISpoke.__init__(self, app, data, storage, payload, instclass)
@@ -63,8 +64,19 @@ class NetworkSpoke(EditTUISpoke):
 
     @property
     def completed(self):
+        """ Check whether this spoke is complete or not. Do an additional
+            check if we're installing from CD/DVD, since a network connection
+            should not be required in this case.
+        """
         return (not can_touch_runtime_system("require network connection")
                 or nm.nm_activated_devices())
+
+    @property
+    def mandatory(self):
+        """ This spoke should only be necessary if we're using an installation
+            source that requires a network connection.
+        """
+        return self.data.method.method in ("url", "nfs")
 
     @property
     def status(self):
@@ -125,7 +137,7 @@ class NetworkSpoke(EditTUISpoke):
 
         summary = self._summary_text()
         self._window += [TextWidget(summary), ""]
-        hostname = _("Hostname: %s\n") % self.data.network.hostname
+        hostname = _("Host Name: %s\n") % self.data.network.hostname
         self._window += [TextWidget(hostname), ""]
 
         # if we have any errors, display them
@@ -137,7 +149,7 @@ class NetworkSpoke(EditTUISpoke):
             number = TextWidget("%2d)" % (i + 1))
             return ColumnWidget([(4, [number]), (None, [w])], 1)
 
-        _opts = [_("Set hostname")]
+        _opts = [_("Set host name")]
         for devname in self.supported_devices:
             _opts.append(_("Configure device %s") % devname)
         text = [TextWidget(o) for o in _opts]
@@ -158,7 +170,7 @@ class NetworkSpoke(EditTUISpoke):
 
         if num == 1:
             # set hostname
-            self.app.switch_screen_modal(self.hostname_dialog, Entry(_("Hostname"),
+            self.app.switch_screen_modal(self.hostname_dialog, Entry(_("Host Name"),
                                 "hostname", re.compile(".*$"), True))
             self.apply()
             return INPUT_PROCESSED
@@ -191,7 +203,7 @@ class NetworkSpoke(EditTUISpoke):
                 uuid = nm.nm_device_setting_value(devname, "connection", "uuid")
                 try:
                     nm.nm_activate_device_connection(devname, uuid)
-                except nm.UnmanagedDeviceError:
+                except (nm.UnmanagedDeviceError, nm.UnknownConnectionError):
                     self.errors.append(_("Can't apply configuration, device activation failed."))
 
             self.apply()
@@ -219,7 +231,7 @@ class NetworkSpoke(EditTUISpoke):
         if valid:
             hostname = self.hostname_dialog.value
         else:
-            self.errors.append(_("Hostname is not valid: %s") % error)
+            self.errors.append(_("Host name is not valid: %s") % error)
             self.hostname_dialog.value = hostname
         network.update_hostname_data(self.data, hostname)
 
@@ -243,21 +255,21 @@ class Fake_RE_IPV6(object):
 
 class ConfigureNetworkSpoke(EditTUISpoke):
     """ Spoke to set various configuration options for net devices. """
-    title = _("Device configuration")
+    title = N_("Device configuration")
     category = "network"
 
     edit_fields = [
-        Entry(_('IPv4 address or %s for DHCP') % '"dhcp"', "ip",
+        Entry(N_('IPv4 address or %s for DHCP') % '"dhcp"', "ip",
               re.compile("^" + IPV4_PATTERN_WITHOUT_ANCHORS + "|dhcp$"), True),
-        Entry(_("IPv4 netmask"), "netmask", re.compile("^" + IPV4_PATTERN_WITHOUT_ANCHORS + "$"), True),
-        Entry(_("IPv4 gateway"), "gateway", re.compile("^" + IPV4_PATTERN_WITHOUT_ANCHORS + "$"), True),
-        Entry(_('IPv6 address or %(auto)s for automatic, %(dhcp)s for DHCP, %(ignore)s to turn off')
+        Entry(N_("IPv4 netmask"), "netmask", re.compile("^" + IPV4_PATTERN_WITHOUT_ANCHORS + "$"), True),
+        Entry(N_("IPv4 gateway"), "gateway", re.compile("^" + IPV4_PATTERN_WITHOUT_ANCHORS + "$"), True),
+        Entry(N_('IPv6 address or %(auto)s for automatic, %(dhcp)s for DHCP, %(ignore)s to turn off')
               % {"auto": '"auto"', "dhcp": '"dhcp"', "ignore": '"ignore"'}, "ipv6",
               Fake_RE_IPV6(allow_prefix=True, whitelist=["auto", "dhcp", "ignore"]), True),
-        Entry(_("IPv6 default gateway"), "ipv6gateway", re.compile(".*$"), True),
-        Entry(_("Nameservers (comma separated)"), "nameserver", re.compile(".*$"), True),
-        Entry(_("Connect automatically after reboot"), "onboot", EditTUISpoke.CHECK, True),
-        Entry(_("Apply configuration in installer"), "_apply", EditTUISpoke.CHECK, True),
+        Entry(N_("IPv6 default gateway"), "ipv6gateway", re.compile(".*$"), True),
+        Entry(N_("Nameservers (comma separated)"), "nameserver", re.compile(".*$"), True),
+        Entry(N_("Connect automatically after reboot"), "onboot", EditTUISpoke.CHECK, True),
+        Entry(N_("Apply configuration in installer"), "_apply", EditTUISpoke.CHECK, True),
     ]
 
     def __init__(self, app, data, storage, payload, instclass, ndata):
@@ -272,7 +284,7 @@ class ConfigureNetworkSpoke(EditTUISpoke):
     def refresh(self, args=None):
         """ Refresh window. """
         EditTUISpoke.refresh(self, args)
-        message = _("Configuring device %s." % self.args.device)
+        message = _("Configuring device %s.") % self.args.device
         self._window += [TextWidget(message), ""]
         return True
 

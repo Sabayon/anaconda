@@ -8,15 +8,35 @@
 # to stdout and this script will exit with a status of 1, if no (non filtered)
 # warnings are found it exits with a status of 0
 
+if ! type parallel 2>&1 > /dev/null; then
+    echo "parallel must be installed"
+    exit 99
+fi
+
+# XDG_RUNTIME_DIR is "required" to be set, so make one up in case something
+# actually tries to do something with it
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    export XDG_RUNTIME_DIR="$(mktemp -d)"
+    trap "rm -rf \"$XDG_RUNTIME_DIR\"" EXIT
+fi
+
 # If $top_srcdir is set, assume this is being run from automake and we don't
 # need to keep a separate log
-pylint_log=0
+export pylint_log=0
 if [ -z "$top_srcdir" ]; then
-    pylint_log=1
+    export pylint_log=1
 fi
 
 # Unset TERM so that things that use readline don't output terminal garbage
 unset TERM
+
+# Don't try to connect to the accessibility socket
+export NO_AT_BRIDGE=1
+
+# Force the GDK backend to X11. Otherwise if no display can be found, Gdk
+# tries every backend type, which includes "broadway," which prints an error
+# and keeps changing the content of said error.
+export GDK_BACKEND=x11
 
 # If $top_srcdir has not been set by automake, import the test environment
 if [ -z "$top_srcdir" ]; then
@@ -24,40 +44,61 @@ if [ -z "$top_srcdir" ]; then
     . ${top_srcdir}/tests/testenv.sh
 fi
 
-srcdir="${top_srcdir}/tests/pylint"
+. ${top_srcdir}/tests/lib/testlib.sh
 
-FALSE_POSITIVES="${srcdir}"/pylint-false-positives
+srcdir="${top_srcdir}/tests/pylint"
+builddir="${top_builddir}/tests/pylint"
+
+# Need to add the pylint module directory to PYTHONPATH as well.
+export PYTHONPATH="${PYTHONPATH}:${srcdir}"
+
+# Save analysis data in the pylint directory
+export PYLINTHOME="${builddir}/.pylint.d"
+[ -d "$PYLINTHOME" ] || mkdir "$PYLINTHOME"
+
+export FALSE_POSITIVES="${srcdir}"/pylint-false-positives
 
 # W0212 - Access to a protected member %s of a client class
-NON_STRICT_OPTIONS="--disable=W0212"
+export NON_STRICT_OPTIONS="--disable=W0212"
 
 # E1103 - %s %r has no %r member (but some types could not be inferred)
-DISABLED_ERR_OPTIONS="--disable=E1103"
+export DISABLED_ERR_OPTIONS="--disable=E1103"
 
 # W0110 - map/filter on lambda could be replaced by comprehension
+# W0123 - Use of eval
 # W0141 - Used builtin function %r
 # W0142 - Used * or ** magic
-# W0223 - Method %r is abstract in class %r but is not overridden
 # W0511 - Used when a warning note as FIXME or XXX is detected.
 # W0603 - Using the global statement
-# W0604 - Using the global statement at the module level
 # W0613 - Unused argument %r
 # W0614 - Unused import %s from wildcard import
-DISABLED_WARN_OPTIONS="--disable=W0110,W0141,W0142,W0223,W0511,W0603,W0604,W0613,W0614"
+# I0011 - Locally disabling %s (i.e., pylint: disable)
+# I0012 - Locally enabling %s (i.e., pylint: enable)
+# I0013 - Ignoring entire file (i.e., pylint: skip-file)
+export DISABLED_WARN_OPTIONS="--disable=W0110,W0123,W0141,W0142,W0511,W0603,W0613,W0614,I0011,I0012,I0013"
+
+# string is about half-deprecated, so add it to the list of deprecated modules
+# and handle the valid cases with pragma comments.
+export EXTRA_OPTIONS="--deprecated-modules=string,regsub,TERMIOS,Bastion,rexec"
 
 usage () {
   echo "usage: `basename $0` [--strict] [--help] [files...]"
   exit $1
 }
 
+# Separate the module parameters from the files list
+ARGS=
 FILES=
 while [ $# -gt 0 ]; do
   case $1 in
     --strict)
-      NON_STRICT_OPTIONS=
+      export NON_STRICT_OPTIONS=
       ;;
     --help)
       usage 0
+      ;;
+    -*)
+      ARGS="$ARGS $1"
       ;;
     *)
       FILES=$@
@@ -66,58 +107,29 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-if [ "`tail -c 1 $FALSE_POSITIVES`" == "`echo`" ]; then
-  echo "Error $FALSE_POSITIVES ends with an enter."
-  echo "Error the last line of $FALSE_POSITIVES should never have an enter!"
-  exit 1
-fi
-
 exit_status=0
-if [ "$pylint_log" -ne 0 ]; then
-    > pylint-log
+
+if [ -s pylint-log ]; then
+    rm pylint-log
 fi
 
 # run pylint one file / module at a time, otherwise it sometimes gets
 # confused
 if [ -z "$FILES" ]; then
-    # Find any file in the list of directories that either ends in .py
-    # or contains #!/usr/bin/python in the first line.
-    FILES="$(find "${top_srcdir}"/{anaconda,pyanaconda,tests,widgets,utils,scripts} -type f \( -name '*.py' -o -exec awk -e 'NR==1 { if ($0 ~ /^#!\/usr\/bin\/python/) exit 0; else exit 1; }' -e 'END { if (NR == 0) exit 1; }' {} \; \) -print)"
+    # Test any file that either ends in .py or contains #!/usr/bin/python2 in
+    # the first line.  Scan everything except old_tests
+    FILES=$(findtestfiles \( -name '*.py' -o \
+                -exec /bin/sh -c "head -1 {} | grep -q '#!/usr/bin/python2'" \; \) -print | \
+            egrep -v '(|/)old_tests/')
 fi
-for i in $FILES; do
-  pylint_output="$(pylint \
-    --msg-template='{msg_id}:{line:3d},{column}: {obj}: {msg}' \
-    -r n --disable=C,R --rcfile=/dev/null \
-    --dummy-variables-rgx=_ \
-    --ignored-classes=DefaultInstall,Popen,QueueFactory,TransactionSet \
-    --defining-attr-methods=__init__,_grabObjects,initialize,reset,start,setUp \
-    $DISABLED_WARN_OPTIONS \
-    $DISABLED_ERR_OPTIONS \
-    $NON_STRICT_OPTIONS $i | \
-    egrep -v "$(tr '\n' '|' < "$FALSE_POSITIVES") \
-    ")"
-  # I0011 is the informational "Locally disabling ...." message
-  if [ -n "$(echo "$pylint_output" | fgrep -v '************* Module ' |\
-          grep -v '^I0011:')" ]; then
-      # Replace the Module line with the actual filename
-      pylint_output="$(echo "$pylint_output" | sed "s|\* Module .*|* Module $i|")"
 
-      if [ "$pylint_log" -ne 0 ]; then
-          echo "$pylint_output" >> pylint-log
-      else
-          echo "$pylint_output"
-      fi
-      exit_status=1
-  fi
-done
+# run pylint in paralel
+output=$(echo -n $FILES | parallel --no-notice -d' ' --gnu "$srcdir"/pylint-one.sh $ARGS {})
+exit_status=$?
 
-if [ "$pylint_log" -ne 0 ]; then
-    if [ -s pylint-log ]; then
-        echo "pylint reports the following issues:"
-        cat pylint-log
-    else
-        rm pylint-log
-    fi
+if [ "$output" != '\n' -a "$output" != "" ]; then
+    echo "pylint reports the following issues:"
+    echo "$output" | tee pylint-log
 fi
 
 exit "$exit_status"

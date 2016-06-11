@@ -18,8 +18,9 @@
 #
 # Red Hat Author(s): David Lehman <dlehman@redhat.com>
 #
-
+import os
 from blivet.size import Size
+from pyanaconda import iutil
 
 from pyanaconda.i18n import _, N_
 
@@ -28,12 +29,12 @@ log = logging.getLogger("anaconda")
 
 class FileSystemSpaceChecker(object):
     """This object provides for a way to verify that enough space is available
-       on configured filesystems to support the current software selections.
+       on configured file systems to support the current software selections.
        It is run as part of completeness checking every time a spoke changes,
        therefore moving this step up out of both the storage and software
        spokes.
     """
-    error_template = N_("Not enough space in filesystems for the current "
+    error_template = N_("Not enough space in file systems for the current "
                         "software selection. An additional %s is needed.")
 
     def __init__(self, storage, payload):
@@ -54,7 +55,7 @@ class FileSystemSpaceChecker(object):
            check again.
         """
         self.success = False
-        self.deficit = Size(bytes=0)
+        self.deficit = Size(0)
         self.error_message = ""
 
     def check(self):
@@ -65,13 +66,44 @@ class FileSystemSpaceChecker(object):
            success       -- A simple boolean defining whether there's enough
                             space or not.
            deficit       -- If unsuccessful, how much space the system is
-                            short for current software selections (in MB).
+                            short for current software selections.
            error_message -- If unsuccessful, an error message describing the
                             situation.  This message is suitable for putting
                             in the info bar at the bottom of a Hub.
         """
         self.reset()
-        free = Size(spec="%.2f MB" % self.storage.fileSystemFreeSpace)
+        free = Size(self.storage.fileSystemFreeSpace)
+        needed = self.payload.spaceRequired
+        log.info("fs space: %s  needed: %s", free, needed)
+        self.success = (free >= needed)
+        if not self.success:
+            self.deficit = needed - free
+            self.error_message = _(self.error_template) % self.deficit
+
+        return self.success
+
+class DirInstallSpaceChecker(FileSystemSpaceChecker):
+    """Use the amount of space available at ROOT_PATH to calculate free space.
+
+    This is used for the --dirinstall option where no storage is mounted and it
+    is using space from the host's filesystem.
+    """
+    def check(self):
+        """Check configured storage against software selections.  When this
+           method is complete (which should be pretty quickly), the following
+           attributes are available for inspection:
+
+           success       -- A simple boolean defining whether there's enough
+                            space or not.
+           deficit       -- If unsuccessful, how much space the system is
+                            short for current software selections.
+           error_message -- If unsuccessful, an error message describing the
+                            situation.  This message is suitable for putting
+                            in the info bar at the bottom of a Hub.
+        """
+        self.reset()
+        stat = iutil.eintr_retry_call(os.statvfs, iutil.getSysroot())
+        free = Size(stat.f_bsize * stat.f_bfree)
         needed = self.payload.spaceRequired
         log.info("fs space: %s  needed: %s", free, needed)
         self.success = (free >= needed)

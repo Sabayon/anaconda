@@ -24,10 +24,11 @@ screens handling languages or locales configuration.
 
 """
 
+import os
 from gi.repository import Gtk, Pango
 from pyanaconda import localization
 from pyanaconda.iutil import strip_accents
-from pyanaconda.ui.gui.utils import set_treeview_selection, get_default_widget_direction
+from pyanaconda.ui.gui.utils import set_treeview_selection, timed_action, override_cell_property
 
 class LangLocaleHandler(object):
     """
@@ -54,12 +55,11 @@ class LangLocaleHandler(object):
 
     def initialize(self):
         # Render an arrow for the chosen language
-        if get_default_widget_direction() == Gtk.TextDirection.LTR:
-            self._arrow = Gtk.Image.new_from_file("/usr/share/anaconda/pixmaps/right-arrow-icon.png")
-        else:
-            self._arrow = Gtk.Image.new_from_file("/usr/share/anaconda/pixmaps/left-arrow-icon.png")
-        self._langSelectedColumn.set_cell_data_func(self._langSelectedRenderer,
-                                                    self._render_lang_selected)
+        datadir = os.environ.get("ANACONDA_WIDGETS_DATADIR", "/usr/share/anaconda")
+        self._right_arrow = Gtk.Image.new_from_file(os.path.join(datadir, "pixmaps", "right-arrow-icon.png"))
+        self._left_arrow = Gtk.Image.new_from_file(os.path.join(datadir, "pixmaps", "left-arrow-icon.png"))
+        override_cell_property(self._langSelectedColumn, self._langSelectedRenderer,
+                               "pixbuf", self._render_lang_selected)
 
         # fill the list with available translations
         for lang in localization.get_available_translations():
@@ -85,9 +85,13 @@ class LangLocaleHandler(object):
 
         # Otherwise, filter the list showing only what is matched by the
         # text entry.  Either the English or native names can match.
-        lowered = entry.lower()
-        translit = strip_accents(unicode(native, "utf-8")).lower()
-        if lowered in native.lower() or lowered in english.lower() or lowered in translit:
+        # Convert strings to unicode so lower() works.
+        lowered = entry.decode('utf-8').lower()
+        native = native.decode('utf-8').lower()
+        english = english.decode('utf-8').lower()
+        translit = strip_accents(native).lower()
+
+        if lowered in native or lowered in english or lowered in translit:
             return True
         else:
             return False
@@ -95,10 +99,15 @@ class LangLocaleHandler(object):
     def _render_lang_selected(self, column, renderer, model, itr, user_data=None):
         (lang_store, sel_itr) = self._langSelection.get_selected()
 
-        if sel_itr and lang_store[sel_itr][2] == model[itr][2]:
-            renderer.set_property("pixbuf", self._arrow.get_pixbuf())
+        if Gtk.get_locale_direction() == Gtk.TextDirection.LTR:
+            _arrow = self._right_arrow
         else:
-            renderer.set_property("pixbuf", None)
+            _arrow = self._left_arrow
+
+        if sel_itr and lang_store[sel_itr][2] == model[itr][2]:
+            return _arrow.get_pixbuf()
+        else:
+            return None
 
     def _add_language(self, store, native, english, lang):
         """Override this method with a valid implementation"""
@@ -161,6 +170,7 @@ class LangLocaleHandler(object):
         if icon_pos == Gtk.EntryIconPosition.SECONDARY:
             entry.set_text("")
 
+    @timed_action()
     def on_entry_changed(self, *args):
         self._languageStoreFilter.refilter()
 

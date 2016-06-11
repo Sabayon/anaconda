@@ -20,22 +20,23 @@
 
 """Text mode shell spoke"""
 
+from pyanaconda.ui.categories.system import SystemCategory
 from pyanaconda.ui.tui.spokes import NormalTUISpoke
 from pyanaconda.ui.tui.simpleline.widgets import TextWidget
-from pyanaconda.i18n import _
+from pyanaconda.i18n import N_, _
 from pyanaconda.constants import ANACONDA_ENVIRON
+from pyanaconda.flags import flags
+from pyanaconda.iutil import execConsole
 from blivet import arch
 
-import subprocess
-
 class ShellSpoke(NormalTUISpoke):
-    title = _("Shell")
-    category = "system"
+    title = N_("Shell")
+    category = SystemCategory
 
     @classmethod
     def should_run(cls, environment, data):
         # run only in the installer on s390(x) machines
-        return environment == ANACONDA_ENVIRON and arch.isS390()
+        return flags.debug or (environment == ANACONDA_ENVIRON and arch.isS390())
 
     @property
     def completed(self):
@@ -57,8 +58,7 @@ class ShellSpoke(NormalTUISpoke):
 
     def prompt(self, args=None):
         # run shell instead of printing prompt and close window on shell exit
-        proc = subprocess.Popen(["bash", "--login"], shell=True, cwd="/")
-        proc.wait()
+        execConsole()
         self.close()
 
         # suppress the prompt

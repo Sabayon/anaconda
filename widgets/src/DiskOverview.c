@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2013  Red Hat, Inc.
+ * Copyright (C) 2011-2014  Red Hat, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,12 +17,16 @@
  * Author: Chris Lumens <clumens@redhat.com>
  */
 
+#include "config.h"
+
+#include <atk/atk.h>
 #include <gdk/gdk.h>
 #include <gio/gio.h>
 #include <string.h>
 
 #include "DiskOverview.h"
 #include "intl.h"
+#include "widgets-common.h"
 
 /**
  * SECTION: DiskOverview
@@ -56,7 +60,7 @@ enum {
 #define DEFAULT_NAME          ""
 #define DEFAULT_POPUP_INFO    ""
 
-#define ICON_SIZE             128
+#define ICON_SIZE             48
 
 struct _AnacondaDiskOverviewPrivate {
     GtkWidget *grid;
@@ -80,7 +84,7 @@ static void anaconda_disk_overview_set_property(GObject *object, guint prop_id, 
 static void anaconda_disk_overview_toggle_background(AnacondaDiskOverview *widget);
 
 static void anaconda_disk_overview_realize(GtkWidget *widget, gpointer user_data);
-static void anaconda_disk_overview_finalize(AnacondaDiskOverview *widget);
+static void anaconda_disk_overview_finalize(GObject *object);
 
 static gboolean anaconda_disk_overview_focus_changed(GtkWidget *widget, GdkEventFocus *event, gpointer user_data);
 
@@ -89,7 +93,7 @@ static void anaconda_disk_overview_class_init(AnacondaDiskOverviewClass *klass) 
 
     object_class->set_property = anaconda_disk_overview_set_property;
     object_class->get_property = anaconda_disk_overview_get_property;
-    object_class->finalize = (GObjectFinalizeFunc) anaconda_disk_overview_finalize;
+    object_class->finalize = anaconda_disk_overview_finalize;
 
     /**
      * AnacondaDiskOverview:kind:
@@ -210,6 +214,7 @@ static void set_icon(AnacondaDiskOverview *widget, const char *icon_name) {
     GError *err = NULL;
     GIcon *base_icon, *emblem_icon, *icon;
     GEmblem *emblem = NULL;
+    gchar *file;
 
     if (!icon_name)
         return;
@@ -225,7 +230,9 @@ static void set_icon(AnacondaDiskOverview *widget, const char *icon_name) {
             return;
         }
 
-        emblem_icon = g_icon_new_for_string("/usr/share/anaconda/pixmaps/anaconda-selected-icon.svg", &err);
+        file = g_strdup_printf("%s/pixmaps/anaconda-selected-icon.svg", anaconda_get_widgets_datadir());
+        emblem_icon = g_icon_new_for_string(file, &err);
+        g_free(file);
         if (!emblem_icon) {
             fprintf(stderr, "could not create emblem: %s\n", err->message);
             g_error_free(err);
@@ -252,6 +259,8 @@ static void set_icon(AnacondaDiskOverview *widget, const char *icon_name) {
 
 /* Initialize the widgets in a newly allocated DiskOverview. */
 static void anaconda_disk_overview_init(AnacondaDiskOverview *widget) {
+    AtkObject *atk;
+    AtkRole role;
     char *markup;
 
     widget->priv = G_TYPE_INSTANCE_GET_PRIVATE(widget,
@@ -266,7 +275,7 @@ static void anaconda_disk_overview_init(AnacondaDiskOverview *widget) {
     g_signal_connect(widget, "focus-out-event", G_CALLBACK(anaconda_disk_overview_focus_changed), NULL);
 
     /* Set "hand" cursor shape when over the selector */
-    widget->priv->cursor = gdk_cursor_new(GDK_HAND2);
+    widget->priv->cursor = gdk_cursor_new_for_display(gdk_display_get_default(), GDK_HAND2);
     g_signal_connect(widget, "realize", G_CALLBACK(anaconda_disk_overview_realize), NULL);
 
     /* Set some properties. */
@@ -274,7 +283,7 @@ static void anaconda_disk_overview_init(AnacondaDiskOverview *widget) {
 
     /* Create the grid. */
     widget->priv->grid = gtk_grid_new();
-    gtk_grid_set_row_spacing(GTK_GRID(widget->priv->grid), 6);
+    gtk_grid_set_row_spacing(GTK_GRID(widget->priv->grid), 2);
     gtk_grid_set_column_spacing(GTK_GRID(widget->priv->grid), 6);
     gtk_container_set_border_width(GTK_CONTAINER(widget->priv->grid), 6);
 
@@ -319,6 +328,15 @@ static void anaconda_disk_overview_init(AnacondaDiskOverview *widget) {
 
     /* And this one is to handle when you select a DiskOverview via keyboard. */
     g_signal_connect(widget, "key-release-event", G_CALLBACK(anaconda_disk_overview_clicked), NULL);
+
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+    /* No existing role is appropriate for this, so ignore the warning raised
+       by registering a new role. */
+    role = atk_role_register("disk overview");
+G_GNUC_END_IGNORE_DEPRECATIONS
+
+    atk = gtk_widget_get_accessible(GTK_WIDGET(widget));
+    atk_object_set_role(atk, role);
 }
 
 gboolean anaconda_disk_overview_clicked(AnacondaDiskOverview *widget, GdkEvent *event) {
@@ -345,8 +363,11 @@ static void anaconda_disk_overview_toggle_background(AnacondaDiskOverview *widge
     gtk_widget_show(widget->priv->kind_icon);
 }
 
-static void anaconda_disk_overview_finalize(AnacondaDiskOverview *widget) {
+static void anaconda_disk_overview_finalize(GObject *object) {
+    AnacondaDiskOverview *widget = ANACONDA_DISK_OVERVIEW(object);
     g_object_unref(widget->priv->cursor);
+
+    G_OBJECT_CLASS(anaconda_disk_overview_parent_class)->finalize(object);
 }
 
 static void anaconda_disk_overview_realize(GtkWidget *widget, gpointer user_data) {
@@ -395,6 +416,7 @@ static void anaconda_disk_overview_set_property(GObject *object, guint prop_id, 
             char *markup = g_markup_printf_escaped("<span weight='bold' size='large'>%s</span>", g_value_get_string(value));
             gtk_label_set_markup(GTK_LABEL(priv->description_label), markup);
             g_free(markup);
+            gtk_label_set_justify(GTK_LABEL(priv->description_label), GTK_JUSTIFY_CENTER);
             break;
         }
 
@@ -472,9 +494,9 @@ void anaconda_disk_overview_set_chosen(AnacondaDiskOverview *widget, gboolean is
 static gboolean anaconda_disk_overview_focus_changed(GtkWidget *widget, GdkEventFocus *event, gpointer user_data) {
     GtkStateFlags new_state;
 
-    new_state = gtk_widget_get_state_flags(widget) & ~GTK_STATE_FOCUSED;
+    new_state = gtk_widget_get_state_flags(widget) & ~GTK_STATE_FLAG_SELECTED;
     if (event->in)
-        new_state |= GTK_STATE_FOCUSED;
+        new_state |= GTK_STATE_FLAG_SELECTED;
     gtk_widget_set_state_flags(widget, new_state, TRUE);
 
     return FALSE;

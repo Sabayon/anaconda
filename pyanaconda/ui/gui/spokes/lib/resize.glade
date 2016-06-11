@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
 <interface>
-  <!-- interface-requires gtk+ 3.0 -->
+  <requires lib="gtk+" version="3.0"/>
   <object class="GtkTreeStore" id="diskStore">
     <columns>
       <!-- column-name diskID -->
@@ -15,10 +16,12 @@
       <column type="gchararray"/>
       <!-- column-name diskEditable -->
       <column type="gboolean"/>
+      <!-- column-name diskType -->
+      <column type="gint"/>
       <!-- column-name diskTooltip -->
       <column type="gchararray"/>
       <!-- column-name diskResizeTarget -->
-      <column type="gfloat"/>
+      <column type="guint64"/>
       <!-- column-name diskName -->
       <column type="gchararray"/>
     </columns>
@@ -48,11 +51,11 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="cancelButton">
-                <property name="label">gtk-cancel</property>
+                <property name="label" translatable="yes" context="GUI|Reclaim Dialog">_Cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -63,7 +66,7 @@
             </child>
             <child>
               <object class="GtkButton" id="resizeButton">
-                <property name="label" translatable="yes">_Reclaim space</property>
+                <property name="label" translatable="yes" context="GUI|Reclaim Dialog">_Reclaim space</property>
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="can_focus">True</property>
@@ -160,14 +163,14 @@
                         <child>
                           <object class="GtkCellRendererText" id="nameRenderer"/>
                           <attributes>
-                            <attribute name="text">8</attribute>
+                            <attribute name="text">9</attribute>
                           </attributes>
                         </child>
                       </object>
                     </child>
                     <child>
                       <object class="GtkTreeViewColumn" id="fsColumn">
-                        <property name="title" translatable="yes">Filesystem</property>
+                        <property name="title" translatable="yes">File System</property>
                         <child>
                           <object class="GtkCellRendererText" id="fsRenderer"/>
                           <attributes>
@@ -193,7 +196,6 @@
                         <child>
                           <object class="GtkCellRendererText" id="actionRenderer"/>
                           <attributes>
-                            <attribute name="visible">5</attribute>
                             <attribute name="text">4</attribute>
                           </attributes>
                         </child>
@@ -215,7 +217,7 @@
                 <property name="margin_top">6</property>
                 <child>
                   <object class="GtkButton" id="preserveButton">
-                    <property name="label" translatable="yes">_Preserve</property>
+                    <property name="label" translatable="yes" context="GUI|Reclaim Dialog">_Preserve</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -231,7 +233,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="deleteButton">
-                    <property name="label" translatable="yes">_Delete</property>
+                    <property name="label" translatable="yes" context="GUI|Reclaim Dialog">_Delete</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -247,7 +249,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="shrinkButton">
-                    <property name="label" translatable="yes">_Shrink</property>
+                    <property name="label" translatable="yes" context="GUI|Reclaim Dialog">_Shrink</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -263,7 +265,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="deleteAllButton">
-                    <property name="label" translatable="yes">Delete _all</property>
+                    <property name="label" translatable="yes" context="GUI|Reclaim Dialog">Delete _all</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -307,7 +309,7 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="margin_bottom">6</property>
-                <property name="label">&lt;b&gt;%s disks; %s reclaimable space&lt;/b&gt; (in filesystems)</property>
+                <property name="label">&lt;b&gt;%s disks; %s reclaimable space&lt;/b&gt; (in file systems)</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
@@ -357,7 +359,12 @@
     </child>
     <action-widgets>
       <action-widget response="0">cancelButton</action-widget>
-      <action-widget response="2">resizeButton</action-widget>
+      <action-widget response="1">resizeButton</action-widget>
     </action-widgets>
+    <child internal-child="accessible">
+      <object class="AtkObject" id="resizeDialog-atkobject">
+        <property name="AtkObject::accessible-name" translatable="yes">Reclaim</property>
+      </object>
+    </child>
   </object>
 </interface>

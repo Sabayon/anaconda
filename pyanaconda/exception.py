@@ -24,20 +24,23 @@
 from meh import Config
 from meh.handler import ExceptionHandler
 from meh.dump import ReverseExceptionDump
-from pyanaconda import isys, iutil, kickstart
+from pyanaconda import iutil, kickstart
 import sys
 import os
 import shutil
-import signal
 import time
 import re
 import errno
+import glob
+import traceback
 import blivet.errors
+from pyanaconda.errors import CmdlineError
 from pyanaconda.ui.communication import hubQ
-from pyanaconda.constants import ROOT_PATH, THREAD_EXCEPTION_HANDLING_TEST
+from pyanaconda.constants import THREAD_EXCEPTION_HANDLING_TEST, IPMI_FAILED
 from pyanaconda.threads import threadMgr
 from pyanaconda.i18n import _
 from pyanaconda import flags
+from pyanaconda import startup_utils
 
 from gi.repository import GLib
 
@@ -46,7 +49,7 @@ log = logging.getLogger("anaconda")
 
 class AnacondaExceptionHandler(ExceptionHandler):
 
-    def __init__(self, confObj, intfClass, exnClass, tty_num):
+    def __init__(self, confObj, intfClass, exnClass, tty_num, gui_lock, interactive):
         """
         :see: python-meh's ExceptionHandler
         :param tty_num: the number of tty the interface is running on
@@ -54,9 +57,11 @@ class AnacondaExceptionHandler(ExceptionHandler):
         """
 
         ExceptionHandler.__init__(self, confObj, intfClass, exnClass)
+        self._gui_lock = gui_lock
         self._intf_tty_num = tty_num
+        self._interactive = interactive
 
-    def run_handleException(self, dump_info):
+    def _main_loop_handleException(self, dump_info):
         """
         Helper method with one argument only so that it can be registered
         with GLib.idle_add() to run on idle or called from a handler.
@@ -64,21 +69,6 @@ class AnacondaExceptionHandler(ExceptionHandler):
         :type dump_info: an instance of the meh.DumpInfo class
 
         """
-
-        super(AnacondaExceptionHandler, self).handleException(dump_info)
-        return False
-
-    def handleException(self, dump_info):
-        """
-        Our own handleException method doing some additional stuff before
-        calling the original python-meh's one.
-
-        :type dump_info: an instance of the meh.DumpInfo class
-        :see: python-meh's ExceptionHandler.handleException
-
-        """
-
-        log.debug("running handleException")
 
         ty = dump_info.exc_info.type
         value = dump_info.exc_info.value
@@ -93,87 +83,122 @@ class AnacondaExceptionHandler(ExceptionHandler):
             self.intf.messageWindow(_("Hardware error occured"), hw_error_msg)
             sys.exit(0)
         else:
-            try:
-                from gi.repository import Gtk
+            super(AnacondaExceptionHandler, self).handleException(dump_info)
+            return False
 
-                # XXX: Gtk stopped raising RuntimeError if it fails to
-                # initialize. Horay! But will it stay like this? Let's be
-                # cautious and raise the exception on our own to work in both
-                # cases
-                initialized = Gtk.init_check(None)[0]
-                if not initialized:
-                    raise RuntimeError()
+    def handleException(self, dump_info):
+        """
+        Our own handleException method doing some additional stuff before
+        calling the original python-meh's one.
 
-                if Gtk.main_level() > 0:
-                    # main loop is running, don't crash it by running another one
-                    # potentially from a different thread
-                    log.debug("Gtk running, queuing exception handler to the "
-                             "main loop")
-                    GLib.idle_add(self.run_handleException, dump_info)
+        :type dump_info: an instance of the meh.DumpInfo class
+        :see: python-meh's ExceptionHandler.handleException
+
+        """
+
+        log.debug("running handleException")
+        exception_lines = traceback.format_exception(*dump_info.exc_info)
+        log.critical("\n".join(exception_lines))
+
+        ty = dump_info.exc_info.type
+        value = dump_info.exc_info.value
+
+        try:
+            from gi.repository import Gtk
+
+            # XXX: Gtk stopped raising RuntimeError if it fails to
+            # initialize. Horay! But will it stay like this? Let's be
+            # cautious and raise the exception on our own to work in both
+            # cases
+            initialized = Gtk.init_check(None)[0]
+            if not initialized:
+                raise RuntimeError()
+
+            # Attempt to grab the GUI initializing lock, do not block
+            if not self._gui_lock.acquire(False):
+                # the graphical interface is running, don't crash it by
+                # running another one potentially from a different thread
+                log.debug("Gtk running, queuing exception handler to the "
+                         "main loop")
+                GLib.idle_add(self._main_loop_handleException, dump_info)
+            else:
+                log.debug("Gtk not running, starting Gtk and running "
+                         "exception handler in it")
+                self._main_loop_handleException(dump_info)
+
+        except (RuntimeError, ImportError):
+            log.debug("Gtk cannot be initialized")
+            # X not running (Gtk cannot be initialized)
+            if threadMgr.in_main_thread():
+                log.debug("In the main thread, running exception handler")
+                if issubclass(ty, CmdlineError) or not self._interactive:
+                    if issubclass(ty, CmdlineError):
+                        cmdline_error_msg = _("\nThe installation was stopped due to "
+                                              "incomplete spokes detected while running "
+                                              "in non-interactive cmdline mode. Since there "
+                                              "cannot be any questions in cmdline mode, "
+                                              "edit your kickstart file and retry "
+                                              "installation.\nThe exact error message is: "
+                                              "\n\n%s.\n\nThe installer will now terminate.") % str(value)
+                    else:
+                        cmdline_error_msg = _("\nRunning in cmdline mode, no interactive debugging "
+                                              "allowed.\nThe exact error message is: "
+                                              "\n\n%s.\n\nThe installer will now terminate.") % str(value)
+
+                    # since there is no UI in cmdline mode and it is completely
+                    # non-interactive, we can't show a message window asking the user
+                    # to acknowledge the error; instead, print the error out and sleep
+                    # for a few seconds before exiting the installer
+                    print(cmdline_error_msg)
+                    time.sleep(10)
+                    sys.exit(1)
                 else:
-                    log.debug("Gtk not running, starting Gtk and running "
-                             "exception handler in it")
-                    super(AnacondaExceptionHandler, self).handleException(
-                                                            dump_info)
-
-            except RuntimeError:
-                log.debug("Gtk cannot be initialized")
-                # X not running (Gtk cannot be initialized)
-                if threadMgr.in_main_thread():
-                    log.debug("In the main thread, running exception handler")
-                    print "An unknown error has occured, look at the "\
-                        "/tmp/anaconda-tb* file(s) for more details"
+                    print("\nAn unknown error has occured, look at the "
+                           "/tmp/anaconda-tb* file(s) for more details")
                     # in the main thread, run exception handler
-                    super(AnacondaExceptionHandler, self).handleException(
-                                                            dump_info)
-                else:
-                    log.debug("In a non-main thread, sending a message with "
-                             "exception data")
-                    # not in the main thread, just send message with exception
-                    # data and let message handler run the exception handler in
-                    # the main thread
-                    exc_info = dump_info.exc_info
-                    hubQ.send_exception((exc_info.type,
-                                         exc_info.value,
-                                         exc_info.stack))
+                    self._main_loop_handleException(dump_info)
+            else:
+                log.debug("In a non-main thread, sending a message with "
+                         "exception data")
+                # not in the main thread, just send message with exception
+                # data and let message handler run the exception handler in
+                # the main thread
+                exc_info = dump_info.exc_info
+                hubQ.send_exception((exc_info.type,
+                                     exc_info.value,
+                                     exc_info.stack))
 
     def postWriteHook(self, dump_info):
         anaconda = dump_info.object
 
-        # See if /mnt/sysimage is present and put exception there as well
-        if os.access("/mnt/sysimage/root", os.X_OK):
+        # See if there is a /root present in the root path and put exception there as well
+        if os.access(iutil.getSysroot() + "/root", os.X_OK):
             try:
-                dest = "/mnt/sysimage/root/%s" % os.path.basename(self.exnFile)
+                dest = iutil.getSysroot() + "/root/%s" % os.path.basename(self.exnFile)
                 shutil.copyfile(self.exnFile, dest)
             except (shutil.Error, IOError):
-                log.error("Failed to copy %s to /mnt/sysimage/root", self.exnFile)
+                log.error("Failed to copy %s to %s/root", self.exnFile, iutil.getSysroot())
 
         # run kickstart traceback scripts (if necessary)
         try:
             kickstart.runTracebackScripts(anaconda.ksdata.scripts)
-        # pylint: disable-msg=W0702
+        # pylint: disable=bare-except
         except:
             pass
+
+        iutil.ipmi_report(IPMI_FAILED)
 
     def runDebug(self, exc_info):
         if flags.can_touch_runtime_system("switch console") \
                 and self._intf_tty_num != 1:
             iutil.vtActivate(1)
 
-        pidfl = "/tmp/vncshell.pid"
-        if os.path.exists(pidfl) and os.path.isfile(pidfl):
-            pf = open(pidfl, "r")
-            for pid in pf.readlines():
-                if not int(pid) == os.getpid():
-                    os.kill(int(pid), signal.SIGKILL)
-            pf.close()
-
-        os.open("/dev/console", os.O_RDWR)   # reclaim stdin
-        os.dup2(0, 1)                        # reclaim stdout
-        os.dup2(0, 2)                        # reclaim stderr
-        #   ^
-        #   |
-        #   +------ dup2 is magic, I tells ya!
+        iutil.eintr_retry_call(os.open, "/dev/console", os.O_RDWR)   # reclaim stdin
+        iutil.eintr_retry_call(os.dup2, 0, 1)                        # reclaim stdout
+        iutil.eintr_retry_call(os.dup2, 0, 2)                        # reclaim stderr
+        #                          ^
+        #                          |
+        #                          +------ dup2 is magic, I tells ya!
 
         # bring back the echo
         import termios
@@ -195,7 +220,8 @@ class AnacondaExceptionHandler(ExceptionHandler):
 def initExceptionHandling(anaconda):
     fileList = [ "/tmp/anaconda.log", "/tmp/packaging.log",
                  "/tmp/program.log", "/tmp/storage.log", "/tmp/ifcfg.log",
-                 "/tmp/yum.log", ROOT_PATH + "/root/install.log",
+                 "/tmp/dnf.log", "/tmp/dnf.rpm.log",
+                 "/tmp/yum.log", iutil.getSysroot() + "/root/install.log",
                  "/proc/cmdline" ]
 
     if os.path.exists("/tmp/syslog"):
@@ -205,11 +231,13 @@ def initExceptionHandling(anaconda):
         fileList.extend([anaconda.opts.ksfile])
 
     conf = Config(programName="anaconda",
-                  programVersion=isys.getAnacondaVersion(),
+                  programVersion=startup_utils.get_anaconda_version_string(),
                   programArch=os.uname()[4],
                   attrSkipList=["_intf._actions",
                                 "_intf._currentAction._xklwrapper",
                                 "_intf._currentAction._spokes[\"KeyboardSpoke\"]._xkl_wrapper",
+                                "_intf._currentAction._storage_playground",
+                                "_intf._currentAction._spokes[\"CustomPartitioningSpoke\"]._storage_playground",
                                 "_intf._currentAction.language.translations",
                                 "_intf._currentAction.language.locales",
                                 "_intf._currentAction._spokes[\"PasswordSpoke\"]._oldweak",
@@ -230,14 +258,17 @@ def initExceptionHandling(anaconda):
     conf.register_callback("nmcli_dev_list", nmcli_dev_list_callback,
                            attchmnt_only=True)
     conf.register_callback("type", lambda: "anaconda", attchmnt_only=True)
+    conf.register_callback("addons", list_addons_callback, attchmnt_only=False)
 
     if "/tmp/syslog" not in fileList:
         # no syslog, grab output from journalctl and put it also to the
         # anaconda-tb file
         conf.register_callback("journalctl", journalctl_callback, attchmnt_only=False)
 
+    interactive = not anaconda.displayMode == 'c'
     handler = AnacondaExceptionHandler(conf, anaconda.intf.meh_interface,
-                                       ReverseExceptionDump, anaconda.intf.tty_num)
+                                       ReverseExceptionDump, anaconda.intf.tty_num,
+                                       anaconda.gui_initialized, interactive)
     handler.install(anaconda)
 
     return conf
@@ -265,6 +296,17 @@ def journalctl_callback():
             ret += line + "\n"
 
     return ret
+
+def list_addons_callback():
+    """
+    Callback to get info about the addons potentially affecting Anaconda's
+    behaviour.
+
+    """
+
+    # list available addons and take their package names
+    addon_pkgs = glob.glob("/usr/share/anaconda/addons/*")
+    return ", ".join(addon.rsplit("/", 1)[1] for addon in addon_pkgs)
 
 def test_exception_handling():
     """
