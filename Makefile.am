@@ -44,16 +44,15 @@ dist_sbin_SCRIPTS     = anaconda
 
 ARCHIVE_TAG   = $(PACKAGE_NAME)-$(PACKAGE_VERSION)-$(PACKAGE_RELEASE)
 
-ZANATA_PULL_ARGS = --transdir $(srcdir)/po/
-ZANATA_PUSH_ARGS = --srcdir $(srcdir)/po/ --push-type source --force
+TX_PULL_ARGS = -a --disable-overwrite
+TX_PUSH_ARGS = -s
 
 tag:
 	@git tag -s -a -m "Tag as $(ARCHIVE_TAG)" $(ARCHIVE_TAG)
 	@echo "Tagged as $(ARCHIVE_TAG)"
 
 po-pull:
-	rpm -q zanata-python-client &>/dev/null || ( echo "need to run: yum install zanata-python-client"; exit 1 )
-	zanata pull $(ZANATA_PULL_ARGS)
+	tx pull $(TX_PULL_ARGS)
 
 po-empty:
 	for lingua in $$(grep -v '^#' $(srcdir)/po/LINGUAS) ; do \
@@ -77,7 +76,7 @@ scratch-bumpver: po-empty
 	if [ ! -z "$(BZDEBUG)" ]; then \
 		opts="$${opts} -d" ; \
 	fi ; \
-	( cd $(srcdir) && scripts/makebumpver --skip-zanata $${opts} ) || exit 1 ; \
+	( cd $(srcdir) && scripts/makebumpver --skip-tx $${opts} ) || exit 1 ; \
 	$(MAKE) -C po $(PACKAGE_NAME).pot-update ;
 
 release:
@@ -99,7 +98,7 @@ bumpver: po-pull
 	fi ; \
 	( cd $(srcdir) && scripts/makebumpver $${opts} ) || exit 1 ; \
 	$(MAKE) -C po $(PACKAGE_NAME).pot-update && \
-	zanata push $(ZANATA_PUSH_ARGS)
+	tx push $(TX_PUSH_ARGS)
 
 # Install all packages specified as BuildRequires in the Anaconda specfile
 # -> installs packages needed to build Anaconda
