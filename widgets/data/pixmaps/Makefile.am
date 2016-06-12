@@ -17,8 +17,6 @@
 #
 # Author: David Cantrell <dcantrell@redhat.com>
 
-SUBDIRS = rnotes
-
 pixmapsdir        = $(datadir)/anaconda/pixmaps
 dist_pixmaps_DATA = $(srcdir)/*.png $(srcdir)/*.svg
 
