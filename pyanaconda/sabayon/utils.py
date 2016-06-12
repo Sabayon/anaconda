@@ -646,6 +646,7 @@ blacklist nouveau
             "dev-util/pykickstart",
             "libselinux",
             "sys-process/audit",
+            "sys-apps/usermode",
             ]
 
         chroot = iutil.getSysroot()

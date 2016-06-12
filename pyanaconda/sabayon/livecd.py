@@ -66,6 +66,10 @@ class LiveCDCopyBackend(ImagePayload):
         return self._entropy_prop
 
     @property
+    def needsNetwork(self):
+        return True
+
+    @property
     def kernelVersionList(self):
         vers = []
         for name in os.listdir("/boot"):
