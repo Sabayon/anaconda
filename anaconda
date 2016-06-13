@@ -310,7 +310,7 @@ def parseArguments(argv=None, boot_cmdline=None):
     ap.add_argument("--xdriver", dest="xdriver", action="store", type=str,
                     default=None, metavar="DRIVER", help=help_parser.help_text("xdriver"))
     # sabayon, no longer used but keep for backward compatibility with autostart scripts
-    op.add_argument("--fullscreen", action="store_true", default=False)
+    ap.add_argument("--fullscreen", action="store_true", default=False)
 
     # Language
     ap.add_argument("--keymap", metavar="KEYMAP", help=help_parser.help_text("keymap"))
