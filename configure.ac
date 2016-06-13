@@ -92,7 +92,7 @@ AC_CHECK_LIB([audit], [audit_open], [:],
 AM_PATH_PYTHON(python_required_version)
 
 # Check for the python extension paths
-PKG_CHECK_MODULES([PYTHON], [python], [
+PKG_CHECK_MODULES([PYTHON], [python-$PYTHON_VERSION], [
     LIBS_save="$LIBS"
     LIBS="$LIBS $PYTHON_LIBS"
     AC_MSG_CHECKING([Python libraries])
