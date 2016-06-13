@@ -1293,7 +1293,6 @@ class GRUB(BootLoader):
 
         # Look for both mdraid and btrfs raid
         if self.stage2_device.type == "mdarray" and \
-           self.stage2_device.level == 1:
            self.stage2_device.level == raid.RAID1:
             stage2_raid = True
             # Set parents to the list of partitions in the RAID
