@@ -17,9 +17,10 @@
 #
 # Author: Fabio Erculiani <lxnay@sabayon.org>
 
-sabayondir = $(pyexecdir)/py$(PACKAGE_NAME)/sabayon
-sabayon_PYTHON = *.py
+SUBDIRS = quickinst
+
+pkgpyexecdir    = $(pyexecdir)/py$(PACKAGE_NAME)
+sabayondir     = $(pkgpyexecdir)/sabayon
+sabayon_PYTHON = $(srcdir)/*.py
 
 MAINTAINERCLEANFILES = Makefile.in
-
-SUBDIRS = quickinst
