@@ -104,8 +104,8 @@ class LiveCDCopyBackend(ImagePayload):
     def repos(self):
         return self.entropy.repositories()
 
-    def setup(self, storage):
-        super(LiveCDCopyBackend, self).setup(storage)
+    def setup(self, storage, instClass):
+        super(LiveCDCopyBackend, self).setup(storage, instClass)
 
     def progress(self):
         """Monitor the amount of disk space used on the target and source and

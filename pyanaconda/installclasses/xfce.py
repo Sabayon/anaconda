@@ -24,7 +24,7 @@ from pyanaconda.sabayon import Entropy
 class InstallClass(BaseInstallClass):
 
     id = "sabayon_xfce"
-    name = N_("Sabayon Xfce Desktop")
+    name = "Sabayon Xfce Desktop"
     sortPriority = 10000
 
     _l10n_domain = "anaconda"

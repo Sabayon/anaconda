@@ -192,6 +192,8 @@ def logIfcfgFile(path, message=""):
 
 def _ifcfg_files(directory):
     rv = []
+    if not os.path.isdir(directory):
+        return rv
     for name in os.listdir(directory):
         if name.startswith("ifcfg-"):
             if name == "ifcfg-lo":
