@@ -44,17 +44,17 @@ fi
 export PIXMAPPATH="/usr/share/anaconda/pixmaps"
 
 # create source dirs
-if [ ! -e /mnt/install/source ]; then
-    mkdir -p /mnt/install
-    ln -sf /mnt/livecd /mnt/install/source
+if [ ! -e /run/install/source ]; then
+    mkdir -p /run/install
+    ln -sf /mnt/livecd /run/install/source
 fi
 if [ ! -e /mnt/install/image/LiveOS ]; then
     mkdir -p /mnt/install/image/LiveOS
     ln -sf /mnt/cdrom/livecd.squashfs /mnt/install/image/LiveOS/livecd.img
 fi
-if [ ! -e /mnt/install/isodir ]; then
-    mkdir -p /mnt/install
-    ln -sf /mnt/cdrom /mnt/install/isodir
+if [ ! -e /run/install/isodir ]; then
+    mkdir -p /run/install
+    ln -sf /mnt/cdrom /run/install/isodir
 fi
 
 # lxnay: load UEFI efivars (so that Anaconda can detect EFI systems)
@@ -66,7 +66,7 @@ fi
 # Allow running another command in the place of anaconda, but in this same
 # environment.  This allows storage testing to make use of all the module
 # loading and lvm control in this file, too.
-ANACONDA=${LIVECMD:=anaconda --liveinst --noselinux --method=hd://:///mnt/install/source $INSTLANG}
+ANACONDA=${LIVECMD:=anaconda --liveinst --noselinux --method=hd://:///run/install/source $INSTLANG}
 
 # load modules that would get loaded by the initramfs (#230945)
 for i in raid0 raid1 raid5 raid6 raid456 raid10 dm-mod dm-zero dm-mirror dm-snapshot dm-multipath dm-round-robin vfat dm-crypt cbc sha256 lrw xts iscsi_tcp iscsi_ibft; do /sbin/modprobe $i 2>/dev/null ; done
