@@ -114,6 +114,7 @@
 
 @define-color redhat #41413e;
 @define-color fedora #2f4265;
+@define-color sabayon #067aa1;
 
 /* logo and sidebar classes for Fedora */
 
@@ -123,7 +124,7 @@
  */
 .logo-sidebar {
     background-image: url('/usr/share/anaconda/pixmaps/sidebar-bg.png');
-    background-color: @fedora;
+    background-color: @sabayon;
     background-repeat: no-repeat;
 }
 
@@ -142,7 +143,7 @@
 }
 
 AnacondaSpokeWindow #nav-box {
-    background-color: @fedora;
+    background-color: @sabayon;
     background-image: url('/usr/share/anaconda/pixmaps/topbar-bg.png');
     background-repeat: repeat;
     color: white;
@@ -155,7 +156,7 @@ AnacondaSpokeWindow #nav-box GtkButton {
 }
 
 AnacondaSpokeWindow #nav-box {
-    background-color: @fedora;
+    background-color: @sabayon;
 }
 
 /* These rules were removed when the Adwaita theme moved from
