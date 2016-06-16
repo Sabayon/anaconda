@@ -18,6 +18,6 @@
 # Author: David Cantrell <dcantrell@redhat.com>
 
 pixmapsdir        = $(datadir)/anaconda/pixmaps/rnotes
-dist_pixmaps_DATA = $(srcdir)/*.png $(srcdir)/*.svg
+dist_pixmaps_DATA = $(srcdir)/*.png
 
 MAINTAINERCLEANFILES = Makefile.in
