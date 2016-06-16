@@ -17,7 +17,7 @@
 #
 # Author: David Cantrell <dcantrell@redhat.com>
 
-rnotesdir        = $(datadir)/$(PACKAGE_NAME)/pixmaps/rnotes
-dist_rnotes_DATA = *.png
+pixmapsdir        = $(datadir)/anaconda/pixmaps/rnotes
+dist_pixmaps_DATA = $(srcdir)/*.png $(srcdir)/*.svg
 
 MAINTAINERCLEANFILES = Makefile.in

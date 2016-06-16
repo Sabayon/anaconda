@@ -76,7 +76,8 @@ AC_CONFIG_FILES([Makefile
                  src/Makefile
                  python/Makefile
                  data/Makefile
-                 data/pixmaps/Makefile])
+                 data/pixmaps/Makefile
+		 data/pixmaps/rnotes/Makefile])
 AC_OUTPUT
 
 # Gently advise the user about the build failures they are about to encounter
