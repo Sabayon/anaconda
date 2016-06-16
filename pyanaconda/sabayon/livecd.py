@@ -79,8 +79,8 @@ class LiveCDCopyBackend(ImagePayload):
 
     @property
     def spaceRequired(self):
-        return Size(bytes=iutil.getDirSize(
-                os.path.realpath(INSTALL_TREE)) * 1024)
+        return Size(iutil.getDirSize(
+            os.path.realpath(INSTALL_TREE)) * 1024)
 
     def recreateInitrds(self, force=False):
         log.info("calling recreateInitrds()")
