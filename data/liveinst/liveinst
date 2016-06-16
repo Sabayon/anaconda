@@ -83,7 +83,7 @@ export PYTHONPATH=/usr/share/anaconda/site-python
 
 if [ -x /usr/sbin/getenforce ]; then
     current=$(/usr/sbin/getenforce)
-    /usr/sbin/setenforce 0
+    /usr/sbin/setenforce 0 > /dev/null
 fi
 
 # Process cmdline args
@@ -115,7 +115,7 @@ fi
 anaconda-cleanup $ANACONDA $*
 
 # Prevents breakage if the hostname is changed during the install
-xhost +si:localuser:root
+xhost +si:localuser:root > /dev/null
 
 if [ -x /usr/bin/udisks -a -n "$DISPLAY" ]; then
     /usr/bin/udisks --inhibit -- $ANACONDA $*
@@ -132,5 +132,5 @@ anaconda-cleanup
 rm -f /dev/.in_sysinit 2>/dev/null
 
 if [ -n "$current" ]; then
-    /usr/sbin/setenforce $current
+    /usr/sbin/setenforce $current > /dev/null
 fi
