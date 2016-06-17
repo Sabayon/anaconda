@@ -249,7 +249,7 @@ class BootLoader(object):
 
     @property
     def stage2_format_types(self):
-        return ["ext4", "ext3", "ext2"]
+        return ["btrfs", "ext4", "ext3", "ext2"]
 
     # this is so stupid...
     global_preserve_args = ["speakup_synth", "apic", "noapic", "apm", "ide",
