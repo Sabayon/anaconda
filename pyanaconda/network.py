@@ -926,6 +926,8 @@ def copyFileToPath(fileName, destPath='', overwrite=False):
 # /etc/sysconfig/network-scripts/keys-*
 # TODO: routing info from /etc/sysconfig/network-scripts?
 def copyIfcfgFiles(destPath):
+    if not os.path.isdir(netscriptsDir):
+        return
     files = os.listdir(netscriptsDir)
     for cfgFile in files:
         if cfgFile.startswith(("ifcfg-","keys-")):
@@ -1084,12 +1086,12 @@ def write_sysconfig_network(rootpath, overwrite=False):
 def write_network_config(storage, ksdata, instClass, rootpath):
     write_hostname(rootpath, ksdata, overwrite=flags.livecdInstall)
     set_hostname(ksdata.network.hostname)
+    disableIPV6(rootpath)
     if 0:  # sabayon
         write_sysconfig_network(rootpath, overwrite=flags.livecdInstall)
-    disableIPV6(rootpath)
-    copyIfcfgFiles(rootpath)
-    copyDhclientConfFiles(rootpath)
-    copyFileToPath("/etc/resolv.conf", rootpath, overwrite=flags.livecdInstall)
+        copyIfcfgFiles(rootpath)
+        copyDhclientConfFiles(rootpath)
+        copyFileToPath("/etc/resolv.conf", rootpath, overwrite=flags.livecdInstall)
     instClass.setNetworkOnbootDefault(ksdata)
     # NM_CONTROLLED is not mirrored in ksdata
     disableNMForStorageDevices(rootpath, storage)
