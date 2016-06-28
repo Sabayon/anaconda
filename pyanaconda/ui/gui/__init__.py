@@ -763,7 +763,7 @@ class GraphicalUserInterface(UserInterface):
                                 message_type=Gtk.MessageType.QUESTION,
                                 buttons=Gtk.ButtonsType.NONE,
                                 message_format=message)
-        dlg.set_decorated(False)
+        # dlg.set_decorated(False)  sabayon
         dlg.add_buttons(_("_No"), 0, _("_Yes"), 1)
         dlg.set_default_response(1)
 
@@ -877,7 +877,7 @@ class GraphicalExceptionHandlingIface(meh.ui.gui.GraphicalIntf):
     def mainExceptionWindow(self, text, exn_file, *args, **kwargs):
         meh_intf = meh.ui.gui.GraphicalIntf()
         exc_window = meh_intf.mainExceptionWindow(text, exn_file)
-        exc_window.main_window.set_decorated(False)
+        # exc_window.main_window.set_decorated(False)  sabayon
 
         self._lightbox_func()
 

@@ -2584,7 +2584,7 @@ class CustomPartitioningSpoke(NormalSpoke, StorageChecker):
                                 message_type=Gtk.MessageType.WARNING,
                                 buttons=Gtk.ButtonsType.NONE,
                                 message_format=msg)
-        dlg.set_decorated(False)
+        # dlg.set_decorated(False)  sabayon
         dlg.add_buttons(_("_Reset selections"), 0, _("_Preserve current selections"), 1)
         dlg.set_default_response(1)
 
@@ -2631,7 +2631,7 @@ class CustomPartitioningSpoke(NormalSpoke, StorageChecker):
                                 message_type=Gtk.MessageType.ERROR,
                                 buttons=Gtk.ButtonsType.CLOSE,
                                 message_format=str(self._error))
-        dlg.set_decorated(False)
+        # dlg.set_decorated(False)  sabayon
 
         with self.main_window.enlightbox(dlg):
             dlg.run()
