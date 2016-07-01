@@ -72,7 +72,8 @@ class LiveCDCopyBackend(ImagePayload):
     @property
     def kernelVersionList(self):
         vers = []
-        for name in os.listdir("/boot"):
+        boot_dir = os.path.join(iutil.getSysroot(), "boot")
+        for name in os.listdir(boot_dir):
             if name.startswith("kernel-genkernel-"):
                 vers.append(name[len("kernel-genkernel-"):])
         return vers
