@@ -323,6 +323,11 @@ class Payload(object):
         """ An iterable of the kernel versions installed by the payload. """
         raise NotImplementedError()
 
+    @property
+    def bootArgsList(self):
+        """ An iterable of the boot arguments required by the payload. """
+        return []
+
     ##
     ## METHODS FOR TREE VERIFICATION
     ##

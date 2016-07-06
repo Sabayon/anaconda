@@ -402,6 +402,32 @@ class Users:
         else:
             return self._finishChroot(childpid)
 
+    def addUserToGroups(self, user_name, groups, root=None):
+        if not root:
+            root = iutil.getSysroot()
+
+        childpid = self._prepareChroot(root)
+        if childpid == 0:
+
+            if not self.admin.lookupUserByName(user_name):
+                log.error("User %s does not exists, not creating.", user_name)
+                os._exit(1)
+
+            grpLst = [grp for grp in map(self.admin.lookupGroupByName, groups) if grp]
+            grpLst.append(self.admin.lookupGroupByName(user_name))
+            log.info("addUserToGroups: adding %s groups to %s", grpLst, user_name)
+            try:
+                for grp in grpLst:
+                    grp.add(libuser.MEMBERNAME, user_name)
+                    self.admin.modifyGroup(grp)
+            except RuntimeError as e:
+                log.critical("Unable to add user to groups: %s", e)
+                os._exit(1)
+
+            os._exit(0)
+        else:
+            return self._finishChroot(childpid)
+
     def checkUserExists(self, username, root=None):
         childpid = self._prepareChroot(root)
 

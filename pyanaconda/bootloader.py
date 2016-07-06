@@ -796,6 +796,11 @@ class BootLoader(object):
             method.
         """
         storage = kwargs.pop("storage", None)
+        payload = kwargs.pop("payload", None)
+
+        # Sabayon.
+        if payload:
+            self.boot_args.update(payload.bootArgsList)
 
         #
         # FIPS

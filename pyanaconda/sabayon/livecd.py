@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
 import os
 import time
 import logging
@@ -191,33 +190,14 @@ class LiveCDCopyBackend(ImagePayload):
             # during the config write out.
             self.data.xconfig.startX = True
 
+    @property
+    def bootArgsList(self):
+        """Get boot arguments."""
+        return self._sabayon_install.get_boot_args()
+
     def postInstall(self):
-        super(LiveCDCopyBackend, self).postInstall()
-
         log.info("Preparing to configure Sabayon (backend postInstall)")
-
-        self._sabayon_install.spawn_chroot(
-            ["/usr/bin/systemd-machine-id-setup"]
-            )
-        self._sabayon_install.setup_secureboot()
-        self._sabayon_install.setup_sudo()
-        self._sabayon_install.remove_proprietary_drivers()
-        self._sabayon_install.setup_nvidia_legacy()
-        self._sabayon_install.configure_skel()
-        self._sabayon_install.configure_services()
-        self._sabayon_install.spawn_chroot(["env-update"])
-        self._sabayon_install.spawn_chroot(["ldconfig"])
-
-        if self._packages:
-            log.info("Preparing to install these packages: %s" % (
-                    self._packages,))
-            self._sabayon_install.setup_entropy_mirrors()
-            self._sabayon_install.maybe_install_packages(self._packages)
-
-        self._sabayon_install.configure_boot_args()
-
         self._sabayon_install.emit_install_done()
-
         progressQ.send_message(_("Sabayon configuration complete"))
 
     def configure(self):
@@ -235,12 +215,23 @@ class LiveCDCopyBackend(ImagePayload):
                     err,))
             username = "root"  # if no admin user was created
         self._sabayon_install.configure_steambox(username)
+        self._sabayon_install.configure_admin_user_groups(username)
 
-        # also remove hw.hash
-        hwhash_file = os.path.join(iutil.getSysroot(), "etc/entropy/.hw.hash")
-        try:
-            os.remove(hwhash_file)
-        except (OSError, IOError):
-            pass
-
+        self._sabayon_install.remove_hwhash()
+        self._sabayon_install.setup_machine_id()
         self._sabayon_install.cleanup_packages()
+        self._sabayon_install.setup_boot()
+        self._sabayon_install.setup_secureboot()
+        self._sabayon_install.setup_sudo()
+        self._sabayon_install.remove_proprietary_drivers()
+        self._sabayon_install.setup_nvidia_legacy()
+        self._sabayon_install.configure_skel()
+        self._sabayon_install.configure_services()
+        self._sabayon_install.spawn_chroot(["env-update"])
+        self._sabayon_install.spawn_chroot(["ldconfig"])
+
+        if self._packages:
+            log.info("Preparing to install these packages: %s" % (
+                    self._packages,))
+            self._sabayon_install.setup_entropy_mirrors()
+            self._sabayon_install.maybe_install_packages(self._packages)

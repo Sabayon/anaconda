@@ -19,7 +19,7 @@
 #
 
 # Python imports
-import errno
+import grp
 import os
 import subprocess
 import shutil
@@ -41,9 +41,10 @@ from pyanaconda import iutil
 from pyanaconda.constants import INSTALL_TREE
 from pyanaconda.progress import progressQ
 from pyanaconda.sabayon.const import REPO_NAME, \
-    SB_PRIVATE_KEY, SB_PUBLIC_X509, SB_PUBLIC_DER
+    SB_PRIVATE_KEY, SB_PUBLIC_X509, SB_PUBLIC_DER, LIVE_USER
 from pyanaconda.sabayon import Entropy
 from pyanaconda.i18n import _
+from pyanaconda.users import Users
 
 from blivet import arch
 
@@ -212,6 +213,17 @@ class SabayonInstall(object):
 
         with open(steambox_user_file, "w") as f:
             f.write(steambox_user)
+
+    def configure_admin_user_groups(self, username):
+        """Configure the admin user groups."""
+        def get_all_groups(user):
+            for group in grp.getgrall():
+                if user in group.gr_mem:
+                    yield group.gr_name
+
+        users = Users()
+        groups = [x.name for x in list(get_all_groups(LIVE_USER))]
+        users.addUserToGroups(username, groups)
 
     def configure_skel(self):
 
@@ -836,23 +848,30 @@ blacklist nouveau
         with open(crypt_file, "w") as f:
             f.writelines(new_lines)
 
-    def configure_boot_args(self):
-        """ Configure Sabayon extra boot args. """
+    def get_boot_args(self):
+        """Get Sabayon extra boot args."""
         cmdline = self._get_base_kernel_cmdline()
-
-        parts_cmdline, crypt_uuids = self._get_encrypted_fs_boot_args()
+        parts_cmdline, unused = self._get_encrypted_fs_boot_args()
         cmdline += parts_cmdline
 
+        log.info("Backend generated boot cmdline: %s" % (cmdline,))
+        return cmdline
+
+    def setup_boot(self):
+        """Setup Sabayon boot config."""
+        unused, crypt_uuids = self._get_encrypted_fs_boot_args()
         if crypt_uuids:
             self._fixup_crypttab(crypt_uuids)
 
-        log.info("Backend generated boot cmdline: %s" % (cmdline,))
-        self._backend.storage.bootloader.boot_args.update(cmdline)
-
-        # Make sure that /boot/grub is present
-        boot_grub = os.path.join(iutil.getSysroot(), "boot/grub")
+    def remove_hwhash(self):
+        """Remove the hw.hash file that was copied from the live system.
+        """
+        hwhash_file = os.path.join(iutil.getSysroot(), "etc/entropy/.hw.hash")
         try:
-            os.makedirs(boot_grub, 0o755)
-        except OSError as err:
-            if err.errno != errno.EEXIST:
-                raise
+            os.remove(hwhash_file)
+        except (OSError, IOError):
+            pass
+
+    def setup_machine_id(self):
+        """Setup the machine id configuration, make systemd happy."""
+        self.spawn_chroot(["/usr/bin/systemd-machine-id-setup"])
