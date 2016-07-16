@@ -41,6 +41,10 @@ if [[ "$LIVECMD $*" =~ "--liveinst" ]]; then
     LIVE_INSTALL=1
 fi
 
+if [[ "$LIVECMD $*" =~ "-T" ]] || [[ "$LIVECMD $*" =~ "--text" ]]; then
+    TEXT_INSTALL=1
+fi
+
 export PIXMAPPATH="/usr/share/anaconda/pixmaps"
 
 # create source dirs
@@ -117,7 +121,7 @@ anaconda-cleanup $ANACONDA $*
 # Prevents breakage if the hostname is changed during the install
 xhost +si:localuser:root > /dev/null
 
-if [ -x /usr/bin/udisks -a -n "$DISPLAY" -a -z "$SABAYON_DEBUG" ]; then
+if [ -x /usr/bin/udisks -a -n "$DISPLAY" -a -z "$SABAYON_DEBUG" -a -z "$TEXT_INSTALL" ]; then
     /usr/bin/udisks --inhibit -- $ANACONDA $*
 else
     $ANACONDA $*
