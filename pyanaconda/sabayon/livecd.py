@@ -181,14 +181,29 @@ class LiveCDCopyBackend(ImagePayload):
 
     def _setDefaultBootTarget(self):
         """ Set the default systemd target for the system. """
-        # If X was already requested we don't have to continue
-        if self.data.xconfig.startX:
+        default_target = INSTALL_TREE + '/etc/systemd/system/default.target'
+        # If we're using VNC, we probably don't want X.
+        if flags.usevnc:
+            self.data.xconfig.startX = False
             return
 
-        if not flags.usevnc:
-            # We only manipulate the ksdata.  The symlink is made later
-            # during the config write out.
-            self.data.xconfig.startX = True
+        # Otherwise, let's assume that we want the same setup as
+        # the live system.
+        if os.path.isfile(default_target):
+            try:
+                target = os.readlink(default_target)
+            except (OSError, IOError) as err:
+                log.error('Unable to read %s: %s', default_target, err)
+            else:
+                target_name = os.path.basename(target)
+                start_x = target_name == 'graphical.target'
+                self.data.xconfig.startX = start_x
+
+                log.info('Current boot target name is %s, starting x: %s',
+                         target_name, start_x)
+        else:
+            log.error('%s does not exist, unable to set boot mode.',
+                      default_target)
 
     @property
     def bootArgsList(self):
@@ -197,6 +212,7 @@ class LiveCDCopyBackend(ImagePayload):
 
     def postInstall(self):
         log.info("Preparing to configure Sabayon (backend postInstall)")
+        self._setDefaultBootTarget()
         self._sabayon_install.emit_install_done()
         progressQ.send_message(_("Sabayon configuration complete"))
 
