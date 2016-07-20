@@ -409,6 +409,9 @@ class MainWindow(Gtk.Window):
         if child.focusWidgetName:
             child.builder.get_object(child.focusWidgetName).grab_focus()
 
+        # Sabayon. Less dependencies. Less work.
+        child.window.get_help_button().hide()
+
     def setCurrentAction(self, standalone):
         """Set the current standalone widget.
 
