@@ -222,7 +222,7 @@ class SabayonInstall(object):
                     yield group.gr_name
 
         users = Users()
-        groups = [x.name for x in list(get_all_groups(LIVE_USER))]
+        groups = [x for x in list(get_all_groups(LIVE_USER))]
         users.addUserToGroups(username, groups)
 
     def configure_skel(self):
