@@ -20,6 +20,7 @@
 import os
 import time
 import logging
+import shutil
 import threading
 
 from pyanaconda.errors import errorHandler, ERROR_RAISE
@@ -178,6 +179,15 @@ class LiveCDCopyBackend(ImagePayload):
         with self.pct_lock:
             self.pct = 100
         threadMgr.wait(THREAD_LIVE_PROGRESS)
+
+        # Make sure to have /boot/grub/default-splash.png in place.
+        splash_path = os.path.join(INSTALL_TREE, 'usr/share/grub/default-splash.png')
+        boot_grub_dir = os.path.join(iutil.getSysroot(), 'boot/grub')
+        if os.path.exists(splash_path):
+            if not os.path.exists(boot_grub_dir):
+                os.makedirs(boot_grub_dir, 0o755)
+            shutil.copy2(splash_path, os.path.join(
+                boot_grub_dir, os.path.basename(splash_path)))
 
     def _setDefaultBootTarget(self):
         """ Set the default systemd target for the system. """
