@@ -279,7 +279,8 @@ class MainWindow(Gtk.Window):
         # Hide the titlebar when maximized if the window manager allows it.
         # This makes anaconda look full-screenish but without covering parts
         # needed to interact with the window manager, like the GNOME top bar.
-        self.set_hide_titlebar_when_maximized(True)
+        # Sabayon disabled.
+        # self.set_hide_titlebar_when_maximized(True)
 
         # The Anaconda and Initial Setup windows might sometimes get decorated with
         # a titlebar which contains the __init__.py header text by default.
