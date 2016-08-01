@@ -61,6 +61,12 @@ if [ ! -e /run/install/isodir ]; then
     ln -sf /mnt/cdrom /run/install/isodir
 fi
 
+# make sure /mnt/livecd is mounted
+livecd_mounted=$(cat /proc/mounts | cut -d" " -f 2 | grep /mnt/livecd)
+if [ -z "${livecd_mounted}" ]; then
+    mount /mnt/cdrom/livecd.squashfs /mnt/livecd
+fi
+
 # lxnay: load UEFI efivars (so that Anaconda can detect EFI systems)
 efi_disabled=$(cat /proc/cmdline | grep noefi)
 if [ -z "${efi_disabled}" ]; then
