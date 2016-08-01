@@ -34,11 +34,11 @@ class InstallClass(BaseInstallClass):
     help_placeholder = "SabayonPlaceholder.html"
     help_placeholder_with_links = "SabayonPlaceholderWithLinks.html"
 
-    dmrc = "KDE-4"
+    dmrc = "plasma"
     if Entropy().is_sabayon_steambox():
         dmrc = "steambox"
 
-    if not Entropy().is_installed("kde-base/kdebase-startkde"):
+    if not Entropy().is_installed("kde-plasma/plasma-workspace"):
         hidden = True
 
     def configure(self, anaconda):
