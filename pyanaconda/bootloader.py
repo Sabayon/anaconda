@@ -1421,7 +1421,8 @@ class GRUB2(GRUB):
     defaults_file = "/etc/default/sabayon-grub"
     can_dual_boot = True
     can_update = True
-    terminal_type = "console"
+    # Sabayon.
+    terminal_type = "gfxterm"
 
     # requirements for boot devices
     stage2_device_types = ["partition", "mdarray", "lvmlv"]
