@@ -23,9 +23,24 @@ __all__ = ["_", "N_", "P_", "C_", "CN_", "CP_"]
 
 import gettext
 
-_ = lambda x: gettext.translation("anaconda", fallback=True).ugettext(x) if x != "" else u""
+# Old _() that has issues with encoded unicode strs.
+# _ = lambda x: gettext.translation("anaconda", fallback=True).ugettext(x) if x != "" else u""
+def _(x):
+    try:
+        return gettext.translation("anaconda", fallback=True).ugettext(x) if x != "" else u""
+    except UnicodeDecodeError:
+        return gettext.translation("anaconda", fallback=True).ugettext(x.decode("utf-8")) if x != "" else u""
+
 N_ = lambda x: x
-P_ = lambda x, y, z: gettext.translation("anaconda", fallback=True).ungettext(x, y, z)
+
+# Old _() that has issues with encoded unicode strs.
+# P_ = lambda x, y, z: gettext.translation("anaconda", fallback=True).ungettext(x, y, z)
+def P_(x, y, z):
+    try:
+        return gettext.translation("anaconda", fallback=True).ungettext(x, y, z)
+    except UnicodeDecodeError:
+        return gettext.translation("anaconda", fallback=True).ungettext(
+            x.decode("utf-8"), y.decode("utf-8"), z)
 
 # This is equivalent to "pgettext" in GNU gettext. The pgettext functions
 # are not exported by Python, but all they really do is a stick a EOT
