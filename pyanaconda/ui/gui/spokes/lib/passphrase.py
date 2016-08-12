@@ -21,6 +21,7 @@
 
 from gi.repository import Gtk
 
+import locale
 import pwquality
 
 from pyanaconda.ui.helpers import InputCheck
@@ -118,7 +119,7 @@ class PassphraseDialog(GUIObject, GUIInputCheckHandler):
         try:
             strength = self._pwq.check(passphrase, None, None)
         except pwquality.PWQError as e:
-            self._pwq_error = e.args[1]
+            self._pwq_error = e.args[1].decode(locale.nl_langinfo(locale.CODESET))
 
         if strength < 50:
             val = 1
