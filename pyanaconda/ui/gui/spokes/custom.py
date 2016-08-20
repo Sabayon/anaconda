@@ -2630,7 +2630,7 @@ class CustomPartitioningSpoke(NormalSpoke, StorageChecker):
         dlg = Gtk.MessageDialog(flags=Gtk.DialogFlags.MODAL,
                                 message_type=Gtk.MessageType.ERROR,
                                 buttons=Gtk.ButtonsType.CLOSE,
-                                message_format=str(self._error))
+                                message_format=_(self._error))
         # dlg.set_decorated(False)  sabayon
 
         with self.main_window.enlightbox(dlg):
