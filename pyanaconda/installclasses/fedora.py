@@ -24,7 +24,7 @@ from pyanaconda import nm
 
 class FedoraBaseInstallClass(BaseInstallClass):
     name = "Fedora"
-    sortPriority = 10000
+    sortPriority = 0
     if productName.startswith("Red Hat "):
         hidden = True
 
