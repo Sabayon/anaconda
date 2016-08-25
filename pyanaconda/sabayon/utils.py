@@ -655,6 +655,7 @@ blacklist nouveau
             "dev-libs/satyr",
             "dev-python/python-blivet",
             "dev-python/python-meh",
+            "dev-util/glade",
             "dev-util/pykickstart",
             "libselinux",
             "sys-process/audit",
