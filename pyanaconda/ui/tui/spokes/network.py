@@ -150,8 +150,6 @@ class NetworkSpoke(EditTUISpoke):
             return ColumnWidget([(4, [number]), (None, [w])], 1)
 
         _opts = [_("Set host name")]
-        for devname in self.supported_devices:
-            _opts.append(_("Configure device %s") % devname)
         text = [TextWidget(o) for o in _opts]
 
         # make everything presentable on screen
@@ -172,40 +170,6 @@ class NetworkSpoke(EditTUISpoke):
             # set hostname
             self.app.switch_screen_modal(self.hostname_dialog, Entry(_("Host Name"),
                                 "hostname", re.compile(".*$"), True))
-            self.apply()
-            return INPUT_PROCESSED
-        elif 2 <= num <= len(self.supported_devices) + 1:
-            # configure device
-            devname = self.supported_devices[num-2]
-            ndata = network.ksdata_from_ifcfg(devname)
-            newspoke = ConfigureNetworkSpoke(self.app, self.data, self.storage,
-                                    self.payload, self.instclass, ndata)
-            self.app.switch_screen_modal(newspoke)
-
-            if ndata.ip == "dhcp":
-                ndata.bootProto = "dhcp"
-                ndata.ip = ""
-            else:
-                ndata.bootProto = "static"
-                if not ndata.gateway or not ndata.netmask:
-                    self.errors.append(_("Configuration not saved: gateway or netmask missing in static configuration"))
-                    return INPUT_PROCESSED
-
-            if ndata.ipv6 == "ignore":
-                ndata.noipv6 = True
-                ndata.ipv6 = ""
-            else:
-                ndata.noipv6 = False
-
-            network.update_settings_with_ksdata(devname, ndata)
-
-            if ndata._apply:
-                uuid = nm.nm_device_setting_value(devname, "connection", "uuid")
-                try:
-                    nm.nm_activate_device_connection(devname, uuid)
-                except (nm.UnmanagedDeviceError, nm.UnknownConnectionError):
-                    self.errors.append(_("Can't apply configuration, device activation failed."))
-
             self.apply()
             return INPUT_PROCESSED
         else:
