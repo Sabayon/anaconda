@@ -256,7 +256,8 @@ class BootLoader(object):
                             "noht", "acpi", "video", "pci", "nodmraid",
                             "nompath", "nomodeset", "noiswmd", "fips",
                             "selinux", "biosdevname", "ipv6.disable",
-                            "net.ifnames", "vconsole.keymap", "locale"]
+                            "net.ifnames", "vconsole.keymap", "locale",
+                            "keymap"]
     preserve_args = []
 
     _trusted_boot = False
