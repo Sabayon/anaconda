@@ -713,7 +713,7 @@ class BootLoader(object):
         if not self._is_valid_size(device, desc=_(self.stage2_description)):
             valid = False
 
-        if not self._is_valid_location(device,
+        if self.stage2_max_end and not self._is_valid_location(device,
                                        max_end=self.stage2_max_end,
                                        desc=_(self.stage2_description)):
             valid = False
