@@ -670,7 +670,7 @@ blacklist nouveau
         try:
             repo = self._backend.entropy.installed_repository()
 
-            if not self.is_virtualbox:
+            if not self.is_virtualbox():
                 self.remove_package("virtualbox-guest-additions")
 
             for package in packages:
