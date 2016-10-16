@@ -746,7 +746,8 @@ def nm_device_setting_value(name, key1, key2):
     """
     settings_paths = _device_settings(name)
     if not settings_paths:
-        raise SettingsNotFoundError(name)
+        value = None
+        return value
     else:
         settings_path = settings_paths[0]
     proxy = _get_proxy(object_path=settings_path, interface_name="org.freedesktop.NetworkManager.Settings.Connection")
