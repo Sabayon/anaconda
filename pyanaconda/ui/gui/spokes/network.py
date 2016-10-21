@@ -773,7 +773,7 @@ class NetworkControlBox(GObject.GObject):
         self._refresh_header_ui(dev_cfg, state)
         self._refresh_slaves(dev_cfg)
         self._refresh_parent_vlanid(dev_cfg)
-        self._refresh_speed_hwaddr(dev_cfg, state)
+        # self._refresh_speed_hwaddr(dev_cfg, state)
         self._refresh_ap(dev_cfg, state)
         self._refresh_device_cfg(dev_cfg)
 
