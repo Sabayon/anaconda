@@ -769,13 +769,13 @@ class NetworkControlBox(GObject.GObject):
             notebook.set_current_page(5)
             return
 
-        self._refresh_device_type_page(dev_cfg.device_type)
-        self._refresh_header_ui(dev_cfg, state)
-        self._refresh_slaves(dev_cfg)
-        self._refresh_parent_vlanid(dev_cfg)
+        #self._refresh_device_type_page(dev_cfg.device_type)
+        #self._refresh_header_ui(dev_cfg, state)
+        #self._refresh_slaves(dev_cfg)
+        #self._refresh_parent_vlanid(dev_cfg)
         # self._refresh_speed_hwaddr(dev_cfg, state)
-        self._refresh_ap(dev_cfg, state)
-        self._refresh_device_cfg(dev_cfg)
+        #self._refresh_ap(dev_cfg, state)
+        #self._refresh_device_cfg(dev_cfg)
 
     def _refresh_device_cfg(self, dev_cfg):
 
