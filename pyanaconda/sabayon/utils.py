@@ -644,6 +644,9 @@ blacklist nouveau
             "dev-python/python-blivet",
             "dev-python/python-meh",
             "dev-util/pykickstart",
+            "sys-apps/policycoreutils",
+            "sys-libs/libsemanage",
+            "sys-libs/libsepol",
             "libselinux",
             "sys-process/audit",
             ]
