@@ -644,6 +644,7 @@ blacklist nouveau
             "dev-python/python-bugzilla",
             "dev-python/python-blivet",
             "dev-python/python-meh",
+            "dev-python/python-nss",
             "dev-util/pykickstart",
             "net-misc/tightvnc",
             "sys-apps/policycoreutils",
