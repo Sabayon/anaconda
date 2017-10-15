@@ -641,6 +641,7 @@ blacklist nouveau
             "app-admin/calamares",
             "dev-libs/libreport",
             "dev-libs/satyr",
+            "dev-python/python-bugzilla",
             "dev-python/python-blivet",
             "dev-python/python-meh",
             "dev-util/pykickstart",
