@@ -639,6 +639,7 @@ blacklist nouveau
             "app-admin/calamares-sabayon-branding",
             "app-admin/calamares-sabayon-base-modules",
             "app-admin/calamares",
+            "app-admin/setools",
             "app-i18n/langtable",
             "dev-libs/libreport",
             "dev-libs/satyr",
