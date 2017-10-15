@@ -644,6 +644,7 @@ blacklist nouveau
             "dev-python/python-blivet",
             "dev-python/python-meh",
             "dev-util/pykickstart",
+            "net-misc/tightvnc",
             "sys-apps/policycoreutils",
             "sys-libs/libsemanage",
             "sys-libs/libsepol",
