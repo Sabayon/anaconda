@@ -646,6 +646,7 @@ blacklist nouveau
             "dev-python/python-meh",
             "dev-python/python-nss",
             "dev-util/pykickstart",
+            "net-misc/fcoe-utils",
             "net-misc/tightvnc",
             "sys-apps/policycoreutils",
             "sys-libs/libsemanage",
