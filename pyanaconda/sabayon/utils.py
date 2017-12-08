@@ -640,6 +640,7 @@ blacklist nouveau
             "app-admin/calamares-sabayon-base-modules",
             "app-admin/calamares",
             "app-admin/setools",
+	    "app-emulation/spice-vdagent",
             "app-i18n/langtable",
             "dev-libs/libreport",
 	    "dev-libs/libtimezonemap",
