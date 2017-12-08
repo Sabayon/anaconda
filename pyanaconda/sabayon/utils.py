@@ -642,6 +642,7 @@ blacklist nouveau
             "app-admin/setools",
             "app-i18n/langtable",
             "dev-libs/libreport",
+	    "dev-libs/libtimezonemap",
             "dev-libs/satyr",
             "dev-python/python-bugzilla",
             "dev-python/python-blivet",
