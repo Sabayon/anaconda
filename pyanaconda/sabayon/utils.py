@@ -648,6 +648,7 @@ blacklist nouveau
             "dev-python/python-blivet",
             "dev-python/python-meh",
             "dev-python/python-nss",
+	    "dev-python/pyparted",
             "dev-python/sepolgen",
             "dev-util/pykickstart",
             "net-misc/fcoe-utils",
