@@ -644,6 +644,7 @@ blacklist nouveau
             "dev-libs/libreport",
 	    "dev-libs/libtimezonemap",
             "dev-libs/satyr",
+	    "dev-python/pyblock",
             "dev-python/python-bugzilla",
             "dev-python/python-blivet",
             "dev-python/python-meh",
